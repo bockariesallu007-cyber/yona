@@ -4,12 +4,109 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YONA App</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f7fb;
+      color: #222;
+    }
+
+    header {
+      background: #0b5ed7;
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    header p {
+      margin: 8px 0 0;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #0b5ed7;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 8px;
+      border: none;
+      border-radius: 8px;
+      background: #0b5ed7;
+      color: white;
+      font-size: 16px;
+    }
+  </style>
 </head>
+
 <body>
 
-  <h1>YONA App</h1>
+<header>
+  <h1>YONA APP</h1>
   <p>Youths of Ndasei Association</p>
-  <p>Unity and Development</p>
+  <p><strong>Unity and Development</strong></p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>Members</h2>
+    <p>Manage YONA members and membership records.</p>
+    <button>Members</button>
+  </div>
+
+  <div class="card">
+    <h2>Executive</h2>
+    <p>View and manage YONA executive leadership.</p>
+    <button>Executive</button>
+  </div>
+
+  <div class="card">
+    <h2>Finance</h2>
+    <p>Manage contributions, loans and financial records.</p>
+    <button>Finance</button>
+  </div>
+
+  <div class="card">
+    <h2>Meetings</h2>
+    <p>Store meetings, attendance and minutes.</p>
+    <button>Meetings</button>
+  </div>
+
+  <div class="card">
+    <h2>Events</h2>
+    <p>Manage YONA events and activities.</p>
+    <button>Events</button>
+  </div>
+
+  <div class="card">
+    <h2>Documents</h2>
+    <p>Store important YONA documents.</p>
+    <button>Documents</button>
+  </div>
+
+</div>
 
 </body>
 </html>
