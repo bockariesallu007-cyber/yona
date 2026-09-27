@@ -56,6 +56,11 @@
       background: #0b5ed7;
       color: white;
       font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
     }
   </style>
 </head>
@@ -73,7 +78,7 @@
   <div class="card">
     <h2>Members</h2>
     <p>Manage YONA members and membership records.</p>
-    <button>Members</button>
+    <button onclick="showMembers()">Members</button>
   </div>
 
   <div class="card">
@@ -107,6 +112,12 @@
   </div>
 
 </div>
+
+<script>
+function showMembers() {
+  alert("YONA Members section is ready.");
+}
+</script>
 
 </body>
 </html>
