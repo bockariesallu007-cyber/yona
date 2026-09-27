@@ -29,15 +29,11 @@ margin: 5px 0;
 }
 
 .site-header p {
-  img.site-logo {
-width: 120px !important;
-height: 120px !important;
-max-width: 120px !important;
-max-height: 120px !important;
-object-fit: contain !important;
-display: block !important;
-margin: 0 auto 10px !important;
-}
-
-margin: 5px 0;
+ 
+.site-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
 }
