@@ -11,3 +11,23 @@ margin: 0 auto 15px;
 .executive-card {
 text-align: center;
 }
+.site-header {
+text-align: center;
+padding: 20px;
+}
+
+.site-logo {
+width: 120px;
+height: 120px;
+object-fit: contain;
+display: block;
+margin: 0 auto 10px;
+}
+
+.site-header h1 {
+margin: 5px 0;
+}
+
+.site-header p {
+margin: 5px 0;
+}
