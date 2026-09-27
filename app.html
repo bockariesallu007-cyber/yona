@@ -115,8 +115,51 @@
 
 <script>
 function showMembers() {
-  alert("YONA Members section is ready.");
+  document.querySelector(".container").innerHTML = `
+    <div class="card">
+      <h2>YONA Members</h2>
+      <p>Manage YONA members and membership records.</p>
+
+      <input type="text" id="memberName" placeholder="Member Name"
+        style="width:100%; padding:12px; margin-bottom:10px; box-sizing:border-box;">
+
+      <input type="text" id="memberPhone" placeholder="Phone Number"
+        style="width:100%; padding:12px; margin-bottom:10px; box-sizing:border-box;">
+
+      <input type="text" id="memberPosition" placeholder="Position"
+        style="width:100%; padding:12px; margin-bottom:10px; box-sizing:border-box;">
+
+      <button onclick="addMember()">Add Member</button>
+      <button onclick="location.reload()">Back to Dashboard</button>
+
+      <div id="memberList" style="margin-top:20px;"></div>
+    </div>
+  `;
 }
+
+function addMember() {
+  const name = document.getElementById("memberName").value;
+  const phone = document.getElementById("memberPhone").value;
+  const position = document.getElementById("memberPosition").value;
+
+  if (!name || !phone || !position) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  document.getElementById("memberList").innerHTML += `
+    <div class="card">
+      <h3>${name}</h3>
+      <p>Phone: ${phone}</p>
+      <p>Position: ${position}</p>
+    </div>
+  `;
+
+  document.getElementById("memberName").value = "";
+  document.getElementById("memberPhone").value = "";
+  document.getElementById("memberPosition").value = "";
+}
+</script>
 </script>
 
 </body>
