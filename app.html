@@ -47,6 +47,16 @@
       color: #0b5ed7;
     }
 
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
     button {
       width: 100%;
       padding: 14px;
@@ -61,6 +71,20 @@
 
     button:hover {
       opacity: 0.9;
+    }
+
+    .member-card {
+      background: #f4f7fb;
+      padding: 15px;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+
+    .message {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #eef3f8;
     }
   </style>
 </head>
@@ -113,53 +137,233 @@
 
 </div>
 
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-function showMembers() {
-  document.querySelector(".container").innerHTML = `
-    <div class="card">
-      <h2>YONA Members</h2>
-      <p>Manage YONA members and membership records.</p>
+  // YONA Supabase connection
+  const supabaseUrl = "https://atxeeymireukwbbsczbv.supabase.co";
 
-      <input type="text" id="memberName" placeholder="Member Name"
-        style="width:100%; padding:12px; margin-bottom:10px; box-sizing:border-box;">
+  const supabaseKey =
+    "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
 
-      <input type="text" id="memberPhone" placeholder="Phone Number"
-        style="width:100%; padding:12px; margin-bottom:10px; box-sizing:border-box;">
+  const db = window.supabase.createClient(
+    supabaseUrl,
+    supabaseKey
+  );
 
-      <input type="text" id="memberPosition" placeholder="Position"
-        style="width:100%; padding:12px; margin-bottom:10px; box-sizing:border-box;">
 
-      <button onclick="addMember()">Add Member</button>
-      <button onclick="location.reload()">Back to Dashboard</button>
+  // Open Members section
+  async function showMembers() {
 
-      <div id="memberList" style="margin-top:20px;"></div>
-    </div>
-  `;
-}
+    document.querySelector(".container").innerHTML = `
+      <div class="card">
 
-function addMember() {
-  const name = document.getElementById("memberName").value;
-  const phone = document.getElementById("memberPhone").value;
-  const position = document.getElementById("memberPosition").value;
+        <h2>YONA Members</h2>
 
-  if (!name || !phone || !position) {
-    alert("Please fill in all fields.");
-    return;
+        <p>Manage YONA members and membership records.</p>
+
+        <input
+          type="text"
+          id="memberName"
+          placeholder="Member Name"
+        >
+
+        <input
+          type="text"
+          id="memberPhone"
+          placeholder="Phone Number"
+        >
+
+        <input
+          type="text"
+          id="memberPosition"
+          placeholder="Position"
+        >
+
+        <button onclick="addMember()">
+          Add Member
+        </button>
+
+        <button onclick="location.reload()">
+          Back to Dashboard
+        </button>
+
+        <div id="message"></div>
+
+        <div id="memberList" style="margin-top:20px;">
+          Loading members...
+        </div>
+
+      </div>
+    `;
+
+    await loadMembers();
   }
 
-  document.getElementById("memberList").innerHTML += `
-    <div class="card">
-      <h3>${name}</h3>
-      <p>Phone: ${phone}</p>
-      <p>Position: ${position}</p>
-    </div>
-  `;
 
-  document.getElementById("memberName").value = "";
-  document.getElementById("memberPhone").value = "";
-  document.getElementById("memberPosition").value = "";
-}
-</script>
+  // Load members from Supabase
+  async function loadMembers() {
+
+    const memberList = document.getElementById("memberList");
+
+    const { data, error } = await db
+      .from("members")
+      .select("id, created_at, name, phone, position")
+      .order("id", { ascending: true });
+
+    if (error) {
+      memberList.innerHTML =
+        `<div class="message">
+          Error loading members: ${error.message}
+        </div>`;
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      memberList.innerHTML =
+        `<div class="message">
+          No members have been added yet.
+        </div>`;
+      return;
+    }
+
+    memberList.innerHTML = "";
+
+    data.forEach(member => {
+
+      const name = readJsonValue(member.name);
+      const phone = readJsonValue(member.phone);
+      const position = readJsonValue(member.position);
+
+      memberList.innerHTML += `
+        <div class="member-card">
+
+          <h3>${escapeHtml(name)}</h3>
+
+          <p>
+            <strong>Phone:</strong>
+            ${escapeHtml(phone)}
+          </p>
+
+          <p>
+            <strong>Position:</strong>
+            ${escapeHtml(position)}
+          </p>
+
+        </div>
+      `;
+    });
+  }
+
+
+  // Add a new member
+  async function addMember() {
+
+    const name =
+      document.getElementById("memberName").value.trim();
+
+    const phone =
+      document.getElementById("memberPhone").value.trim();
+
+    const position =
+      document.getElementById("memberPosition").value.trim();
+
+    const message =
+      document.getElementById("message");
+
+
+    if (!name || !phone || !position) {
+
+      message.innerHTML =
+        `<div class="message">
+          Please fill in Name, Phone and Position.
+        </div>`;
+
+      return;
+    }
+
+
+    message.innerHTML =
+      `<div class="message">
+        Saving member...
+      </div>`;
+
+
+    const { data, error } = await db
+      .from("members")
+      .insert([
+        {
+          name: JSON.stringify(name),
+          phone: JSON.stringify(phone),
+          position: JSON.stringify(position)
+        }
+      ])
+      .select();
+
+
+    if (error) {
+
+      message.innerHTML =
+        `<div class="message">
+          <strong>Could not save member.</strong><br>
+          ${escapeHtml(error.message)}
+        </div>`;
+
+      return;
+    }
+
+
+    message.innerHTML =
+      `<div class="message">
+        Member saved successfully.
+      </div>`;
+
+
+    document.getElementById("memberName").value = "";
+    document.getElementById("memberPhone").value = "";
+    document.getElementById("memberPosition").value = "";
+
+
+    await loadMembers();
+  }
+
+
+  // Read JSON values safely
+  function readJsonValue(value) {
+
+    if (value === null || value === undefined) {
+      return "";
+    }
+
+    try {
+
+      const parsed = JSON.parse(value);
+
+      if (typeof parsed === "string") {
+        return parsed;
+      }
+
+      return String(parsed);
+
+    } catch {
+
+      return String(value);
+    }
+  }
+
+
+  // Prevent HTML from being inserted into the page
+  function escapeHtml(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
 </script>
 
 </body>
