@@ -80,6 +80,18 @@
       border-radius: 8px;
     }
 
+    .edit-button {
+      background: #198754;
+    }
+
+    .delete-button {
+      background: #dc3545;
+    }
+
+    .cancel-button {
+      background: #6c757d;
+    }
+
     .message {
       margin-top: 15px;
       padding: 12px;
@@ -137,20 +149,23 @@
 
 </div>
 
-<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+
   // YONA Supabase connection
   const supabaseUrl = "https://atxeeymireukwbbsczbv.supabase.co";
 
-  const supabaseKey =
-    "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
+  const supabaseKey = "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
 
   const db = window.supabase.createClient(
     supabaseUrl,
     supabaseKey
   );
+
+
+  // Member currently being edited
+  let editingMemberId = null;
 
 
   // Open Members section
@@ -181,8 +196,18 @@
           placeholder="Position"
         >
 
-        <button onclick="addMember()">
+        <button
+          id="saveMemberButton"
+          onclick="addMember()">
           Add Member
+        </button>
+
+        <button
+          id="cancelEditButton"
+          class="cancel-button"
+          onclick="cancelEdit()"
+          style="display:none;">
+          Cancel Edit
         </button>
 
         <button onclick="location.reload()">
@@ -202,39 +227,53 @@
   }
 
 
-  // Load members from Supabase
+  // Load members
   async function loadMembers() {
 
     const memberList = document.getElementById("memberList");
+
+    if (!memberList) {
+      return;
+    }
 
     const { data, error } = await db
       .from("members")
       .select("id, created_at, name, phone, position")
       .order("id", { ascending: true });
 
+
     if (error) {
+
       memberList.innerHTML =
         `<div class="message">
-          Error loading members: ${error.message}
+          Error loading members:<br>
+          ${escapeHtml(error.message)}
         </div>`;
+
       return;
     }
 
+
     if (!data || data.length === 0) {
+
       memberList.innerHTML =
         `<div class="message">
           No members have been added yet.
         </div>`;
+
       return;
     }
 
+
     memberList.innerHTML = "";
+
 
     data.forEach(member => {
 
       const name = readJsonValue(member.name);
       const phone = readJsonValue(member.phone);
       const position = readJsonValue(member.position);
+
 
       memberList.innerHTML += `
         <div class="member-card">
@@ -251,13 +290,33 @@
             ${escapeHtml(position)}
           </p>
 
+          <button
+            class="edit-button"
+            onclick="editMember(
+              ${member.id},
+              '${escapeJs(name)}',
+              '${escapeJs(phone)}',
+              '${escapeJs(position)}'
+            )">
+            Edit Member
+          </button>
+
+          <button
+            class="delete-button"
+            onclick="deleteMember(
+              ${member.id},
+              '${escapeJs(name)}'
+            )">
+            Delete Member
+          </button>
+
         </div>
       `;
     });
   }
 
 
-  // Add a new member
+  // Add or update a member
   async function addMember() {
 
     const name =
@@ -284,13 +343,27 @@
     }
 
 
+    // If editing, update the existing member
+    if (editingMemberId !== null) {
+
+      await updateMember(
+        editingMemberId,
+        name,
+        phone,
+        position
+      );
+
+      return;
+    }
+
+
     message.innerHTML =
       `<div class="message">
         Saving member...
       </div>`;
 
 
-    const { data, error } = await db
+    const { error } = await db
       .from("members")
       .insert([
         {
@@ -298,8 +371,7 @@
           phone: JSON.stringify(phone),
           position: JSON.stringify(position)
         }
-      ])
-      .select();
+      ]);
 
 
     if (error) {
@@ -320,12 +392,203 @@
       </div>`;
 
 
-    document.getElementById("memberName").value = "";
-    document.getElementById("memberPhone").value = "";
-    document.getElementById("memberPosition").value = "";
+    clearMemberForm();
+
+    await loadMembers();
+  }
+
+
+  // Start editing a member
+  function editMember(
+    id,
+    name,
+    phone,
+    position
+  ) {
+
+    editingMemberId = id;
+
+
+    document.getElementById("memberName").value =
+      name;
+
+    document.getElementById("memberPhone").value =
+      phone;
+
+    document.getElementById("memberPosition").value =
+      position;
+
+
+    document.getElementById("saveMemberButton").innerText =
+      "Update Member";
+
+
+    document.getElementById("cancelEditButton").style.display =
+      "block";
+
+
+    document.getElementById("message").innerHTML =
+      `<div class="message">
+        Editing <strong>${escapeHtml(name)}</strong>.
+      </div>`;
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+
+  // Update member
+  async function updateMember(
+    id,
+    name,
+    phone,
+    position
+  ) {
+
+    const message =
+      document.getElementById("message");
+
+
+    message.innerHTML =
+      `<div class="message">
+        Updating member...
+      </div>`;
+
+
+    const { error } = await db
+      .from("members")
+      .update({
+        name: JSON.stringify(name),
+        phone: JSON.stringify(phone),
+        position: JSON.stringify(position)
+      })
+      .eq("id", id);
+
+
+    if (error) {
+
+      message.innerHTML =
+        `<div class="message">
+          <strong>Could not update member.</strong><br>
+          ${escapeHtml(error.message)}
+        </div>`;
+
+      return;
+    }
+
+
+    message.innerHTML =
+      `<div class="message">
+        Member updated successfully.
+      </div>`;
+
+
+    editingMemberId = null;
+
+
+    clearMemberForm();
+
+
+    document.getElementById("saveMemberButton").innerText =
+      "Add Member";
+
+
+    document.getElementById("cancelEditButton").style.display =
+      "none";
 
 
     await loadMembers();
+  }
+
+
+  // Cancel editing
+  function cancelEdit() {
+
+    editingMemberId = null;
+
+
+    clearMemberForm();
+
+
+    document.getElementById("saveMemberButton").innerText =
+      "Add Member";
+
+
+    document.getElementById("cancelEditButton").style.display =
+      "none";
+
+
+    document.getElementById("message").innerHTML =
+      `<div class="message">
+        Edit cancelled.
+      </div>`;
+  }
+
+
+  // Delete member
+  async function deleteMember(id, name) {
+
+    const confirmed = confirm(
+      "Are you sure you want to delete " +
+      name +
+      "?"
+    );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    const message =
+      document.getElementById("message");
+
+
+    message.innerHTML =
+      `<div class="message">
+        Deleting member...
+      </div>`;
+
+
+    const { error } = await db
+      .from("members")
+      .delete()
+      .eq("id", id);
+
+
+    if (error) {
+
+      message.innerHTML =
+        `<div class="message">
+          <strong>Could not delete member.</strong><br>
+          ${escapeHtml(error.message)}
+        </div>`;
+
+      return;
+    }
+
+
+    message.innerHTML =
+      `<div class="message">
+        Member deleted successfully.
+      </div>`;
+
+
+    await loadMembers();
+  }
+
+
+  // Clear member form
+  function clearMemberForm() {
+
+    document.getElementById("memberName").value = "";
+
+    document.getElementById("memberPhone").value = "";
+
+    document.getElementById("memberPosition").value = "";
   }
 
 
@@ -336,13 +599,16 @@
       return "";
     }
 
+
     try {
 
       const parsed = JSON.parse(value);
 
+
       if (typeof parsed === "string") {
         return parsed;
       }
+
 
       return String(parsed);
 
@@ -353,7 +619,7 @@
   }
 
 
-  // Prevent HTML from being inserted into the page
+  // Prevent HTML injection
   function escapeHtml(value) {
 
     return String(value)
@@ -362,6 +628,18 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
+  }
+
+
+  // Prevent JavaScript errors with quotes
+  function escapeJs(value) {
+
+    return String(value)
+      .replace(/\\/g, "\\\\")
+      .replace(/'/g, "\\'")
+      .replace(/"/g, '\\"')
+      .replace(/\n/g, "\\n")
+      .replace(/\r/g, "\\r");
   }
 
 </script>
