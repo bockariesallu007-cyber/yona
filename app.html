@@ -345,7 +345,6 @@ async function addMember() {
     return;
   }
 
-  /* If editing, update instead */
   if (editingMemberId !== null) {
 
     await updateMember(
@@ -412,9 +411,7 @@ function editMember(
   editingMemberId = id;
 
   document.getElementById("memberName").value = name;
-
   document.getElementById("memberPhone").value = phone;
-
   document.getElementById("memberPosition").value = position;
 
   document.getElementById("saveMemberButton").innerText =
@@ -456,7 +453,6 @@ async function updateMember(
     </div>
   `;
 
-  /* Update the database AND return the changed row */
   const { data, error } = await db
     .from("members")
     .update({
@@ -465,8 +461,7 @@ async function updateMember(
       position: JSON.stringify(position)
     })
     .eq("id", id)
-    .select("id, name, phone, position")
-    .single();
+    .select("id, name, phone, position");
 
   if (error) {
 
@@ -480,8 +475,23 @@ async function updateMember(
     return;
   }
 
-  /* Verify Supabase returned the new information */
-  const updatedName = readJsonValue(data.name);
+  /* Make sure Supabase returned an updated row */
+  if (!data || data.length === 0) {
+
+    message.innerHTML = `
+      <div class="message">
+        <strong>Update was not confirmed.</strong><br>
+        No updated member record was returned.
+      </div>
+    `;
+
+    return;
+  }
+
+  const updatedMember = data[0];
+
+  const updatedName =
+    readJsonValue(updatedMember.name);
 
   if (updatedName !== name) {
 
@@ -599,9 +609,7 @@ async function deleteMember(id, name) {
 function clearMemberForm() {
 
   document.getElementById("memberName").value = "";
-
   document.getElementById("memberPhone").value = "";
-
   document.getElementById("memberPosition").value = "";
 }
 
