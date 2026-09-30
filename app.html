@@ -153,494 +153,514 @@
 
 <script>
 
-  // YONA Supabase connection
-  const supabaseUrl = "https://atxeeymireukwbbsczbv.supabase.co";
+const supabaseUrl = "https://atxeeymireukwbbsczbv.supabase.co";
 
-  const supabaseKey = "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
+const supabaseKey = "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
 
-  const db = window.supabase.createClient(
-    supabaseUrl,
-    supabaseKey
-  );
+const db = window.supabase.createClient(
+  supabaseUrl,
+  supabaseKey
+);
 
-
-  // Member currently being edited
-  let editingMemberId = null;
+let editingMemberId = null;
 
 
-  // Open Members section
-  async function showMembers() {
+/* =========================
+   OPEN MEMBERS
+========================= */
 
-    document.querySelector(".container").innerHTML = `
-      <div class="card">
+async function showMembers() {
 
-        <h2>YONA Members</h2>
+  document.querySelector(".container").innerHTML = `
+    <div class="card">
 
-        <p>Manage YONA members and membership records.</p>
+      <h2>YONA Members</h2>
 
-        <input
-          type="text"
-          id="memberName"
-          placeholder="Member Name"
-        >
+      <p>Manage YONA members and membership records.</p>
 
-        <input
-          type="text"
-          id="memberPhone"
-          placeholder="Phone Number"
-        >
+      <input
+        type="text"
+        id="memberName"
+        placeholder="Member Name"
+      >
 
-        <input
-          type="text"
-          id="memberPosition"
-          placeholder="Position"
-        >
+      <input
+        type="text"
+        id="memberPhone"
+        placeholder="Phone Number"
+      >
 
-        <button
-          id="saveMemberButton"
-          onclick="addMember()">
-          Add Member
-        </button>
+      <input
+        type="text"
+        id="memberPosition"
+        placeholder="Position"
+      >
 
-        <button
-          id="cancelEditButton"
-          class="cancel-button"
-          onclick="cancelEdit()"
-          style="display:none;">
-          Cancel Edit
-        </button>
+      <button
+        id="saveMemberButton"
+        onclick="addMember()">
+        Add Member
+      </button>
 
-        <button onclick="location.reload()">
-          Back to Dashboard
-        </button>
+      <button
+        id="cancelEditButton"
+        class="cancel-button"
+        onclick="cancelEdit()"
+        style="display:none;">
+        Cancel Edit
+      </button>
 
-        <div id="message"></div>
+      <button onclick="location.reload()">
+        Back to Dashboard
+      </button>
 
-        <div id="memberList" style="margin-top:20px;">
-          Loading members...
-        </div>
+      <div id="message"></div>
 
+      <div id="memberList" style="margin-top:20px;">
+        Loading members...
+      </div>
+
+    </div>
+  `;
+
+  await loadMembers();
+}
+
+
+/* =========================
+   LOAD MEMBERS
+========================= */
+
+async function loadMembers() {
+
+  const memberList = document.getElementById("memberList");
+
+  if (!memberList) {
+    return;
+  }
+
+  const { data, error } = await db
+    .from("members")
+    .select("id, created_at, name, phone, position")
+    .order("id", { ascending: true });
+
+  if (error) {
+
+    memberList.innerHTML = `
+      <div class="message">
+        Error loading members:<br>
+        ${escapeHtml(error.message)}
       </div>
     `;
 
-    await loadMembers();
+    return;
   }
 
+  if (!data || data.length === 0) {
 
-  // Load members
-  async function loadMembers() {
+    memberList.innerHTML = `
+      <div class="message">
+        No members have been added yet.
+      </div>
+    `;
 
-    const memberList = document.getElementById("memberList");
-
-    if (!memberList) {
-      return;
-    }
-
-    const { data, error } = await db
-      .from("members")
-      .select("id, created_at, name, phone, position")
-      .order("id", { ascending: true });
-
-
-    if (error) {
-
-      memberList.innerHTML =
-        `<div class="message">
-          Error loading members:<br>
-          ${escapeHtml(error.message)}
-        </div>`;
-
-      return;
-    }
-
-
-    if (!data || data.length === 0) {
-
-      memberList.innerHTML =
-        `<div class="message">
-          No members have been added yet.
-        </div>`;
-
-      return;
-    }
-
-
-    memberList.innerHTML = "";
-
-
-    data.forEach(member => {
-
-      const name = readJsonValue(member.name);
-      const phone = readJsonValue(member.phone);
-      const position = readJsonValue(member.position);
-
-
-      memberList.innerHTML += `
-        <div class="member-card">
-
-          <h3>${escapeHtml(name)}</h3>
-
-          <p>
-            <strong>Phone:</strong>
-            ${escapeHtml(phone)}
-          </p>
-
-          <p>
-            <strong>Position:</strong>
-            ${escapeHtml(position)}
-          </p>
-
-          <button
-            class="edit-button"
-            onclick="editMember(
-              ${member.id},
-              '${escapeJs(name)}',
-              '${escapeJs(phone)}',
-              '${escapeJs(position)}'
-            )">
-            Edit Member
-          </button>
-
-          <button
-            class="delete-button"
-            onclick="deleteMember(
-              ${member.id},
-              '${escapeJs(name)}'
-            )">
-            Delete Member
-          </button>
-
-        </div>
-      `;
-    });
+    return;
   }
 
+  memberList.innerHTML = "";
 
-  // Add or update a member
-  async function addMember() {
+  data.forEach(member => {
 
-    const name =
-      document.getElementById("memberName").value.trim();
+    const name = readJsonValue(member.name);
+    const phone = readJsonValue(member.phone);
+    const position = readJsonValue(member.position);
 
-    const phone =
-      document.getElementById("memberPhone").value.trim();
+    memberList.innerHTML += `
+      <div class="member-card">
 
-    const position =
-      document.getElementById("memberPosition").value.trim();
+        <h3>${escapeHtml(name)}</h3>
 
-    const message =
-      document.getElementById("message");
+        <p>
+          <strong>Phone:</strong>
+          ${escapeHtml(phone)}
+        </p>
 
+        <p>
+          <strong>Position:</strong>
+          ${escapeHtml(position)}
+        </p>
 
-    if (!name || !phone || !position) {
+        <button
+          class="edit-button"
+          onclick="editMember(
+            ${member.id},
+            '${escapeJs(name)}',
+            '${escapeJs(phone)}',
+            '${escapeJs(position)}'
+          )">
+          Edit Member
+        </button>
 
-      message.innerHTML =
-        `<div class="message">
-          Please fill in Name, Phone and Position.
-        </div>`;
+        <button
+          class="delete-button"
+          onclick="deleteMember(
+            ${member.id},
+            '${escapeJs(name)}'
+          )">
+          Delete Member
+        </button>
 
-      return;
-    }
-
-
-    // If editing, update the existing member
-    if (editingMemberId !== null) {
-
-      await updateMember(
-        editingMemberId,
-        name,
-        phone,
-        position
-      );
-
-      return;
-    }
-
-
-    message.innerHTML =
-      `<div class="message">
-        Saving member...
-      </div>`;
-
-
-    const { error } = await db
-      .from("members")
-      .insert([
-        {
-          name: JSON.stringify(name),
-          phone: JSON.stringify(phone),
-          position: JSON.stringify(position)
-        }
-      ]);
+      </div>
+    `;
+  });
+}
 
 
-    if (error) {
+/* =========================
+   ADD MEMBER
+========================= */
 
-      message.innerHTML =
-        `<div class="message">
-          <strong>Could not save member.</strong><br>
-          ${escapeHtml(error.message)}
-        </div>`;
+async function addMember() {
 
-      return;
-    }
+  const name =
+    document.getElementById("memberName").value.trim();
 
+  const phone =
+    document.getElementById("memberPhone").value.trim();
 
-    message.innerHTML =
-      `<div class="message">
-        Member saved successfully.
-      </div>`;
+  const position =
+    document.getElementById("memberPosition").value.trim();
 
+  const message =
+    document.getElementById("message");
 
-    clearMemberForm();
+  if (!name || !phone || !position) {
 
-    await loadMembers();
+    message.innerHTML = `
+      <div class="message">
+        Please fill in Name, Phone and Position.
+      </div>
+    `;
+
+    return;
   }
 
+  /* If editing, update instead */
+  if (editingMemberId !== null) {
 
-  // Start editing a member
-  function editMember(
-    id,
-    name,
-    phone,
-    position
-  ) {
+    await updateMember(
+      editingMemberId,
+      name,
+      phone,
+      position
+    );
 
-    editingMemberId = id;
-
-
-    document.getElementById("memberName").value =
-      name;
-
-    document.getElementById("memberPhone").value =
-      phone;
-
-    document.getElementById("memberPosition").value =
-      position;
-
-
-    document.getElementById("saveMemberButton").innerText =
-      "Update Member";
-
-
-    document.getElementById("cancelEditButton").style.display =
-      "block";
-
-
-    document.getElementById("message").innerHTML =
-      `<div class="message">
-        Editing <strong>${escapeHtml(name)}</strong>.
-      </div>`;
-
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+    return;
   }
 
+  message.innerHTML = `
+    <div class="message">
+      Saving member...
+    </div>
+  `;
 
-  // Update member
-  async function updateMember(
-    id,
-    name,
-    phone,
-    position
-  ) {
-
-    const message =
-      document.getElementById("message");
-
-
-    message.innerHTML =
-      `<div class="message">
-        Updating member...
-      </div>`;
-
-
-    const { error } = await db
-      .from("members")
-      .update({
+  const { error } = await db
+    .from("members")
+    .insert([
+      {
         name: JSON.stringify(name),
         phone: JSON.stringify(phone),
         position: JSON.stringify(position)
-      })
-      .eq("id", id);
-
-
-    if (error) {
-
-      message.innerHTML =
-        `<div class="message">
-          <strong>Could not update member.</strong><br>
-          ${escapeHtml(error.message)}
-        </div>`;
-
-      return;
-    }
-
-
-    message.innerHTML =
-      `<div class="message">
-        Member updated successfully.
-      </div>`;
-
-
-    editingMemberId = null;
-
-
-    clearMemberForm();
-
-
-    document.getElementById("saveMemberButton").innerText =
-      "Add Member";
-
-
-    document.getElementById("cancelEditButton").style.display =
-      "none";
-
-
-    await loadMembers();
-  }
-
-
-  // Cancel editing
-  function cancelEdit() {
-
-    editingMemberId = null;
-
-
-    clearMemberForm();
-
-
-    document.getElementById("saveMemberButton").innerText =
-      "Add Member";
-
-
-    document.getElementById("cancelEditButton").style.display =
-      "none";
-
-
-    document.getElementById("message").innerHTML =
-      `<div class="message">
-        Edit cancelled.
-      </div>`;
-  }
-
-
-  // Delete member
-  async function deleteMember(id, name) {
-
-    const confirmed = confirm(
-      "Are you sure you want to delete " +
-      name +
-      "?"
-    );
-
-
-    if (!confirmed) {
-      return;
-    }
-
-
-    const message =
-      document.getElementById("message");
-
-
-    message.innerHTML =
-      `<div class="message">
-        Deleting member...
-      </div>`;
-
-
-    const { error } = await db
-      .from("members")
-      .delete()
-      .eq("id", id);
-
-
-    if (error) {
-
-      message.innerHTML =
-        `<div class="message">
-          <strong>Could not delete member.</strong><br>
-          ${escapeHtml(error.message)}
-        </div>`;
-
-      return;
-    }
-
-
-    message.innerHTML =
-      `<div class="message">
-        Member deleted successfully.
-      </div>`;
-
-
-    await loadMembers();
-  }
-
-
-  // Clear member form
-  function clearMemberForm() {
-
-    document.getElementById("memberName").value = "";
-
-    document.getElementById("memberPhone").value = "";
-
-    document.getElementById("memberPosition").value = "";
-  }
-
-
-  // Read JSON values safely
-  function readJsonValue(value) {
-
-    if (value === null || value === undefined) {
-      return "";
-    }
-
-
-    try {
-
-      const parsed = JSON.parse(value);
-
-
-      if (typeof parsed === "string") {
-        return parsed;
       }
+    ]);
+
+  if (error) {
+
+    message.innerHTML = `
+      <div class="message">
+        <strong>Could not save member.</strong><br>
+        ${escapeHtml(error.message)}
+      </div>
+    `;
+
+    return;
+  }
+
+  message.innerHTML = `
+    <div class="message">
+      Member saved successfully.
+    </div>
+  `;
+
+  clearMemberForm();
+
+  await loadMembers();
+}
 
 
-      return String(parsed);
+/* =========================
+   START EDITING
+========================= */
 
-    } catch {
+function editMember(
+  id,
+  name,
+  phone,
+  position
+) {
 
-      return String(value);
+  editingMemberId = id;
+
+  document.getElementById("memberName").value = name;
+
+  document.getElementById("memberPhone").value = phone;
+
+  document.getElementById("memberPosition").value = position;
+
+  document.getElementById("saveMemberButton").innerText =
+    "Update Member";
+
+  document.getElementById("cancelEditButton").style.display =
+    "block";
+
+  document.getElementById("message").innerHTML = `
+    <div class="message">
+      Editing <strong>${escapeHtml(name)}</strong>.
+    </div>
+  `;
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+/* =========================
+   UPDATE MEMBER
+========================= */
+
+async function updateMember(
+  id,
+  name,
+  phone,
+  position
+) {
+
+  const message =
+    document.getElementById("message");
+
+  message.innerHTML = `
+    <div class="message">
+      Updating member...
+    </div>
+  `;
+
+  /* Update the database AND return the changed row */
+  const { data, error } = await db
+    .from("members")
+    .update({
+      name: JSON.stringify(name),
+      phone: JSON.stringify(phone),
+      position: JSON.stringify(position)
+    })
+    .eq("id", id)
+    .select("id, name, phone, position")
+    .single();
+
+  if (error) {
+
+    message.innerHTML = `
+      <div class="message">
+        <strong>Could not update member.</strong><br>
+        ${escapeHtml(error.message)}
+      </div>
+    `;
+
+    return;
+  }
+
+  /* Verify Supabase returned the new information */
+  const updatedName = readJsonValue(data.name);
+
+  if (updatedName !== name) {
+
+    message.innerHTML = `
+      <div class="message">
+        <strong>Update verification failed.</strong><br>
+        Database returned: ${escapeHtml(updatedName)}
+      </div>
+    `;
+
+    return;
+  }
+
+  message.innerHTML = `
+    <div class="message">
+      <strong>Member updated successfully.</strong><br>
+      New name: ${escapeHtml(updatedName)}
+    </div>
+  `;
+
+  editingMemberId = null;
+
+  clearMemberForm();
+
+  document.getElementById("saveMemberButton").innerText =
+    "Add Member";
+
+  document.getElementById("cancelEditButton").style.display =
+    "none";
+
+  await loadMembers();
+}
+
+
+/* =========================
+   CANCEL EDIT
+========================= */
+
+function cancelEdit() {
+
+  editingMemberId = null;
+
+  clearMemberForm();
+
+  document.getElementById("saveMemberButton").innerText =
+    "Add Member";
+
+  document.getElementById("cancelEditButton").style.display =
+    "none";
+
+  document.getElementById("message").innerHTML = `
+    <div class="message">
+      Edit cancelled.
+    </div>
+  `;
+}
+
+
+/* =========================
+   DELETE MEMBER
+========================= */
+
+async function deleteMember(id, name) {
+
+  const confirmed = confirm(
+    "Are you sure you want to delete " +
+    name +
+    "?"
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  const message =
+    document.getElementById("message");
+
+  message.innerHTML = `
+    <div class="message">
+      Deleting member...
+    </div>
+  `;
+
+  const { error } = await db
+    .from("members")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+
+    message.innerHTML = `
+      <div class="message">
+        <strong>Could not delete member.</strong><br>
+        ${escapeHtml(error.message)}
+      </div>
+    `;
+
+    return;
+  }
+
+  message.innerHTML = `
+    <div class="message">
+      Member deleted successfully.
+    </div>
+  `;
+
+  await loadMembers();
+}
+
+
+/* =========================
+   CLEAR FORM
+========================= */
+
+function clearMemberForm() {
+
+  document.getElementById("memberName").value = "";
+
+  document.getElementById("memberPhone").value = "";
+
+  document.getElementById("memberPosition").value = "";
+}
+
+
+/* =========================
+   READ JSON SAFELY
+========================= */
+
+function readJsonValue(value) {
+
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  try {
+
+    const parsed = JSON.parse(value);
+
+    if (typeof parsed === "string") {
+      return parsed;
     }
+
+    return String(parsed);
+
+  } catch {
+
+    return String(value);
   }
+}
 
 
-  // Prevent HTML injection
-  function escapeHtml(value) {
+/* =========================
+   HTML SECURITY
+========================= */
 
-    return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
+function escapeHtml(value) {
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 
 
-  // Prevent JavaScript errors with quotes
-  function escapeJs(value) {
+/* =========================
+   JAVASCRIPT SECURITY
+========================= */
 
-    return String(value)
-      .replace(/\\/g, "\\\\")
-      .replace(/'/g, "\\'")
-      .replace(/"/g, '\\"')
-      .replace(/\n/g, "\\n")
-      .replace(/\r/g, "\\r");
-  }
+function escapeJs(value) {
+
+  return String(value)
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/"/g, '\\"')
+    .replace(/\n/g, "\\n")
+    .replace(/\r/g, "\\r");
+}
 
 </script>
 
