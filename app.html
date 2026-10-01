@@ -43,24 +43,37 @@
     /* DASHBOARD */
     .dashboard {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
       margin-bottom: 20px;
     }
 
     .dashboard button {
-      padding: 18px 12px;
+      padding: 20px 12px;
       border: none;
       border-radius: 8px;
       background: #075aaa;
       color: white;
-      font-size: 16px;
+      font-size: 17px;
       cursor: pointer;
-      min-height: 58px;
+      min-height: 70px;
     }
 
     .dashboard button:hover {
       background: #064a8d;
+    }
+
+    /* PHONE SCREEN */
+    @media (max-width: 600px) {
+      .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      .dashboard button {
+        min-height: 65px;
+        font-size: 16px;
+      }
     }
 
     .card {
@@ -229,23 +242,11 @@
 
       <h2 class="section-title">Members</h2>
 
-      <input
-        type="text"
-        id="memberName"
-        placeholder="Member Name"
-      >
+      <input type="text" id="memberName" placeholder="Member Name">
 
-      <input
-        type="text"
-        id="memberPhone"
-        placeholder="Phone Number"
-      >
+      <input type="text" id="memberPhone" placeholder="Phone Number">
 
-      <input
-        type="text"
-        id="memberPosition"
-        placeholder="Position"
-      >
+      <input type="text" id="memberPosition" placeholder="Position">
 
       <button
         type="button"
@@ -284,23 +285,11 @@
 
       <h2 class="section-title">Executive</h2>
 
-      <input
-        type="text"
-        id="executiveName"
-        placeholder="Name"
-      >
+      <input type="text" id="executiveName" placeholder="Name">
 
-      <input
-        type="text"
-        id="executivePosition"
-        placeholder="Position"
-      >
+      <input type="text" id="executivePosition" placeholder="Position">
 
-      <input
-        type="text"
-        id="executivePhone"
-        placeholder="Phone Number"
-      >
+      <input type="text" id="executivePhone" placeholder="Phone Number">
 
       <button
         type="button"
@@ -339,11 +328,7 @@
 
       <h2 class="section-title">Finance</h2>
 
-      <input
-        type="text"
-        id="financeName"
-        placeholder="Name"
-      >
+      <input type="text" id="financeName" placeholder="Name">
 
       <select id="financeType">
         <option value="">Select Transaction Type</option>
@@ -360,13 +345,11 @@
       <input
         type="number"
         id="financeAmount"
-        placeholder="Amount"
-      >
+        placeholder="Amount">
 
       <textarea
         id="financeDescription"
-        placeholder="Description">
-      </textarea>
+        placeholder="Description"></textarea>
 
       <button
         type="button"
@@ -405,22 +388,17 @@
 
       <h2 class="section-title">Meetings</h2>
 
-      <input
-        type="date"
-        id="meetingDate"
-      >
+      <input type="date" id="meetingDate">
 
       <input
         type="text"
         id="meetingTitle"
-        placeholder="Meeting Title"
-      >
+        placeholder="Meeting Title">
 
       <input
         type="text"
         id="meetingLocation"
-        placeholder="Location"
-      >
+        placeholder="Location">
 
       <button
         type="button"
@@ -462,24 +440,20 @@
       <input
         type="text"
         id="eventTitle"
-        placeholder="Event Title"
-      >
+        placeholder="Event Title">
 
       <input
         type="date"
-        id="eventDate"
-      >
+        id="eventDate">
 
       <input
         type="text"
         id="eventLocation"
-        placeholder="Location"
-      >
+        placeholder="Location">
 
       <textarea
         id="eventDescription"
-        placeholder="Description">
-      </textarea>
+        placeholder="Description"></textarea>
 
       <button
         type="button"
@@ -540,10 +514,6 @@
 
 <script>
 
-  /* =========================
-     SUPABASE CONNECTION
-     ========================= */
-
   const SUPABASE_URL =
     "https://atxeeymireukwbbsczbv.supabase.co";
 
@@ -556,20 +526,12 @@
   );
 
 
-  /* =========================
-     GENERAL VARIABLES
-     ========================= */
-
   let editingMemberId = null;
   let editingExecutiveId = null;
   let editingFinanceId = null;
   let editingMeetingId = null;
   let editingEventId = null;
 
-
-  /* =========================
-     DATABASE CHECK
-     ========================= */
 
   function checkDatabase() {
 
@@ -581,10 +543,6 @@
     return true;
   }
 
-
-  /* =========================
-     HELPERS
-     ========================= */
 
   function readJsonValue(value) {
 
@@ -635,10 +593,6 @@
   }
 
 
-  /* =========================
-     SECTION NAVIGATION
-     ========================= */
-
   function hideAllSections() {
 
     document.querySelectorAll(".section").forEach(function(section) {
@@ -652,7 +606,8 @@
 
     hideAllSections();
 
-    document.getElementById("dashboardSection").style.display = "block";
+    document.getElementById("dashboardSection").style.display =
+      "block";
 
   }
 
@@ -661,7 +616,8 @@
 
     hideAllSections();
 
-    document.getElementById("membersSection").style.display = "block";
+    document.getElementById("membersSection").style.display =
+      "block";
 
     loadMembers();
 
@@ -672,7 +628,8 @@
 
     hideAllSections();
 
-    document.getElementById("executiveSection").style.display = "block";
+    document.getElementById("executiveSection").style.display =
+      "block";
 
     loadExecutive();
 
@@ -683,7 +640,8 @@
 
     hideAllSections();
 
-    document.getElementById("financeSection").style.display = "block";
+    document.getElementById("financeSection").style.display =
+      "block";
 
     loadFinance();
 
@@ -694,7 +652,8 @@
 
     hideAllSections();
 
-    document.getElementById("meetingsSection").style.display = "block";
+    document.getElementById("meetingsSection").style.display =
+      "block";
 
     loadMeetings();
 
@@ -705,7 +664,8 @@
 
     hideAllSections();
 
-    document.getElementById("eventsSection").style.display = "block";
+    document.getElementById("eventsSection").style.display =
+      "block";
 
     loadEvents();
 
@@ -716,14 +676,13 @@
 
     hideAllSections();
 
-    document.getElementById("documentsSection").style.display = "block";
+    document.getElementById("documentsSection").style.display =
+      "block";
 
   }
 
 
-  /* =========================
-     MEMBERS
-     ========================= */
+  /* MEMBERS */
 
   async function loadMembers() {
 
@@ -936,9 +895,7 @@
   }
 
 
-  /* =========================
-     EXECUTIVE
-     ========================= */
+  /* EXECUTIVE */
 
   async function loadExecutive() {
 
@@ -1151,9 +1108,7 @@
   }
 
 
-  /* =========================
-     FINANCE
-     ========================= */
+  /* FINANCE */
 
   async function loadFinance() {
 
@@ -1404,9 +1359,7 @@
   }
 
 
-  /* =========================
-     MEETINGS
-     ========================= */
+  /* MEETINGS */
 
   async function loadMeetings() {
 
@@ -1637,9 +1590,7 @@
   }
 
 
-  /* =========================
-     EVENTS
-     ========================= */
+  /* EVENTS */
 
   async function loadEvents() {
 
@@ -1886,9 +1837,7 @@
   }
 
 
-  /* =========================
-     START APP
-     ========================= */
+  /* START APP */
 
   document.addEventListener("DOMContentLoaded", function() {
 
