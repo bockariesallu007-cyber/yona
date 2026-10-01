@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -21,13 +20,8 @@
       padding: 25px 15px;
     }
 
-    header h1 {
-      margin: 0;
-    }
-
-    header p {
-      margin: 8px 0 0;
-    }
+    header h1 { margin: 0; }
+    header p { margin: 8px 0 0; }
 
     .container {
       padding: 20px;
@@ -48,9 +42,7 @@
       color: #0b5ed7;
     }
 
-    input,
-    select,
-    textarea {
+    input, select, textarea {
       width: 100%;
       padding: 12px;
       margin-bottom: 10px;
@@ -77,9 +69,19 @@
       cursor: pointer;
     }
 
-    button:hover {
-      opacity: 0.9;
+    .edit-button { background: #198754; }
+    .delete-button { background: #dc3545; }
+    .cancel-button { background: #6c757d; }
+    .back-button { background: #343a40; }
+
+    .message {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #eef3f8;
     }
+
+    .section-title { color: #0b5ed7; }
 
     .member-card,
     .executive-card,
@@ -90,40 +92,11 @@
       border-radius: 8px;
     }
 
-    .edit-button {
-      background: #198754;
-    }
-
-    .delete-button {
-      background: #dc3545;
-    }
-
-    .cancel-button {
-      background: #6c757d;
-    }
-
-    .back-button {
-      background: #343a40;
-    }
-
-    .message {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 8px;
-      background: #eef3f8;
-    }
-
-    .section-title {
-      color: #0b5ed7;
-    }
-
     .finance-amount {
       font-size: 20px;
       font-weight: bold;
-      margin: 10px 0;
     }
   </style>
-
 </head>
 
 <body>
@@ -134,90 +107,42 @@
   <p><strong>Unity and Development</strong></p>
 </header>
 
-<div class="container">
-
-  <!-- MEMBERS -->
+<div class="container" id="dashboard">
 
   <div class="card">
     <h2>Members</h2>
     <p>Manage YONA members and membership records.</p>
-
-```
-<button onclick="showMembers()">
-  Members
-</button>
-```
-
+    <button onclick="showMembers()">Members</button>
   </div>
-
-  <!-- EXECUTIVE -->
 
   <div class="card">
     <h2>Executive</h2>
     <p>View and manage YONA executive leadership.</p>
-
-```
-<button onclick="showExecutive()">
-  Executive
-</button>
-```
-
+    <button onclick="showExecutive()">Executive</button>
   </div>
-
-  <!-- FINANCE -->
 
   <div class="card">
     <h2>Finance</h2>
     <p>Manage contributions, loans and financial records.</p>
-
-```
-<button onclick="showFinance()">
-  Finance
-</button>
-```
-
+    <button onclick="showFinance()">Finance</button>
   </div>
-
-  <!-- MEETINGS -->
 
   <div class="card">
     <h2>Meetings</h2>
     <p>Store meetings, attendance and minutes.</p>
-
-```
-<button>
-  Meetings
-</button>
-```
-
+    <button>Meetings</button>
   </div>
-
-  <!-- EVENTS -->
 
   <div class="card">
     <h2>Events</h2>
     <p>Manage YONA events and activities.</p>
-
-```
-<button>
-  Events
-</button>
-```
-
+    <button>Events</button>
   </div>
-
-  <!-- DOCUMENTS -->
 
   <div class="card">
     <h2>Documents</h2>
     <p>Store important YONA documents.</p>
-
-```
-<button>
-  Documents
-</button>
-```
-
+    <button>Documents</button>
   </div>
 
 </div>
@@ -225,179 +150,104 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-
-/* =====================================================
-   SUPABASE
-===================================================== */
-
-const supabaseUrl =
-  "https://atxeeymireukwbbsczbv.supabase.co";
+const supabaseUrl = "https://atxeeymireukwbbsczbv.supabase.co";
 
 const supabaseKey =
   "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
 
-const db =
-  window.supabase.createClient(
-    supabaseUrl,
-    supabaseKey
-  );
-
-
-/* =====================================================
-   EDITING VARIABLES
-===================================================== */
+const db = window.supabase.createClient(
+  supabaseUrl,
+  supabaseKey
+);
 
 let editingMemberId = null;
 let editingExecutiveId = null;
 let editingFinanceId = null;
 
 
-/* =====================================================
+/* =========================
    MEMBERS
-===================================================== */
+========================= */
 
 async function showMembers() {
-
   document.querySelector(".container").innerHTML = `
-
     <div class="card">
+      <h2 class="section-title">YONA Members</h2>
 
-      <h2 class="section-title">
-        YONA Members
-      </h2>
+      <input id="memberName" type="text" placeholder="Member Name">
+      <input id="memberPhone" type="text" placeholder="Phone Number">
+      <input id="memberPosition" type="text" placeholder="Position">
 
-      <p>
-        Manage YONA members and membership records.
-      </p>
-
-      <input
-        type="text"
-        id="memberName"
-        placeholder="Member Name"
-      >
-
-      <input
-        type="text"
-        id="memberPhone"
-        placeholder="Phone Number"
-      >
-
-      <input
-        type="text"
-        id="memberPosition"
-        placeholder="Position"
-      >
-
-      <button
-        id="saveMemberButton"
-        onclick="addMember()">
+      <button id="saveMemberButton" onclick="addMember()">
         Add Member
       </button>
 
-      <button
-        id="cancelEditButton"
+      <button id="cancelEditButton"
         class="cancel-button"
         onclick="cancelEdit()"
         style="display:none;">
         Cancel Edit
       </button>
 
-      <button
-        class="back-button"
-        onclick="location.reload()">
+      <button class="back-button" onclick="location.reload()">
         Back to Dashboard
       </button>
 
       <div id="message"></div>
 
-      <div
-        id="memberList"
-        style="margin-top:20px;">
+      <div id="memberList">
         Loading members...
       </div>
-
     </div>
   `;
 
   await loadMembers();
 }
 
-
 async function loadMembers() {
+  const list = document.getElementById("memberList");
+  if (!list) return;
 
-  const memberList =
-    document.getElementById("memberList");
-
-  if (!memberList) {
-    return;
-  }
-
-  const { data, error } =
-    await db
-      .from("members")
-      .select(
-        "id, created_at, name, phone, position"
-      )
-      .order("id", {
-        ascending: true
-      });
+  const { data, error } = await db
+    .from("members")
+    .select("id, created_at, name, phone, position")
+    .order("id", { ascending: true });
 
   if (error) {
-
-    memberList.innerHTML = `
+    list.innerHTML = `
       <div class="message">
         Error loading members:<br>
         ${escapeHtml(error.message)}
-      </div>
-    `;
-
+      </div>`;
     return;
   }
 
   if (!data || data.length === 0) {
-
-    memberList.innerHTML = `
+    list.innerHTML = `
       <div class="message">
         No members have been added yet.
-      </div>
-    `;
-
+      </div>`;
     return;
   }
 
-  memberList.innerHTML = "";
+  list.innerHTML = "";
 
   data.forEach(member => {
+    const name = readJsonValue(member.name);
+    const phone = readJsonValue(member.phone);
+    const position = readJsonValue(member.position);
 
-    const name =
-      readJsonValue(member.name);
-
-    const phone =
-      readJsonValue(member.phone);
-
-    const position =
-      readJsonValue(member.position);
-
-    memberList.innerHTML += `
-
+    list.innerHTML += `
       <div class="member-card">
+        <h3>${escapeHtml(name)}</h3>
 
-        <h3>
-          ${escapeHtml(name)}
-        </h3>
+        <p><strong>Phone:</strong>
+        ${escapeHtml(phone)}</p>
 
-        <p>
-          <strong>Phone:</strong>
-          ${escapeHtml(phone)}
-        </p>
+        <p><strong>Position:</strong>
+        ${escapeHtml(position)}</p>
 
-        <p>
-          <strong>Position:</strong>
-          ${escapeHtml(position)}
-        </p>
-
-        <button
-          class="edit-button"
+        <button class="edit-button"
           onclick="editMember(
             ${Number(member.id)},
             '${escapeJs(name)}',
@@ -407,537 +257,253 @@ async function loadMembers() {
           Edit Member
         </button>
 
-        <button
-          class="delete-button"
+        <button class="delete-button"
           onclick="deleteMember(
             ${Number(member.id)},
             '${escapeJs(name)}'
           )">
           Delete Member
         </button>
-
       </div>
     `;
   });
 }
 
-
 async function addMember() {
-
-  const name =
-    document
-      .getElementById("memberName")
-      .value
-      .trim();
-
-  const phone =
-    document
-      .getElementById("memberPhone")
-      .value
-      .trim();
-
-  const position =
-    document
-      .getElementById("memberPosition")
-      .value
-      .trim();
-
-  const message =
-    document.getElementById("message");
+  const name = document.getElementById("memberName").value.trim();
+  const phone = document.getElementById("memberPhone").value.trim();
+  const position = document.getElementById("memberPosition").value.trim();
+  const message = document.getElementById("message");
 
   if (!name || !phone || !position) {
-
     message.innerHTML = `
       <div class="message">
         Please fill in Name, Phone and Position.
-      </div>
-    `;
-
+      </div>`;
     return;
   }
 
   if (editingMemberId !== null) {
-
-    await updateMember(
-      editingMemberId,
-      name,
-      phone,
-      position
-    );
-
+    await updateMember(editingMemberId, name, phone, position);
     return;
   }
 
-  message.innerHTML = `
-    <div class="message">
-      Saving member...
-    </div>
-  `;
-
-  const { error } =
-    await db
-      .from("members")
-      .insert([
-        {
-          name: JSON.stringify(name),
-          phone: JSON.stringify(phone),
-          position: JSON.stringify(position)
-        }
-      ]);
+  const { error } = await db
+    .from("members")
+    .insert([{
+      name: JSON.stringify(name),
+      phone: JSON.stringify(phone),
+      position: JSON.stringify(position)
+    }]);
 
   if (error) {
-
     message.innerHTML = `
       <div class="message">
-        <strong>
-          Could not save member.
-        </strong><br>
+        <strong>Could not save member.</strong><br>
         ${escapeHtml(error.message)}
-      </div>
-    `;
-
+      </div>`;
     return;
   }
 
   message.innerHTML = `
     <div class="message">
       Member saved successfully.
-    </div>
-  `;
+    </div>`;
 
   clearMemberForm();
-
   await loadMembers();
 }
 
+function editMember(id, name, phone, position) {
+  editingMemberId = Number(id);
 
-function editMember(
-  id,
-  name,
-  phone,
-  position
-) {
+  document.getElementById("memberName").value = name;
+  document.getElementById("memberPhone").value = phone;
+  document.getElementById("memberPosition").value = position;
 
-  editingMemberId =
-    Number(id);
+  document.getElementById("saveMemberButton").innerText =
+    "Update Member";
 
-  document
-    .getElementById("memberName")
-    .value = name;
-
-  document
-    .getElementById("memberPhone")
-    .value = phone;
-
-  document
-    .getElementById("memberPosition")
-    .value = position;
-
-  document
-    .getElementById("saveMemberButton")
-    .innerText = "Update Member";
-
-  document
-    .getElementById("cancelEditButton")
-    .style.display = "block";
-
-  document
-    .getElementById("message")
-    .innerHTML = `
-      <div class="message">
-        Editing
-        <strong>
-          ${escapeHtml(name)}
-        </strong>.
-      </div>
-    `;
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  document.getElementById("cancelEditButton").style.display =
+    "block";
 }
 
+async function updateMember(id, name, phone, position) {
+  const message = document.getElementById("message");
 
-async function updateMember(
-  id,
-  name,
-  phone,
-  position
-) {
-
-  const message =
-    document.getElementById("message");
-
-  const memberId =
-    Number(id);
-
-  if (!Number.isInteger(memberId)) {
-
-    message.innerHTML = `
-      <div class="message">
-        <strong>
-          Invalid member ID.
-        </strong>
-      </div>
-    `;
-
-    return;
-  }
-
-  message.innerHTML = `
-    <div class="message">
-      Updating member ID
-      ${memberId}...
-    </div>
-  `;
-
-  const { error } =
-    await db
-      .from("members")
-      .update({
-        name: JSON.stringify(name),
-        phone: JSON.stringify(phone),
-        position: JSON.stringify(position)
-      })
-      .eq("id", memberId);
+  const { error } = await db
+    .from("members")
+    .update({
+      name: JSON.stringify(name),
+      phone: JSON.stringify(phone),
+      position: JSON.stringify(position)
+    })
+    .eq("id", Number(id));
 
   if (error) {
-
     message.innerHTML = `
       <div class="message">
-        <strong>
-          Could not update member.
-        </strong><br>
+        <strong>Could not update member.</strong><br>
         ${escapeHtml(error.message)}
-      </div>
-    `;
-
+      </div>`;
     return;
   }
-
-  const {
-    data: checkData,
-    error: checkError
-  } = await db
-    .from("members")
-    .select(
-      "id, name, phone, position"
-    )
-    .eq("id", memberId);
-
-  if (checkError) {
-
-    message.innerHTML = `
-      <div class="message">
-        <strong>
-          Update was made, but verification failed.
-        </strong><br>
-        ${escapeHtml(checkError.message)}
-      </div>
-    `;
-
-    return;
-  }
-
-  if (
-    !checkData ||
-    checkData.length === 0
-  ) {
-
-    message.innerHTML = `
-      <div class="message">
-        <strong>
-          Update could not be confirmed.
-        </strong><br>
-        Member ID ${memberId}
-        could not be found after updating.
-      </div>
-    `;
-
-    return;
-  }
-
-  const updatedName =
-    readJsonValue(
-      checkData[0].name
-    );
 
   message.innerHTML = `
     <div class="message">
-      <strong>
-        Member updated successfully.
-      </strong><br>
-      New name:
-      ${escapeHtml(updatedName)}
-    </div>
-  `;
+      Member updated successfully.
+    </div>`;
 
   editingMemberId = null;
-
   clearMemberForm();
 
-  document
-    .getElementById("saveMemberButton")
-    .innerText = "Add Member";
+  document.getElementById("saveMemberButton").innerText =
+    "Add Member";
 
-  document
-    .getElementById("cancelEditButton")
-    .style.display = "none";
+  document.getElementById("cancelEditButton").style.display =
+    "none";
 
   await loadMembers();
 }
-
 
 function cancelEdit() {
-
   editingMemberId = null;
-
   clearMemberForm();
 
-  document
-    .getElementById("saveMemberButton")
-    .innerText = "Add Member";
+  document.getElementById("saveMemberButton").innerText =
+    "Add Member";
 
-  document
-    .getElementById("cancelEditButton")
-    .style.display = "none";
-
-  document
-    .getElementById("message")
-    .innerHTML = `
-      <div class="message">
-        Edit cancelled.
-      </div>
-    `;
+  document.getElementById("cancelEditButton").style.display =
+    "none";
 }
 
-
-async function deleteMember(
-  id,
-  name
-) {
-
-  const confirmed =
-    confirm(
-      "Are you sure you want to delete " +
-      name +
-      "?"
-    );
-
-  if (!confirmed) {
+async function deleteMember(id, name) {
+  if (!confirm("Are you sure you want to delete " + name + "?")) {
     return;
   }
 
-  const message =
-    document.getElementById("message");
-
-  message.innerHTML = `
-    <div class="message">
-      Deleting member...
-    </div>
-  `;
-
-  const { error } =
-    await db
-      .from("members")
-      .delete()
-      .eq("id", Number(id));
+  const { error } = await db
+    .from("members")
+    .delete()
+    .eq("id", Number(id));
 
   if (error) {
-
-    message.innerHTML = `
+    document.getElementById("message").innerHTML = `
       <div class="message">
-        <strong>
-          Could not delete member.
-        </strong><br>
+        <strong>Could not delete member.</strong><br>
         ${escapeHtml(error.message)}
-      </div>
-    `;
-
+      </div>`;
     return;
   }
 
-  message.innerHTML = `
+  document.getElementById("message").innerHTML = `
     <div class="message">
       Member deleted successfully.
-    </div>
-  `;
+    </div>`;
 
   await loadMembers();
 }
 
-
 function clearMemberForm() {
-
-  document
-    .getElementById("memberName")
-    .value = "";
-
-  document
-    .getElementById("memberPhone")
-    .value = "";
-
-  document
-    .getElementById("memberPosition")
-    .value = "";
+  document.getElementById("memberName").value = "";
+  document.getElementById("memberPhone").value = "";
+  document.getElementById("memberPosition").value = "";
 }
 
 
-/* =====================================================
+/* =========================
    EXECUTIVE
-===================================================== */
+========================= */
 
 async function showExecutive() {
-
   document.querySelector(".container").innerHTML = `
-
     <div class="card">
+      <h2 class="section-title">YONA Executive</h2>
 
-      <h2 class="section-title">
-        YONA Executive
-      </h2>
-
-      <p>
-        Manage YONA executive leadership.
-      </p>
-
-      <input
+      <input id="executiveName"
         type="text"
-        id="executiveName"
-        placeholder="Executive Name"
-      >
+        placeholder="Executive Name">
 
-      <input
+      <input id="executivePhone"
         type="text"
-        id="executivePhone"
-        placeholder="Phone Number"
-      >
+        placeholder="Phone Number">
 
-      <input
+      <input id="executivePosition"
         type="text"
-        id="executivePosition"
-        placeholder="Executive Position"
-      >
+        placeholder="Executive Position">
 
-      <button
-        id="saveExecutiveButton"
+      <button id="saveExecutiveButton"
         onclick="addExecutive()">
         Add Executive
       </button>
 
-      <button
-        id="cancelExecutiveButton"
+      <button id="cancelExecutiveButton"
         class="cancel-button"
         onclick="cancelExecutiveEdit()"
         style="display:none;">
         Cancel Edit
       </button>
 
-      <button
-        class="back-button"
+      <button class="back-button"
         onclick="location.reload()">
         Back to Dashboard
       </button>
 
       <div id="executiveMessage"></div>
 
-      <div
-        id="executiveList"
-        style="margin-top:20px;">
+      <div id="executiveList">
         Loading executive...
       </div>
-
     </div>
   `;
 
   await loadExecutive();
 }
 
-
 async function loadExecutive() {
+  const list = document.getElementById("executiveList");
+  if (!list) return;
 
-  const executiveList =
-    document.getElementById(
-      "executiveList"
-    );
-
-  if (!executiveList) {
-    return;
-  }
-
-  const { data, error } =
-    await db
-      .from("executive")
-      .select(
-        "id, created_at, name, phone, position"
-      )
-      .order("id", {
-        ascending: true
-      });
+  const { data, error } = await db
+    .from("executive")
+    .select("id, created_at, name, phone, position")
+    .order("id", { ascending: true });
 
   if (error) {
-
-    executiveList.innerHTML = `
+    list.innerHTML = `
       <div class="message">
         Error loading executive:<br>
         ${escapeHtml(error.message)}
-      </div>
-    `;
-
+      </div>`;
     return;
   }
 
   if (!data || data.length === 0) {
-
-    executiveList.innerHTML = `
+    list.innerHTML = `
       <div class="message">
         No executive members have been added yet.
-      </div>
-    `;
-
+      </div>`;
     return;
   }
 
-  executiveList.innerHTML = "";
+  list.innerHTML = "";
 
   data.forEach(executive => {
+    const name = readJsonValue(executive.name);
+    const phone = readJsonValue(executive.phone);
+    const position = readJsonValue(executive.position);
 
-    const name =
-      readJsonValue(
-        executive.name
-      );
-
-    const phone =
-      readJsonValue(
-        executive.phone
-      );
-
-    const position =
-      readJsonValue(
-        executive.position
-      );
-
-    executiveList.innerHTML += `
-
+    list.innerHTML += `
       <div class="executive-card">
+        <h3>${escapeHtml(name)}</h3>
 
-        <h3>
-          ${escapeHtml(name)}
-        </h3>
+        <p><strong>Phone:</strong>
+        ${escapeHtml(phone)}</p>
 
-        <p>
-          <strong>Phone:</strong>
-          ${escapeHtml(phone)}
-        </p>
+        <p><strong>Position:</strong>
+        ${escapeHtml(position)}</p>
 
-        <p>
-          <strong>Position:</strong>
-          ${escapeHtml(position)}
-        </p>
-
-        <button
-          class="edit-button"
+        <button class="edit-button"
           onclick="editExecutive(
             ${Number(executive.id)},
             '${escapeJs(name)}',
@@ -947,1089 +513,530 @@ async function loadExecutive() {
           Edit Executive
         </button>
 
-        <button
-          class="delete-button"
+        <button class="delete-button"
           onclick="deleteExecutive(
             ${Number(executive.id)},
             '${escapeJs(name)}'
           )">
           Delete Executive
         </button>
-
       </div>
     `;
   });
 }
 
-
 async function addExecutive() {
-
   const name =
-    document
-      .getElementById("executiveName")
-      .value
-      .trim();
+    document.getElementById("executiveName").value.trim();
 
   const phone =
-    document
-      .getElementById("executivePhone")
-      .value
-      .trim();
+    document.getElementById("executivePhone").value.trim();
 
   const position =
-    document
-      .getElementById("executivePosition")
-      .value
-      .trim();
+    document.getElementById("executivePosition").value.trim();
 
   const message =
-    document.getElementById(
-      "executiveMessage"
-    );
+    document.getElementById("executiveMessage");
 
   if (!name || !phone || !position) {
-
     message.innerHTML = `
       <div class="message">
         Please fill in Name, Phone and Position.
-      </div>
-    `;
-
+      </div>`;
     return;
   }
 
   if (editingExecutiveId !== null) {
-
     await updateExecutive(
       editingExecutiveId,
       name,
       phone,
       position
     );
-
     return;
   }
 
-  message.innerHTML = `
-    <div class="message">
-      Saving executive...
-    </div>
-  `;
-
-  const { error } =
-    await db
-      .from("executive")
-      .insert([
-        {
-          name: JSON.stringify(name),
-          phone: JSON.stringify(phone),
-          position: JSON.stringify(position)
-        }
-      ]);
+  const { error } = await db
+    .from("executive")
+    .insert([{
+      name: JSON.stringify(name),
+      phone: JSON.stringify(phone),
+      position: JSON.stringify(position)
+    }]);
 
   if (error) {
-
     message.innerHTML = `
       <div class="message">
-        <strong>
-          Could not save executive.
-        </strong><br>
+        <strong>Could not save executive.</strong><br>
         ${escapeHtml(error.message)}
-      </div>
-    `;
-
+      </div>`;
     return;
   }
 
   message.innerHTML = `
     <div class="message">
       Executive saved successfully.
-    </div>
-  `;
+    </div>`;
 
   clearExecutiveForm();
-
   await loadExecutive();
 }
 
+function editExecutive(id, name, phone, position) {
+  editingExecutiveId = Number(id);
 
-function editExecutive(
-  id,
-  name,
-  phone,
-  position
-) {
+  document.getElementById("executiveName").value = name;
+  document.getElementById("executivePhone").value = phone;
+  document.getElementById("executivePosition").value = position;
 
-  editingExecutiveId =
-    Number(id);
+  document.getElementById("saveExecutiveButton").innerText =
+    "Update Executive";
 
-  document
-    .getElementById("executiveName")
-    .value = name;
-
-  document
-    .getElementById("executivePhone")
-    .value = phone;
-
-  document
-    .getElementById("executivePosition")
-    .value = position;
-
-  document
-    .getElementById("saveExecutiveButton")
-    .innerText = "Update Executive";
-
-  document
-    .getElementById("cancelExecutiveButton")
-    .style.display = "block";
-
-  document
-    .getElementById("executiveMessage")
-    .innerHTML = `
-      <div class="message">
-        Editing
-        <strong>
-          ${escapeHtml(name)}
-        </strong>.
-      </div>
-    `;
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  document.getElementById("cancelExecutiveButton").style.display =
+    "block";
 }
 
-
-async function updateExecutive(
-  id,
-  name,
-  phone,
-  position
-) {
-
+async function updateExecutive(id, name, phone, position) {
   const message =
-    document.getElementById(
-      "executiveMessage"
-    );
+    document.getElementById("executiveMessage");
 
-  const executiveId =
-    Number(id);
-
-  if (!Number.isInteger(executiveId)) {
-
-    message.innerHTML = `
-      <div class="message">
-        <strong>
-          Invalid executive ID.
-        </strong>
-      </div>
-    `;
-
-    return;
-  }
-
-  message.innerHTML = `
-    <div class="message">
-      Updating executive ID
-      ${executiveId}...
-    </div>
-  `;
-
-  const { error } =
-    await db
-      .from("executive")
-      .update({
-        name: JSON.stringify(name),
-        phone: JSON.stringify(phone),
-        position: JSON.stringify(position)
-      })
-      .eq("id", executiveId);
+  const { error } = await db
+    .from("executive")
+    .update({
+      name: JSON.stringify(name),
+      phone: JSON.stringify(phone),
+      position: JSON.stringify(position)
+    })
+    .eq("id", Number(id));
 
   if (error) {
-
     message.innerHTML = `
       <div class="message">
-        <strong>
-          Could not update executive.
-        </strong><br>
+        <strong>Could not update executive.</strong><br>
         ${escapeHtml(error.message)}
-      </div>
-    `;
-
+      </div>`;
     return;
   }
-
-  const {
-    data: checkData,
-    error: checkError
-  } = await db
-    .from("executive")
-    .select(
-      "id, name, phone, position"
-    )
-    .eq("id", executiveId);
-
-  if (checkError) {
-
-    message.innerHTML = `
-      <div class="message">
-        <strong>
-          Update was made, but verification failed.
-        </strong><br>
-        ${escapeHtml(checkError.message)}
-      </div>
-    `;
-
-    return;
-  }
-
-  if (
-    !checkData ||
-    checkData.length === 0
-  ) {
-
-    message.innerHTML = `
-      <div class="message">
-        <strong>
-          Update could not be confirmed.
-        </strong><br>
-        Executive ID ${executiveId}
-        could not be found after updating.
-      </div>
-    `;
-
-    return;
-  }
-
-  const updatedName =
-    readJsonValue(
-      checkData[0].name
-    );
 
   message.innerHTML = `
     <div class="message">
-      <strong>
-        Executive updated successfully.
-      </strong><br>
-      New name:
-      ${escapeHtml(updatedName)}
-    </div>
-  `;
+      Executive updated successfully.
+    </div>`;
 
   editingExecutiveId = null;
-
   clearExecutiveForm();
 
-  document
-    .getElementById("saveExecutiveButton")
-    .innerText = "Add Executive";
+  document.getElementById("saveExecutiveButton").innerText =
+    "Add Executive";
 
-  document
-    .getElementById("cancelExecutiveButton")
-    .style.display = "none";
+  document.getElementById("cancelExecutiveButton").style.display =
+    "none";
 
   await loadExecutive();
 }
-
 
 function cancelExecutiveEdit() {
-
   editingExecutiveId = null;
-
   clearExecutiveForm();
 
-  document
-    .getElementById("saveExecutiveButton")
-    .innerText = "Add Executive";
+  document.getElementById("saveExecutiveButton").innerText =
+    "Add Executive";
 
-  document
-    .getElementById("cancelExecutiveButton")
-    .style.display = "none";
-
-  document
-    .getElementById("executiveMessage")
-    .innerHTML = `
-      <div class="message">
-        Edit cancelled.
-      </div>
-    `;
+  document.getElementById("cancelExecutiveButton").style.display =
+    "none";
 }
 
-
-async function deleteExecutive(
-  id,
-  name
-) {
-
-  const confirmed =
-    confirm(
-      "Are you sure you want to delete " +
-      name +
-      "?"
-    );
-
-  if (!confirmed) {
+async function deleteExecutive(id, name) {
+  if (!confirm("Are you sure you want to delete " + name + "?")) {
     return;
   }
 
-  const message =
-    document.getElementById(
-      "executiveMessage"
-    );
-
-  message.innerHTML = `
-    <div class="message">
-      Deleting executive...
-    </div>
-  `;
-
-  const { error } =
-    await db
-      .from("executive")
-      .delete()
-      .eq("id", Number(id));
+  const { error } = await db
+    .from("executive")
+    .delete()
+    .eq("id", Number(id));
 
   if (error) {
-
-    message.innerHTML = `
+    document.getElementById("executiveMessage").innerHTML = `
       <div class="message">
-        <strong>
-          Could not delete executive.
-        </strong><br>
+        <strong>Could not delete executive.</strong><br>
         ${escapeHtml(error.message)}
-      </div>
-    `;
-
+      </div>`;
     return;
   }
 
-  message.innerHTML = `
+  document.getElementById("executiveMessage").innerHTML = `
     <div class="message">
       Executive deleted successfully.
-    </div>
-  `;
+    </div>`;
 
   await loadExecutive();
 }
 
-
 function clearExecutiveForm() {
-
-  document
-    .getElementById("executiveName")
-    .value = "";
-
-  document
-    .getElementById("executivePhone")
-    .value = "";
-
-  document
-    .getElementById("executivePosition")
-    .value = "";
+  document.getElementById("executiveName").value = "";
+  document.getElementById("executivePhone").value = "";
+  document.getElementById("executivePosition").value = "";
 }
 
 
-/* =====================================================
+/* =========================
    FINANCE
-===================================================== */
+========================= */
 
 async function showFinance() {
-
   document.querySelector(".container").innerHTML = `
-
     <div class="card">
+      <h2 class="section-title">YONA Finance</h2>
 
-      <h2 class="section-title">
-        YONA Finance
-      </h2>
-
-      <p>
-        Manage YONA financial records.
-      </p>
-
-      <input
+      <input id="financeName"
         type="text"
-        id="financeName"
-        placeholder="Member / Person Name"
-      >
+        placeholder="Member / Person Name">
 
       <select id="financeType">
-
-        <option value="">
-          Select Transaction Type
-        </option>
-
+        <option value="">Select Transaction Type</option>
         <option value="Monthly Contribution">
           Monthly Contribution
         </option>
-
         <option value="End of Contribution">
           End of Contribution
         </option>
-
-        <option value="Loan">
-          Loan
-        </option>
-
+        <option value="Loan">Loan</option>
         <option value="Loan Repayment">
           Loan Repayment
         </option>
-
-        <option value="Welfare">
-          Welfare
-        </option>
-
-        <option value="Payment">
-          Payment
-        </option>
-
-        <option value="Other">
-          Other
-        </option>
-
+        <option value="Welfare">Welfare</option>
+        <option value="Payment">Payment</option>
+        <option value="Other">Other</option>
       </select>
 
-      <input
+      <input id="financeAmount"
         type="number"
-        id="financeAmount"
         placeholder="Amount"
         min="0"
-        step="0.01"
-      >
+        step="0.01">
 
-      <textarea
-        id="financeDescription"
-        placeholder="Description"
-      ></textarea>
+      <textarea id="financeDescription"
+        placeholder="Description"></textarea>
 
-```
-  <button
-    id="saveFinanceButton"
-    onclick="addFinance()">
-    Add Finance Record
-  </button>
+      <button id="saveFinanceButton"
+        onclick="addFinance()">
+        Add Finance Record
+      </button>
 
-  <button
-    id="cancelFinanceButton"
-    class="cancel-button"
-    onclick="cancelFinanceEdit()"
-    style="display:none;">
-    Cancel Edit
-  </button>
+      <button id="cancelFinanceButton"
+        class="cancel-button"
+        onclick="cancelFinanceEdit()"
+        style="display:none;">
+        Cancel Edit
+      </button>
 
-  <button
-    class="back-button"
-    onclick="location.reload()">
-    Back to Dashboard
-  </button>
+      <button class="back-button"
+        onclick="location.reload()">
+        Back to Dashboard
+      </button>
 
-  <div id="financeMessage"></div>
+      <div id="financeMessage"></div>
 
-  <div
-    id="financeList"
-    style="margin-top:20px;">
-    Loading finance records...
-  </div>
+      <div id="financeList">
+        Loading finance records...
+      </div>
+    </div>
+  `;
 
-</div>
-```
-
-`;
-
-await loadFinance();
+  await loadFinance();
 }
-
-/* LOAD FINANCE */
 
 async function loadFinance() {
+  const list = document.getElementById("financeList");
+  if (!list) return;
 
-const financeList =
-document.getElementById(
-"financeList"
-);
+  const { data, error } = await db
+    .from("finance")
+    .select("id, created_at, name, type, amount, description")
+    .order("id", { ascending: true });
 
-if (!financeList) {
-return;
+  if (error) {
+    list.innerHTML = `
+      <div class="message">
+        Error loading finance records:<br>
+        ${escapeHtml(error.message)}
+      </div>`;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    list.innerHTML = `
+      <div class="message">
+        No financial records have been added yet.
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = "";
+
+  data.forEach(record => {
+    const name = readJsonValue(record.name);
+    const type = readJsonValue(record.type);
+    const description = readJsonValue(record.description);
+    const amount = Number(record.amount || 0);
+
+    list.innerHTML += `
+      <div class="finance-card">
+        <h3>${escapeHtml(name)}</h3>
+
+        <p><strong>Type:</strong>
+        ${escapeHtml(type)}</p>
+
+        <p class="finance-amount">
+          Amount: ${amount.toLocaleString()}
+        </p>
+
+        <p><strong>Description:</strong>
+        ${escapeHtml(description)}</p>
+
+        <button class="edit-button"
+          onclick="editFinance(
+            ${Number(record.id)},
+            '${escapeJs(name)}',
+            '${escapeJs(type)}',
+            '${amount}',
+            '${escapeJs(description)}'
+          )">
+          Edit Finance Record
+        </button>
+
+        <button class="delete-button"
+          onclick="deleteFinance(
+            ${Number(record.id)},
+            '${escapeJs(name)}'
+          )">
+          Delete Finance Record
+        </button>
+      </div>
+    `;
+  });
 }
-
-const { data, error } =
-await db
-.from("finance")
-.select(
-"id, created_at, name, type, amount, description"
-)
-.order("id", {
-ascending: true
-});
-
-if (error) {
-
-```
-financeList.innerHTML = `
-  <div class="message">
-    Error loading finance records:<br>
-    ${escapeHtml(error.message)}
-  </div>
-`;
-
-return;
-```
-
-}
-
-if (!data || data.length === 0) {
-
-```
-financeList.innerHTML = `
-  <div class="message">
-    No financial records have been added yet.
-  </div>
-`;
-
-return;
-```
-
-}
-
-financeList.innerHTML = "";
-
-data.forEach(record => {
-
-```
-const name =
-  readJsonValue(record.name);
-
-const type =
-  readJsonValue(record.type);
-
-const description =
-  readJsonValue(record.description);
-
-const amount =
-  Number(record.amount || 0);
-
-financeList.innerHTML += `
-
-  <div class="finance-card">
-
-    <h3>
-      ${escapeHtml(name)}
-    </h3>
-
-    <p>
-      <strong>Type:</strong>
-      ${escapeHtml(type)}
-    </p>
-
-    <p class="finance-amount">
-      Amount:
-      ${amount.toLocaleString()}
-    </p>
-
-    <p>
-      <strong>Description:</strong>
-      ${escapeHtml(description)}
-    </p>
-
-    <button
-      class="edit-button"
-      onclick="editFinance(
-        ${Number(record.id)},
-        '${escapeJs(name)}',
-        '${escapeJs(type)}',
-        '${amount}',
-        '${escapeJs(description)}'
-      )">
-      Edit Finance Record
-    </button>
-
-    <button
-      class="delete-button"
-      onclick="deleteFinance(
-        ${Number(record.id)},
-        '${escapeJs(name)}'
-      )">
-      Delete Finance Record
-    </button>
-
-  </div>
-`;
-```
-
-});
-}
-
-/* ADD FINANCE */
 
 async function addFinance() {
+  const name =
+    document.getElementById("financeName").value.trim();
 
-const name =
-document
-.getElementById("financeName")
-.value
-.trim();
+  const type =
+    document.getElementById("financeType").value.trim();
 
-const type =
-document
-.getElementById("financeType")
-.value
-.trim();
+  const amount =
+    document.getElementById("financeAmount").value.trim();
 
-const amount =
-document
-.getElementById("financeAmount")
-.value
-.trim();
+  const description =
+    document.getElementById("financeDescription").value.trim();
 
-const description =
-document
-.getElementById("financeDescription")
-.value
-.trim();
+  const message =
+    document.getElementById("financeMessage");
 
-const message =
-document.getElementById(
-"financeMessage"
-);
+  if (!name || !type || !amount) {
+    message.innerHTML = `
+      <div class="message">
+        Please fill in Name, Transaction Type and Amount.
+      </div>`;
+    return;
+  }
 
-if (
-!name ||
-!type ||
-!amount
-) {
+  if (Number(amount) < 0) {
+    message.innerHTML = `
+      <div class="message">
+        Amount cannot be negative.
+      </div>`;
+    return;
+  }
 
-```
-message.innerHTML = `
-  <div class="message">
-    Please fill in Name, Transaction Type and Amount.
-  </div>
-`;
+  if (editingFinanceId !== null) {
+    await updateFinance(
+      editingFinanceId,
+      name,
+      type,
+      amount,
+      description
+    );
+    return;
+  }
 
-return;
-```
+  const { error } = await db
+    .from("finance")
+    .insert([{
+      name: JSON.stringify(name),
+      type: JSON.stringify(type),
+      amount: Number(amount),
+      description: JSON.stringify(description)
+    }]);
 
+  if (error) {
+    message.innerHTML = `
+      <div class="message">
+        <strong>Could not save finance record.</strong><br>
+        ${escapeHtml(error.message)}
+      </div>`;
+    return;
+  }
+
+  message.innerHTML = `
+    <div class="message">
+      Finance record saved successfully.
+    </div>`;
+
+  clearFinanceForm();
+  await loadFinance();
 }
 
-if (Number(amount) < 0) {
+function editFinance(id, name, type, amount, description) {
+  editingFinanceId = Number(id);
 
-```
-message.innerHTML = `
-  <div class="message">
-    Amount cannot be negative.
-  </div>
-`;
+  document.getElementById("financeName").value = name;
+  document.getElementById("financeType").value = type;
+  document.getElementById("financeAmount").value = amount;
+  document.getElementById("financeDescription").value = description;
 
-return;
-```
+  document.getElementById("saveFinanceButton").innerText =
+    "Update Finance Record";
 
+  document.getElementById("cancelFinanceButton").style.display =
+    "block";
 }
 
-if (editingFinanceId !== null) {
-
-```
-await updateFinance(
-  editingFinanceId,
+async function updateFinance(
+  id,
   name,
   type,
   amount,
   description
-);
-
-return;
-```
-
-}
-
-message.innerHTML = `     <div class="message">
-      Saving finance record...     </div>
-  `;
-
-const { error } =
-await db
-.from("finance")
-.insert([
-{
-name: JSON.stringify(name),
-type: JSON.stringify(type),
-amount: Number(amount),
-description: JSON.stringify(description)
-}
-]);
-
-if (error) {
-
-```
-message.innerHTML = `
-  <div class="message">
-    <strong>
-      Could not save finance record.
-    </strong><br>
-    ${escapeHtml(error.message)}
-  </div>
-`;
-
-return;
-```
-
-}
-
-message.innerHTML = `     <div class="message">
-      Finance record saved successfully.     </div>
-  `;
-
-clearFinanceForm();
-
-await loadFinance();
-}
-
-/* EDIT FINANCE */
-
-function editFinance(
-id,
-name,
-type,
-amount,
-description
 ) {
+  const message =
+    document.getElementById("financeMessage");
 
-editingFinanceId =
-Number(id);
+  const { error } = await db
+    .from("finance")
+    .update({
+      name: JSON.stringify(name),
+      type: JSON.stringify(type),
+      amount: Number(amount),
+      description: JSON.stringify(description)
+    })
+    .eq("id", Number(id));
 
-document
-.getElementById("financeName")
-.value = name;
+  if (error) {
+    message.innerHTML = `
+      <div class="message">
+        <strong>Could not update finance record.</strong><br>
+        ${escapeHtml(error.message)}
+      </div>`;
+    return;
+  }
 
-document
-.getElementById("financeType")
-.value = type;
+  message.innerHTML = `
+    <div class="message">
+      Finance record updated successfully.
+    </div>`;
 
-document
-.getElementById("financeAmount")
-.value = amount;
+  editingFinanceId = null;
+  clearFinanceForm();
 
-document
-.getElementById("financeDescription")
-.value = description;
+  document.getElementById("saveFinanceButton").innerText =
+    "Add Finance Record";
 
-document
-.getElementById("saveFinanceButton")
-.innerText = "Update Finance Record";
+  document.getElementById("cancelFinanceButton").style.display =
+    "none";
 
-document
-.getElementById("cancelFinanceButton")
-.style.display = "block";
-
-document
-.getElementById("financeMessage")
-.innerHTML = `       <div class="message">
-        Editing finance record for         <strong>
-          ${escapeHtml(name)}         </strong>.       </div>
-    `;
-
-window.scrollTo({
-top: 0,
-behavior: "smooth"
-});
+  await loadFinance();
 }
-
-/* UPDATE FINANCE */
-
-async function updateFinance(
-id,
-name,
-type,
-amount,
-description
-) {
-
-const message =
-document.getElementById(
-"financeMessage"
-);
-
-const financeId =
-Number(id);
-
-if (!Number.isInteger(financeId)) {
-
-```
-message.innerHTML = `
-  <div class="message">
-    <strong>
-      Invalid finance record ID.
-    </strong>
-  </div>
-`;
-
-return;
-```
-
-}
-
-message.innerHTML = `     <div class="message">
-      Updating finance record ID
-      ${financeId}...     </div>
-  `;
-
-const { error } =
-await db
-.from("finance")
-.update({
-name: JSON.stringify(name),
-type: JSON.stringify(type),
-amount: Number(amount),
-description: JSON.stringify(description)
-})
-.eq("id", financeId);
-
-if (error) {
-
-```
-message.innerHTML = `
-  <div class="message">
-    <strong>
-      Could not update finance record.
-    </strong><br>
-    ${escapeHtml(error.message)}
-  </div>
-`;
-
-return;
-```
-
-}
-
-const {
-data: checkData,
-error: checkError
-} = await db
-.from("finance")
-.select(
-"id, name, type, amount, description"
-)
-.eq("id", financeId);
-
-if (checkError) {
-
-```
-message.innerHTML = `
-  <div class="message">
-    <strong>
-      Update was made, but verification failed.
-    </strong><br>
-    ${escapeHtml(checkError.message)}
-  </div>
-`;
-
-return;
-```
-
-}
-
-if (
-!checkData ||
-checkData.length === 0
-) {
-
-```
-message.innerHTML = `
-  <div class="message">
-    <strong>
-      Update could not be confirmed.
-    </strong><br>
-    Finance ID ${financeId}
-    could not be found after updating.
-  </div>
-`;
-
-return;
-```
-
-}
-
-const updatedName =
-readJsonValue(
-checkData[0].name
-);
-
-message.innerHTML = `     <div class="message">       <strong>
-        Finance record updated successfully.       </strong><br>
-      Name:
-      ${escapeHtml(updatedName)}     </div>
-  `;
-
-editingFinanceId = null;
-
-clearFinanceForm();
-
-document
-.getElementById("saveFinanceButton")
-.innerText = "Add Finance Record";
-
-document
-.getElementById("cancelFinanceButton")
-.style.display = "none";
-
-await loadFinance();
-}
-
-/* CANCEL FINANCE EDIT */
 
 function cancelFinanceEdit() {
+  editingFinanceId = null;
+  clearFinanceForm();
 
-editingFinanceId = null;
+  document.getElementById("saveFinanceButton").innerText =
+    "Add Finance Record";
 
-clearFinanceForm();
-
-document
-.getElementById("saveFinanceButton")
-.innerText = "Add Finance Record";
-
-document
-.getElementById("cancelFinanceButton")
-.style.display = "none";
-
-document
-.getElementById("financeMessage")
-.innerHTML = `       <div class="message">
-        Edit cancelled.       </div>
-    `;
+  document.getElementById("cancelFinanceButton").style.display =
+    "none";
 }
 
-/* DELETE FINANCE */
+async function deleteFinance(id, name) {
+  if (!confirm(
+    "Are you sure you want to delete the finance record for " +
+    name + "?"
+  )) {
+    return;
+  }
 
-async function deleteFinance(
-id,
-name
-) {
+  const { error } = await db
+    .from("finance")
+    .delete()
+    .eq("id", Number(id));
 
-const confirmed =
-confirm(
-"Are you sure you want to delete the finance record for " +
-name +
-"?"
-);
+  if (error) {
+    document.getElementById("financeMessage").innerHTML = `
+      <div class="message">
+        <strong>Could not delete finance record.</strong><br>
+        ${escapeHtml(error.message)}
+      </div>`;
+    return;
+  }
 
-if (!confirmed) {
-return;
+  document.getElementById("financeMessage").innerHTML = `
+    <div class="message">
+      Finance record deleted successfully.
+    </div>`;
+
+  await loadFinance();
 }
-
-const message =
-document.getElementById(
-"financeMessage"
-);
-
-message.innerHTML = `     <div class="message">
-      Deleting finance record...     </div>
-  `;
-
-const { error } =
-await db
-.from("finance")
-.delete()
-.eq("id", Number(id));
-
-if (error) {
-
-```
-message.innerHTML = `
-  <div class="message">
-    <strong>
-      Could not delete finance record.
-    </strong><br>
-    ${escapeHtml(error.message)}
-  </div>
-`;
-
-return;
-```
-
-}
-
-message.innerHTML = `     <div class="message">
-      Finance record deleted successfully.     </div>
-  `;
-
-await loadFinance();
-}
-
-/* CLEAR FINANCE FORM */
 
 function clearFinanceForm() {
-
-document
-.getElementById("financeName")
-.value = "";
-
-document
-.getElementById("financeType")
-.value = "";
-
-document
-.getElementById("financeAmount")
-.value = "";
-
-document
-.getElementById("financeDescription")
-.value = "";
+  document.getElementById("financeName").value = "";
+  document.getElementById("financeType").value = "";
+  document.getElementById("financeAmount").value = "";
+  document.getElementById("financeDescription").value = "";
 }
 
-/* =====================================================
-GENERAL FUNCTIONS
-===================================================== */
+
+/* =========================
+   GENERAL FUNCTIONS
+========================= */
 
 function readJsonValue(value) {
+  if (value === null || value === undefined) {
+    return "";
+  }
 
-if (
-value === null ||
-value === undefined
-) {
-return "";
-}
+  try {
+    const parsed = JSON.parse(value);
 
-try {
+    if (typeof parsed === "string") {
+      return parsed;
+    }
 
-```
-const parsed =
-  JSON.parse(value);
-
-if (typeof parsed === "string") {
-  return parsed;
-}
-
-return String(parsed);
-```
-
-} catch {
-
-```
-return String(value);
-```
-
-}
+    return String(parsed);
+  } catch {
+    return String(value);
+  }
 }
 
 function escapeHtml(value) {
-
-return String(value)
-.replace(/&/g, "&")
-.replace(/</g, "<")
-.replace(/>/g, ">")
-.replace(/"/g, """)
-.replace(/'/g, "'");
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 function escapeJs(value) {
-
-return String(value)
-.replace(/\/g, "\\")
-.replace(/'/g, "\'")
-.replace(/"/g, '\"')
-.replace(/\n/g, "\n")
-.replace(/\r/g, "\r");
+  return String(value)
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/"/g, '\\"')
+    .replace(/\n/g, "\\n")
+    .replace(/\r/g, "\\r");
 }
-
 </script>
 
 </body>
