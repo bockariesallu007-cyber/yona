@@ -47,7 +47,9 @@
       color: #0b5ed7;
     }
 
-    input {
+    input,
+    select,
+    textarea {
       width: 100%;
       padding: 12px;
       margin-bottom: 10px;
@@ -55,6 +57,11 @@
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 16px;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
     }
 
     button {
@@ -74,7 +81,8 @@
     }
 
     .member-card,
-    .executive-card {
+    .executive-card,
+    .finance-card {
       background: #f4f7fb;
       padding: 15px;
       margin-top: 10px;
@@ -106,6 +114,12 @@
 
     .section-title {
       color: #0b5ed7;
+    }
+
+    .finance-amount {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 10px 0;
     }
   </style>
 </head>
@@ -147,7 +161,7 @@
     <h2>Finance</h2>
     <p>Manage contributions, loans and financial records.</p>
 
-    <button>
+    <button onclick="showFinance()">
       Finance
     </button>
   </div>
@@ -217,13 +231,12 @@ let editingMemberId = null;
 
 let editingExecutiveId = null;
 
+let editingFinanceId = null;
+
 
 /* =====================================================
    MEMBERS
 ===================================================== */
-
-
-/* OPEN MEMBERS */
 
 async function showMembers() {
 
@@ -291,8 +304,6 @@ async function showMembers() {
   await loadMembers();
 }
 
-
-/* LOAD MEMBERS */
 
 async function loadMembers() {
 
@@ -393,8 +404,6 @@ async function loadMembers() {
 }
 
 
-/* ADD MEMBER */
-
 async function addMember() {
 
   const name =
@@ -484,8 +493,6 @@ async function addMember() {
 }
 
 
-/* EDIT MEMBER */
-
 function editMember(
   id,
   name,
@@ -533,8 +540,6 @@ function editMember(
   });
 }
 
-
-/* UPDATE MEMBER */
 
 async function updateMember(
   id,
@@ -666,8 +671,6 @@ async function updateMember(
 }
 
 
-/* CANCEL MEMBER EDIT */
-
 function cancelEdit() {
 
   editingMemberId = null;
@@ -691,8 +694,6 @@ function cancelEdit() {
     `;
 }
 
-
-/* DELETE MEMBER */
 
 async function deleteMember(
   id,
@@ -749,8 +750,6 @@ async function deleteMember(
 }
 
 
-/* CLEAR MEMBER FORM */
-
 function clearMemberForm() {
 
   document
@@ -770,9 +769,6 @@ function clearMemberForm() {
 /* =====================================================
    EXECUTIVE
 ===================================================== */
-
-
-/* OPEN EXECUTIVE */
 
 async function showExecutive() {
 
@@ -840,8 +836,6 @@ async function showExecutive() {
   await loadExecutive();
 }
 
-
-/* LOAD EXECUTIVE */
 
 async function loadExecutive() {
 
@@ -950,8 +944,6 @@ async function loadExecutive() {
 }
 
 
-/* ADD EXECUTIVE */
-
 async function addExecutive() {
 
   const name =
@@ -1043,8 +1035,6 @@ async function addExecutive() {
 }
 
 
-/* EDIT EXECUTIVE */
-
 function editExecutive(
   id,
   name,
@@ -1092,8 +1082,6 @@ function editExecutive(
   });
 }
 
-
-/* UPDATE EXECUTIVE */
 
 async function updateExecutive(
   id,
@@ -1227,8 +1215,6 @@ async function updateExecutive(
 }
 
 
-/* CANCEL EXECUTIVE EDIT */
-
 function cancelExecutiveEdit() {
 
   editingExecutiveId = null;
@@ -1252,8 +1238,6 @@ function cancelExecutiveEdit() {
     `;
 }
 
-
-/* DELETE EXECUTIVE */
 
 async function deleteExecutive(
   id,
@@ -1312,8 +1296,6 @@ async function deleteExecutive(
 }
 
 
-/* CLEAR EXECUTIVE FORM */
-
 function clearExecutiveForm() {
 
   document
@@ -1331,11 +1313,638 @@ function clearExecutiveForm() {
 
 
 /* =====================================================
-   GENERAL FUNCTIONS
+   FINANCE
 ===================================================== */
 
+async function showFinance() {
 
-/* READ JSON VALUE */
+  document.querySelector(".container").innerHTML = `
+
+    <div class="card">
+
+      <h2 class="section-title">
+        YONA Finance
+      </h2>
+
+      <p>
+        Manage YONA financial records.
+      </p>
+
+      <input
+        type="text"
+        id="financeName"
+        placeholder="Member / Person Name"
+      >
+
+      <select id="financeType">
+
+        <option value="">
+          Select Transaction Type
+        </option>
+
+        <option value="Contribution">
+          Contribution
+        </option>
+
+        <option value="Loan">
+          Loan
+        </option>
+
+        <option value="Loan Repayment">
+          Loan Repayment
+        </option>
+
+        <option value="Welfare">
+          Welfare
+        </option>
+
+        <option value="Payment">
+          Payment
+        </option>
+
+        <option value="Other">
+          Other
+        </option>
+
+      </select>
+
+      <input
+        type="number"
+        id="financeAmount"
+        placeholder="Amount"
+        min="0"
+        step="0.01"
+      >
+
+      <textarea
+        id="financeDescription"
+        placeholder="Description"
+      ></textarea>
+
+      <button
+        id="saveFinanceButton"
+        onclick="addFinance()">
+        Add Finance Record
+      </button>
+
+      <button
+        id="cancelFinanceButton"
+        class="cancel-button"
+        onclick="cancelFinanceEdit()"
+        style="display:none;">
+        Cancel Edit
+      </button>
+
+      <button
+        class="back-button"
+        onclick="location.reload()">
+        Back to Dashboard
+      </button>
+
+      <div id="financeMessage"></div>
+
+      <div
+        id="financeList"
+        style="margin-top:20px;">
+        Loading finance records...
+      </div>
+
+    </div>
+  `;
+
+  await loadFinance();
+}
+
+
+/* LOAD FINANCE */
+
+async function loadFinance() {
+
+  const financeList =
+    document.getElementById(
+      "financeList"
+    );
+
+  if (!financeList) {
+    return;
+  }
+
+  const { data, error } =
+    await db
+      .from("finance")
+      .select(
+        "id, created_at, name, type, amount, description"
+      )
+      .order("id", {
+        ascending: true
+      });
+
+  if (error) {
+
+    financeList.innerHTML = `
+      <div class="message">
+        Error loading finance records:<br>
+        ${escapeHtml(error.message)}
+      </div>
+    `;
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    financeList.innerHTML = `
+      <div class="message">
+        No financial records have been added yet.
+      </div>
+    `;
+
+    return;
+  }
+
+  financeList.innerHTML = "";
+
+  data.forEach(record => {
+
+    const name =
+      readJsonValue(record.name);
+
+    const type =
+      readJsonValue(record.type);
+
+    const description =
+      readJsonValue(record.description);
+
+    const amount =
+      Number(record.amount || 0);
+
+    financeList.innerHTML += `
+
+      <div class="finance-card">
+
+        <h3>
+          ${escapeHtml(name)}
+        </h3>
+
+        <p>
+          <strong>Type:</strong>
+          ${escapeHtml(type)}
+        </p>
+
+        <p class="finance-amount">
+          Amount:
+          ${amount.toLocaleString()}
+        </p>
+
+        <p>
+          <strong>Description:</strong>
+          ${escapeHtml(description)}
+        </p>
+
+        <button
+          class="edit-button"
+          onclick="editFinance(
+            ${Number(record.id)},
+            '${escapeJs(name)}',
+            '${escapeJs(type)}',
+            '${amount}',
+            '${escapeJs(description)}'
+          )">
+          Edit Finance Record
+        </button>
+
+        <button
+          class="delete-button"
+          onclick="deleteFinance(
+            ${Number(record.id)},
+            '${escapeJs(name)}'
+          )">
+          Delete Finance Record
+        </button>
+
+      </div>
+    `;
+  });
+}
+
+
+/* ADD FINANCE */
+
+async function addFinance() {
+
+  const name =
+    document
+      .getElementById("financeName")
+      .value
+      .trim();
+
+  const type =
+    document
+      .getElementById("financeType")
+      .value
+      .trim();
+
+  const amount =
+    document
+      .getElementById("financeAmount")
+      .value
+      .trim();
+
+  const description =
+    document
+      .getElementById("financeDescription")
+      .value
+      .trim();
+
+  const message =
+    document.getElementById(
+      "financeMessage"
+    );
+
+  if (
+    !name ||
+    !type ||
+    !amount
+  ) {
+
+    message.innerHTML = `
+      <div class="message">
+        Please fill in Name, Transaction Type and Amount.
+      </div>
+    `;
+
+    return;
+  }
+
+  if (Number(amount) < 0) {
+
+    message.innerHTML = `
+      <div class="message">
+        Amount cannot be negative.
+      </div>
+    `;
+
+    return;
+  }
+
+  if (editingFinanceId !== null) {
+
+    await updateFinance(
+      editingFinanceId,
+      name,
+      type,
+      amount,
+      description
+    );
+
+    return;
+  }
+
+  message.innerHTML = `
+    <div class="message">
+      Saving finance record...
+    </div>
+  `;
+
+  const { error } =
+    await db
+      .from("finance")
+      .insert([
+        {
+          name: JSON.stringify(name),
+          type: JSON.stringify(type),
+          amount: Number(amount),
+          description: JSON.stringify(description)
+        }
+      ]);
+
+  if (error) {
+
+    message.innerHTML = `
+      <div class="message">
+        <strong>
+          Could not save finance record.
+        </strong><br>
+        ${escapeHtml(error.message)}
+      </div>
+    `;
+
+    return;
+  }
+
+  message.innerHTML = `
+    <div class="message">
+      Finance record saved successfully.
+    </div>
+  `;
+
+  clearFinanceForm();
+
+  await loadFinance();
+}
+
+
+/* EDIT FINANCE */
+
+function editFinance(
+  id,
+  name,
+  type,
+  amount,
+  description
+) {
+
+  editingFinanceId =
+    Number(id);
+
+  document
+    .getElementById("financeName")
+    .value = name;
+
+  document
+    .getElementById("financeType")
+    .value = type;
+
+  document
+    .getElementById("financeAmount")
+    .value = amount;
+
+  document
+    .getElementById("financeDescription")
+    .value = description;
+
+  document
+    .getElementById("saveFinanceButton")
+    .innerText = "Update Finance Record";
+
+  document
+    .getElementById("cancelFinanceButton")
+    .style.display = "block";
+
+  document
+    .getElementById("financeMessage")
+    .innerHTML = `
+      <div class="message">
+        Editing finance record for
+        <strong>
+          ${escapeHtml(name)}
+        </strong>.
+      </div>
+    `;
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+/* UPDATE FINANCE */
+
+async function updateFinance(
+  id,
+  name,
+  type,
+  amount,
+  description
+) {
+
+  const message =
+    document.getElementById(
+      "financeMessage"
+    );
+
+  const financeId =
+    Number(id);
+
+  if (!Number.isInteger(financeId)) {
+
+    message.innerHTML = `
+      <div class="message">
+        <strong>
+          Invalid finance record ID.
+        </strong>
+      </div>
+    `;
+
+    return;
+  }
+
+  message.innerHTML = `
+    <div class="message">
+      Updating finance record ID
+      ${financeId}...
+    </div>
+  `;
+
+  const { error } =
+    await db
+      .from("finance")
+      .update({
+        name: JSON.stringify(name),
+        type: JSON.stringify(type),
+        amount: Number(amount),
+        description: JSON.stringify(description)
+      })
+      .eq("id", financeId);
+
+  if (error) {
+
+    message.innerHTML = `
+      <div class="message">
+        <strong>
+          Could not update finance record.
+        </strong><br>
+        ${escapeHtml(error.message)}
+      </div>
+    `;
+
+    return;
+  }
+
+  const {
+    data: checkData,
+    error: checkError
+  } = await db
+    .from("finance")
+    .select(
+      "id, name, type, amount, description"
+    )
+    .eq("id", financeId);
+
+  if (checkError) {
+
+    message.innerHTML = `
+      <div class="message">
+        <strong>
+          Update was made, but verification failed.
+        </strong><br>
+        ${escapeHtml(checkError.message)}
+      </div>
+    `;
+
+    return;
+  }
+
+  if (
+    !checkData ||
+    checkData.length === 0
+  ) {
+
+    message.innerHTML = `
+      <div class="message">
+        <strong>
+          Update could not be confirmed.
+        </strong><br>
+        Finance ID ${financeId}
+        could not be found after updating.
+      </div>
+    `;
+
+    return;
+  }
+
+  const updatedName =
+    readJsonValue(
+      checkData[0].name
+    );
+
+  message.innerHTML = `
+    <div class="message">
+      <strong>
+        Finance record updated successfully.
+      </strong><br>
+      Name:
+      ${escapeHtml(updatedName)}
+    </div>
+  `;
+
+  editingFinanceId = null;
+
+  clearFinanceForm();
+
+  document
+    .getElementById("saveFinanceButton")
+    .innerText = "Add Finance Record";
+
+  document
+    .getElementById("cancelFinanceButton")
+    .style.display = "none";
+
+  await loadFinance();
+}
+
+
+/* CANCEL FINANCE EDIT */
+
+function cancelFinanceEdit() {
+
+  editingFinanceId = null;
+
+  clearFinanceForm();
+
+  document
+    .getElementById("saveFinanceButton")
+    .innerText = "Add Finance Record";
+
+  document
+    .getElementById("cancelFinanceButton")
+    .style.display = "none";
+
+  document
+    .getElementById("financeMessage")
+    .innerHTML = `
+      <div class="message">
+        Edit cancelled.
+      </div>
+    `;
+}
+
+
+/* DELETE FINANCE */
+
+async function deleteFinance(
+  id,
+  name
+) {
+
+  const confirmed =
+    confirm(
+      "Are you sure you want to delete the finance record for " +
+      name +
+      "?"
+    );
+
+  if (!confirmed) {
+    return;
+  }
+
+  const message =
+    document.getElementById(
+      "financeMessage"
+    );
+
+  message.innerHTML = `
+    <div class="message">
+      Deleting finance record...
+    </div>
+  `;
+
+  const { error } =
+    await db
+      .from("finance")
+      .delete()
+      .eq("id", Number(id));
+
+  if (error) {
+
+    message.innerHTML = `
+      <div class="message">
+        <strong>
+          Could not delete finance record.
+        </strong><br>
+        ${escapeHtml(error.message)}
+      </div>
+    `;
+
+    return;
+  }
+
+  message.innerHTML = `
+    <div class="message">
+      Finance record deleted successfully.
+    </div>
+  `;
+
+  await loadFinance();
+}
+
+
+/* CLEAR FINANCE FORM */
+
+function clearFinanceForm() {
+
+  document
+    .getElementById("financeName")
+    .value = "";
+
+  document
+    .getElementById("financeType")
+    .value = "";
+
+  document
+    .getElementById("financeAmount")
+    .value = "";
+
+  document
+    .getElementById("financeDescription")
+    .value = "";
+}
+
+
+/* =====================================================
+   GENERAL FUNCTIONS
+===================================================== */
 
 function readJsonValue(value) {
 
@@ -1364,8 +1973,6 @@ function readJsonValue(value) {
 }
 
 
-/* HTML SECURITY */
-
 function escapeHtml(value) {
 
   return String(value)
@@ -1376,8 +1983,6 @@ function escapeHtml(value) {
     .replace(/'/g, "&#039;");
 }
 
-
-/* JAVASCRIPT SECURITY */
 
 function escapeJs(value) {
 
