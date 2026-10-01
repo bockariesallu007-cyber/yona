@@ -3,48 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YONA App</title>
+
+  <title>YONA Admin</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      background: #f4f7fb;
+      font-family: Arial, sans-serif;
+      background: #f2f5f8;
       color: #222;
     }
 
     header {
-      background: #0b5ed7;
+      background: #075aaa;
       color: white;
+      padding: 20px;
       text-align: center;
-      padding: 25px 15px;
     }
 
     header h1 {
       margin: 0;
+      font-size: 24px;
     }
 
     header p {
-      margin: 8px 0 0;
+      margin: 6px 0 0;
     }
 
     .container {
-      padding: 20px;
       max-width: 900px;
       margin: auto;
+      padding: 20px;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .dashboard button {
+      padding: 15px 10px;
+      border: none;
+      border-radius: 8px;
+      background: #075aaa;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .dashboard button:hover {
+      opacity: 0.9;
     }
 
     .card {
       background: white;
       padding: 20px;
-      margin-bottom: 15px;
-      border-radius: 12px;
+      border-radius: 10px;
+      margin-bottom: 20px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
-    .card h2 {
+    .section {
+      display: none;
+    }
+
+    .section-title {
       margin-top: 0;
-      color: #0b5ed7;
+      color: #075aaa;
     }
 
     input,
@@ -52,75 +85,76 @@
     textarea {
       width: 100%;
       padding: 12px;
-      margin-bottom: 10px;
-      box-sizing: border-box;
+      margin: 7px 0;
       border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
+      border-radius: 6px;
+      font-size: 15px;
     }
 
     textarea {
-      min-height: 90px;
+      min-height: 100px;
       resize: vertical;
     }
 
     button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 8px;
       border: none;
-      border-radius: 8px;
-      background: #0b5ed7;
+      border-radius: 6px;
+      padding: 10px 15px;
+      margin: 5px 3px;
+      background: #075aaa;
       color: white;
-      font-size: 16px;
       cursor: pointer;
     }
 
-    .edit-button {
-      background: #198754;
+    button:hover {
+      opacity: 0.9;
     }
 
     .delete-button {
-      background: #dc3545;
+      background: #d93025;
     }
 
     .cancel-button {
-      background: #6c757d;
+      background: #777;
     }
 
     .back-button {
-      background: #343a40;
+      background: #333;
+      margin-top: 15px;
     }
 
     .message {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 8px;
-      background: #eef3f8;
-    }
-
-    .section-title {
-      color: #0b5ed7;
+      padding: 10px;
+      margin: 10px 0;
+      background: #f1f1f1;
+      border-radius: 6px;
     }
 
     .member-card,
     .executive-card,
     .finance-card,
     .event-card {
-      background: #f4f7fb;
-      padding: 15px;
-      margin-top: 10px;
+      background: #f8fafc;
+      border: 1px solid #ddd;
       border-radius: 8px;
+      padding: 15px;
+      margin: 12px 0;
+    }
+
+    .member-card h3,
+    .executive-card h3,
+    .event-card h3 {
+      margin-top: 0;
+      color: #075aaa;
     }
 
     .finance-amount {
-      font-size: 20px;
       font-weight: bold;
+      font-size: 18px;
     }
 
     .event-date {
       font-weight: bold;
-      color: #0b5ed7;
     }
   </style>
 </head>
@@ -128,487 +162,137 @@
 <body>
 
 <header>
-  <h1>YONA APP</h1>
-  <p>Youths of Ndasei Association</p>
-  <p><strong>Unity and Development</strong></p>
+  <h1>YOUTHS OF NDASEI ASSOCIATION</h1>
+  <p>Admin Management System</p>
 </header>
 
-<div class="container" id="dashboard">
+<div class="container">
+
+  <!-- DASHBOARD -->
 
   <div class="card">
-    <h2>Members</h2>
-    <p>Manage YONA members and membership records.</p>
-    <button onclick="showMembers()">Members</button>
+    <h2>Dashboard</h2>
+
+    <div class="dashboard">
+
+      <button onclick="showMembers()">
+        Members
+      </button>
+
+      <button onclick="showExecutive()">
+        Executive
+      </button>
+
+      <button onclick="showFinance()">
+        Finance
+      </button>
+
+      <button onclick="showMeetings()">
+        Meetings
+      </button>
+
+      <button onclick="showEvents()">
+        Events
+      </button>
+
+      <button onclick="showDocuments()">
+        Documents
+      </button>
+
+    </div>
   </div>
 
-  <div class="card">
-    <h2>Executive</h2>
-    <p>View and manage YONA executive leadership.</p>
-    <button onclick="showExecutive()">Executive</button>
-  </div>
 
-  <div class="card">
-    <h2>Finance</h2>
-    <p>Manage contributions, loans and financial records.</p>
-    <button onclick="showFinance()">Finance</button>
-  </div>
+  <!-- MEMBERS -->
 
-  <div class="card">
-    <h2>Meetings</h2>
-    <p>Store meetings, attendance and minutes.</p>
-    <button>Meetings</button>
-  </div>
+  <div id="membersSection" class="section">
 
-  <div class="card">
-    <h2>Events</h2>
-    <p>Manage YONA events and activities.</p>
-    <button onclick="showEvents()">Events</button>
-  </div>
-
-  <div class="card">
-    <h2>Documents</h2>
-    <p>Store important YONA documents.</p>
-    <button>Documents</button>
-  </div>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-
-const supabaseUrl =
-  "https://atxeeymireukwbbsczbv.supabase.co";
-
-const supabaseKey =
-  "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
-
-const db = window.supabase.createClient(
-  supabaseUrl,
-  supabaseKey
-);
-
-let editingMemberId = null;
-let editingExecutiveId = null;
-let editingFinanceId = null;
-let editingEventId = null;
-
-
-/* =========================
-   MEMBERS
-========================= */
-
-async function showMembers() {
-
-  document.querySelector(".container").innerHTML = `
     <div class="card">
 
       <h2 class="section-title">
-        YONA Members
+        Members
       </h2>
 
       <input
         id="memberName"
         type="text"
-        placeholder="Member Name">
+        placeholder="Name"
+      >
 
       <input
         id="memberPhone"
         type="text"
-        placeholder="Phone Number">
+        placeholder="Phone"
+      >
 
       <input
         id="memberPosition"
         type="text"
-        placeholder="Position">
+        placeholder="Position"
+      >
 
       <button
         id="saveMemberButton"
-        onclick="addMember()">
+        onclick="addMember()"
+      >
         Add Member
       </button>
 
       <button
-        id="cancelEditButton"
+        id="cancelMemberButton"
         class="cancel-button"
         onclick="cancelEdit()"
-        style="display:none;">
+        style="display:none;"
+      >
         Cancel Edit
       </button>
 
+      <div id="membersList"></div>
+
       <button
         class="back-button"
-        onclick="location.reload()">
+        onclick="location.reload()"
+      >
         Back to Dashboard
       </button>
 
-      <div id="message"></div>
-
-      <div id="memberList">
-        Loading members...
-      </div>
-
     </div>
-  `;
 
-  await loadMembers();
-}
+  </div>
 
 
-async function loadMembers() {
+  <!-- EXECUTIVE -->
 
-  const list =
-    document.getElementById("memberList");
+  <div id="executiveSection" class="section">
 
-  if (!list) return;
-
-  const { data, error } = await db
-    .from("members")
-    .select("id, created_at, name, phone, position")
-    .order("id", { ascending: true });
-
-  if (error) {
-
-    list.innerHTML = `
-      <div class="message">
-        Error loading members:<br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
-
-    return;
-  }
-
-  if (!data || data.length === 0) {
-
-    list.innerHTML = `
-      <div class="message">
-        No members have been added yet.
-      </div>
-    `;
-
-    return;
-  }
-
-  list.innerHTML = "";
-
-  data.forEach(member => {
-
-    const name =
-      readJsonValue(member.name);
-
-    const phone =
-      readJsonValue(member.phone);
-
-    const position =
-      readJsonValue(member.position);
-
-    list.innerHTML += `
-      <div class="member-card">
-
-        <h3>${escapeHtml(name)}</h3>
-
-        <p>
-          <strong>Phone:</strong>
-          ${escapeHtml(phone)}
-        </p>
-
-        <p>
-          <strong>Position:</strong>
-          ${escapeHtml(position)}
-        </p>
-
-        <button
-          class="edit-button"
-          onclick="editMember(
-            ${Number(member.id)},
-            '${escapeJs(name)}',
-            '${escapeJs(phone)}',
-            '${escapeJs(position)}'
-          )">
-          Edit Member
-        </button>
-
-        <button
-          class="delete-button"
-          onclick="deleteMember(
-            ${Number(member.id)},
-            '${escapeJs(name)}'
-          )">
-          Delete Member
-        </button>
-
-      </div>
-    `;
-  });
-}
-
-
-async function addMember() {
-
-  const name =
-    document.getElementById(
-      "memberName"
-    ).value.trim();
-
-  const phone =
-    document.getElementById(
-      "memberPhone"
-    ).value.trim();
-
-  const position =
-    document.getElementById(
-      "memberPosition"
-    ).value.trim();
-
-  const message =
-    document.getElementById("message");
-
-  if (!name || !phone || !position) {
-
-    message.innerHTML = `
-      <div class="message">
-        Please fill in Name, Phone and Position.
-      </div>
-    `;
-
-    return;
-  }
-
-  if (editingMemberId !== null) {
-
-    await updateMember(
-      editingMemberId,
-      name,
-      phone,
-      position
-    );
-
-    return;
-  }
-
-  const { error } = await db
-    .from("members")
-    .insert([{
-      name: JSON.stringify(name),
-      phone: JSON.stringify(phone),
-      position: JSON.stringify(position)
-    }]);
-
-  if (error) {
-
-    message.innerHTML = `
-      <div class="message">
-        <strong>Could not save member.</strong><br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
-
-    return;
-  }
-
-  message.innerHTML = `
-    <div class="message">
-      Member saved successfully.
-    </div>
-  `;
-
-  clearMemberForm();
-
-  await loadMembers();
-}
-
-
-function editMember(
-  id,
-  name,
-  phone,
-  position
-) {
-
-  editingMemberId = Number(id);
-
-  document.getElementById(
-    "memberName"
-  ).value = name;
-
-  document.getElementById(
-    "memberPhone"
-  ).value = phone;
-
-  document.getElementById(
-    "memberPosition"
-  ).value = position;
-
-  document.getElementById(
-    "saveMemberButton"
-  ).innerText = "Update Member";
-
-  document.getElementById(
-    "cancelEditButton"
-  ).style.display = "block";
-}
-
-
-async function updateMember(
-  id,
-  name,
-  phone,
-  position
-) {
-
-  const message =
-    document.getElementById("message");
-
-  const { error } = await db
-    .from("members")
-    .update({
-      name: JSON.stringify(name),
-      phone: JSON.stringify(phone),
-      position: JSON.stringify(position)
-    })
-    .eq("id", Number(id));
-
-  if (error) {
-
-    message.innerHTML = `
-      <div class="message">
-        <strong>Could not update member.</strong><br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
-
-    return;
-  }
-
-  message.innerHTML = `
-    <div class="message">
-      Member updated successfully.
-    </div>
-  `;
-
-  editingMemberId = null;
-
-  clearMemberForm();
-
-  document.getElementById(
-    "saveMemberButton"
-  ).innerText = "Add Member";
-
-  document.getElementById(
-    "cancelEditButton"
-  ).style.display = "none";
-
-  await loadMembers();
-}
-
-
-function cancelEdit() {
-
-  editingMemberId = null;
-
-  clearMemberForm();
-
-  document.getElementById(
-    "saveMemberButton"
-  ).innerText = "Add Member";
-
-  document.getElementById(
-    "cancelEditButton"
-  ).style.display = "none";
-}
-
-
-async function deleteMember(id, name) {
-
-  if (
-    !confirm(
-      "Are you sure you want to delete " +
-      name +
-      "?"
-    )
-  ) {
-    return;
-  }
-
-  const { error } = await db
-    .from("members")
-    .delete()
-    .eq("id", Number(id));
-
-  if (error) {
-
-    document.getElementById(
-      "message"
-    ).innerHTML = `
-      <div class="message">
-        <strong>Could not delete member.</strong><br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
-
-    return;
-  }
-
-  document.getElementById(
-    "message"
-  ).innerHTML = `
-    <div class="message">
-      Member deleted successfully.
-    </div>
-  `;
-
-  await loadMembers();
-}
-
-
-function clearMemberForm() {
-
-  document.getElementById(
-    "memberName"
-  ).value = "";
-
-  document.getElementById(
-    "memberPhone"
-  ).value = "";
-
-  document.getElementById(
-    "memberPosition"
-  ).value = "";
-}
-
-
-/* =========================
-   EXECUTIVE
-========================= */
-
-async function showExecutive() {
-
-  document.querySelector(".container").innerHTML = `
     <div class="card">
 
       <h2 class="section-title">
-        YONA Executive
+        Executive
       </h2>
 
       <input
         id="executiveName"
         type="text"
-        placeholder="Executive Name">
-
-      <input
-        id="executivePhone"
-        type="text"
-        placeholder="Phone Number">
+        placeholder="Name"
+      >
 
       <input
         id="executivePosition"
         type="text"
-        placeholder="Executive Position">
+        placeholder="Position"
+      >
+
+      <input
+        id="executivePhone"
+        type="text"
+        placeholder="Phone"
+      >
 
       <button
         id="saveExecutiveButton"
-        onclick="addExecutive()">
+        onclick="addExecutive()"
+      >
         Add Executive
       </button>
 
@@ -616,377 +300,40 @@ async function showExecutive() {
         id="cancelExecutiveButton"
         class="cancel-button"
         onclick="cancelExecutiveEdit()"
-        style="display:none;">
+        style="display:none;"
+      >
         Cancel Edit
       </button>
 
+      <div id="executiveList"></div>
+
       <button
         class="back-button"
-        onclick="location.reload()">
+        onclick="location.reload()"
+      >
         Back to Dashboard
       </button>
 
-      <div id="executiveMessage"></div>
-
-      <div id="executiveList">
-        Loading executive...
-      </div>
-
     </div>
-  `;
 
-  await loadExecutive();
-}
+  </div>
 
 
-async function loadExecutive() {
+  <!-- FINANCE -->
 
-  const list =
-    document.getElementById(
-      "executiveList"
-    );
+  <div id="financeSection" class="section">
 
-  if (!list) return;
-
-  const { data, error } = await db
-    .from("executive")
-    .select(
-      "id, created_at, name, phone, position"
-    )
-    .order("id", { ascending: true });
-
-  if (error) {
-
-    list.innerHTML = `
-      <div class="message">
-        Error loading executive:<br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
-
-    return;
-  }
-
-  if (!data || data.length === 0) {
-
-    list.innerHTML = `
-      <div class="message">
-        No executive members have been added yet.
-      </div>
-    `;
-
-    return;
-  }
-
-  list.innerHTML = "";
-
-  data.forEach(executive => {
-
-    const name =
-      readJsonValue(executive.name);
-
-    const phone =
-      readJsonValue(executive.phone);
-
-    const position =
-      readJsonValue(executive.position);
-
-    list.innerHTML += `
-      <div class="executive-card">
-
-        <h3>${escapeHtml(name)}</h3>
-
-        <p>
-          <strong>Phone:</strong>
-          ${escapeHtml(phone)}
-        </p>
-
-        <p>
-          <strong>Position:</strong>
-          ${escapeHtml(position)}
-        </p>
-
-        <button
-          class="edit-button"
-          onclick="editExecutive(
-            ${Number(executive.id)},
-            '${escapeJs(name)}',
-            '${escapeJs(phone)}',
-            '${escapeJs(position)}'
-          )">
-          Edit Executive
-        </button>
-
-        <button
-          class="delete-button"
-          onclick="deleteExecutive(
-            ${Number(executive.id)},
-            '${escapeJs(name)}'
-          )">
-          Delete Executive
-        </button>
-
-      </div>
-    `;
-  });
-}
-
-
-async function addExecutive() {
-
-  const name =
-    document.getElementById(
-      "executiveName"
-    ).value.trim();
-
-  const phone =
-    document.getElementById(
-      "executivePhone"
-    ).value.trim();
-
-  const position =
-    document.getElementById(
-      "executivePosition"
-    ).value.trim();
-
-  const message =
-    document.getElementById(
-      "executiveMessage"
-    );
-
-  if (!name || !phone || !position) {
-
-    message.innerHTML = `
-      <div class="message">
-        Please fill in Name, Phone and Position.
-      </div>
-    `;
-
-    return;
-  }
-
-  if (editingExecutiveId !== null) {
-
-    await updateExecutive(
-      editingExecutiveId,
-      name,
-      phone,
-      position
-    );
-
-    return;
-  }
-
-  const { error } = await db
-    .from("executive")
-    .insert([{
-      name: JSON.stringify(name),
-      phone: JSON.stringify(phone),
-      position: JSON.stringify(position)
-    }]);
-
-  if (error) {
-
-    message.innerHTML = `
-      <div class="message">
-        <strong>Could not save executive.</strong><br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
-
-    return;
-  }
-
-  message.innerHTML = `
-    <div class="message">
-      Executive saved successfully.
-    </div>
-  `;
-
-  clearExecutiveForm();
-
-  await loadExecutive();
-}
-
-
-function editExecutive(
-  id,
-  name,
-  phone,
-  position
-) {
-
-  editingExecutiveId = Number(id);
-
-  document.getElementById(
-    "executiveName"
-  ).value = name;
-
-  document.getElementById(
-    "executivePhone"
-  ).value = phone;
-
-  document.getElementById(
-    "executivePosition"
-  ).value = position;
-
-  document.getElementById(
-    "saveExecutiveButton"
-  ).innerText = "Update Executive";
-
-  document.getElementById(
-    "cancelExecutiveButton"
-  ).style.display = "block";
-}
-
-
-async function updateExecutive(
-  id,
-  name,
-  phone,
-  position
-) {
-
-  const message =
-    document.getElementById(
-      "executiveMessage"
-    );
-
-  const { error } = await db
-    .from("executive")
-    .update({
-      name: JSON.stringify(name),
-      phone: JSON.stringify(phone),
-      position: JSON.stringify(position)
-    })
-    .eq("id", Number(id));
-
-  if (error) {
-
-    message.innerHTML = `
-      <div class="message">
-        <strong>Could not update executive.</strong><br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
-
-    return;
-  }
-
-  message.innerHTML = `
-    <div class="message">
-      Executive updated successfully.
-    </div>
-  `;
-
-  editingExecutiveId = null;
-
-  clearExecutiveForm();
-
-  document.getElementById(
-    "saveExecutiveButton"
-  ).innerText = "Add Executive";
-
-  document.getElementById(
-    "cancelExecutiveButton"
-  ).style.display = "none";
-
-  await loadExecutive();
-}
-
-
-function cancelExecutiveEdit() {
-
-  editingExecutiveId = null;
-
-  clearExecutiveForm();
-
-  document.getElementById(
-    "saveExecutiveButton"
-  ).innerText = "Add Executive";
-
-  document.getElementById(
-    "cancelExecutiveButton"
-  ).style.display = "none";
-}
-
-
-async function deleteExecutive(id, name) {
-
-  if (
-    !confirm(
-      "Are you sure you want to delete " +
-      name +
-      "?"
-    )
-  ) {
-    return;
-  }
-
-  const { error } = await db
-    .from("executive")
-    .delete()
-    .eq("id", Number(id));
-
-  if (error) {
-
-    document.getElementById(
-      "executiveMessage"
-    ).innerHTML = `
-      <div class="message">
-        <strong>Could not delete executive.</strong><br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
-
-    return;
-  }
-
-  document.getElementById(
-    "executiveMessage"
-  ).innerHTML = `
-    <div class="message">
-      Executive deleted successfully.
-    </div>
-  `;
-
-  await loadExecutive();
-}
-
-
-function clearExecutiveForm() {
-
-  document.getElementById(
-    "executiveName"
-  ).value = "";
-
-  document.getElementById(
-    "executivePhone"
-  ).value = "";
-
-  document.getElementById(
-    "executivePosition"
-  ).value = "";
-}
-
-
-/* =========================
-   FINANCE
-========================= */
-
-async function showFinance() {
-
-  document.querySelector(".container").innerHTML = `
     <div class="card">
 
       <h2 class="section-title">
-        YONA Finance
+        Finance
       </h2>
 
       <input
         id="financeName"
         type="text"
-        placeholder="Member / Person Name">
+        placeholder="Name"
+      >
 
       <select id="financeType">
 
@@ -994,8 +341,12 @@ async function showFinance() {
           Select Transaction Type
         </option>
 
-        <option value="Monthly Contribution">
-          Monthly Contribution
+        <option value="Registration">
+          Registration
+        </option>
+
+        <option value="Annual Contribution">
+          Annual Contribution
         </option>
 
         <option value="End of year Contribution">
@@ -1010,12 +361,12 @@ async function showFinance() {
           Loan Repayment
         </option>
 
-        <option value="Welfare">
-          Welfare
+        <option value="Loan Interest">
+          Loan Interest
         </option>
 
-        <option value="Payment">
-          Payment
+        <option value="Welfare">
+          Welfare
         </option>
 
         <option value="Other">
@@ -1028,239 +379,916 @@ async function showFinance() {
         id="financeAmount"
         type="number"
         placeholder="Amount"
-        min="0"
-        step="0.01">
+      >
 
       <textarea
         id="financeDescription"
-        placeholder="Description"></textarea>
+        placeholder="Description"
+      ></textarea>
 
       <button
         id="saveFinanceButton"
-        onclick="addFinance()">
-        Add Finance Record
+        onclick="addFinance()"
+      >
+        Add Transaction
       </button>
 
       <button
         id="cancelFinanceButton"
         class="cancel-button"
         onclick="cancelFinanceEdit()"
-        style="display:none;">
+        style="display:none;"
+      >
         Cancel Edit
       </button>
 
+      <div id="financeList"></div>
+
       <button
         class="back-button"
-        onclick="location.reload()">
+        onclick="location.reload()"
+      >
         Back to Dashboard
       </button>
 
-      <div id="financeMessage"></div>
+    </div>
 
-      <div id="financeList">
-        Loading finance records...
-      </div>
+  </div>
+
+
+  <!-- MEETINGS -->
+
+  <div id="meetingsSection" class="section">
+
+    <div class="card">
+
+      <h2 class="section-title">
+        Meetings
+      </h2>
+
+      <p class="message">
+        Meetings section will be restored after Events is working correctly.
+      </p>
+
+      <button
+        class="back-button"
+        onclick="location.reload()"
+      >
+        Back to Dashboard
+      </button>
 
     </div>
-  `;
 
-  await loadFinance();
+  </div>
+
+
+  <!-- EVENTS -->
+
+  <div id="eventsSection" class="section">
+
+    <div class="card">
+
+      <h2 class="section-title">
+        Events
+      </h2>
+
+      <input
+        id="eventTitle"
+        type="text"
+        placeholder="Event Title"
+      >
+
+      <input
+        id="eventDate"
+        type="date"
+      >
+
+      <input
+        id="eventLocation"
+        type="text"
+        placeholder="Event Location"
+      >
+
+      <textarea
+        id="eventDescription"
+        placeholder="Event Description"
+      ></textarea>
+
+      <button
+        id="saveEventButton"
+        onclick="addEvent()"
+      >
+        Add Event
+      </button>
+
+      <button
+        id="cancelEventButton"
+        class="cancel-button"
+        onclick="cancelEventEdit()"
+        style="display:none;"
+      >
+        Cancel Edit
+      </button>
+
+      <div id="eventsList"></div>
+
+      <button
+        class="back-button"
+        onclick="location.reload()"
+      >
+        Back to Dashboard
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- DOCUMENTS -->
+
+  <div id="documentsSection" class="section">
+
+    <div class="card">
+
+      <h2 class="section-title">
+        Documents
+      </h2>
+
+      <p class="message">
+        Documents section will be added later.
+      </p>
+
+      <button
+        class="back-button"
+        onclick="location.reload()"
+      >
+        Back to Dashboard
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const supabaseUrl =
+  "https://atxeeymireukwbbsczbv.supabase.co";
+
+const supabaseKey =
+  "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
+
+const db =
+  window.supabase.createClient(
+    supabaseUrl,
+    supabaseKey
+  );
+
+
+let editingMemberId = null;
+let editingExecutiveId = null;
+let editingFinanceId = null;
+let editingEventId = null;
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+function hideAllSections() {
+
+  document.getElementById("membersSection").style.display = "none";
+
+  document.getElementById("executiveSection").style.display = "none";
+
+  document.getElementById("financeSection").style.display = "none";
+
+  document.getElementById("meetingsSection").style.display = "none";
+
+  document.getElementById("eventsSection").style.display = "none";
+
+  document.getElementById("documentsSection").style.display = "none";
 }
 
 
-async function loadFinance() {
+function showMembers() {
+
+  hideAllSections();
+
+  document.getElementById("membersSection").style.display = "block";
+
+  loadMembers();
+}
+
+
+function showExecutive() {
+
+  hideAllSections();
+
+  document.getElementById("executiveSection").style.display = "block";
+
+  loadExecutive();
+}
+
+
+function showFinance() {
+
+  hideAllSections();
+
+  document.getElementById("financeSection").style.display = "block";
+
+  loadFinance();
+}
+
+
+function showMeetings() {
+
+  hideAllSections();
+
+  document.getElementById("meetingsSection").style.display = "block";
+}
+
+
+function showEvents() {
+
+  hideAllSections();
+
+  document.getElementById("eventsSection").style.display = "block";
+
+  loadEvents();
+}
+
+
+function showDocuments() {
+
+  hideAllSections();
+
+  document.getElementById("documentsSection").style.display = "block";
+}
+
+
+/* =========================
+   MEMBERS
+========================= */
+
+async function loadMembers() {
 
   const list =
-    document.getElementById(
-      "financeList"
-    );
+    document.getElementById("membersList");
 
-  if (!list) return;
+  list.innerHTML = "<p>Loading members...</p>";
 
-  const { data, error } = await db
-    .from("finance")
-    .select(
-      "id, created_at, name, type, amount, description"
-    )
-    .order("id", { ascending: true });
+  const { data, error } =
+    await db
+      .from("members")
+      .select("*")
+      .order("id", { ascending: false });
 
   if (error) {
 
-    list.innerHTML = `
-      <div class="message">
-        Error loading finance records:<br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
+    list.innerHTML =
+      "<p class='message'>Error loading members: " +
+      escapeHtml(error.message) +
+      "</p>";
 
     return;
   }
 
   if (!data || data.length === 0) {
 
-    list.innerHTML = `
-      <div class="message">
-        No financial records have been added yet.
-      </div>
-    `;
+    list.innerHTML =
+      "<p>No members found.</p>";
 
     return;
   }
 
-  list.innerHTML = "";
+  list.innerHTML =
+    data.map(member => {
 
-  data.forEach(record => {
+      const name =
+        readJsonValue(member.name);
 
-    const name =
-      readJsonValue(record.name);
+      const phone =
+        readJsonValue(member.phone);
 
-    const type =
-      readJsonValue(record.type);
+      const position =
+        readJsonValue(member.position);
 
-    const description =
-      readJsonValue(record.description);
+      return `
+        <div class="member-card">
 
-    const amount =
-      Number(record.amount || 0);
+          <h3>${escapeHtml(name)}</h3>
 
-    list.innerHTML += `
-      <div class="finance-card">
+          <p>
+            <strong>Phone:</strong>
+            ${escapeHtml(phone)}
+          </p>
 
-        <h3>${escapeHtml(name)}</h3>
+          <p>
+            <strong>Position:</strong>
+            ${escapeHtml(position)}
+          </p>
 
-        <p>
-          <strong>Type:</strong>
-          ${escapeHtml(type)}
-        </p>
+          <button
+            onclick="editMember(
+              '${escapeJs(member.id)}',
+              '${escapeJs(name)}',
+              '${escapeJs(phone)}',
+              '${escapeJs(position)}'
+            )"
+          >
+            Edit
+          </button>
 
-        <p class="finance-amount">
-          Amount: ${amount.toLocaleString()}
-        </p>
+          <button
+            class="delete-button"
+            onclick="deleteMember('${escapeJs(member.id)}')"
+          >
+            Delete
+          </button>
 
-        <p>
-          <strong>Description:</strong>
-          ${escapeHtml(description)}
-        </p>
+        </div>
+      `;
 
-        <button
-          class="edit-button"
-          onclick="editFinance(
-            ${Number(record.id)},
-            '${escapeJs(name)}',
-            '${escapeJs(type)}',
-            '${amount}',
-            '${escapeJs(description)}'
-          )">
-          Edit Finance Record
-        </button>
+    }).join("");
+}
 
-        <button
-          class="delete-button"
-          onclick="deleteFinance(
-            ${Number(record.id)},
-            '${escapeJs(name)}'
-          )">
-          Delete Finance Record
-        </button>
 
-      </div>
-    `;
-  });
+async function addMember() {
+
+  const name =
+    document.getElementById("memberName").value.trim();
+
+  const phone =
+    document.getElementById("memberPhone").value.trim();
+
+  const position =
+    document.getElementById("memberPosition").value.trim();
+
+  if (!name) {
+
+    alert("Please enter the member name.");
+
+    return;
+  }
+
+  const { error } =
+    await db
+      .from("members")
+      .insert([{
+
+        name: JSON.stringify(name),
+
+        phone: JSON.stringify(phone),
+
+        position: JSON.stringify(position)
+
+      }]);
+
+  if (error) {
+
+    alert(
+      "Error adding member: " +
+      error.message
+    );
+
+    return;
+  }
+
+  clearMemberForm();
+
+  loadMembers();
+}
+
+
+function editMember(
+  id,
+  name,
+  phone,
+  position
+) {
+
+  editingMemberId = id;
+
+  document.getElementById("memberName").value =
+    name;
+
+  document.getElementById("memberPhone").value =
+    phone;
+
+  document.getElementById("memberPosition").value =
+    position;
+
+  document.getElementById("saveMemberButton").textContent =
+    "Update Member";
+
+  document.getElementById("saveMemberButton").onclick =
+    updateMember;
+
+  document.getElementById("cancelMemberButton").style.display =
+    "inline-block";
+}
+
+
+async function updateMember() {
+
+  const name =
+    document.getElementById("memberName").value.trim();
+
+  const phone =
+    document.getElementById("memberPhone").value.trim();
+
+  const position =
+    document.getElementById("memberPosition").value.trim();
+
+  const { error } =
+    await db
+      .from("members")
+      .update({
+
+        name: JSON.stringify(name),
+
+        phone: JSON.stringify(phone),
+
+        position: JSON.stringify(position)
+
+      })
+      .eq("id", editingMemberId);
+
+  if (error) {
+
+    alert(
+      "Error updating member: " +
+      error.message
+    );
+
+    return;
+  }
+
+  cancelEdit();
+
+  loadMembers();
+}
+
+
+function cancelEdit() {
+
+  editingMemberId = null;
+
+  clearMemberForm();
+
+  document.getElementById("saveMemberButton").textContent =
+    "Add Member";
+
+  document.getElementById("saveMemberButton").onclick =
+    addMember;
+
+  document.getElementById("cancelMemberButton").style.display =
+    "none";
+}
+
+
+async function deleteMember(id) {
+
+  if (!confirm("Are you sure you want to delete this member?")) {
+    return;
+  }
+
+  const { error } =
+    await db
+      .from("members")
+      .delete()
+      .eq("id", id);
+
+  if (error) {
+
+    alert(
+      "Error deleting member: " +
+      error.message
+    );
+
+    return;
+  }
+
+  loadMembers();
+}
+
+
+function clearMemberForm() {
+
+  document.getElementById("memberName").value = "";
+
+  document.getElementById("memberPhone").value = "";
+
+  document.getElementById("memberPosition").value = "";
+}
+
+
+/* =========================
+   EXECUTIVE
+========================= */
+
+async function loadExecutive() {
+
+  const list =
+    document.getElementById("executiveList");
+
+  list.innerHTML =
+    "<p>Loading executive...</p>";
+
+  const { data, error } =
+    await db
+      .from("executive")
+      .select("*")
+      .order("id", { ascending: false });
+
+  if (error) {
+
+    list.innerHTML =
+      "<p class='message'>Error loading executive: " +
+      escapeHtml(error.message) +
+      "</p>";
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    list.innerHTML =
+      "<p>No executive records found.</p>";
+
+    return;
+  }
+
+  list.innerHTML =
+    data.map(item => {
+
+      const name =
+        readJsonValue(item.name);
+
+      const position =
+        readJsonValue(item.position);
+
+      const phone =
+        readJsonValue(item.phone);
+
+      return `
+        <div class="executive-card">
+
+          <h3>${escapeHtml(name)}</h3>
+
+          <p>
+            <strong>Position:</strong>
+            ${escapeHtml(position)}
+          </p>
+
+          <p>
+            <strong>Phone:</strong>
+            ${escapeHtml(phone)}
+          </p>
+
+          <button
+            onclick="editExecutive(
+              '${escapeJs(item.id)}',
+              '${escapeJs(name)}',
+              '${escapeJs(position)}',
+              '${escapeJs(phone)}'
+            )"
+          >
+            Edit
+          </button>
+
+          <button
+            class="delete-button"
+            onclick="deleteExecutive('${escapeJs(item.id)}')"
+          >
+            Delete
+          </button>
+
+        </div>
+      `;
+
+    }).join("");
+}
+
+
+async function addExecutive() {
+
+  const name =
+    document.getElementById("executiveName").value.trim();
+
+  const position =
+    document.getElementById("executivePosition").value.trim();
+
+  const phone =
+    document.getElementById("executivePhone").value.trim();
+
+  if (!name || !position) {
+
+    alert("Please enter name and position.");
+
+    return;
+  }
+
+  const { error } =
+    await db
+      .from("executive")
+      .insert([{
+
+        name: JSON.stringify(name),
+
+        position: JSON.stringify(position),
+
+        phone: JSON.stringify(phone)
+
+      }]);
+
+  if (error) {
+
+    alert(
+      "Error adding executive: " +
+      error.message
+    );
+
+    return;
+  }
+
+  clearExecutiveForm();
+
+  loadExecutive();
+}
+
+
+function editExecutive(
+  id,
+  name,
+  position,
+  phone
+) {
+
+  editingExecutiveId = id;
+
+  document.getElementById("executiveName").value =
+    name;
+
+  document.getElementById("executivePosition").value =
+    position;
+
+  document.getElementById("executivePhone").value =
+    phone;
+
+  document.getElementById("saveExecutiveButton").textContent =
+    "Update Executive";
+
+  document.getElementById("saveExecutiveButton").onclick =
+    updateExecutive;
+
+  document.getElementById("cancelExecutiveButton").style.display =
+    "inline-block";
+}
+
+
+async function updateExecutive() {
+
+  const name =
+    document.getElementById("executiveName").value.trim();
+
+  const position =
+    document.getElementById("executivePosition").value.trim();
+
+  const phone =
+    document.getElementById("executivePhone").value.trim();
+
+  const { error } =
+    await db
+      .from("executive")
+      .update({
+
+        name: JSON.stringify(name),
+
+        position: JSON.stringify(position),
+
+        phone: JSON.stringify(phone)
+
+      })
+      .eq("id", editingExecutiveId);
+
+  if (error) {
+
+    alert(
+      "Error updating executive: " +
+      error.message
+    );
+
+    return;
+  }
+
+  cancelExecutiveEdit();
+
+  loadExecutive();
+}
+
+
+function cancelExecutiveEdit() {
+
+  editingExecutiveId = null;
+
+  clearExecutiveForm();
+
+  document.getElementById("saveExecutiveButton").textContent =
+    "Add Executive";
+
+  document.getElementById("saveExecutiveButton").onclick =
+    addExecutive;
+
+  document.getElementById("cancelExecutiveButton").style.display =
+    "none";
+}
+
+
+async function deleteExecutive(id) {
+
+  if (!confirm("Are you sure you want to delete this executive record?")) {
+    return;
+  }
+
+  const { error } =
+    await db
+      .from("executive")
+      .delete()
+      .eq("id", id);
+
+  if (error) {
+
+    alert(
+      "Error deleting executive: " +
+      error.message
+    );
+
+    return;
+  }
+
+  loadExecutive();
+}
+
+
+function clearExecutiveForm() {
+
+  document.getElementById("executiveName").value = "";
+
+  document.getElementById("executivePosition").value = "";
+
+  document.getElementById("executivePhone").value = "";
+}
+
+
+/* =========================
+   FINANCE
+========================= */
+
+async function loadFinance() {
+
+  const list =
+    document.getElementById("financeList");
+
+  list.innerHTML =
+    "<p>Loading finance records...</p>";
+
+  const { data, error } =
+    await db
+      .from("finance")
+      .select("*")
+      .order("id", { ascending: false });
+
+  if (error) {
+
+    list.innerHTML =
+      "<p class='message'>Error loading finance: " +
+      escapeHtml(error.message) +
+      "</p>";
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    list.innerHTML =
+      "<p>No finance records found.</p>";
+
+    return;
+  }
+
+  list.innerHTML =
+    data.map(item => {
+
+      const name =
+        readJsonValue(item.name);
+
+      const type =
+        readJsonValue(item.type);
+
+      const amount =
+        readJsonValue(item.amount);
+
+      const description =
+        readJsonValue(item.description);
+
+      return `
+        <div class="finance-card">
+
+          <h3>${escapeHtml(name)}</h3>
+
+          <p>
+            <strong>Type:</strong>
+            ${escapeHtml(type)}
+          </p>
+
+          <p class="finance-amount">
+            Amount: ${escapeHtml(amount)}
+          </p>
+
+          <p>
+            <strong>Description:</strong>
+            ${escapeHtml(description)}
+          </p>
+
+          <button
+            onclick="editFinance(
+              '${escapeJs(item.id)}',
+              '${escapeJs(name)}',
+              '${escapeJs(type)}',
+              '${escapeJs(amount)}',
+              '${escapeJs(description)}'
+            )"
+          >
+            Edit
+          </button>
+
+          <button
+            class="delete-button"
+            onclick="deleteFinance('${escapeJs(item.id)}')"
+          >
+            Delete
+          </button>
+
+        </div>
+      `;
+
+    }).join("");
 }
 
 
 async function addFinance() {
 
   const name =
-    document.getElementById(
-      "financeName"
-    ).value.trim();
+    document.getElementById("financeName").value.trim();
 
   const type =
-    document.getElementById(
-      "financeType"
-    ).value.trim();
+    document.getElementById("financeType").value;
 
   const amount =
-    document.getElementById(
-      "financeAmount"
-    ).value.trim();
+    document.getElementById("financeAmount").value;
 
   const description =
-    document.getElementById(
-      "financeDescription"
-    ).value.trim();
-
-  const message =
-    document.getElementById(
-      "financeMessage"
-    );
+    document.getElementById("financeDescription").value.trim();
 
   if (!name || !type || !amount) {
 
-    message.innerHTML = `
-      <div class="message">
-        Please fill in Name, Transaction Type and Amount.
-      </div>
-    `;
+    alert("Please enter name, type and amount.");
 
     return;
   }
 
-  if (Number(amount) < 0) {
+  const { error } =
+    await db
+      .from("finance")
+      .insert([{
 
-    message.innerHTML = `
-      <div class="message">
-        Amount cannot be negative.
-      </div>
-    `;
+        name: JSON.stringify(name),
 
-    return;
-  }
+        type: JSON.stringify(type),
 
-  if (editingFinanceId !== null) {
+        amount: JSON.stringify(amount),
 
-    await updateFinance(
-      editingFinanceId,
-      name,
-      type,
-      amount,
-      description
+        description: JSON.stringify(description)
+
+      }]);
+
+  if (error) {
+
+    alert(
+      "Error adding finance record: " +
+      error.message
     );
 
     return;
   }
 
-  const { error } = await db
-    .from("finance")
-    .insert([{
-      name: JSON.stringify(name),
-      type: JSON.stringify(type),
-      amount: Number(amount),
-      description: JSON.stringify(description)
-    }]);
-
-  if (error) {
-
-    message.innerHTML = `
-      <div class="message">
-        <strong>Could not save finance record.</strong><br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
-
-    return;
-  }
-
-  message.innerHTML = `
-    <div class="message">
-      Finance record saved successfully.
-    </div>
-  `;
-
   clearFinanceForm();
 
-  await loadFinance();
+  loadFinance();
 }
 
 
@@ -1272,88 +1300,74 @@ function editFinance(
   description
 ) {
 
-  editingFinanceId = Number(id);
+  editingFinanceId = id;
 
-  document.getElementById(
-    "financeName"
-  ).value = name;
+  document.getElementById("financeName").value =
+    name;
 
-  document.getElementById(
-    "financeType"
-  ).value = type;
+  document.getElementById("financeType").value =
+    type;
 
-  document.getElementById(
-    "financeAmount"
-  ).value = amount;
+  document.getElementById("financeAmount").value =
+    amount;
 
-  document.getElementById(
-    "financeDescription"
-  ).value = description;
+  document.getElementById("financeDescription").value =
+    description;
 
-  document.getElementById(
-    "saveFinanceButton"
-  ).innerText = "Update Finance Record";
+  document.getElementById("saveFinanceButton").textContent =
+    "Update Transaction";
 
-  document.getElementById(
-    "cancelFinanceButton"
-  ).style.display = "block";
+  document.getElementById("saveFinanceButton").onclick =
+    updateFinance;
+
+  document.getElementById("cancelFinanceButton").style.display =
+    "inline-block";
 }
 
 
-async function updateFinance(
-  id,
-  name,
-  type,
-  amount,
-  description
-) {
+async function updateFinance() {
 
-  const message =
-    document.getElementById(
-      "financeMessage"
-    );
+  const name =
+    document.getElementById("financeName").value.trim();
 
-  const { error } = await db
-    .from("finance")
-    .update({
-      name: JSON.stringify(name),
-      type: JSON.stringify(type),
-      amount: Number(amount),
-      description: JSON.stringify(description)
-    })
-    .eq("id", Number(id));
+  const type =
+    document.getElementById("financeType").value;
+
+  const amount =
+    document.getElementById("financeAmount").value;
+
+  const description =
+    document.getElementById("financeDescription").value.trim();
+
+  const { error } =
+    await db
+      .from("finance")
+      .update({
+
+        name: JSON.stringify(name),
+
+        type: JSON.stringify(type),
+
+        amount: JSON.stringify(amount),
+
+        description: JSON.stringify(description)
+
+      })
+      .eq("id", editingFinanceId);
 
   if (error) {
 
-    message.innerHTML = `
-      <div class="message">
-        <strong>Could not update finance record.</strong><br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
+    alert(
+      "Error updating finance record: " +
+      error.message
+    );
 
     return;
   }
 
-  message.innerHTML = `
-    <div class="message">
-      Finance record updated successfully.
-    </div>
-  `;
+  cancelFinanceEdit();
 
-  editingFinanceId = null;
-
-  clearFinanceForm();
-
-  document.getElementById(
-    "saveFinanceButton"
-  ).innerText = "Add Finance Record";
-
-  document.getElementById(
-    "cancelFinanceButton"
-  ).style.display = "none";
-
-  await loadFinance();
+  loadFinance();
 }
 
 
@@ -1363,76 +1377,52 @@ function cancelFinanceEdit() {
 
   clearFinanceForm();
 
-  document.getElementById(
-    "saveFinanceButton"
-  ).innerText = "Add Finance Record";
+  document.getElementById("saveFinanceButton").textContent =
+    "Add Transaction";
 
-  document.getElementById(
-    "cancelFinanceButton"
-  ).style.display = "none";
+  document.getElementById("saveFinanceButton").onclick =
+    addFinance;
+
+  document.getElementById("cancelFinanceButton").style.display =
+    "none";
 }
 
 
-async function deleteFinance(id, name) {
+async function deleteFinance(id) {
 
-  if (
-    !confirm(
-      "Are you sure you want to delete the finance record for " +
-      name +
-      "?"
-    )
-  ) {
+  if (!confirm("Are you sure you want to delete this finance record?")) {
     return;
   }
 
-  const { error } = await db
-    .from("finance")
-    .delete()
-    .eq("id", Number(id));
+  const { error } =
+    await db
+      .from("finance")
+      .delete()
+      .eq("id", id);
 
   if (error) {
 
-    document.getElementById(
-      "financeMessage"
-    ).innerHTML = `
-      <div class="message">
-        <strong>Could not delete finance record.</strong><br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
+    alert(
+      "Error deleting finance record: " +
+      error.message
+    );
 
     return;
   }
 
-  document.getElementById(
-    "financeMessage"
-  ).innerHTML = `
-    <div class="message">
-      Finance record deleted successfully.
-    </div>
-  `;
-
-  await loadFinance();
+  loadFinance();
 }
 
 
 function clearFinanceForm() {
 
-  document.getElementById(
-    "financeName"
-  ).value = "";
+  document.getElementById("financeName").value = "";
 
-  document.getElementById(
-    "financeType"
-  ).value = "";
+  document.getElementById("financeType").value = "";
 
-  document.getElementById(
-    "financeAmount"
-  ).value = "";
+  document.getElementById("financeAmount").value = "";
 
-  document.getElementById(
-    "financeDescription"
-  ).value = "";
+  document.getElementById("financeDescription").value = "";
 }
 
 
@@ -1440,277 +1430,142 @@ function clearFinanceForm() {
    EVENTS
 ========================= */
 
-async function showEvents() {
-
-  document.querySelector(".container").innerHTML = `
-    <div class="card">
-
-      <h2 class="section-title">
-        YONA Events
-      </h2>
-
-      <input
-        id="eventTitle"
-        type="text"
-        placeholder="Event Title">
-
-      <input
-        id="eventDate"
-        type="date">
-
-      <input
-        id="eventTime"
-        type="time">
-
-      <input
-        id="eventLocation"
-        type="text"
-        placeholder="Event Location">
-
-      <textarea
-        id="eventDescription"
-        placeholder="Event Description"></textarea>
-
-      <button
-        id="saveEventButton"
-        onclick="addEvent()">
-        Add Event
-      </button>
-
-      <button
-        id="cancelEventButton"
-        class="cancel-button"
-        onclick="cancelEventEdit()"
-        style="display:none;">
-        Cancel Edit
-      </button>
-
-      <button
-        class="back-button"
-        onclick="location.reload()">
-        Back to Dashboard
-      </button>
-
-      <div id="eventMessage"></div>
-
-      <div id="eventList">
-        Loading events...
-      </div>
-
-    </div>
-  `;
-
-  await loadEvents();
-}
-
-
 async function loadEvents() {
 
   const list =
-    document.getElementById(
-      "eventList"
-    );
+    document.getElementById("eventsList");
 
-  if (!list) return;
+  list.innerHTML =
+    "<p>Loading events...</p>";
 
-  const { data, error } = await db
-    .from("events")
-    .select(
-      "id, created_at, title, date, time, location, description"
-    )
-    .order("id", {
-      ascending: true
-    });
+  const { data, error } =
+    await db
+      .from("events")
+      .select("*")
+      .order("date", { ascending: true });
 
   if (error) {
 
-    list.innerHTML = `
-      <div class="message">
-        Error loading events:<br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
+    list.innerHTML =
+      "<p class='message'>Error loading events: " +
+      escapeHtml(error.message) +
+      "</p>";
 
     return;
   }
 
   if (!data || data.length === 0) {
 
-    list.innerHTML = `
-      <div class="message">
-        No events have been added yet.
-      </div>
-    `;
+    list.innerHTML =
+      "<p>No events found.</p>";
 
     return;
   }
 
-  list.innerHTML = "";
+  list.innerHTML =
+    data.map(event => {
 
-  data.forEach(event => {
+      return `
+        <div class="event-card">
 
-    const title =
-      readJsonValue(event.title);
+          <h3>
+            ${escapeHtml(event.title || "")}
+          </h3>
 
-    const date =
-      readJsonValue(event.date);
+          <p class="event-date">
+            Date:
+            ${escapeHtml(event.date || "")}
+          </p>
 
-    const time =
-      readJsonValue(event.time);
+          <p>
+            <strong>Location:</strong>
+            ${escapeHtml(event.location || "")}
+          </p>
 
-    const location =
-      readJsonValue(event.location);
+          <p>
+            <strong>Description:</strong><br>
+            ${escapeHtml(event.description || "")}
+          </p>
 
-    const description =
-      readJsonValue(event.description);
+          <button
+            onclick="editEvent(
+              '${escapeJs(event.id)}',
+              '${escapeJs(event.title || "")}',
+              '${escapeJs(event.date || "")}',
+              '${escapeJs(event.location || "")}',
+              '${escapeJs(event.description || "")}'
+            )"
+          >
+            Edit Event
+          </button>
 
-    list.innerHTML += `
-      <div class="event-card">
+          <button
+            class="delete-button"
+            onclick="deleteEvent('${escapeJs(event.id)}')"
+          >
+            Delete Event
+          </button>
 
-        <h3>
-          ${escapeHtml(title)}
-        </h3>
+        </div>
+      `;
 
-        <p class="event-date">
-          Date: ${escapeHtml(date)}
-        </p>
-
-        <p>
-          <strong>Time:</strong>
-          ${escapeHtml(time)}
-        </p>
-
-        <p>
-          <strong>Location:</strong>
-          ${escapeHtml(location)}
-        </p>
-
-        <p>
-          <strong>Description:</strong>
-          ${escapeHtml(description)}
-        </p>
-
-        <button
-          class="edit-button"
-          onclick="editEvent(
-            ${Number(event.id)},
-            '${escapeJs(title)}',
-            '${escapeJs(date)}',
-            '${escapeJs(time)}',
-            '${escapeJs(location)}',
-            '${escapeJs(description)}'
-          )">
-          Edit Event
-        </button>
-
-        <button
-          class="delete-button"
-          onclick="deleteEvent(
-            ${Number(event.id)},
-            '${escapeJs(title)}'
-          )">
-          Delete Event
-        </button>
-
-      </div>
-    `;
-  });
+    }).join("");
 }
 
 
 async function addEvent() {
 
   const title =
-    document.getElementById(
-      "eventTitle"
-    ).value.trim();
+    document.getElementById("eventTitle").value.trim();
 
   const date =
-    document.getElementById(
-      "eventDate"
-    ).value.trim();
-
-  const time =
-    document.getElementById(
-      "eventTime"
-    ).value.trim();
+    document.getElementById("eventDate").value;
 
   const location =
-    document.getElementById(
-      "eventLocation"
-    ).value.trim();
+    document.getElementById("eventLocation").value.trim();
 
   const description =
-    document.getElementById(
-      "eventDescription"
-    ).value.trim();
+    document.getElementById("eventDescription").value.trim();
 
-  const message =
-    document.getElementById(
-      "eventMessage"
-    );
+  if (!title || !date) {
 
-  if (
-    !title ||
-    !date ||
-    !time ||
-    !location
-  ) {
-
-    message.innerHTML = `
-      <div class="message">
-        Please fill in Event Title, Date, Time and Location.
-      </div>
-    `;
-
-    return;
-  }
-
-  if (editingEventId !== null) {
-
-    await updateEvent(
-      editingEventId,
-      title,
-      date,
-      time,
-      location,
-      description
+    alert(
+      "Please enter the Event Title and Date."
     );
 
     return;
   }
 
-  const { error } = await db
-    .from("events")
-    .insert([{
-      title: JSON.stringify(title),
-      date: JSON.stringify(date),
-      time: JSON.stringify(time),
-      location: JSON.stringify(location),
-      description: JSON.stringify(description)
-    }]);
+  const { error } =
+    await db
+      .from("events")
+      .insert([{
+
+        title: title,
+
+        date: date,
+
+        location: location,
+
+        description: description
+
+      }]);
 
   if (error) {
 
-    message.innerHTML = `
-      <div class="message">
-        <strong>Could not save event.</strong><br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
+    alert(
+      "Error adding event: " +
+      error.message
+    );
 
     return;
   }
 
-  message.innerHTML = `
-    <div class="message">
-      Event saved successfully.
-    </div>
-  `;
+  alert("Event added successfully.");
 
   clearEventForm();
 
-  await loadEvents();
+  loadEvents();
 }
 
 
@@ -1718,99 +1573,89 @@ function editEvent(
   id,
   title,
   date,
-  time,
   location,
   description
 ) {
 
-  editingEventId = Number(id);
+  editingEventId = id;
 
-  document.getElementById(
-    "eventTitle"
-  ).value = title;
+  document.getElementById("eventTitle").value =
+    title;
 
-  document.getElementById(
-    "eventDate"
-  ).value = date;
+  document.getElementById("eventDate").value =
+    date;
 
-  document.getElementById(
-    "eventTime"
-  ).value = time;
+  document.getElementById("eventLocation").value =
+    location;
 
-  document.getElementById(
-    "eventLocation"
-  ).value = location;
+  document.getElementById("eventDescription").value =
+    description;
 
-  document.getElementById(
-    "eventDescription"
-  ).value = description;
+  document.getElementById("saveEventButton").textContent =
+    "Update Event";
 
-  document.getElementById(
-    "saveEventButton"
-  ).innerText = "Update Event";
+  document.getElementById("saveEventButton").onclick =
+    updateEvent;
 
-  document.getElementById(
-    "cancelEventButton"
-  ).style.display = "block";
+  document.getElementById("cancelEventButton").style.display =
+    "inline-block";
 }
 
 
-async function updateEvent(
-  id,
-  title,
-  date,
-  time,
-  location,
-  description
-) {
+async function updateEvent() {
 
-  const message =
-    document.getElementById(
-      "eventMessage"
+  const title =
+    document.getElementById("eventTitle").value.trim();
+
+  const date =
+    document.getElementById("eventDate").value;
+
+  const location =
+    document.getElementById("eventLocation").value.trim();
+
+  const description =
+    document.getElementById("eventDescription").value.trim();
+
+  if (!title || !date) {
+
+    alert(
+      "Please enter the Event Title and Date."
     );
-
-  const { error } = await db
-    .from("events")
-    .update({
-      title: JSON.stringify(title),
-      date: JSON.stringify(date),
-      time: JSON.stringify(time),
-      location: JSON.stringify(location),
-      description: JSON.stringify(description)
-    })
-    .eq("id", Number(id));
-
-  if (error) {
-
-    message.innerHTML = `
-      <div class="message">
-        <strong>Could not update event.</strong><br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
 
     return;
   }
 
-  message.innerHTML = `
-    <div class="message">
-      Event updated successfully.
-    </div>
-  `;
+  const { error } =
+    await db
+      .from("events")
+      .update({
 
-  editingEventId = null;
+        title: title,
 
-  clearEventForm();
+        date: date,
 
-  document.getElementById(
-    "saveEventButton"
-  ).innerText = "Add Event";
+        location: location,
 
-  document.getElementById(
-    "cancelEventButton"
-  ).style.display = "none";
+        description: description
 
-  await loadEvents();
+      })
+      .eq("id", editingEventId);
+
+  if (error) {
+
+    alert(
+      "Error updating event: " +
+      error.message
+    );
+
+    return;
+  }
+
+  alert("Event updated successfully.");
+
+  cancelEventEdit();
+
+  loadEvents();
 }
 
 
@@ -1820,85 +1665,61 @@ function cancelEventEdit() {
 
   clearEventForm();
 
-  document.getElementById(
-    "saveEventButton"
-  ).innerText = "Add Event";
+  document.getElementById("saveEventButton").textContent =
+    "Add Event";
 
-  document.getElementById(
-    "cancelEventButton"
-  ).style.display = "none";
+  document.getElementById("saveEventButton").onclick =
+    addEvent;
+
+  document.getElementById("cancelEventButton").style.display =
+    "none";
 }
 
 
-async function deleteEvent(id, title) {
+async function deleteEvent(id) {
 
-  if (
-    !confirm(
-      "Are you sure you want to delete the event '" +
-      title +
-      "'?"
-    )
-  ) {
+  if (!confirm(
+    "Are you sure you want to delete this event?"
+  )) {
     return;
   }
 
-  const { error } = await db
-    .from("events")
-    .delete()
-    .eq("id", Number(id));
+  const { error } =
+    await db
+      .from("events")
+      .delete()
+      .eq("id", id);
 
   if (error) {
 
-    document.getElementById(
-      "eventMessage"
-    ).innerHTML = `
-      <div class="message">
-        <strong>Could not delete event.</strong><br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
+    alert(
+      "Error deleting event: " +
+      error.message
+    );
 
     return;
   }
 
-  document.getElementById(
-    "eventMessage"
-  ).innerHTML = `
-    <div class="message">
-      Event deleted successfully.
-    </div>
-  `;
+  alert("Event deleted successfully.");
 
-  await loadEvents();
+  loadEvents();
 }
 
 
 function clearEventForm() {
 
-  document.getElementById(
-    "eventTitle"
-  ).value = "";
+  document.getElementById("eventTitle").value = "";
 
-  document.getElementById(
-    "eventDate"
-  ).value = "";
+  document.getElementById("eventDate").value = "";
 
-  document.getElementById(
-    "eventTime"
-  ).value = "";
+  document.getElementById("eventLocation").value = "";
 
-  document.getElementById(
-    "eventLocation"
-  ).value = "";
-
-  document.getElementById(
-    "eventDescription"
-  ).value = "";
+  document.getElementById("eventDescription").value = "";
 }
 
 
 /* =========================
-   GENERAL FUNCTIONS
+   HELPERS
 ========================= */
 
 function readJsonValue(value) {
@@ -1933,22 +1754,27 @@ function readJsonValue(value) {
 function escapeHtml(value) {
 
   return String(value)
+
     .replace(
       /&/g,
       "&amp;"
     )
+
     .replace(
       /</g,
       "&lt;"
     )
+
     .replace(
       />/g,
       "&gt;"
     )
+
     .replace(
       /"/g,
       "&quot;"
     )
+
     .replace(
       /'/g,
       "&#039;"
@@ -1959,22 +1785,27 @@ function escapeHtml(value) {
 function escapeJs(value) {
 
   return String(value)
+
     .replace(
       /\\/g,
       "\\\\"
     )
+
     .replace(
       /'/g,
       "\\'"
     )
+
     .replace(
       /"/g,
       '\\"'
     )
+
     .replace(
       /\n/g,
       "\\n"
     )
+
     .replace(
       /\r/g,
       "\\r"
