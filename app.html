@@ -41,6 +41,7 @@
     }
 
     /* DASHBOARD */
+
     .dashboard {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -64,6 +65,7 @@
     }
 
     /* PHONE SCREEN */
+
     @media (max-width: 600px) {
       .dashboard {
         grid-template-columns: repeat(2, 1fr);
@@ -188,6 +190,8 @@
       font-weight: bold;
     }
 
+    /* DOCUMENTS */
+
     .document-upload-box {
       background: #f8fafc;
       border: 1px solid #ddd;
@@ -209,6 +213,18 @@
       color: #075aaa;
       word-break: break-word;
     }
+
+    .document-content {
+      background: #f8fafc;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 12px;
+      margin-top: 10px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 300px;
+      overflow-y: auto;
+    }
   </style>
 </head>
 
@@ -222,9 +238,11 @@
 <div class="container">
 
   <!-- DASHBOARD -->
+
   <div id="dashboardSection" class="section" style="display:block;">
 
     <div class="card">
+
       <h2>Dashboard</h2>
 
       <div class="dashboard">
@@ -254,23 +272,34 @@
         </button>
 
       </div>
+
     </div>
 
   </div>
 
 
   <!-- MEMBERS -->
+
   <div id="membersSection" class="section">
 
     <div class="card">
 
       <h2 class="section-title">Members</h2>
 
-      <input type="text" id="memberName" placeholder="Member Name">
+      <input
+        type="text"
+        id="memberName"
+        placeholder="Member Name">
 
-      <input type="text" id="memberPhone" placeholder="Phone Number">
+      <input
+        type="text"
+        id="memberPhone"
+        placeholder="Phone Number">
 
-      <input type="text" id="memberPosition" placeholder="Position">
+      <input
+        type="text"
+        id="memberPosition"
+        placeholder="Position">
 
       <button
         type="button"
@@ -303,17 +332,27 @@
 
 
   <!-- EXECUTIVE -->
+
   <div id="executiveSection" class="section">
 
     <div class="card">
 
       <h2 class="section-title">Executive</h2>
 
-      <input type="text" id="executiveName" placeholder="Name">
+      <input
+        type="text"
+        id="executiveName"
+        placeholder="Name">
 
-      <input type="text" id="executivePosition" placeholder="Position">
+      <input
+        type="text"
+        id="executivePosition"
+        placeholder="Position">
 
-      <input type="text" id="executivePhone" placeholder="Phone Number">
+      <input
+        type="text"
+        id="executivePhone"
+        placeholder="Phone Number">
 
       <button
         type="button"
@@ -346,24 +385,56 @@
 
 
   <!-- FINANCE -->
+
   <div id="financeSection" class="section">
 
     <div class="card">
 
       <h2 class="section-title">Finance</h2>
 
-      <input type="text" id="financeName" placeholder="Name">
+      <input
+        type="text"
+        id="financeName"
+        placeholder="Name">
 
       <select id="financeType">
-        <option value="">Select Transaction Type</option>
-        <option value="Registration">Registration</option>
-        <option value="Annual Contribution">Annual Contribution</option>
-        <option value="End of year Contribution">End of year Contribution</option>
-        <option value="Loan">Loan</option>
-        <option value="Loan Repayment">Loan Repayment</option>
-        <option value="Loan Interest">Loan Interest</option>
-        <option value="Welfare">Welfare</option>
-        <option value="Other">Other</option>
+
+        <option value="">
+          Select Transaction Type
+        </option>
+
+        <option value="Registration">
+          Registration
+        </option>
+
+        <option value="Annual Contribution">
+          Annual Contribution
+        </option>
+
+        <option value="End of year Contribution">
+          End of year Contribution
+        </option>
+
+        <option value="Loan">
+          Loan
+        </option>
+
+        <option value="Loan Repayment">
+          Loan Repayment
+        </option>
+
+        <option value="Loan Interest">
+          Loan Interest
+        </option>
+
+        <option value="Welfare">
+          Welfare
+        </option>
+
+        <option value="Other">
+          Other
+        </option>
+
       </select>
 
       <input
@@ -406,13 +477,16 @@
 
 
   <!-- MEETINGS -->
+
   <div id="meetingsSection" class="section">
 
     <div class="card">
 
       <h2 class="section-title">Meetings</h2>
 
-      <input type="date" id="meetingDate">
+      <input
+        type="date"
+        id="meetingDate">
 
       <input
         type="text"
@@ -455,6 +529,7 @@
 
 
   <!-- EVENTS -->
+
   <div id="eventsSection" class="section">
 
     <div class="card">
@@ -510,19 +585,53 @@
 
 
   <!-- DOCUMENTS -->
+
   <div id="documentsSection" class="section">
 
     <div class="card">
 
       <h2 class="section-title">Documents</h2>
 
+
+      <!-- CREATE DOCUMENT -->
+
+      <div class="document-upload-box">
+
+        <h3>Create Document</h3>
+
+        <p class="small-text">
+          Type a document directly in the YONA App.
+        </p>
+
+        <input
+          type="text"
+          id="typedDocumentTitle"
+          placeholder="Document Title">
+
+        <textarea
+          id="typedDocumentContent"
+          placeholder="Type your document here..."></textarea>
+
+        <button
+          type="button"
+          onclick="saveTypedDocument()">
+          Save Document
+        </button>
+
+        <div id="typedDocumentMessage"></div>
+
+      </div>
+
+
+      <!-- UPLOAD DOCUMENT -->
+
       <div class="document-upload-box">
 
         <h3>Upload Document</h3>
 
         <p class="small-text">
-          Select a PDF, Word document, Excel file, image, or other file.
-          Maximum file size: 50 MB.
+          Select a PDF, Word document, Excel file, image,
+          or other file. Maximum file size: 50 MB.
         </p>
 
         <input
@@ -539,11 +648,17 @@
 
       </div>
 
-      <h3 class="section-title">Uploaded Documents</h3>
+
+      <!-- SAVED DOCUMENTS -->
+
+      <h3 class="section-title">
+        Saved Documents
+      </h3>
 
       <div id="documentsList">
         Loading documents...
       </div>
+
 
       <button
         type="button"
@@ -575,7 +690,8 @@
   );
 
 
-  const DOCUMENT_BUCKET = "yona-documents";
+  const DOCUMENT_BUCKET =
+    "yona-documents";
 
 
   let editingMemberId = null;
@@ -588,7 +704,11 @@
   function checkDatabase() {
 
     if (!db) {
-      alert("Database connection is not available.");
+
+      alert(
+        "Database connection is not available."
+      );
+
       return false;
     }
 
@@ -598,15 +718,21 @@
 
   function readJsonValue(value) {
 
-    if (value === null || value === undefined) {
+    if (
+      value === null ||
+      value === undefined
+    ) {
       return "";
     }
 
     try {
 
-      const parsed = JSON.parse(value);
+      const parsed =
+        JSON.parse(value);
 
-      if (typeof parsed === "string") {
+      if (
+        typeof parsed === "string"
+      ) {
         return parsed;
       }
 
@@ -617,7 +743,6 @@
       return String(value);
 
     }
-
   }
 
 
@@ -629,7 +754,6 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
-
   }
 
 
@@ -641,16 +765,18 @@
       .replace(/"/g, '\\"')
       .replace(/\n/g, "\\n")
       .replace(/\r/g, "\\r");
-
   }
 
 
   function hideAllSections() {
 
-    document.querySelectorAll(".section").forEach(function(section) {
-      section.style.display = "none";
-    });
+    document
+      .querySelectorAll(".section")
+      .forEach(function(section) {
 
+        section.style.display = "none";
+
+      });
   }
 
 
@@ -658,9 +784,9 @@
 
     hideAllSections();
 
-    document.getElementById("dashboardSection").style.display =
-      "block";
-
+    document
+      .getElementById("dashboardSection")
+      .style.display = "block";
   }
 
 
@@ -668,11 +794,11 @@
 
     hideAllSections();
 
-    document.getElementById("membersSection").style.display =
-      "block";
+    document
+      .getElementById("membersSection")
+      .style.display = "block";
 
     loadMembers();
-
   }
 
 
@@ -680,11 +806,11 @@
 
     hideAllSections();
 
-    document.getElementById("executiveSection").style.display =
-      "block";
+    document
+      .getElementById("executiveSection")
+      .style.display = "block";
 
     loadExecutive();
-
   }
 
 
@@ -692,11 +818,11 @@
 
     hideAllSections();
 
-    document.getElementById("financeSection").style.display =
-      "block";
+    document
+      .getElementById("financeSection")
+      .style.display = "block";
 
     loadFinance();
-
   }
 
 
@@ -704,11 +830,11 @@
 
     hideAllSections();
 
-    document.getElementById("meetingsSection").style.display =
-      "block";
+    document
+      .getElementById("meetingsSection")
+      .style.display = "block";
 
     loadMeetings();
-
   }
 
 
@@ -716,11 +842,11 @@
 
     hideAllSections();
 
-    document.getElementById("eventsSection").style.display =
-      "block";
+    document
+      .getElementById("eventsSection")
+      .style.display = "block";
 
     loadEvents();
-
   }
 
 
@@ -728,11 +854,11 @@
 
     hideAllSections();
 
-    document.getElementById("documentsSection").style.display =
-      "block";
+    document
+      .getElementById("documentsSection")
+      .style.display = "block";
 
     loadDocuments();
-
   }
 
 
@@ -742,19 +868,24 @@
 
     if (!checkDatabase()) return;
 
-    const list = document.getElementById("membersList");
+    const list =
+      document.getElementById("membersList");
 
-    list.innerHTML = "<p>Loading members...</p>";
+    list.innerHTML =
+      "<p>Loading members...</p>";
 
     const result = await db
       .from("members")
       .select("*")
-      .order("id", { ascending: false });
+      .order("id", {
+        ascending: false
+      });
 
     if (result.error) {
 
       list.innerHTML =
-        "<p class='message error'>Error loading members: " +
+        "<p class='message error'>" +
+        "Error loading members: " +
         escapeHtml(result.error.message) +
         "</p>";
 
@@ -765,51 +896,68 @@
 
     if (!data || data.length === 0) {
 
-      list.innerHTML = "<p>No members found.</p>";
+      list.innerHTML =
+        "<p>No members found.</p>";
 
       return;
     }
 
-    list.innerHTML = data.map(function(member) {
+    list.innerHTML =
+      data.map(function(member) {
 
-      return `
-        <div class="item-card">
+        return `
+          <div class="item-card">
 
-          <h3>${escapeHtml(readJsonValue(member.name))}</h3>
+            <h3>
+              ${escapeHtml(
+                readJsonValue(member.name)
+              )}
+            </h3>
 
-          <p>
-            <strong>Phone:</strong>
-            ${escapeHtml(readJsonValue(member.phone))}
-          </p>
+            <p>
+              <strong>Phone:</strong>
+              ${escapeHtml(
+                readJsonValue(member.phone)
+              )}
+            </p>
 
-          <p>
-            <strong>Position:</strong>
-            ${escapeHtml(readJsonValue(member.position))}
-          </p>
+            <p>
+              <strong>Position:</strong>
+              ${escapeHtml(
+                readJsonValue(member.position)
+              )}
+            </p>
 
-          <button
-            type="button"
-            onclick="editMember(
-              '${escapeJs(member.id)}',
-              '${escapeJs(readJsonValue(member.name))}',
-              '${escapeJs(readJsonValue(member.phone))}',
-              '${escapeJs(readJsonValue(member.position))}'
-            )">
-            Edit
-          </button>
+            <button
+              type="button"
+              onclick="editMember(
+                '${escapeJs(member.id)}',
+                '${escapeJs(
+                  readJsonValue(member.name)
+                )}',
+                '${escapeJs(
+                  readJsonValue(member.phone)
+                )}',
+                '${escapeJs(
+                  readJsonValue(member.position)
+                )}'
+              )">
+              Edit
+            </button>
 
-          <button
-            type="button"
-            class="delete-button"
-            onclick="deleteMember('${escapeJs(member.id)}')">
-            Delete
-          </button>
+            <button
+              type="button"
+              class="delete-button"
+              onclick="deleteMember(
+                '${escapeJs(member.id)}'
+              )">
+              Delete
+            </button>
 
-        </div>
-      `;
+          </div>
+        `;
 
-    }).join("");
-
+      }).join("");
   }
 
 
@@ -818,17 +966,25 @@
     if (!checkDatabase()) return;
 
     const name =
-      document.getElementById("memberName").value.trim();
+      document.getElementById(
+        "memberName"
+      ).value.trim();
 
     const phone =
-      document.getElementById("memberPhone").value.trim();
+      document.getElementById(
+        "memberPhone"
+      ).value.trim();
 
     const position =
-      document.getElementById("memberPosition").value.trim();
+      document.getElementById(
+        "memberPosition"
+      ).value.trim();
 
     if (!name) {
 
-      alert("Please enter the member name.");
+      alert(
+        "Please enter the member name."
+      );
 
       return;
     }
@@ -846,12 +1002,17 @@
 
       if (result.error) {
 
-        alert("Could not update member: " + result.error.message);
+        alert(
+          "Could not update member: " +
+          result.error.message
+        );
 
         return;
       }
 
-      alert("Member updated successfully.");
+      alert(
+        "Member updated successfully."
+      );
 
     } else {
 
@@ -865,45 +1026,61 @@
 
       if (result.error) {
 
-        alert("Could not save member: " + result.error.message);
+        alert(
+          "Could not save member: " +
+          result.error.message
+        );
 
         return;
       }
 
-      alert("Member saved successfully.");
-
+      alert(
+        "Member saved successfully."
+      );
     }
 
     clearMemberForm();
 
     await loadMembers();
-
   }
 
 
-  function editMember(id, name, phone, position) {
+  function editMember(
+    id,
+    name,
+    phone,
+    position
+  ) {
 
     editingMemberId = id;
 
-    document.getElementById("memberName").value = name;
+    document.getElementById(
+      "memberName"
+    ).value = name;
 
-    document.getElementById("memberPhone").value = phone;
+    document.getElementById(
+      "memberPhone"
+    ).value = phone;
 
-    document.getElementById("memberPosition").value = position;
+    document.getElementById(
+      "memberPosition"
+    ).value = position;
 
-    document.getElementById("saveMemberButton").textContent =
+    document.getElementById(
+      "saveMemberButton"
+    ).textContent =
       "Update Member";
 
-    document.getElementById("cancelMemberButton").style.display =
+    document.getElementById(
+      "cancelMemberButton"
+    ).style.display =
       "inline-block";
-
   }
 
 
   function cancelMemberEdit() {
 
     clearMemberForm();
-
   }
 
 
@@ -911,24 +1088,37 @@
 
     editingMemberId = null;
 
-    document.getElementById("memberName").value = "";
+    document.getElementById(
+      "memberName"
+    ).value = "";
 
-    document.getElementById("memberPhone").value = "";
+    document.getElementById(
+      "memberPhone"
+    ).value = "";
 
-    document.getElementById("memberPosition").value = "";
+    document.getElementById(
+      "memberPosition"
+    ).value = "";
 
-    document.getElementById("saveMemberButton").textContent =
+    document.getElementById(
+      "saveMemberButton"
+    ).textContent =
       "Add Member";
 
-    document.getElementById("cancelMemberButton").style.display =
+    document.getElementById(
+      "cancelMemberButton"
+    ).style.display =
       "none";
-
   }
 
 
   async function deleteMember(id) {
 
-    if (!confirm("Are you sure you want to delete this member?")) {
+    if (
+      !confirm(
+        "Are you sure you want to delete this member?"
+      )
+    ) {
       return;
     }
 
@@ -939,13 +1129,15 @@
 
     if (result.error) {
 
-      alert("Could not delete member: " + result.error.message);
+      alert(
+        "Could not delete member: " +
+        result.error.message
+      );
 
       return;
     }
 
     await loadMembers();
-
   }
 
 
@@ -955,19 +1147,26 @@
 
     if (!checkDatabase()) return;
 
-    const list = document.getElementById("executiveList");
+    const list =
+      document.getElementById(
+        "executiveList"
+      );
 
-    list.innerHTML = "<p>Loading executive...</p>";
+    list.innerHTML =
+      "<p>Loading executive...</p>";
 
     const result = await db
       .from("executive")
       .select("*")
-      .order("id", { ascending: false });
+      .order("id", {
+        ascending: false
+      });
 
     if (result.error) {
 
       list.innerHTML =
-        "<p class='message error'>Error loading executive: " +
+        "<p class='message error'>" +
+        "Error loading executive: " +
         escapeHtml(result.error.message) +
         "</p>";
 
@@ -978,51 +1177,68 @@
 
     if (!data || data.length === 0) {
 
-      list.innerHTML = "<p>No executive records found.</p>";
+      list.innerHTML =
+        "<p>No executive records found.</p>";
 
       return;
     }
 
-    list.innerHTML = data.map(function(item) {
+    list.innerHTML =
+      data.map(function(item) {
 
-      return `
-        <div class="item-card">
+        return `
+          <div class="item-card">
 
-          <h3>${escapeHtml(readJsonValue(item.name))}</h3>
+            <h3>
+              ${escapeHtml(
+                readJsonValue(item.name)
+              )}
+            </h3>
 
-          <p>
-            <strong>Position:</strong>
-            ${escapeHtml(readJsonValue(item.position))}
-          </p>
+            <p>
+              <strong>Position:</strong>
+              ${escapeHtml(
+                readJsonValue(item.position)
+              )}
+            </p>
 
-          <p>
-            <strong>Phone:</strong>
-            ${escapeHtml(readJsonValue(item.phone))}
-          </p>
+            <p>
+              <strong>Phone:</strong>
+              ${escapeHtml(
+                readJsonValue(item.phone)
+              )}
+            </p>
 
-          <button
-            type="button"
-            onclick="editExecutive(
-              '${escapeJs(item.id)}',
-              '${escapeJs(readJsonValue(item.name))}',
-              '${escapeJs(readJsonValue(item.position))}',
-              '${escapeJs(readJsonValue(item.phone))}'
-            )">
-            Edit
-          </button>
+            <button
+              type="button"
+              onclick="editExecutive(
+                '${escapeJs(item.id)}',
+                '${escapeJs(
+                  readJsonValue(item.name)
+                )}',
+                '${escapeJs(
+                  readJsonValue(item.position)
+                )}',
+                '${escapeJs(
+                  readJsonValue(item.phone)
+                )}'
+              )">
+              Edit
+            </button>
 
-          <button
-            type="button"
-            class="delete-button"
-            onclick="deleteExecutive('${escapeJs(item.id)}')">
-            Delete
-          </button>
+            <button
+              type="button"
+              class="delete-button"
+              onclick="deleteExecutive(
+                '${escapeJs(item.id)}'
+              )">
+              Delete
+            </button>
 
-        </div>
-      `;
+          </div>
+        `;
 
-    }).join("");
-
+      }).join("");
   }
 
 
@@ -1031,13 +1247,19 @@
     if (!checkDatabase()) return;
 
     const name =
-      document.getElementById("executiveName").value.trim();
+      document.getElementById(
+        "executiveName"
+      ).value.trim();
 
     const position =
-      document.getElementById("executivePosition").value.trim();
+      document.getElementById(
+        "executivePosition"
+      ).value.trim();
 
     const phone =
-      document.getElementById("executivePhone").value.trim();
+      document.getElementById(
+        "executivePhone"
+      ).value.trim();
 
     if (!name) {
 
@@ -1059,12 +1281,17 @@
 
       if (result.error) {
 
-        alert("Could not update executive: " + result.error.message);
+        alert(
+          "Could not update executive: " +
+          result.error.message
+        );
 
         return;
       }
 
-      alert("Executive updated successfully.");
+      alert(
+        "Executive updated successfully."
+      );
 
     } else {
 
@@ -1078,45 +1305,61 @@
 
       if (result.error) {
 
-        alert("Could not save executive: " + result.error.message);
+        alert(
+          "Could not save executive: " +
+          result.error.message
+        );
 
         return;
       }
 
-      alert("Executive saved successfully.");
-
+      alert(
+        "Executive saved successfully."
+      );
     }
 
     clearExecutiveForm();
 
     await loadExecutive();
-
   }
 
 
-  function editExecutive(id, name, position, phone) {
+  function editExecutive(
+    id,
+    name,
+    position,
+    phone
+  ) {
 
     editingExecutiveId = id;
 
-    document.getElementById("executiveName").value = name;
+    document.getElementById(
+      "executiveName"
+    ).value = name;
 
-    document.getElementById("executivePosition").value = position;
+    document.getElementById(
+      "executivePosition"
+    ).value = position;
 
-    document.getElementById("executivePhone").value = phone;
+    document.getElementById(
+      "executivePhone"
+    ).value = phone;
 
-    document.getElementById("saveExecutiveButton").textContent =
+    document.getElementById(
+      "saveExecutiveButton"
+    ).textContent =
       "Update Executive";
 
-    document.getElementById("cancelExecutiveButton").style.display =
+    document.getElementById(
+      "cancelExecutiveButton"
+    ).style.display =
       "inline-block";
-
   }
 
 
   function cancelExecutiveEdit() {
 
     clearExecutiveForm();
-
   }
 
 
@@ -1124,24 +1367,37 @@
 
     editingExecutiveId = null;
 
-    document.getElementById("executiveName").value = "";
+    document.getElementById(
+      "executiveName"
+    ).value = "";
 
-    document.getElementById("executivePosition").value = "";
+    document.getElementById(
+      "executivePosition"
+    ).value = "";
 
-    document.getElementById("executivePhone").value = "";
+    document.getElementById(
+      "executivePhone"
+    ).value = "";
 
-    document.getElementById("saveExecutiveButton").textContent =
+    document.getElementById(
+      "saveExecutiveButton"
+    ).textContent =
       "Add Executive";
 
-    document.getElementById("cancelExecutiveButton").style.display =
+    document.getElementById(
+      "cancelExecutiveButton"
+    ).style.display =
       "none";
-
   }
 
 
   async function deleteExecutive(id) {
 
-    if (!confirm("Are you sure you want to delete this executive record?")) {
+    if (
+      !confirm(
+        "Are you sure you want to delete this executive record?"
+      )
+    ) {
       return;
     }
 
@@ -1152,13 +1408,15 @@
 
     if (result.error) {
 
-      alert("Could not delete executive: " + result.error.message);
+      alert(
+        "Could not delete executive: " +
+        result.error.message
+      );
 
       return;
     }
 
     await loadExecutive();
-
   }
 
 
@@ -1168,19 +1426,26 @@
 
     if (!checkDatabase()) return;
 
-    const list = document.getElementById("financeList");
+    const list =
+      document.getElementById(
+        "financeList"
+      );
 
-    list.innerHTML = "<p>Loading finance records...</p>";
+    list.innerHTML =
+      "<p>Loading finance records...</p>";
 
     const result = await db
       .from("finance")
       .select("*")
-      .order("id", { ascending: false });
+      .order("id", {
+        ascending: false
+      });
 
     if (result.error) {
 
       list.innerHTML =
-        "<p class='message error'>Error loading finance: " +
+        "<p class='message error'>" +
+        "Error loading finance: " +
         escapeHtml(result.error.message) +
         "</p>";
 
@@ -1191,59 +1456,80 @@
 
     if (!data || data.length === 0) {
 
-      list.innerHTML = "<p>No finance records found.</p>";
+      list.innerHTML =
+        "<p>No finance records found.</p>";
 
       return;
     }
 
-    list.innerHTML = data.map(function(item) {
+    list.innerHTML =
+      data.map(function(item) {
 
-      return `
-        <div class="item-card">
+        return `
+          <div class="item-card">
 
-          <h3>${escapeHtml(readJsonValue(item.name))}</h3>
+            <h3>
+              ${escapeHtml(
+                readJsonValue(item.name)
+              )}
+            </h3>
 
-          <p>
-            <strong>Type:</strong>
-            ${escapeHtml(readJsonValue(item.type))}
-          </p>
+            <p>
+              <strong>Type:</strong>
+              ${escapeHtml(
+                readJsonValue(item.type)
+              )}
+            </p>
 
-          <p>
-            <strong>Amount:</strong>
-            <span class="amount">
-              ${escapeHtml(readJsonValue(item.amount))}
-            </span>
-          </p>
+            <p>
+              <strong>Amount:</strong>
+              <span class="amount">
+                ${escapeHtml(
+                  readJsonValue(item.amount)
+                )}
+              </span>
+            </p>
 
-          <p>
-            <strong>Description:</strong>
-            ${escapeHtml(readJsonValue(item.description))}
-          </p>
+            <p>
+              <strong>Description:</strong>
+              ${escapeHtml(
+                readJsonValue(item.description)
+              )}
+            </p>
 
-          <button
-            type="button"
-            onclick="editFinance(
-              '${escapeJs(item.id)}',
-              '${escapeJs(readJsonValue(item.name))}',
-              '${escapeJs(readJsonValue(item.type))}',
-              '${escapeJs(readJsonValue(item.amount))}',
-              '${escapeJs(readJsonValue(item.description))}'
-            )">
-            Edit
-          </button>
+            <button
+              type="button"
+              onclick="editFinance(
+                '${escapeJs(item.id)}',
+                '${escapeJs(
+                  readJsonValue(item.name)
+                )}',
+                '${escapeJs(
+                  readJsonValue(item.type)
+                )}',
+                '${escapeJs(
+                  readJsonValue(item.amount)
+                )}',
+                '${escapeJs(
+                  readJsonValue(item.description)
+                )}'
+              )">
+              Edit
+            </button>
 
-          <button
-            type="button"
-            class="delete-button"
-            onclick="deleteFinance('${escapeJs(item.id)}')">
-            Delete
-          </button>
+            <button
+              type="button"
+              class="delete-button"
+              onclick="deleteFinance(
+                '${escapeJs(item.id)}'
+              )">
+              Delete
+            </button>
 
-        </div>
-      `;
+          </div>
+        `;
 
-    }).join("");
-
+      }).join("");
   }
 
 
@@ -1252,16 +1538,24 @@
     if (!checkDatabase()) return;
 
     const name =
-      document.getElementById("financeName").value.trim();
+      document.getElementById(
+        "financeName"
+      ).value.trim();
 
     const type =
-      document.getElementById("financeType").value;
+      document.getElementById(
+        "financeType"
+      ).value;
 
     const amount =
-      document.getElementById("financeAmount").value.trim();
+      document.getElementById(
+        "financeAmount"
+      ).value.trim();
 
     const description =
-      document.getElementById("financeDescription").value.trim();
+      document.getElementById(
+        "financeDescription"
+      ).value.trim();
 
     if (!name) {
 
@@ -1272,24 +1566,34 @@
 
     if (!type) {
 
-      alert("Please select a transaction type.");
+      alert(
+        "Please select a transaction type."
+      );
 
       return;
     }
 
     if (!amount) {
 
-      alert("Please enter the amount.");
+      alert(
+        "Please enter the amount."
+      );
 
       return;
     }
 
     const record = {
+
       name: JSON.stringify(name),
+
       type: JSON.stringify(type),
+
       amount: JSON.stringify(amount),
-      description: JSON.stringify(description)
+
+      description:
+        JSON.stringify(description)
     };
+
 
     if (editingFinanceId) {
 
@@ -1300,13 +1604,17 @@
 
       if (result.error) {
 
-        alert("Could not update finance record: " +
-          result.error.message);
+        alert(
+          "Could not update finance record: " +
+          result.error.message
+        );
 
         return;
       }
 
-      alert("Finance record updated successfully.");
+      alert(
+        "Finance record updated successfully."
+      );
 
     } else {
 
@@ -1316,20 +1624,22 @@
 
       if (result.error) {
 
-        alert("Could not save finance record: " +
-          result.error.message);
+        alert(
+          "Could not save finance record: " +
+          result.error.message
+        );
 
         return;
       }
 
-      alert("Finance record saved successfully.");
-
+      alert(
+        "Finance record saved successfully."
+      );
     }
 
     clearFinanceForm();
 
     await loadFinance();
-
   }
 
 
@@ -1343,28 +1653,38 @@
 
     editingFinanceId = id;
 
-    document.getElementById("financeName").value = name;
+    document.getElementById(
+      "financeName"
+    ).value = name;
 
-    document.getElementById("financeType").value = type;
+    document.getElementById(
+      "financeType"
+    ).value = type;
 
-    document.getElementById("financeAmount").value = amount;
+    document.getElementById(
+      "financeAmount"
+    ).value = amount;
 
-    document.getElementById("financeDescription").value =
+    document.getElementById(
+      "financeDescription"
+    ).value =
       description;
 
-    document.getElementById("saveFinanceButton").textContent =
+    document.getElementById(
+      "saveFinanceButton"
+    ).textContent =
       "Update Transaction";
 
-    document.getElementById("cancelFinanceButton").style.display =
+    document.getElementById(
+      "cancelFinanceButton"
+    ).style.display =
       "inline-block";
-
   }
 
 
   function cancelFinanceEdit() {
 
     clearFinanceForm();
-
   }
 
 
@@ -1372,26 +1692,41 @@
 
     editingFinanceId = null;
 
-    document.getElementById("financeName").value = "";
+    document.getElementById(
+      "financeName"
+    ).value = "";
 
-    document.getElementById("financeType").value = "";
+    document.getElementById(
+      "financeType"
+    ).value = "";
 
-    document.getElementById("financeAmount").value = "";
+    document.getElementById(
+      "financeAmount"
+    ).value = "";
 
-    document.getElementById("financeDescription").value = "";
+    document.getElementById(
+      "financeDescription"
+    ).value = "";
 
-    document.getElementById("saveFinanceButton").textContent =
+    document.getElementById(
+      "saveFinanceButton"
+    ).textContent =
       "Add Transaction";
 
-    document.getElementById("cancelFinanceButton").style.display =
+    document.getElementById(
+      "cancelFinanceButton"
+    ).style.display =
       "none";
-
   }
 
 
   async function deleteFinance(id) {
 
-    if (!confirm("Are you sure you want to delete this finance record?")) {
+    if (
+      !confirm(
+        "Are you sure you want to delete this finance record?"
+      )
+    ) {
       return;
     }
 
@@ -1402,14 +1737,15 @@
 
     if (result.error) {
 
-      alert("Could not delete finance record: " +
-        result.error.message);
+      alert(
+        "Could not delete finance record: " +
+        result.error.message
+      );
 
       return;
     }
 
     await loadFinance();
-
   }
 
 
@@ -1419,19 +1755,26 @@
 
     if (!checkDatabase()) return;
 
-    const list = document.getElementById("meetingsList");
+    const list =
+      document.getElementById(
+        "meetingsList"
+      );
 
-    list.innerHTML = "<p>Loading meetings...</p>";
+    list.innerHTML =
+      "<p>Loading meetings...</p>";
 
     const result = await db
       .from("meetings")
       .select("*")
-      .order("meeting_date", { ascending: false });
+      .order("meeting_date", {
+        ascending: false
+      });
 
     if (result.error) {
 
       list.innerHTML =
-        "<p class='message error'>Error loading meetings: " +
+        "<p class='message error'>" +
+        "Error loading meetings: " +
         escapeHtml(result.error.message) +
         "</p>";
 
@@ -1442,53 +1785,78 @@
 
     if (!data || data.length === 0) {
 
-      list.innerHTML = "<p>No meetings found.</p>";
+      list.innerHTML =
+        "<p>No meetings found.</p>";
 
       return;
     }
 
-    list.innerHTML = data.map(function(meeting) {
+    list.innerHTML =
+      data.map(function(meeting) {
 
-      return `
-        <div class="meeting-card">
+        return `
+          <div class="meeting-card">
 
-          <h3>
-            ${escapeHtml(meeting.meeting_title || "")}
-          </h3>
+            <h3>
+              ${escapeHtml(
+                meeting.meeting_title || ""
+              )}
+            </h3>
 
-          <p class="meeting-date">
-            <strong>Meeting Date:</strong>
-            ${escapeHtml(meeting.meeting_date || "")}
-          </p>
+            <p class="meeting-date">
 
-          <p>
-            <strong>Location:</strong>
-            ${escapeHtml(meeting.location || "")}
-          </p>
+              <strong>
+                Meeting Date:
+              </strong>
 
-          <button
-            type="button"
-            onclick="editMeeting(
-              '${escapeJs(meeting.id)}',
-              '${escapeJs(meeting.meeting_date || "")}',
-              '${escapeJs(meeting.meeting_title || "")}',
-              '${escapeJs(meeting.location || "")}'
-            )">
-            Edit
-          </button>
+              ${escapeHtml(
+                meeting.meeting_date || ""
+              )}
 
-          <button
-            type="button"
-            class="delete-button"
-            onclick="deleteMeeting('${escapeJs(meeting.id)}')">
-            Delete
-          </button>
+            </p>
 
-        </div>
-      `;
+            <p>
 
-    }).join("");
+              <strong>
+                Location:
+              </strong>
 
+              ${escapeHtml(
+                meeting.location || ""
+              )}
+
+            </p>
+
+            <button
+              type="button"
+              onclick="editMeeting(
+                '${escapeJs(meeting.id)}',
+                '${escapeJs(
+                  meeting.meeting_date || ""
+                )}',
+                '${escapeJs(
+                  meeting.meeting_title || ""
+                )}',
+                '${escapeJs(
+                  meeting.location || ""
+                )}'
+              )">
+              Edit
+            </button>
+
+            <button
+              type="button"
+              class="delete-button"
+              onclick="deleteMeeting(
+                '${escapeJs(meeting.id)}'
+              )">
+              Delete
+            </button>
+
+          </div>
+        `;
+
+      }).join("");
   }
 
 
@@ -1497,33 +1865,50 @@
     if (!checkDatabase()) return;
 
     const meetingDate =
-      document.getElementById("meetingDate").value;
+      document.getElementById(
+        "meetingDate"
+      ).value;
 
     const meetingTitle =
-      document.getElementById("meetingTitle").value.trim();
+      document.getElementById(
+        "meetingTitle"
+      ).value.trim();
 
     const meetingLocation =
-      document.getElementById("meetingLocation").value.trim();
+      document.getElementById(
+        "meetingLocation"
+      ).value.trim();
 
     if (!meetingDate) {
 
-      alert("Please select the meeting date.");
+      alert(
+        "Please select the meeting date."
+      );
 
       return;
     }
 
     if (!meetingTitle) {
 
-      alert("Please enter the meeting title.");
+      alert(
+        "Please enter the meeting title."
+      );
 
       return;
     }
 
     const record = {
-      meeting_date: meetingDate,
-      meeting_title: meetingTitle,
-      location: meetingLocation
+
+      meeting_date:
+        meetingDate,
+
+      meeting_title:
+        meetingTitle,
+
+      location:
+        meetingLocation
     };
+
 
     if (editingMeetingId) {
 
@@ -1534,13 +1919,17 @@
 
       if (result.error) {
 
-        alert("Could not update meeting: " +
-          result.error.message);
+        alert(
+          "Could not update meeting: " +
+          result.error.message
+        );
 
         return;
       }
 
-      alert("Meeting updated successfully.");
+      alert(
+        "Meeting updated successfully."
+      );
 
     } else {
 
@@ -1550,20 +1939,22 @@
 
       if (result.error) {
 
-        alert("Could not save meeting: " +
-          result.error.message);
+        alert(
+          "Could not save meeting: " +
+          result.error.message
+        );
 
         return;
       }
 
-      alert("Meeting saved successfully.");
-
+      alert(
+        "Meeting saved successfully."
+      );
     }
 
     clearMeetingForm();
 
     await loadMeetings();
-
   }
 
 
@@ -1576,28 +1967,36 @@
 
     editingMeetingId = id;
 
-    document.getElementById("meetingDate").value =
+    document.getElementById(
+      "meetingDate"
+    ).value =
       meetingDate;
 
-    document.getElementById("meetingTitle").value =
+    document.getElementById(
+      "meetingTitle"
+    ).value =
       meetingTitle;
 
-    document.getElementById("meetingLocation").value =
+    document.getElementById(
+      "meetingLocation"
+    ).value =
       location;
 
-    document.getElementById("saveMeetingButton").textContent =
+    document.getElementById(
+      "saveMeetingButton"
+    ).textContent =
       "Update Meeting";
 
-    document.getElementById("cancelMeetingButton").style.display =
+    document.getElementById(
+      "cancelMeetingButton"
+    ).style.display =
       "inline-block";
-
   }
 
 
   function cancelMeetingEdit() {
 
     clearMeetingForm();
-
   }
 
 
@@ -1605,24 +2004,37 @@
 
     editingMeetingId = null;
 
-    document.getElementById("meetingDate").value = "";
+    document.getElementById(
+      "meetingDate"
+    ).value = "";
 
-    document.getElementById("meetingTitle").value = "";
+    document.getElementById(
+      "meetingTitle"
+    ).value = "";
 
-    document.getElementById("meetingLocation").value = "";
+    document.getElementById(
+      "meetingLocation"
+    ).value = "";
 
-    document.getElementById("saveMeetingButton").textContent =
+    document.getElementById(
+      "saveMeetingButton"
+    ).textContent =
       "Add Meeting";
 
-    document.getElementById("cancelMeetingButton").style.display =
+    document.getElementById(
+      "cancelMeetingButton"
+    ).style.display =
       "none";
-
   }
 
 
   async function deleteMeeting(id) {
 
-    if (!confirm("Are you sure you want to delete this meeting?")) {
+    if (
+      !confirm(
+        "Are you sure you want to delete this meeting?"
+      )
+    ) {
       return;
     }
 
@@ -1633,14 +2045,15 @@
 
     if (result.error) {
 
-      alert("Could not delete meeting: " +
-        result.error.message);
+      alert(
+        "Could not delete meeting: " +
+        result.error.message
+      );
 
       return;
     }
 
     await loadMeetings();
-
   }
 
 
@@ -1650,19 +2063,26 @@
 
     if (!checkDatabase()) return;
 
-    const list = document.getElementById("eventsList");
+    const list =
+      document.getElementById(
+        "eventsList"
+      );
 
-    list.innerHTML = "<p>Loading events...</p>";
+    list.innerHTML =
+      "<p>Loading events...</p>";
 
     const result = await db
       .from("events")
       .select("*")
-      .order("date", { ascending: false });
+      .order("date", {
+        ascending: false
+      });
 
     if (result.error) {
 
       list.innerHTML =
-        "<p class='message error'>Error loading events: " +
+        "<p class='message error'>" +
+        "Error loading events: " +
         escapeHtml(result.error.message) +
         "</p>";
 
@@ -1673,59 +2093,93 @@
 
     if (!data || data.length === 0) {
 
-      list.innerHTML = "<p>No events found.</p>";
+      list.innerHTML =
+        "<p>No events found.</p>";
 
       return;
     }
 
-    list.innerHTML = data.map(function(event) {
+    list.innerHTML =
+      data.map(function(event) {
 
-      return `
-        <div class="event-card">
+        return `
+          <div class="event-card">
 
-          <h3>
-            ${escapeHtml(event.title || "")}
-          </h3>
+            <h3>
+              ${escapeHtml(
+                event.title || ""
+              )}
+            </h3>
 
-          <p class="event-date">
-            <strong>Date:</strong>
-            ${escapeHtml(event.date || "")}
-          </p>
+            <p class="event-date">
 
-          <p>
-            <strong>Location:</strong>
-            ${escapeHtml(event.location || "")}
-          </p>
+              <strong>
+                Date:
+              </strong>
 
-          <p>
-            <strong>Description:</strong>
-            ${escapeHtml(event.description || "")}
-          </p>
+              ${escapeHtml(
+                event.date || ""
+              )}
 
-          <button
-            type="button"
-            onclick="editEvent(
-              '${escapeJs(event.id)}',
-              '${escapeJs(event.title || "")}',
-              '${escapeJs(event.date || "")}',
-              '${escapeJs(event.location || "")}',
-              '${escapeJs(event.description || "")}'
-            )">
-            Edit
-          </button>
+            </p>
 
-          <button
-            type="button"
-            class="delete-button"
-            onclick="deleteEvent('${escapeJs(event.id)}')">
-            Delete
-          </button>
+            <p>
 
-        </div>
-      `;
+              <strong>
+                Location:
+              </strong>
 
-    }).join("");
+              ${escapeHtml(
+                event.location || ""
+              )}
 
+            </p>
+
+            <p>
+
+              <strong>
+                Description:
+              </strong>
+
+              ${escapeHtml(
+                event.description || ""
+              )}
+
+            </p>
+
+            <button
+              type="button"
+              onclick="editEvent(
+                '${escapeJs(event.id)}',
+                '${escapeJs(
+                  event.title || ""
+                )}',
+                '${escapeJs(
+                  event.date || ""
+                )}',
+                '${escapeJs(
+                  event.location || ""
+                )}',
+                '${escapeJs(
+                  event.description || ""
+                )}'
+              )">
+              Edit
+            </button>
+
+            <button
+              type="button"
+              class="delete-button"
+              onclick="deleteEvent(
+                '${escapeJs(event.id)}'
+              )">
+              Delete
+            </button>
+
+          </div>
+        `;
+
+      }).join("");
   }
 
 
@@ -1734,37 +2188,58 @@
     if (!checkDatabase()) return;
 
     const title =
-      document.getElementById("eventTitle").value.trim();
+      document.getElementById(
+        "eventTitle"
+      ).value.trim();
 
     const date =
-      document.getElementById("eventDate").value;
+      document.getElementById(
+        "eventDate"
+      ).value;
 
     const location =
-      document.getElementById("eventLocation").value.trim();
+      document.getElementById(
+        "eventLocation"
+      ).value.trim();
 
     const description =
-      document.getElementById("eventDescription").value.trim();
+      document.getElementById(
+        "eventDescription"
+      ).value.trim();
 
     if (!title) {
 
-      alert("Please enter the event title.");
+      alert(
+        "Please enter the event title."
+      );
 
       return;
     }
 
     if (!date) {
 
-      alert("Please select the event date.");
+      alert(
+        "Please select the event date."
+      );
 
       return;
     }
 
     const record = {
-      title: title,
-      date: date,
-      location: location,
-      description: description
+
+      title:
+        title,
+
+      date:
+        date,
+
+      location:
+        location,
+
+      description:
+        description
     };
+
 
     if (editingEventId) {
 
@@ -1775,13 +2250,17 @@
 
       if (result.error) {
 
-        alert("Could not update event: " +
-          result.error.message);
+        alert(
+          "Could not update event: " +
+          result.error.message
+        );
 
         return;
       }
 
-      alert("Event updated successfully.");
+      alert(
+        "Event updated successfully."
+      );
 
     } else {
 
@@ -1791,20 +2270,22 @@
 
       if (result.error) {
 
-        alert("Could not save event: " +
-          result.error.message);
+        alert(
+          "Could not save event: " +
+          result.error.message
+        );
 
         return;
       }
 
-      alert("Event saved successfully.");
-
+      alert(
+        "Event saved successfully."
+      );
     }
 
     clearEventForm();
 
     await loadEvents();
-
   }
 
 
@@ -1818,31 +2299,41 @@
 
     editingEventId = id;
 
-    document.getElementById("eventTitle").value =
+    document.getElementById(
+      "eventTitle"
+    ).value =
       title;
 
-    document.getElementById("eventDate").value =
+    document.getElementById(
+      "eventDate"
+    ).value =
       date;
 
-    document.getElementById("eventLocation").value =
+    document.getElementById(
+      "eventLocation"
+    ).value =
       location;
 
-    document.getElementById("eventDescription").value =
+    document.getElementById(
+      "eventDescription"
+    ).value =
       description;
 
-    document.getElementById("saveEventButton").textContent =
+    document.getElementById(
+      "saveEventButton"
+    ).textContent =
       "Update Event";
 
-    document.getElementById("cancelEventButton").style.display =
+    document.getElementById(
+      "cancelEventButton"
+    ).style.display =
       "inline-block";
-
   }
 
 
   function cancelEventEdit() {
 
     clearEventForm();
-
   }
 
 
@@ -1850,26 +2341,41 @@
 
     editingEventId = null;
 
-    document.getElementById("eventTitle").value = "";
+    document.getElementById(
+      "eventTitle"
+    ).value = "";
 
-    document.getElementById("eventDate").value = "";
+    document.getElementById(
+      "eventDate"
+    ).value = "";
 
-    document.getElementById("eventLocation").value = "";
+    document.getElementById(
+      "eventLocation"
+    ).value = "";
 
-    document.getElementById("eventDescription").value = "";
+    document.getElementById(
+      "eventDescription"
+    ).value = "";
 
-    document.getElementById("saveEventButton").textContent =
+    document.getElementById(
+      "saveEventButton"
+    ).textContent =
       "Add Event";
 
-    document.getElementById("cancelEventButton").style.display =
+    document.getElementById(
+      "cancelEventButton"
+    ).style.display =
       "none";
-
   }
 
 
   async function deleteEvent(id) {
 
-    if (!confirm("Are you sure you want to delete this event?")) {
+    if (
+      !confirm(
+        "Are you sure you want to delete this event?"
+      )
+    ) {
       return;
     }
 
@@ -1880,155 +2386,382 @@
 
     if (result.error) {
 
-      alert("Could not delete event: " +
-        result.error.message);
+      alert(
+        "Could not delete event: " +
+        result.error.message
+      );
 
       return;
     }
 
     await loadEvents();
-
   }
 
 
   /* DOCUMENTS */
 
+
   async function loadDocuments() {
 
-    const list = document.getElementById("documentsList");
+    const list =
+      document.getElementById(
+        "documentsList"
+      );
 
-    list.innerHTML = "<p>Loading documents...</p>";
+    list.innerHTML =
+      "<p>Loading documents...</p>";
 
     const result = await db.storage
       .from(DOCUMENT_BUCKET)
       .list("", {
+
         limit: 100,
+
         sortBy: {
           column: "created_at",
           order: "desc"
         }
+
       });
+
 
     if (result.error) {
 
       list.innerHTML =
-        "<p class='message error'>Error loading documents: " +
-        escapeHtml(result.error.message) +
+        "<p class='message error'>" +
+        "Error loading documents: " +
+        escapeHtml(
+          result.error.message
+        ) +
         "</p>";
 
       return;
     }
 
-    const files = result.data;
+
+    const files =
+      result.data;
+
 
     if (!files || files.length === 0) {
 
-      list.innerHTML = "<p>No documents uploaded yet.</p>";
+      list.innerHTML =
+        "<p>No documents uploaded yet.</p>";
 
       return;
     }
 
-    list.innerHTML = files.map(function(file) {
 
-      const fileName = file.name;
+    list.innerHTML =
+      files.map(function(file) {
 
-      return `
-        <div class="document-file">
+        const fileName =
+          file.name;
 
-          <div class="document-file-name">
-            ${escapeHtml(fileName)}
+        const isTypedDocument =
+          fileName.toLowerCase().endsWith(
+            ".txt"
+          );
+
+
+        return `
+
+          <div class="document-file">
+
+            <div class="document-file-name">
+
+              ${escapeHtml(
+                fileName
+              )}
+
+            </div>
+
+
+            <p class="small-text">
+
+              ${
+                isTypedDocument
+                  ? "Typed document"
+                  : "Uploaded document"
+              }
+
+            </p>
+
+
+            <button
+              type="button"
+              onclick="openDocument(
+                '${escapeJs(fileName)}'
+              )">
+
+              Open / Download
+
+            </button>
+
+
+            <button
+              type="button"
+              class="delete-button"
+              onclick="deleteDocument(
+                '${escapeJs(fileName)}'
+              )">
+
+              Delete
+
+            </button>
+
           </div>
 
-          <p class="small-text">
-            Uploaded document
-          </p>
+        `;
 
-          <button
-            type="button"
-            onclick="openDocument('${escapeJs(fileName)}')">
-            Open / Download
-          </button>
-
-          <button
-            type="button"
-            class="delete-button"
-            onclick="deleteDocument('${escapeJs(fileName)}')">
-            Delete
-          </button>
-
-        </div>
-      `;
-
-    }).join("");
-
+      }).join("");
   }
+
+
+  /* UPLOAD FILE */
 
 
   async function uploadDocument() {
 
     const fileInput =
-      document.getElementById("documentFile");
+      document.getElementById(
+        "documentFile"
+      );
 
     const message =
-      document.getElementById("documentMessage");
+      document.getElementById(
+        "documentMessage"
+      );
 
-    const file = fileInput.files[0];
+    const file =
+      fileInput.files[0];
+
 
     if (!file) {
 
-      alert("Please select a document first.");
+      alert(
+        "Please select a document first."
+      );
 
       return;
     }
 
-    if (file.size > 50 * 1024 * 1024) {
 
-      alert("The file is larger than the 50 MB limit.");
+    if (
+      file.size >
+      50 * 1024 * 1024
+    ) {
+
+      alert(
+        "The file is larger than the 50 MB limit."
+      );
 
       return;
     }
+
 
     message.innerHTML =
-      "<p class='message'>Uploading document...</p>";
+      "<p class='message'>" +
+      "Uploading document..." +
+      "</p>";
+
 
     const safeFileName =
-      file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+      file.name.replace(
+        /[^a-zA-Z0-9._-]/g,
+        "_"
+      );
+
 
     const filePath =
-      Date.now() + "_" + safeFileName;
+      Date.now() +
+      "_" +
+      safeFileName;
 
-    const result = await db.storage
-      .from(DOCUMENT_BUCKET)
-      .upload(filePath, file, {
-        cacheControl: "3600",
-        upsert: false
-      });
+
+    const result =
+      await db.storage
+        .from(DOCUMENT_BUCKET)
+        .upload(
+          filePath,
+          file,
+          {
+            cacheControl: "3600",
+            upsert: false
+          }
+        );
+
 
     if (result.error) {
 
       message.innerHTML =
-        "<p class='message error'>Upload failed: " +
-        escapeHtml(result.error.message) +
+        "<p class='message error'>" +
+        "Upload failed: " +
+        escapeHtml(
+          result.error.message
+        ) +
         "</p>";
 
       return;
     }
 
+
     message.innerHTML =
-      "<p class='message success'>Document uploaded successfully.</p>";
+      "<p class='message success'>" +
+      "Document uploaded successfully." +
+      "</p>";
+
 
     fileInput.value = "";
 
-    await loadDocuments();
 
+    await loadDocuments();
   }
 
 
-  async function openDocument(fileName) {
+  /* CREATE TYPED DOCUMENT */
 
-    const result = await db.storage
-      .from(DOCUMENT_BUCKET)
-      .createSignedUrl(fileName, 3600);
+
+  async function saveTypedDocument() {
+
+    const titleInput =
+      document.getElementById(
+        "typedDocumentTitle"
+      );
+
+    const contentInput =
+      document.getElementById(
+        "typedDocumentContent"
+      );
+
+    const message =
+      document.getElementById(
+        "typedDocumentMessage"
+      );
+
+
+    const title =
+      titleInput.value.trim();
+
+    const content =
+      contentInput.value.trim();
+
+
+    if (!title) {
+
+      alert(
+        "Please enter the document title."
+      );
+
+      return;
+    }
+
+
+    if (!content) {
+
+      alert(
+        "Please type the document content."
+      );
+
+      return;
+    }
+
+
+    message.innerHTML =
+      "<p class='message'>" +
+      "Saving document..." +
+      "</p>";
+
+
+    const safeTitle =
+      title.replace(
+        /[^a-zA-Z0-9._-]/g,
+        "_"
+      );
+
+
+    const fileName =
+      Date.now() +
+      "_" +
+      safeTitle +
+      ".txt";
+
+
+    const fileContent =
+      "YOUTHS OF NDASEI ASSOCIATION (YONA)\n" +
+      "Unity and Development\n\n" +
+      "DOCUMENT TITLE: " +
+      title +
+      "\n\n" +
+      content;
+
+
+    const fileBlob =
+      new Blob(
+        [fileContent],
+        {
+          type: "text/plain"
+        }
+      );
+
+
+    const result =
+      await db.storage
+        .from(DOCUMENT_BUCKET)
+        .upload(
+          fileName,
+          fileBlob,
+          {
+            cacheControl: "3600",
+            upsert: false
+          }
+        );
+
+
+    if (result.error) {
+
+      message.innerHTML =
+        "<p class='message error'>" +
+        "Could not save document: " +
+        escapeHtml(
+          result.error.message
+        ) +
+        "</p>";
+
+      return;
+    }
+
+
+    message.innerHTML =
+      "<p class='message success'>" +
+      "Document saved successfully." +
+      "</p>";
+
+
+    titleInput.value = "";
+
+    contentInput.value = "";
+
+
+    await loadDocuments();
+  }
+
+
+  /* OPEN DOCUMENT */
+
+
+  async function openDocument(
+    fileName
+  ) {
+
+    const result =
+      await db.storage
+        .from(DOCUMENT_BUCKET)
+        .createSignedUrl(
+          fileName,
+          3600
+        );
+
 
     if (result.error) {
 
@@ -2040,25 +2773,38 @@
       return;
     }
 
+
     window.open(
       result.data.signedUrl,
       "_blank"
     );
-
   }
 
 
-  async function deleteDocument(fileName) {
+  /* DELETE DOCUMENT */
 
-    if (!confirm(
-      "Are you sure you want to delete this document?"
-    )) {
+
+  async function deleteDocument(
+    fileName
+  ) {
+
+    if (
+      !confirm(
+        "Are you sure you want to delete this document?"
+      )
+    ) {
+
       return;
     }
 
-    const result = await db.storage
-      .from(DOCUMENT_BUCKET)
-      .remove([fileName]);
+
+    const result =
+      await db.storage
+        .from(DOCUMENT_BUCKET)
+        .remove([
+          fileName
+        ]);
+
 
     if (result.error) {
 
@@ -2070,23 +2816,34 @@
       return;
     }
 
-    alert("Document deleted successfully.");
+
+    alert(
+      "Document deleted successfully."
+    );
+
 
     await loadDocuments();
-
   }
 
 
   /* START APP */
 
-  document.addEventListener("DOMContentLoaded", function() {
 
-    hideAllSections();
+  document.addEventListener(
+    "DOMContentLoaded",
+    function() {
 
-    document.getElementById("dashboardSection").style.display =
-      "block";
+      hideAllSections();
 
-  });
+      document
+        .getElementById(
+          "dashboardSection"
+        )
+        .style.display =
+        "block";
+
+    }
+  );
 
 </script>
 
