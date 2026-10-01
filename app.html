@@ -59,10 +59,6 @@
       cursor: pointer;
     }
 
-    .dashboard button:hover {
-      opacity: 0.9;
-    }
-
     .card {
       background: white;
       padding: 20px;
@@ -106,10 +102,6 @@
       cursor: pointer;
     }
 
-    button:hover {
-      opacity: 0.9;
-    }
-
     .delete-button {
       background: #d93025;
     }
@@ -143,6 +135,7 @@
 
     .member-card h3,
     .executive-card h3,
+    .finance-card h3,
     .event-card h3 {
       margin-top: 0;
       color: #075aaa;
@@ -175,27 +168,27 @@
 
     <div class="dashboard">
 
-      <button onclick="showMembers()">
+      <button type="button" onclick="showMembers()">
         Members
       </button>
 
-      <button onclick="showExecutive()">
+      <button type="button" onclick="showExecutive()">
         Executive
       </button>
 
-      <button onclick="showFinance()">
+      <button type="button" onclick="showFinance()">
         Finance
       </button>
 
-      <button onclick="showMeetings()">
+      <button type="button" onclick="showMeetings()">
         Meetings
       </button>
 
-      <button onclick="showEvents()">
+      <button type="button" onclick="showEvents()">
         Events
       </button>
 
-      <button onclick="showDocuments()">
+      <button type="button" onclick="showDocuments()">
         Documents
       </button>
 
@@ -209,55 +202,38 @@
 
     <div class="card">
 
-      <h2 class="section-title">
-        Members
-      </h2>
+      <h2 class="section-title">Members</h2>
 
-      <input
-        id="memberName"
-        type="text"
-        placeholder="Name"
-      >
-
-      <input
-        id="memberPhone"
-        type="text"
-        placeholder="Phone"
-      >
-
-      <input
-        id="memberPosition"
-        type="text"
-        placeholder="Position"
-      >
+      <input id="memberName" type="text" placeholder="Name">
+      <input id="memberPhone" type="text" placeholder="Phone">
+      <input id="memberPosition" type="text" placeholder="Position">
 
       <button
+        type="button"
         id="saveMemberButton"
-        onclick="addMember()"
-      >
+        onclick="addMember()">
         Add Member
       </button>
 
       <button
+        type="button"
         id="cancelMemberButton"
         class="cancel-button"
-        onclick="cancelEdit()"
-        style="display:none;"
-      >
+        onclick="cancelMemberEdit()"
+        style="display:none;">
         Cancel Edit
       </button>
 
       <div id="membersList"></div>
 
       <button
+        type="button"
         class="back-button"
-        onclick="location.reload()"
-      >
+        onclick="backToDashboard()">
         Back to Dashboard
       </button>
 
     </div>
-
   </div>
 
 
@@ -267,55 +243,38 @@
 
     <div class="card">
 
-      <h2 class="section-title">
-        Executive
-      </h2>
+      <h2 class="section-title">Executive</h2>
 
-      <input
-        id="executiveName"
-        type="text"
-        placeholder="Name"
-      >
-
-      <input
-        id="executivePosition"
-        type="text"
-        placeholder="Position"
-      >
-
-      <input
-        id="executivePhone"
-        type="text"
-        placeholder="Phone"
-      >
+      <input id="executiveName" type="text" placeholder="Name">
+      <input id="executivePosition" type="text" placeholder="Position">
+      <input id="executivePhone" type="text" placeholder="Phone">
 
       <button
+        type="button"
         id="saveExecutiveButton"
-        onclick="addExecutive()"
-      >
+        onclick="addExecutive()">
         Add Executive
       </button>
 
       <button
+        type="button"
         id="cancelExecutiveButton"
         class="cancel-button"
         onclick="cancelExecutiveEdit()"
-        style="display:none;"
-      >
+        style="display:none;">
         Cancel Edit
       </button>
 
       <div id="executiveList"></div>
 
       <button
+        type="button"
         class="back-button"
-        onclick="location.reload()"
-      >
+        onclick="backToDashboard()">
         Back to Dashboard
       </button>
 
     </div>
-
   </div>
 
 
@@ -325,94 +284,59 @@
 
     <div class="card">
 
-      <h2 class="section-title">
-        Finance
-      </h2>
+      <h2 class="section-title">Finance</h2>
 
-      <input
-        id="financeName"
-        type="text"
-        placeholder="Name"
-      >
+      <input id="financeName" type="text" placeholder="Name">
 
       <select id="financeType">
-
-        <option value="">
-          Select Transaction Type
-        </option>
-
-        <option value="Registration">
-          Registration
-        </option>
-
-        <option value="Annual Contribution">
-          Annual Contribution
-        </option>
-
+        <option value="">Select Transaction Type</option>
+        <option value="Registration">Registration</option>
+        <option value="Annual Contribution">Annual Contribution</option>
         <option value="End of year Contribution">
           End of year Contribution
         </option>
-
-        <option value="Loan">
-          Loan
-        </option>
-
-        <option value="Loan Repayment">
-          Loan Repayment
-        </option>
-
-        <option value="Loan Interest">
-          Loan Interest
-        </option>
-
-        <option value="Welfare">
-          Welfare
-        </option>
-
-        <option value="Other">
-          Other
-        </option>
-
+        <option value="Loan">Loan</option>
+        <option value="Loan Repayment">Loan Repayment</option>
+        <option value="Loan Interest">Loan Interest</option>
+        <option value="Welfare">Welfare</option>
+        <option value="Other">Other</option>
       </select>
 
       <input
         id="financeAmount"
         type="number"
-        placeholder="Amount"
-      >
+        placeholder="Amount">
 
       <textarea
         id="financeDescription"
-        placeholder="Description"
-      ></textarea>
+        placeholder="Description"></textarea>
 
       <button
+        type="button"
         id="saveFinanceButton"
-        onclick="addFinance()"
-      >
+        onclick="addFinance()">
         Add Transaction
       </button>
 
       <button
+        type="button"
         id="cancelFinanceButton"
         class="cancel-button"
         onclick="cancelFinanceEdit()"
-        style="display:none;"
-      >
+        style="display:none;">
         Cancel Edit
       </button>
 
       <div id="financeList"></div>
 
       <button
+        type="button"
         class="back-button"
-        onclick="location.reload()"
-      >
+        onclick="backToDashboard()">
         Back to Dashboard
       </button>
 
     </div>
-
   </div>
 
 
@@ -422,23 +346,21 @@
 
     <div class="card">
 
-      <h2 class="section-title">
-        Meetings
-      </h2>
+      <h2 class="section-title">Meetings</h2>
 
       <p class="message">
-        Meetings section will be restored after Events is working correctly.
+        Meetings section is ready to be restored from your previous
+        working version. It has not been changed in the database.
       </p>
 
       <button
+        type="button"
         class="back-button"
-        onclick="location.reload()"
-      >
+        onclick="backToDashboard()">
         Back to Dashboard
       </button>
 
     </div>
-
   </div>
 
 
@@ -448,59 +370,52 @@
 
     <div class="card">
 
-      <h2 class="section-title">
-        Events
-      </h2>
+      <h2 class="section-title">Events</h2>
 
       <input
         id="eventTitle"
         type="text"
-        placeholder="Event Title"
-      >
+        placeholder="Event Title">
 
       <input
         id="eventDate"
-        type="date"
-      >
+        type="date">
 
       <input
         id="eventLocation"
         type="text"
-        placeholder="Event Location"
-      >
+        placeholder="Event Location">
 
       <textarea
         id="eventDescription"
-        placeholder="Event Description"
-      ></textarea>
+        placeholder="Event Description"></textarea>
 
       <button
+        type="button"
         id="saveEventButton"
-        onclick="addEvent()"
-      >
+        onclick="addEvent()">
         Add Event
       </button>
 
       <button
+        type="button"
         id="cancelEventButton"
         class="cancel-button"
         onclick="cancelEventEdit()"
-        style="display:none;"
-      >
+        style="display:none;">
         Cancel Edit
       </button>
 
       <div id="eventsList"></div>
 
       <button
+        type="button"
         class="back-button"
-        onclick="location.reload()"
-      >
+        onclick="backToDashboard()">
         Back to Dashboard
       </button>
 
     </div>
-
   </div>
 
 
@@ -510,23 +425,20 @@
 
     <div class="card">
 
-      <h2 class="section-title">
-        Documents
-      </h2>
+      <h2 class="section-title">Documents</h2>
 
       <p class="message">
         Documents section will be added later.
       </p>
 
       <button
+        type="button"
         class="back-button"
-        onclick="location.reload()"
-      >
+        onclick="backToDashboard()">
         Back to Dashboard
       </button>
 
     </div>
-
   </div>
 
 </div>
@@ -534,18 +446,34 @@
 
 <script>
 
+"use strict";
+
+/* =========================
+   SUPABASE
+========================= */
+
 const supabaseUrl =
   "https://atxeeymireukwbbsczbv.supabase.co";
 
 const supabaseKey =
   "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
 
-const db =
-  window.supabase.createClient(
+let db = null;
+
+if (
+  window.supabase &&
+  typeof window.supabase.createClient === "function"
+) {
+  db = window.supabase.createClient(
     supabaseUrl,
     supabaseKey
   );
+}
 
+
+/* =========================
+   EDITING VARIABLES
+========================= */
 
 let editingMemberId = null;
 let editingExecutiveId = null;
@@ -554,22 +482,49 @@ let editingEventId = null;
 
 
 /* =========================
+   DATABASE CHECK
+========================= */
+
+function checkDatabase() {
+
+  if (!db) {
+
+    alert(
+      "Supabase could not be loaded. Please check your internet connection and reload the app."
+    );
+
+    return false;
+  }
+
+  return true;
+}
+
+
+/* =========================
    DASHBOARD
 ========================= */
 
 function hideAllSections() {
 
-  document.getElementById("membersSection").style.display = "none";
+  const sections = [
+    "membersSection",
+    "executiveSection",
+    "financeSection",
+    "meetingsSection",
+    "eventsSection",
+    "documentsSection"
+  ];
 
-  document.getElementById("executiveSection").style.display = "none";
+  sections.forEach(function(id) {
 
-  document.getElementById("financeSection").style.display = "none";
+    const section =
+      document.getElementById(id);
 
-  document.getElementById("meetingsSection").style.display = "none";
+    if (section) {
+      section.style.display = "none";
+    }
 
-  document.getElementById("eventsSection").style.display = "none";
-
-  document.getElementById("documentsSection").style.display = "none";
+  });
 }
 
 
@@ -577,7 +532,9 @@ function showMembers() {
 
   hideAllSections();
 
-  document.getElementById("membersSection").style.display = "block";
+  document.getElementById(
+    "membersSection"
+  ).style.display = "block";
 
   loadMembers();
 }
@@ -587,7 +544,9 @@ function showExecutive() {
 
   hideAllSections();
 
-  document.getElementById("executiveSection").style.display = "block";
+  document.getElementById(
+    "executiveSection"
+  ).style.display = "block";
 
   loadExecutive();
 }
@@ -597,7 +556,9 @@ function showFinance() {
 
   hideAllSections();
 
-  document.getElementById("financeSection").style.display = "block";
+  document.getElementById(
+    "financeSection"
+  ).style.display = "block";
 
   loadFinance();
 }
@@ -607,7 +568,9 @@ function showMeetings() {
 
   hideAllSections();
 
-  document.getElementById("meetingsSection").style.display = "block";
+  document.getElementById(
+    "meetingsSection"
+  ).style.display = "block";
 }
 
 
@@ -615,7 +578,9 @@ function showEvents() {
 
   hideAllSections();
 
-  document.getElementById("eventsSection").style.display = "block";
+  document.getElementById(
+    "eventsSection"
+  ).style.display = "block";
 
   loadEvents();
 }
@@ -625,7 +590,17 @@ function showDocuments() {
 
   hideAllSections();
 
-  document.getElementById("documentsSection").style.display = "block";
+  document.getElementById(
+    "documentsSection"
+  ).style.display = "block";
+}
+
+
+function backToDashboard() {
+
+  hideAllSections();
+
+  window.scrollTo(0, 0);
 }
 
 
@@ -635,21 +610,29 @@ function showDocuments() {
 
 async function loadMembers() {
 
+  if (!checkDatabase()) return;
+
   const list =
     document.getElementById("membersList");
 
-  list.innerHTML = "<p>Loading members...</p>";
+  list.innerHTML =
+    "<p>Loading members...</p>";
 
-  const { data, error } =
+  const result =
     await db
       .from("members")
       .select("*")
-      .order("id", { ascending: false });
+      .order("id", {
+        ascending: false
+      });
+
+  const data = result.data;
+  const error = result.error;
 
   if (error) {
 
     list.innerHTML =
-      "<p class='message'>Error loading members: " +
+      "<p class='message'>" +
       escapeHtml(error.message) +
       "</p>";
 
@@ -665,7 +648,7 @@ async function loadMembers() {
   }
 
   list.innerHTML =
-    data.map(member => {
+    data.map(function(member) {
 
       const name =
         readJsonValue(member.name);
@@ -692,20 +675,20 @@ async function loadMembers() {
           </p>
 
           <button
+            type="button"
             onclick="editMember(
               '${escapeJs(member.id)}',
               '${escapeJs(name)}',
               '${escapeJs(phone)}',
               '${escapeJs(position)}'
-            )"
-          >
+            )">
             Edit
           </button>
 
           <button
+            type="button"
             class="delete-button"
-            onclick="deleteMember('${escapeJs(member.id)}')"
-          >
+            onclick="deleteMember('${escapeJs(member.id)}')">
             Delete
           </button>
 
@@ -718,14 +701,22 @@ async function loadMembers() {
 
 async function addMember() {
 
+  if (!checkDatabase()) return;
+
   const name =
-    document.getElementById("memberName").value.trim();
+    document.getElementById(
+      "memberName"
+    ).value.trim();
 
   const phone =
-    document.getElementById("memberPhone").value.trim();
+    document.getElementById(
+      "memberPhone"
+    ).value.trim();
 
   const position =
-    document.getElementById("memberPosition").value.trim();
+    document.getElementById(
+      "memberPosition"
+    ).value.trim();
 
   if (!name) {
 
@@ -734,24 +725,20 @@ async function addMember() {
     return;
   }
 
-  const { error } =
+  const result =
     await db
       .from("members")
       .insert([{
-
         name: JSON.stringify(name),
-
         phone: JSON.stringify(phone),
-
         position: JSON.stringify(position)
-
       }]);
 
-  if (error) {
+  if (result.error) {
 
     alert(
       "Error adding member: " +
-      error.message
+      result.error.message
     );
 
     return;
@@ -772,101 +759,120 @@ function editMember(
 
   editingMemberId = id;
 
-  document.getElementById("memberName").value =
-    name;
+  document.getElementById(
+    "memberName"
+  ).value = name;
 
-  document.getElementById("memberPhone").value =
-    phone;
+  document.getElementById(
+    "memberPhone"
+  ).value = phone;
 
-  document.getElementById("memberPosition").value =
-    position;
+  document.getElementById(
+    "memberPosition"
+  ).value = position;
 
-  document.getElementById("saveMemberButton").textContent =
-    "Update Member";
+  document.getElementById(
+    "saveMemberButton"
+  ).textContent = "Update Member";
 
-  document.getElementById("saveMemberButton").onclick =
-    updateMember;
+  document.getElementById(
+    "saveMemberButton"
+  ).onclick = updateMember;
 
-  document.getElementById("cancelMemberButton").style.display =
-    "inline-block";
+  document.getElementById(
+    "cancelMemberButton"
+  ).style.display = "inline-block";
 }
 
 
 async function updateMember() {
 
+  if (!checkDatabase()) return;
+
   const name =
-    document.getElementById("memberName").value.trim();
+    document.getElementById(
+      "memberName"
+    ).value.trim();
 
   const phone =
-    document.getElementById("memberPhone").value.trim();
+    document.getElementById(
+      "memberPhone"
+    ).value.trim();
 
   const position =
-    document.getElementById("memberPosition").value.trim();
+    document.getElementById(
+      "memberPosition"
+    ).value.trim();
 
-  const { error } =
+  const result =
     await db
       .from("members")
       .update({
-
         name: JSON.stringify(name),
-
         phone: JSON.stringify(phone),
-
         position: JSON.stringify(position)
-
       })
       .eq("id", editingMemberId);
 
-  if (error) {
+  if (result.error) {
 
     alert(
       "Error updating member: " +
-      error.message
+      result.error.message
     );
 
     return;
   }
 
-  cancelEdit();
+  cancelMemberEdit();
 
   loadMembers();
 }
 
 
-function cancelEdit() {
+function cancelMemberEdit() {
 
   editingMemberId = null;
 
   clearMemberForm();
 
-  document.getElementById("saveMemberButton").textContent =
-    "Add Member";
+  document.getElementById(
+    "saveMemberButton"
+  ).textContent = "Add Member";
 
-  document.getElementById("saveMemberButton").onclick =
-    addMember;
+  document.getElementById(
+    "saveMemberButton"
+  ).onclick = addMember;
 
-  document.getElementById("cancelMemberButton").style.display =
-    "none";
+  document.getElementById(
+    "cancelMemberButton"
+  ).style.display = "none";
 }
 
 
 async function deleteMember(id) {
 
-  if (!confirm("Are you sure you want to delete this member?")) {
+  if (!checkDatabase()) return;
+
+  if (
+    !confirm(
+      "Are you sure you want to delete this member?"
+    )
+  ) {
     return;
   }
 
-  const { error } =
+  const result =
     await db
       .from("members")
       .delete()
       .eq("id", id);
 
-  if (error) {
+  if (result.error) {
 
     alert(
       "Error deleting member: " +
-      error.message
+      result.error.message
     );
 
     return;
@@ -878,11 +884,17 @@ async function deleteMember(id) {
 
 function clearMemberForm() {
 
-  document.getElementById("memberName").value = "";
+  document.getElementById(
+    "memberName"
+  ).value = "";
 
-  document.getElementById("memberPhone").value = "";
+  document.getElementById(
+    "memberPhone"
+  ).value = "";
 
-  document.getElementById("memberPosition").value = "";
+  document.getElementById(
+    "memberPosition"
+  ).value = "";
 }
 
 
@@ -892,27 +904,35 @@ function clearMemberForm() {
 
 async function loadExecutive() {
 
+  if (!checkDatabase()) return;
+
   const list =
-    document.getElementById("executiveList");
+    document.getElementById(
+      "executiveList"
+    );
 
   list.innerHTML =
     "<p>Loading executive...</p>";
 
-  const { data, error } =
+  const result =
     await db
       .from("executive")
       .select("*")
-      .order("id", { ascending: false });
+      .order("id", {
+        ascending: false
+      });
 
-  if (error) {
+  if (result.error) {
 
     list.innerHTML =
-      "<p class='message'>Error loading executive: " +
-      escapeHtml(error.message) +
+      "<p class='message'>" +
+      escapeHtml(result.error.message) +
       "</p>";
 
     return;
   }
+
+  const data = result.data;
 
   if (!data || data.length === 0) {
 
@@ -923,7 +943,7 @@ async function loadExecutive() {
   }
 
   list.innerHTML =
-    data.map(item => {
+    data.map(function(item) {
 
       const name =
         readJsonValue(item.name);
@@ -950,20 +970,20 @@ async function loadExecutive() {
           </p>
 
           <button
+            type="button"
             onclick="editExecutive(
               '${escapeJs(item.id)}',
               '${escapeJs(name)}',
               '${escapeJs(position)}',
               '${escapeJs(phone)}'
-            )"
-          >
+            )">
             Edit
           </button>
 
           <button
+            type="button"
             class="delete-button"
-            onclick="deleteExecutive('${escapeJs(item.id)}')"
-          >
+            onclick="deleteExecutive('${escapeJs(item.id)}')">
             Delete
           </button>
 
@@ -976,40 +996,46 @@ async function loadExecutive() {
 
 async function addExecutive() {
 
+  if (!checkDatabase()) return;
+
   const name =
-    document.getElementById("executiveName").value.trim();
+    document.getElementById(
+      "executiveName"
+    ).value.trim();
 
   const position =
-    document.getElementById("executivePosition").value.trim();
+    document.getElementById(
+      "executivePosition"
+    ).value.trim();
 
   const phone =
-    document.getElementById("executivePhone").value.trim();
+    document.getElementById(
+      "executivePhone"
+    ).value.trim();
 
   if (!name || !position) {
 
-    alert("Please enter name and position.");
+    alert(
+      "Please enter name and position."
+    );
 
     return;
   }
 
-  const { error } =
+  const result =
     await db
       .from("executive")
       .insert([{
-
         name: JSON.stringify(name),
-
         position: JSON.stringify(position),
-
         phone: JSON.stringify(phone)
-
       }]);
 
-  if (error) {
+  if (result.error) {
 
     alert(
       "Error adding executive: " +
-      error.message
+      result.error.message
     );
 
     return;
@@ -1030,56 +1056,66 @@ function editExecutive(
 
   editingExecutiveId = id;
 
-  document.getElementById("executiveName").value =
-    name;
+  document.getElementById(
+    "executiveName"
+  ).value = name;
 
-  document.getElementById("executivePosition").value =
-    position;
+  document.getElementById(
+    "executivePosition"
+  ).value = position;
 
-  document.getElementById("executivePhone").value =
-    phone;
+  document.getElementById(
+    "executivePhone"
+  ).value = phone;
 
-  document.getElementById("saveExecutiveButton").textContent =
-    "Update Executive";
+  document.getElementById(
+    "saveExecutiveButton"
+  ).textContent = "Update Executive";
 
-  document.getElementById("saveExecutiveButton").onclick =
-    updateExecutive;
+  document.getElementById(
+    "saveExecutiveButton"
+  ).onclick = updateExecutive;
 
-  document.getElementById("cancelExecutiveButton").style.display =
-    "inline-block";
+  document.getElementById(
+    "cancelExecutiveButton"
+  ).style.display = "inline-block";
 }
 
 
 async function updateExecutive() {
 
+  if (!checkDatabase()) return;
+
   const name =
-    document.getElementById("executiveName").value.trim();
+    document.getElementById(
+      "executiveName"
+    ).value.trim();
 
   const position =
-    document.getElementById("executivePosition").value.trim();
+    document.getElementById(
+      "executivePosition"
+    ).value.trim();
 
   const phone =
-    document.getElementById("executivePhone").value.trim();
+    document.getElementById(
+      "executivePhone"
+    ).value.trim();
 
-  const { error } =
+  const result =
     await db
       .from("executive")
       .update({
-
         name: JSON.stringify(name),
-
         position: JSON.stringify(position),
-
         phone: JSON.stringify(phone)
-
       })
       .eq("id", editingExecutiveId);
 
-  if (error) {
+  if (result.error) {
 
     alert(
       "Error updating executive: " +
-      error.message
+      result.error.message
     );
 
     return;
@@ -1097,34 +1133,43 @@ function cancelExecutiveEdit() {
 
   clearExecutiveForm();
 
-  document.getElementById("saveExecutiveButton").textContent =
-    "Add Executive";
+  document.getElementById(
+    "saveExecutiveButton"
+  ).textContent = "Add Executive";
 
-  document.getElementById("saveExecutiveButton").onclick =
-    addExecutive;
+  document.getElementById(
+    "saveExecutiveButton"
+  ).onclick = addExecutive;
 
-  document.getElementById("cancelExecutiveButton").style.display =
-    "none";
+  document.getElementById(
+    "cancelExecutiveButton"
+  ).style.display = "none";
 }
 
 
 async function deleteExecutive(id) {
 
-  if (!confirm("Are you sure you want to delete this executive record?")) {
+  if (!checkDatabase()) return;
+
+  if (
+    !confirm(
+      "Are you sure you want to delete this executive record?"
+    )
+  ) {
     return;
   }
 
-  const { error } =
+  const result =
     await db
       .from("executive")
       .delete()
       .eq("id", id);
 
-  if (error) {
+  if (result.error) {
 
     alert(
       "Error deleting executive: " +
-      error.message
+      result.error.message
     );
 
     return;
@@ -1136,11 +1181,17 @@ async function deleteExecutive(id) {
 
 function clearExecutiveForm() {
 
-  document.getElementById("executiveName").value = "";
+  document.getElementById(
+    "executiveName"
+  ).value = "";
 
-  document.getElementById("executivePosition").value = "";
+  document.getElementById(
+    "executivePosition"
+  ).value = "";
 
-  document.getElementById("executivePhone").value = "";
+  document.getElementById(
+    "executivePhone"
+  ).value = "";
 }
 
 
@@ -1150,27 +1201,35 @@ function clearExecutiveForm() {
 
 async function loadFinance() {
 
+  if (!checkDatabase()) return;
+
   const list =
-    document.getElementById("financeList");
+    document.getElementById(
+      "financeList"
+    );
 
   list.innerHTML =
     "<p>Loading finance records...</p>";
 
-  const { data, error } =
+  const result =
     await db
       .from("finance")
       .select("*")
-      .order("id", { ascending: false });
+      .order("id", {
+        ascending: false
+      });
 
-  if (error) {
+  if (result.error) {
 
     list.innerHTML =
-      "<p class='message'>Error loading finance: " +
-      escapeHtml(error.message) +
+      "<p class='message'>" +
+      escapeHtml(result.error.message) +
       "</p>";
 
     return;
   }
+
+  const data = result.data;
 
   if (!data || data.length === 0) {
 
@@ -1181,7 +1240,7 @@ async function loadFinance() {
   }
 
   list.innerHTML =
-    data.map(item => {
+    data.map(function(item) {
 
       const name =
         readJsonValue(item.name);
@@ -1215,21 +1274,21 @@ async function loadFinance() {
           </p>
 
           <button
+            type="button"
             onclick="editFinance(
               '${escapeJs(item.id)}',
               '${escapeJs(name)}',
               '${escapeJs(type)}',
               '${escapeJs(amount)}',
               '${escapeJs(description)}'
-            )"
-          >
+            )">
             Edit
           </button>
 
           <button
+            type="button"
             class="delete-button"
-            onclick="deleteFinance('${escapeJs(item.id)}')"
-          >
+            onclick="deleteFinance('${escapeJs(item.id)}')">
             Delete
           </button>
 
@@ -1242,45 +1301,52 @@ async function loadFinance() {
 
 async function addFinance() {
 
+  if (!checkDatabase()) return;
+
   const name =
-    document.getElementById("financeName").value.trim();
+    document.getElementById(
+      "financeName"
+    ).value.trim();
 
   const type =
-    document.getElementById("financeType").value;
+    document.getElementById(
+      "financeType"
+    ).value;
 
   const amount =
-    document.getElementById("financeAmount").value;
+    document.getElementById(
+      "financeAmount"
+    ).value;
 
   const description =
-    document.getElementById("financeDescription").value.trim();
+    document.getElementById(
+      "financeDescription"
+    ).value.trim();
 
   if (!name || !type || !amount) {
 
-    alert("Please enter name, type and amount.");
+    alert(
+      "Please enter name, type and amount."
+    );
 
     return;
   }
 
-  const { error } =
+  const result =
     await db
       .from("finance")
       .insert([{
-
         name: JSON.stringify(name),
-
         type: JSON.stringify(type),
-
         amount: JSON.stringify(amount),
-
         description: JSON.stringify(description)
-
       }]);
 
-  if (error) {
+  if (result.error) {
 
     alert(
       "Error adding finance record: " +
-      error.message
+      result.error.message
     );
 
     return;
@@ -1302,64 +1368,76 @@ function editFinance(
 
   editingFinanceId = id;
 
-  document.getElementById("financeName").value =
-    name;
+  document.getElementById(
+    "financeName"
+  ).value = name;
 
-  document.getElementById("financeType").value =
-    type;
+  document.getElementById(
+    "financeType"
+  ).value = type;
 
-  document.getElementById("financeAmount").value =
-    amount;
+  document.getElementById(
+    "financeAmount"
+  ).value = amount;
 
-  document.getElementById("financeDescription").value =
-    description;
+  document.getElementById(
+    "financeDescription"
+  ).value = description;
 
-  document.getElementById("saveFinanceButton").textContent =
-    "Update Transaction";
+  document.getElementById(
+    "saveFinanceButton"
+  ).textContent = "Update Transaction";
 
-  document.getElementById("saveFinanceButton").onclick =
-    updateFinance;
+  document.getElementById(
+    "saveFinanceButton"
+  ).onclick = updateFinance;
 
-  document.getElementById("cancelFinanceButton").style.display =
-    "inline-block";
+  document.getElementById(
+    "cancelFinanceButton"
+  ).style.display = "inline-block";
 }
 
 
 async function updateFinance() {
 
+  if (!checkDatabase()) return;
+
   const name =
-    document.getElementById("financeName").value.trim();
+    document.getElementById(
+      "financeName"
+    ).value.trim();
 
   const type =
-    document.getElementById("financeType").value;
+    document.getElementById(
+      "financeType"
+    ).value;
 
   const amount =
-    document.getElementById("financeAmount").value;
+    document.getElementById(
+      "financeAmount"
+    ).value;
 
   const description =
-    document.getElementById("financeDescription").value.trim();
+    document.getElementById(
+      "financeDescription"
+    ).value.trim();
 
-  const { error } =
+  const result =
     await db
       .from("finance")
       .update({
-
         name: JSON.stringify(name),
-
         type: JSON.stringify(type),
-
         amount: JSON.stringify(amount),
-
         description: JSON.stringify(description)
-
       })
       .eq("id", editingFinanceId);
 
-  if (error) {
+  if (result.error) {
 
     alert(
       "Error updating finance record: " +
-      error.message
+      result.error.message
     );
 
     return;
@@ -1377,34 +1455,43 @@ function cancelFinanceEdit() {
 
   clearFinanceForm();
 
-  document.getElementById("saveFinanceButton").textContent =
-    "Add Transaction";
+  document.getElementById(
+    "saveFinanceButton"
+  ).textContent = "Add Transaction";
 
-  document.getElementById("saveFinanceButton").onclick =
-    addFinance;
+  document.getElementById(
+    "saveFinanceButton"
+  ).onclick = addFinance;
 
-  document.getElementById("cancelFinanceButton").style.display =
-    "none";
+  document.getElementById(
+    "cancelFinanceButton"
+  ).style.display = "none";
 }
 
 
 async function deleteFinance(id) {
 
-  if (!confirm("Are you sure you want to delete this finance record?")) {
+  if (!checkDatabase()) return;
+
+  if (
+    !confirm(
+      "Are you sure you want to delete this finance record?"
+    )
+  ) {
     return;
   }
 
-  const { error } =
+  const result =
     await db
       .from("finance")
       .delete()
       .eq("id", id);
 
-  if (error) {
+  if (result.error) {
 
     alert(
       "Error deleting finance record: " +
-      error.message
+      result.error.message
     );
 
     return;
@@ -1416,13 +1503,21 @@ async function deleteFinance(id) {
 
 function clearFinanceForm() {
 
-  document.getElementById("financeName").value = "";
+  document.getElementById(
+    "financeName"
+  ).value = "";
 
-  document.getElementById("financeType").value = "";
+  document.getElementById(
+    "financeType"
+  ).value = "";
 
-  document.getElementById("financeAmount").value = "";
+  document.getElementById(
+    "financeAmount"
+  ).value = "";
 
-  document.getElementById("financeDescription").value = "";
+  document.getElementById(
+    "financeDescription"
+  ).value = "";
 }
 
 
@@ -1432,27 +1527,38 @@ function clearFinanceForm() {
 
 async function loadEvents() {
 
+  if (!checkDatabase()) return;
+
   const list =
-    document.getElementById("eventsList");
+    document.getElementById(
+      "eventsList"
+    );
 
   list.innerHTML =
     "<p>Loading events...</p>";
 
-  const { data, error } =
+  const result =
     await db
       .from("events")
-      .select("*")
-      .order("date", { ascending: true });
+      .select(
+        "id, created_at, title, date, location, description"
+      )
+      .order("date", {
+        ascending: true
+      });
 
-  if (error) {
+  if (result.error) {
 
     list.innerHTML =
-      "<p class='message'>Error loading events: " +
-      escapeHtml(error.message) +
+      "<p class='message'>" +
+      "Error loading events: " +
+      escapeHtml(result.error.message) +
       "</p>";
 
     return;
   }
+
+  const data = result.data;
 
   if (!data || data.length === 0) {
 
@@ -1463,7 +1569,7 @@ async function loadEvents() {
   }
 
   list.innerHTML =
-    data.map(event => {
+    data.map(function(event) {
 
       return `
         <div class="event-card">
@@ -1473,7 +1579,7 @@ async function loadEvents() {
           </h3>
 
           <p class="event-date">
-            Date:
+            <strong>Date:</strong>
             ${escapeHtml(event.date || "")}
           </p>
 
@@ -1488,21 +1594,21 @@ async function loadEvents() {
           </p>
 
           <button
+            type="button"
             onclick="editEvent(
               '${escapeJs(event.id)}',
               '${escapeJs(event.title || "")}',
               '${escapeJs(event.date || "")}',
               '${escapeJs(event.location || "")}',
               '${escapeJs(event.description || "")}'
-            )"
-          >
+            )">
             Edit Event
           </button>
 
           <button
+            type="button"
             class="delete-button"
-            onclick="deleteEvent('${escapeJs(event.id)}')"
-          >
+            onclick="deleteEvent('${escapeJs(event.id)}')">
             Delete Event
           </button>
 
@@ -1515,17 +1621,27 @@ async function loadEvents() {
 
 async function addEvent() {
 
+  if (!checkDatabase()) return;
+
   const title =
-    document.getElementById("eventTitle").value.trim();
+    document.getElementById(
+      "eventTitle"
+    ).value.trim();
 
   const date =
-    document.getElementById("eventDate").value;
+    document.getElementById(
+      "eventDate"
+    ).value;
 
   const location =
-    document.getElementById("eventLocation").value.trim();
+    document.getElementById(
+      "eventLocation"
+    ).value.trim();
 
   const description =
-    document.getElementById("eventDescription").value.trim();
+    document.getElementById(
+      "eventDescription"
+    ).value.trim();
 
   if (!title || !date) {
 
@@ -1536,26 +1652,21 @@ async function addEvent() {
     return;
   }
 
-  const { error } =
+  const result =
     await db
       .from("events")
       .insert([{
-
         title: title,
-
         date: date,
-
         location: location,
-
         description: description
-
       }]);
 
-  if (error) {
+  if (result.error) {
 
     alert(
       "Error adding event: " +
-      error.message
+      result.error.message
     );
 
     return;
@@ -1579,42 +1690,59 @@ function editEvent(
 
   editingEventId = id;
 
-  document.getElementById("eventTitle").value =
-    title;
+  document.getElementById(
+    "eventTitle"
+  ).value = title;
 
-  document.getElementById("eventDate").value =
-    date;
+  document.getElementById(
+    "eventDate"
+  ).value = date;
 
-  document.getElementById("eventLocation").value =
-    location;
+  document.getElementById(
+    "eventLocation"
+  ).value = location;
 
-  document.getElementById("eventDescription").value =
-    description;
+  document.getElementById(
+    "eventDescription"
+  ).value = description;
 
-  document.getElementById("saveEventButton").textContent =
-    "Update Event";
+  document.getElementById(
+    "saveEventButton"
+  ).textContent = "Update Event";
 
-  document.getElementById("saveEventButton").onclick =
-    updateEvent;
+  document.getElementById(
+    "saveEventButton"
+  ).onclick = updateEvent;
 
-  document.getElementById("cancelEventButton").style.display =
-    "inline-block";
+  document.getElementById(
+    "cancelEventButton"
+  ).style.display = "inline-block";
 }
 
 
 async function updateEvent() {
 
+  if (!checkDatabase()) return;
+
   const title =
-    document.getElementById("eventTitle").value.trim();
+    document.getElementById(
+      "eventTitle"
+    ).value.trim();
 
   const date =
-    document.getElementById("eventDate").value;
+    document.getElementById(
+      "eventDate"
+    ).value;
 
   const location =
-    document.getElementById("eventLocation").value.trim();
+    document.getElementById(
+      "eventLocation"
+    ).value.trim();
 
   const description =
-    document.getElementById("eventDescription").value.trim();
+    document.getElementById(
+      "eventDescription"
+    ).value.trim();
 
   if (!title || !date) {
 
@@ -1625,27 +1753,22 @@ async function updateEvent() {
     return;
   }
 
-  const { error } =
+  const result =
     await db
       .from("events")
       .update({
-
         title: title,
-
         date: date,
-
         location: location,
-
         description: description
-
       })
       .eq("id", editingEventId);
 
-  if (error) {
+  if (result.error) {
 
     alert(
       "Error updating event: " +
-      error.message
+      result.error.message
     );
 
     return;
@@ -1665,36 +1788,43 @@ function cancelEventEdit() {
 
   clearEventForm();
 
-  document.getElementById("saveEventButton").textContent =
-    "Add Event";
+  document.getElementById(
+    "saveEventButton"
+  ).textContent = "Add Event";
 
-  document.getElementById("saveEventButton").onclick =
-    addEvent;
+  document.getElementById(
+    "saveEventButton"
+  ).onclick = addEvent;
 
-  document.getElementById("cancelEventButton").style.display =
-    "none";
+  document.getElementById(
+    "cancelEventButton"
+  ).style.display = "none";
 }
 
 
 async function deleteEvent(id) {
 
-  if (!confirm(
-    "Are you sure you want to delete this event?"
-  )) {
+  if (!checkDatabase()) return;
+
+  if (
+    !confirm(
+      "Are you sure you want to delete this event?"
+    )
+  ) {
     return;
   }
 
-  const { error } =
+  const result =
     await db
       .from("events")
       .delete()
       .eq("id", id);
 
-  if (error) {
+  if (result.error) {
 
     alert(
       "Error deleting event: " +
-      error.message
+      result.error.message
     );
 
     return;
@@ -1708,13 +1838,21 @@ async function deleteEvent(id) {
 
 function clearEventForm() {
 
-  document.getElementById("eventTitle").value = "";
+  document.getElementById(
+    "eventTitle"
+  ).value = "";
 
-  document.getElementById("eventDate").value = "";
+  document.getElementById(
+    "eventDate"
+  ).value = "";
 
-  document.getElementById("eventLocation").value = "";
+  document.getElementById(
+    "eventLocation"
+  ).value = "";
 
-  document.getElementById("eventDescription").value = "";
+  document.getElementById(
+    "eventDescription"
+  ).value = "";
 }
 
 
@@ -1744,7 +1882,7 @@ function readJsonValue(value) {
 
     return String(parsed);
 
-  } catch {
+  } catch (error) {
 
     return String(value);
   }
@@ -1754,62 +1892,22 @@ function readJsonValue(value) {
 function escapeHtml(value) {
 
   return String(value)
-
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 
 function escapeJs(value) {
 
   return String(value)
-
-    .replace(
-      /\\/g,
-      "\\\\"
-    )
-
-    .replace(
-      /'/g,
-      "\\'"
-    )
-
-    .replace(
-      /"/g,
-      '\\"'
-    )
-
-    .replace(
-      /\n/g,
-      "\\n"
-    )
-
-    .replace(
-      /\r/g,
-      "\\r"
-    );
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/"/g, '\\"')
+    .replace(/\n/g, "\\n")
+    .replace(/\r/g, "\\r");
 }
 
 </script>
