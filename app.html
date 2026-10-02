@@ -334,22 +334,42 @@
 
       <div class="form-group">
         <label>Name</label>
-        <input id="memberName" type="text" placeholder="Enter member name">
+        <input
+          id="memberName"
+          type="text"
+          placeholder="Enter member name">
       </div>
 
       <div class="form-group">
         <label>Phone</label>
-        <input id="memberPhone" type="text" placeholder="Enter phone number">
+        <input
+          id="memberPhone"
+          type="text"
+          placeholder="Enter phone number">
       </div>
 
       <div class="form-group">
         <label>Position</label>
-        <input id="memberPosition" type="text" placeholder="Enter position">
+        <input
+          id="memberPosition"
+          type="text"
+          placeholder="Enter position">
       </div>
 
       <div class="form-buttons">
-        <button class="primary" onclick="saveMember()">Save Member</button>
-        <button class="secondary" onclick="clearMemberForm()">Clear</button>
+
+        <button
+          class="primary"
+          onclick="saveMember()">
+          Save Member
+        </button>
+
+        <button
+          class="secondary"
+          onclick="clearMemberForm()">
+          Clear
+        </button>
+
       </div>
 
       <div id="membersList"></div>
@@ -369,22 +389,45 @@
 
       <div class="form-group">
         <label>Name</label>
-        <input id="executiveName" type="text" placeholder="Enter name">
+
+        <input
+          id="executiveName"
+          type="text"
+          placeholder="Enter name">
       </div>
 
       <div class="form-group">
         <label>Position</label>
-        <input id="executivePosition" type="text" placeholder="Enter position">
+
+        <input
+          id="executivePosition"
+          type="text"
+          placeholder="Enter position">
       </div>
 
       <div class="form-group">
         <label>Phone</label>
-        <input id="executivePhone" type="text" placeholder="Enter phone">
+
+        <input
+          id="executivePhone"
+          type="text"
+          placeholder="Enter phone">
       </div>
 
       <div class="form-buttons">
-        <button class="primary" onclick="saveExecutive()">Save Executive</button>
-        <button class="secondary" onclick="clearExecutiveForm()">Clear</button>
+
+        <button
+          class="primary"
+          onclick="saveExecutive()">
+          Save Executive
+        </button>
+
+        <button
+          class="secondary"
+          onclick="clearExecutiveForm()">
+          Clear
+        </button>
+
       </div>
 
       <div id="executiveList"></div>
@@ -404,32 +447,74 @@
 
       <div class="form-group">
         <label>Name</label>
-        <input id="financeName" type="text" placeholder="Enter name">
+
+        <input
+          id="financeName"
+          type="text"
+          placeholder="Enter name">
       </div>
 
       <div class="form-group">
-        <label>Transaction Type</label>
 
-        <select id="financeType">
-          <option value="Income">Income</option>
-          <option value="Expense">Expense</option>
+        <label>Category</label>
+
+        <select id="financeCategory">
+
+          <option value="Monthly Contribution">
+            Monthly Contribution
+          </option>
+
+          <option value="End of Year Contribution">
+            End of Year Contribution
+          </option>
+
+          <option value="Welfare">
+            Welfare
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
         </select>
+
       </div>
 
       <div class="form-group">
+
         <label>Amount</label>
-        <input id="financeAmount" type="number" placeholder="Enter amount">
+
+        <input
+          id="financeAmount"
+          type="number"
+          placeholder="Enter amount">
+
       </div>
 
       <div class="form-group">
+
         <label>Description</label>
-        <textarea id="financeDescription"
+
+        <textarea
+          id="financeDescription"
           placeholder="Enter description"></textarea>
+
       </div>
 
       <div class="form-buttons">
-        <button class="primary" onclick="saveFinance()">Save Transaction</button>
-        <button class="secondary" onclick="clearFinanceForm()">Clear</button>
+
+        <button
+          class="primary"
+          onclick="saveFinance()">
+          Save Transaction
+        </button>
+
+        <button
+          class="secondary"
+          onclick="clearFinanceForm()">
+          Clear
+        </button>
+
       </div>
 
       <div id="financeList"></div>
@@ -448,27 +533,51 @@
       <div id="meetingStatus" class="status"></div>
 
       <div class="form-group">
+
         <label>Date</label>
-        <input id="meetingDate" type="date">
+
+        <input
+          id="meetingDate"
+          type="date">
+
       </div>
 
       <div class="form-group">
+
         <label>Meeting Title</label>
-        <input id="meetingTitle"
+
+        <input
+          id="meetingTitle"
           type="text"
           placeholder="Enter meeting title">
+
       </div>
 
       <div class="form-group">
+
         <label>Location</label>
-        <input id="meetingLocation"
+
+        <input
+          id="meetingLocation"
           type="text"
           placeholder="Enter meeting location">
+
       </div>
 
       <div class="form-buttons">
-        <button class="primary" onclick="saveMeeting()">Save Meeting</button>
-        <button class="secondary" onclick="clearMeetingForm()">Clear</button>
+
+        <button
+          class="primary"
+          onclick="saveMeeting()">
+          Save Meeting
+        </button>
+
+        <button
+          class="secondary"
+          onclick="clearMeetingForm()">
+          Clear
+        </button>
+
       </div>
 
       <div id="meetingsList"></div>
@@ -487,33 +596,61 @@
       <div id="eventStatus" class="status"></div>
 
       <div class="form-group">
+
         <label>Event Title</label>
-        <input id="eventTitle"
+
+        <input
+          id="eventTitle"
           type="text"
           placeholder="Enter event title">
+
       </div>
 
       <div class="form-group">
+
         <label>Date</label>
-        <input id="eventDate" type="date">
+
+        <input
+          id="eventDate"
+          type="date">
+
       </div>
 
       <div class="form-group">
+
         <label>Location</label>
-        <input id="eventLocation"
+
+        <input
+          id="eventLocation"
           type="text"
           placeholder="Enter event location">
+
       </div>
 
       <div class="form-group">
+
         <label>Description</label>
-        <textarea id="eventDescription"
+
+        <textarea
+          id="eventDescription"
           placeholder="Enter event description"></textarea>
+
       </div>
 
       <div class="form-buttons">
-        <button class="primary" onclick="saveEvent()">Save Event</button>
-        <button class="secondary" onclick="clearEventForm()">Clear</button>
+
+        <button
+          class="primary"
+          onclick="saveEvent()">
+          Save Event
+        </button>
+
+        <button
+          class="secondary"
+          onclick="clearEventForm()">
+          Clear
+        </button>
+
       </div>
 
       <div id="eventsList"></div>
@@ -534,47 +671,61 @@
       <h3>Create Typed Document</h3>
 
       <div class="form-group">
+
         <label>Document Title</label>
 
-        <input id="documentTitle"
+        <input
+          id="documentTitle"
           type="text"
           placeholder="Enter document title">
+
       </div>
 
       <div class="form-group">
+
         <label>Document Content</label>
 
-        <textarea id="documentContent"
+        <textarea
+          id="documentContent"
           placeholder="Type your document here"></textarea>
+
       </div>
 
       <div class="form-buttons">
-        <button class="primary" onclick="saveTypedDocument()">
+
+        <button
+          class="primary"
+          onclick="saveTypedDocument()">
           Save Document
         </button>
 
-        <button class="secondary" onclick="clearDocumentForm()">
+        <button
+          class="secondary"
+          onclick="clearDocumentForm()">
           Clear
         </button>
+
       </div>
 
-
       <hr>
-
 
       <h3>Upload Document</h3>
 
       <div class="form-group">
+
         <label>Select File</label>
 
-        <input id="documentFile"
+        <input
+          id="documentFile"
           type="file">
+
       </div>
 
-      <button class="primary" onclick="uploadDocument()">
+      <button
+        class="primary"
+        onclick="uploadDocument()">
         Upload File
       </button>
-
 
       <div id="documentsList"></div>
 
@@ -681,7 +832,11 @@
        STATUS MESSAGE
     ========================================== */
 
-    function showStatus(elementId, message, type) {
+    function showStatus(
+      elementId,
+      message,
+      type
+    ) {
 
       const element =
         document.getElementById(elementId);
@@ -705,7 +860,10 @@
 
     function escapeHtml(value) {
 
-      if (value === null || value === undefined) {
+      if (
+        value === null ||
+        value === undefined
+      ) {
         return "";
       }
 
@@ -732,7 +890,10 @@
 
     function readJsonValue(value) {
 
-      if (value === null || value === undefined) {
+      if (
+        value === null ||
+        value === undefined
+      ) {
         return "";
       }
 
@@ -758,19 +919,26 @@
         await db
           .from("members")
           .select("*")
-          .order("id", { ascending: false });
+          .order("id", {
+            ascending: false
+          });
 
       if (error) {
+
         showStatus(
           "memberStatus",
-          "Could not load members: " + error.message,
+          "Could not load members: " +
+          error.message,
           "error"
         );
+
         return;
       }
 
       const list =
-        document.getElementById("membersList");
+        document.getElementById(
+          "membersList"
+        );
 
       list.innerHTML = "";
 
@@ -788,7 +956,10 @@
         list.innerHTML += `
           <div class="record">
 
-            <strong>${escapeHtml(name)}</strong><br>
+            <strong>
+              ${escapeHtml(name)}
+            </strong>
+            <br>
 
             Phone:
             ${escapeHtml(phone)}
@@ -812,7 +983,9 @@
 
               <button
                 class="danger"
-                onclick="deleteMember(${member.id})">
+                onclick="deleteMember(
+                  ${member.id}
+                )">
                 Delete
               </button>
 
@@ -827,20 +1000,31 @@
     async function saveMember() {
 
       const name =
-        document.getElementById("memberName").value.trim();
+        document
+          .getElementById("memberName")
+          .value
+          .trim();
 
       const phone =
-        document.getElementById("memberPhone").value.trim();
+        document
+          .getElementById("memberPhone")
+          .value
+          .trim();
 
       const position =
-        document.getElementById("memberPosition").value.trim();
+        document
+          .getElementById("memberPosition")
+          .value
+          .trim();
 
       if (!name) {
+
         showStatus(
           "memberStatus",
           "Please enter the member name.",
           "error"
         );
+
         return;
       }
 
@@ -852,11 +1036,19 @@
           await db
             .from("members")
             .update({
-              name: JSON.stringify(name),
-              phone: JSON.stringify(phone),
-              position: JSON.stringify(position)
+              name:
+                JSON.stringify(name),
+
+              phone:
+                JSON.stringify(phone),
+
+              position:
+                JSON.stringify(position)
             })
-            .eq("id", editingMemberId);
+            .eq(
+              "id",
+              editingMemberId
+            );
 
       } else {
 
@@ -864,9 +1056,14 @@
           await db
             .from("members")
             .insert({
-              name: JSON.stringify(name),
-              phone: JSON.stringify(phone),
-              position: JSON.stringify(position)
+              name:
+                JSON.stringify(name),
+
+              phone:
+                JSON.stringify(phone),
+
+              position:
+                JSON.stringify(position)
             });
       }
 
@@ -896,24 +1093,36 @@
     }
 
 
-    function editMember(id, name, phone, position) {
+    function editMember(
+      id,
+      name,
+      phone,
+      position
+    ) {
 
       editingMemberId = id;
 
-      document.getElementById("memberName").value =
-        name;
+      document
+        .getElementById("memberName")
+        .value = name;
 
-      document.getElementById("memberPhone").value =
-        phone;
+      document
+        .getElementById("memberPhone")
+        .value = phone;
 
-      document.getElementById("memberPosition").value =
-        position;
+      document
+        .getElementById("memberPosition")
+        .value = position;
     }
 
 
     async function deleteMember(id) {
 
-      if (!confirm("Delete this member?")) {
+      if (
+        !confirm(
+          "Delete this member?"
+        )
+      ) {
         return;
       }
 
@@ -949,9 +1158,17 @@
 
       editingMemberId = null;
 
-      document.getElementById("memberName").value = "";
-      document.getElementById("memberPhone").value = "";
-      document.getElementById("memberPosition").value = "";
+      document
+        .getElementById("memberName")
+        .value = "";
+
+      document
+        .getElementById("memberPhone")
+        .value = "";
+
+      document
+        .getElementById("memberPosition")
+        .value = "";
     }
 
 
@@ -965,7 +1182,9 @@
         await db
           .from("executive")
           .select("*")
-          .order("id", { ascending: false });
+          .order("id", {
+            ascending: false
+          });
 
       if (error) {
 
@@ -980,7 +1199,9 @@
       }
 
       const list =
-        document.getElementById("executiveList");
+        document.getElementById(
+          "executiveList"
+        );
 
       list.innerHTML = "";
 
@@ -998,7 +1219,10 @@
         list.innerHTML += `
           <div class="record">
 
-            <strong>${escapeHtml(name)}</strong><br>
+            <strong>
+              ${escapeHtml(name)}
+            </strong>
+            <br>
 
             Position:
             ${escapeHtml(position)}
@@ -1022,7 +1246,9 @@
 
               <button
                 class="danger"
-                onclick="deleteExecutive(${item.id})">
+                onclick="deleteExecutive(
+                  ${item.id}
+                )">
                 Delete
               </button>
 
@@ -1037,30 +1263,47 @@
     async function saveExecutive() {
 
       const name =
-        document.getElementById("executiveName").value.trim();
+        document
+          .getElementById("executiveName")
+          .value
+          .trim();
 
       const position =
-        document.getElementById("executivePosition").value.trim();
+        document
+          .getElementById("executivePosition")
+          .value
+          .trim();
 
       const phone =
-        document.getElementById("executivePhone").value.trim();
+        document
+          .getElementById("executivePhone")
+          .value
+          .trim();
 
       if (!name) {
+
         showStatus(
           "executiveStatus",
           "Please enter the executive name.",
           "error"
         );
+
         return;
       }
 
-      let result;
-
       const values = {
-        name: JSON.stringify(name),
-        position: JSON.stringify(position),
-        phone: JSON.stringify(phone)
+
+        name:
+          JSON.stringify(name),
+
+        position:
+          JSON.stringify(position),
+
+        phone:
+          JSON.stringify(phone)
       };
+
+      let result;
 
       if (editingExecutiveId) {
 
@@ -1068,7 +1311,10 @@
           await db
             .from("executive")
             .update(values)
-            .eq("id", editingExecutiveId);
+            .eq(
+              "id",
+              editingExecutiveId
+            );
 
       } else {
 
@@ -1113,20 +1359,27 @@
 
       editingExecutiveId = id;
 
-      document.getElementById("executiveName").value =
-        name;
+      document
+        .getElementById("executiveName")
+        .value = name;
 
-      document.getElementById("executivePosition").value =
-        position;
+      document
+        .getElementById("executivePosition")
+        .value = position;
 
-      document.getElementById("executivePhone").value =
-        phone;
+      document
+        .getElementById("executivePhone")
+        .value = phone;
     }
 
 
     async function deleteExecutive(id) {
 
-      if (!confirm("Delete this executive record?")) {
+      if (
+        !confirm(
+          "Delete this executive record?"
+        )
+      ) {
         return;
       }
 
@@ -1162,9 +1415,17 @@
 
       editingExecutiveId = null;
 
-      document.getElementById("executiveName").value = "";
-      document.getElementById("executivePosition").value = "";
-      document.getElementById("executivePhone").value = "";
+      document
+        .getElementById("executiveName")
+        .value = "";
+
+      document
+        .getElementById("executivePosition")
+        .value = "";
+
+      document
+        .getElementById("executivePhone")
+        .value = "";
     }
 
 
@@ -1178,7 +1439,9 @@
         await db
           .from("finance")
           .select("*")
-          .order("id", { ascending: false });
+          .order("id", {
+            ascending: false
+          });
 
       if (error) {
 
@@ -1193,7 +1456,9 @@
       }
 
       const list =
-        document.getElementById("financeList");
+        document.getElementById(
+          "financeList"
+        );
 
       list.innerHTML = "";
 
@@ -1202,8 +1467,8 @@
         const name =
           readJsonValue(item.name);
 
-        const type =
-          readJsonValue(item.transaction_type);
+        const category =
+          readJsonValue(item.category);
 
         const amount =
           readJsonValue(item.amount);
@@ -1214,10 +1479,13 @@
         list.innerHTML += `
           <div class="record">
 
-            <strong>${escapeHtml(name)}</strong><br>
+            <strong>
+              ${escapeHtml(name)}
+            </strong>
+            <br>
 
-            Type:
-            ${escapeHtml(type)}
+            Category:
+            ${escapeHtml(category)}
             <br>
 
             Amount:
@@ -1234,7 +1502,7 @@
                 onclick="editFinance(
                   ${item.id},
                   '${escapeJs(name)}',
-                  '${escapeJs(type)}',
+                  '${escapeJs(category)}',
                   '${escapeJs(amount)}',
                   '${escapeJs(description)}'
                 )">
@@ -1243,7 +1511,9 @@
 
               <button
                 class="danger"
-                onclick="deleteFinance(${item.id})">
+                onclick="deleteFinance(
+                  ${item.id}
+                )">
                 Delete
               </button>
 
@@ -1258,16 +1528,26 @@
     async function saveFinance() {
 
       const name =
-        document.getElementById("financeName").value.trim();
+        document
+          .getElementById("financeName")
+          .value
+          .trim();
 
-      const type =
-        document.getElementById("financeType").value;
+      const category =
+        document
+          .getElementById("financeCategory")
+          .value;
 
       const amount =
-        document.getElementById("financeAmount").value;
+        document
+          .getElementById("financeAmount")
+          .value;
 
       const description =
-        document.getElementById("financeDescription").value.trim();
+        document
+          .getElementById("financeDescription")
+          .value
+          .trim();
 
       if (!name || !amount) {
 
@@ -1282,10 +1562,11 @@
 
       const values = {
 
-        name: JSON.stringify(name),
+        name:
+          JSON.stringify(name),
 
-        transaction_type:
-          JSON.stringify(type),
+        category:
+          JSON.stringify(category),
 
         amount:
           JSON.stringify(amount),
@@ -1302,7 +1583,10 @@
           await db
             .from("finance")
             .update(values)
-            .eq("id", editingFinanceId);
+            .eq(
+              "id",
+              editingFinanceId
+            );
 
       } else {
 
@@ -1341,30 +1625,38 @@
     function editFinance(
       id,
       name,
-      type,
+      category,
       amount,
       description
     ) {
 
       editingFinanceId = id;
 
-      document.getElementById("financeName").value =
-        name;
+      document
+        .getElementById("financeName")
+        .value = name;
 
-      document.getElementById("financeType").value =
-        type;
+      document
+        .getElementById("financeCategory")
+        .value = category;
 
-      document.getElementById("financeAmount").value =
-        amount;
+      document
+        .getElementById("financeAmount")
+        .value = amount;
 
-      document.getElementById("financeDescription").value =
-        description;
+      document
+        .getElementById("financeDescription")
+        .value = description;
     }
 
 
     async function deleteFinance(id) {
 
-      if (!confirm("Delete this transaction?")) {
+      if (
+        !confirm(
+          "Delete this transaction?"
+        )
+      ) {
         return;
       }
 
@@ -1400,10 +1692,22 @@
 
       editingFinanceId = null;
 
-      document.getElementById("financeName").value = "";
-      document.getElementById("financeAmount").value = "";
-      document.getElementById("financeDescription").value = "";
-      document.getElementById("financeType").value = "Income";
+      document
+        .getElementById("financeName")
+        .value = "";
+
+      document
+        .getElementById("financeCategory")
+        .value =
+        "Monthly Contribution";
+
+      document
+        .getElementById("financeAmount")
+        .value = "";
+
+      document
+        .getElementById("financeDescription")
+        .value = "";
     }
 
 
@@ -1434,7 +1738,9 @@
       }
 
       const list =
-        document.getElementById("meetingsList");
+        document.getElementById(
+          "meetingsList"
+        );
 
       list.innerHTML = "";
 
@@ -1444,16 +1750,22 @@
           <div class="record">
 
             <strong>
-              ${escapeHtml(meeting.meeting_title)}
+              ${escapeHtml(
+                meeting.meeting_title
+              )}
             </strong>
             <br>
 
             Date:
-            ${escapeHtml(meeting.meeting_date)}
+            ${escapeHtml(
+              meeting.meeting_date
+            )}
             <br>
 
             Location:
-            ${escapeHtml(meeting.location)}
+            ${escapeHtml(
+              meeting.location
+            )}
 
             <div class="record-actions">
 
@@ -1461,16 +1773,24 @@
                 class="edit"
                 onclick="editMeeting(
                   ${meeting.id},
-                  '${escapeJs(meeting.meeting_date)}',
-                  '${escapeJs(meeting.meeting_title)}',
-                  '${escapeJs(meeting.location)}'
+                  '${escapeJs(
+                    meeting.meeting_date
+                  )}',
+                  '${escapeJs(
+                    meeting.meeting_title
+                  )}',
+                  '${escapeJs(
+                    meeting.location
+                  )}'
                 )">
                 Edit
               </button>
 
               <button
                 class="danger"
-                onclick="deleteMeeting(${meeting.id})">
+                onclick="deleteMeeting(
+                  ${meeting.id}
+                )">
                 Delete
               </button>
 
@@ -1485,13 +1805,21 @@
     async function saveMeeting() {
 
       const date =
-        document.getElementById("meetingDate").value;
+        document
+          .getElementById("meetingDate")
+          .value;
 
       const title =
-        document.getElementById("meetingTitle").value.trim();
+        document
+          .getElementById("meetingTitle")
+          .value
+          .trim();
 
       const location =
-        document.getElementById("meetingLocation").value.trim();
+        document
+          .getElementById("meetingLocation")
+          .value
+          .trim();
 
       if (!date || !title) {
 
@@ -1505,8 +1833,11 @@
       }
 
       const values = {
+
         meeting_date: date,
+
         meeting_title: title,
+
         location: location
       };
 
@@ -1518,7 +1849,10 @@
           await db
             .from("meetings")
             .update(values)
-            .eq("id", editingMeetingId);
+            .eq(
+              "id",
+              editingMeetingId
+            );
 
       } else {
 
@@ -1563,20 +1897,27 @@
 
       editingMeetingId = id;
 
-      document.getElementById("meetingDate").value =
-        date;
+      document
+        .getElementById("meetingDate")
+        .value = date;
 
-      document.getElementById("meetingTitle").value =
-        title;
+      document
+        .getElementById("meetingTitle")
+        .value = title;
 
-      document.getElementById("meetingLocation").value =
-        location;
+      document
+        .getElementById("meetingLocation")
+        .value = location;
     }
 
 
     async function deleteMeeting(id) {
 
-      if (!confirm("Delete this meeting?")) {
+      if (
+        !confirm(
+          "Delete this meeting?"
+        )
+      ) {
         return;
       }
 
@@ -1612,9 +1953,17 @@
 
       editingMeetingId = null;
 
-      document.getElementById("meetingDate").value = "";
-      document.getElementById("meetingTitle").value = "";
-      document.getElementById("meetingLocation").value = "";
+      document
+        .getElementById("meetingDate")
+        .value = "";
+
+      document
+        .getElementById("meetingTitle")
+        .value = "";
+
+      document
+        .getElementById("meetingLocation")
+        .value = "";
     }
 
 
@@ -1645,7 +1994,9 @@
       }
 
       const list =
-        document.getElementById("eventsList");
+        document.getElementById(
+          "eventsList"
+        );
 
       list.innerHTML = "";
 
@@ -1686,7 +2037,9 @@
 
               <button
                 class="danger"
-                onclick="deleteEvent(${event.id})">
+                onclick="deleteEvent(
+                  ${event.id}
+                )">
                 Delete
               </button>
 
@@ -1701,16 +2054,27 @@
     async function saveEvent() {
 
       const title =
-        document.getElementById("eventTitle").value.trim();
+        document
+          .getElementById("eventTitle")
+          .value
+          .trim();
 
       const date =
-        document.getElementById("eventDate").value;
+        document
+          .getElementById("eventDate")
+          .value;
 
       const location =
-        document.getElementById("eventLocation").value.trim();
+        document
+          .getElementById("eventLocation")
+          .value
+          .trim();
 
       const description =
-        document.getElementById("eventDescription").value.trim();
+        document
+          .getElementById("eventDescription")
+          .value
+          .trim();
 
       if (!title || !date) {
 
@@ -1724,9 +2088,13 @@
       }
 
       const values = {
+
         title: title,
+
         date: date,
+
         location: location,
+
         description: description
       };
 
@@ -1738,7 +2106,10 @@
           await db
             .from("events")
             .update(values)
-            .eq("id", editingEventId);
+            .eq(
+              "id",
+              editingEventId
+            );
 
       } else {
 
@@ -1784,23 +2155,32 @@
 
       editingEventId = id;
 
-      document.getElementById("eventTitle").value =
-        title;
+      document
+        .getElementById("eventTitle")
+        .value = title;
 
-      document.getElementById("eventDate").value =
-        date;
+      document
+        .getElementById("eventDate")
+        .value = date;
 
-      document.getElementById("eventLocation").value =
-        location;
+      document
+        .getElementById("eventLocation")
+        .value = location;
 
-      document.getElementById("eventDescription").value =
+      document
+        .getElementById("eventDescription")
+        .value =
         description;
     }
 
 
     async function deleteEvent(id) {
 
-      if (!confirm("Delete this event?")) {
+      if (
+        !confirm(
+          "Delete this event?"
+        )
+      ) {
         return;
       }
 
@@ -1836,10 +2216,21 @@
 
       editingEventId = null;
 
-      document.getElementById("eventTitle").value = "";
-      document.getElementById("eventDate").value = "";
-      document.getElementById("eventLocation").value = "";
-      document.getElementById("eventDescription").value = "";
+      document
+        .getElementById("eventTitle")
+        .value = "";
+
+      document
+        .getElementById("eventDate")
+        .value = "";
+
+      document
+        .getElementById("eventLocation")
+        .value = "";
+
+      document
+        .getElementById("eventDescription")
+        .value = "";
     }
 
 
@@ -1850,12 +2241,13 @@
     async function loadDocuments() {
 
       const list =
-        document.getElementById("documentsList");
+        document.getElementById(
+          "documentsList"
+        );
 
-      list.innerHTML = "<p>Loading documents...</p>";
+      list.innerHTML =
+        "<p>Loading documents...</p>";
 
-
-      /* DATABASE DOCUMENTS */
 
       const {
         data: databaseDocuments,
@@ -1884,48 +2276,53 @@
       }
 
 
-      list.innerHTML = "<h3>Saved Documents</h3>";
+      list.innerHTML =
+        "<h3>Saved Documents</h3>";
 
 
-      databaseDocuments.forEach(documentItem => {
+      databaseDocuments.forEach(
+        documentItem => {
 
-        list.innerHTML += `
-          <div class="record">
+          list.innerHTML += `
+            <div class="record">
 
-            <strong>
-              ${escapeHtml(documentItem.title)}
-            </strong>
-            <br>
+              <strong>
+                ${escapeHtml(
+                  documentItem.title
+                )}
+              </strong>
+              <br>
 
-            Type:
-            ${escapeHtml(documentItem.type)}
+              Type:
+              ${escapeHtml(
+                documentItem.type
+              )}
 
-            <div class="record-actions">
+              <div class="record-actions">
 
-              <button
-                class="primary"
-                onclick="openTypedDocument(
-                  ${documentItem.id}
-                )">
-                Open
-              </button>
+                <button
+                  class="primary"
+                  onclick="openTypedDocument(
+                    ${documentItem.id}
+                  )">
+                  Open
+                </button>
 
-              <button
-                class="danger"
-                onclick="deleteTypedDocument(
-                  ${documentItem.id}
-                )">
-                Delete
-              </button>
+                <button
+                  class="danger"
+                  onclick="deleteTypedDocument(
+                    ${documentItem.id}
+                  )">
+                  Delete
+                </button>
+
+              </div>
 
             </div>
+          `;
+        }
+      );
 
-          </div>
-        `;
-      });
-
-
-      /* STORAGE FILES */
 
       const {
         data: files,
@@ -1952,7 +2349,10 @@
       }
 
 
-      if (files && files.length > 0) {
+      if (
+        files &&
+        files.length > 0
+      ) {
 
         list.innerHTML +=
           "<h3>Uploaded Files</h3>";
@@ -2029,9 +2429,13 @@
         await db
           .from("documents")
           .insert({
+
             title: title,
+
             type: "Typed Document",
+
             content: content
+
           });
 
 
@@ -2091,10 +2495,14 @@
 
 
       const newWindow =
-        window.open("", "_blank");
+        window.open(
+          "",
+          "_blank"
+        );
 
 
       newWindow.document.write(`
+
         <!DOCTYPE html>
 
         <html>
@@ -2102,7 +2510,9 @@
         <head>
 
           <title>
-            ${escapeHtml(data.title)}
+            ${escapeHtml(
+              data.title
+            )}
           </title>
 
           <style>
@@ -2128,16 +2538,21 @@
         <body>
 
           <h1>
-            ${escapeHtml(data.title)}
+            ${escapeHtml(
+              data.title
+            )}
           </h1>
 
           <div class="content">
-            ${escapeHtml(data.content)}
+            ${escapeHtml(
+              data.content
+            )}
           </div>
 
         </body>
 
         </html>
+
       `);
 
       newWindow.document.close();
@@ -2150,7 +2565,11 @@
 
     async function deleteTypedDocument(id) {
 
-      if (!confirm("Delete this document?")) {
+      if (
+        !confirm(
+          "Delete this document?"
+        )
+      ) {
         return;
       }
 
@@ -2192,7 +2611,9 @@
     async function uploadDocument() {
 
       const fileInput =
-        document.getElementById("documentFile");
+        document.getElementById(
+          "documentFile"
+        );
 
       const file =
         fileInput.files[0];
@@ -2210,7 +2631,9 @@
 
 
       const filePath =
-        Date.now() + "_" + file.name;
+        Date.now() +
+        "_" +
+        file.name;
 
 
       const {
@@ -2219,7 +2642,10 @@
         await db
           .storage
           .from(DOCUMENT_BUCKET)
-          .upload(filePath, file);
+          .upload(
+            filePath,
+            file
+          );
 
 
       if (uploadError) {
@@ -2241,9 +2667,13 @@
         await db
           .from("documents")
           .insert({
+
             title: file.name,
+
             type: "Uploaded File",
+
             content: filePath
+
           });
 
 
@@ -2317,7 +2747,11 @@
 
     async function deleteDocument(fileName) {
 
-      if (!confirm("Delete this uploaded file?")) {
+      if (
+        !confirm(
+          "Delete this uploaded file?"
+        )
+      ) {
         return;
       }
 
@@ -2328,7 +2762,9 @@
         await db
           .storage
           .from(DOCUMENT_BUCKET)
-          .remove([fileName]);
+          .remove([
+            fileName
+          ]);
 
 
       if (storageError) {
@@ -2347,7 +2783,10 @@
       await db
         .from("documents")
         .delete()
-        .eq("content", fileName);
+        .eq(
+          "content",
+          fileName
+        );
 
 
       showStatus(
@@ -2366,11 +2805,23 @@
 
     function clearDocumentForm() {
 
-      document.getElementById("documentTitle").value = "";
+      document
+        .getElementById(
+          "documentTitle"
+        )
+        .value = "";
 
-      document.getElementById("documentContent").value = "";
+      document
+        .getElementById(
+          "documentContent"
+        )
+        .value = "";
 
-      document.getElementById("documentFile").value = "";
+      document
+        .getElementById(
+          "documentFile"
+        )
+        .value = "";
     }
 
 
@@ -2378,7 +2829,9 @@
        START APP
     ========================================== */
 
-    showSection("membersSection");
+    showSection(
+      "membersSection"
+    );
 
   </script>
 
