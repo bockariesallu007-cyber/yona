@@ -18,10 +18,6 @@
       color: #222;
     }
 
-    /* =========================
-       HEADER
-    ========================= */
-
     header {
       background: #075eaa;
       color: white;
@@ -38,10 +34,6 @@
       margin: 5px 0 0;
       font-size: 14px;
     }
-
-    /* =========================
-       DASHBOARD
-    ========================= */
 
     .dashboard {
       display: grid;
@@ -68,10 +60,6 @@
       background: #eaf4ff;
     }
 
-    /* =========================
-       MAIN CONTENT
-    ========================= */
-
     .container {
       max-width: 1100px;
       margin: auto;
@@ -95,10 +83,6 @@
       margin-top: 0;
       color: #075eaa;
     }
-
-    /* =========================
-       FORMS
-    ========================= */
 
     .form-group {
       margin-bottom: 12px;
@@ -170,10 +154,6 @@
       cursor: pointer;
     }
 
-    /* =========================
-       RECORDS
-    ========================= */
-
     .record {
       border: 1px solid #ddd;
       border-radius: 9px;
@@ -192,10 +172,6 @@
       margin-top: 10px;
       flex-wrap: wrap;
     }
-
-    /* =========================
-       STATUS
-    ========================= */
 
     .status {
       padding: 10px;
@@ -217,20 +193,12 @@
       color: #a00000;
     }
 
-    /* =========================
-       FOOTER
-    ========================= */
-
     footer {
       text-align: center;
       padding: 20px;
       color: #666;
       font-size: 13px;
     }
-
-    /* =========================
-       MOBILE
-    ========================= */
 
     @media (max-width: 700px) {
 
@@ -270,9 +238,7 @@
 
 <body>
 
-  <!-- =========================
-       HEADER
-  ========================= -->
+  <!-- HEADER -->
 
   <header>
     <h1>YONA App</h1>
@@ -281,9 +247,7 @@
   </header>
 
 
-  <!-- =========================
-       DASHBOARD
-  ========================= -->
+  <!-- DASHBOARD -->
 
   <div class="dashboard">
 
@@ -487,6 +451,8 @@
         <input
           id="financeAmount"
           type="number"
+          step="0.01"
+          min="0"
           placeholder="Enter amount">
 
       </div>
@@ -734,9 +700,7 @@
   </div>
 
 
-  <!-- =========================
-       FOOTER
-  ========================= -->
+  <!-- FOOTER -->
 
   <footer>
     YOUTHS OF NDASEI ASSOCIATION (YONA)<br>
@@ -744,9 +708,7 @@
   </footer>
 
 
-  <!-- =========================
-       SUPABASE
-  ========================= -->
+  <!-- SUPABASE -->
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -942,7 +904,7 @@
 
       list.innerHTML = "";
 
-      data.forEach(member => {
+      (data || []).forEach(member => {
 
         const name =
           readJsonValue(member.name);
@@ -1036,14 +998,9 @@
           await db
             .from("members")
             .update({
-              name:
-                JSON.stringify(name),
-
-              phone:
-                JSON.stringify(phone),
-
-              position:
-                JSON.stringify(position)
+              name: JSON.stringify(name),
+              phone: JSON.stringify(phone),
+              position: JSON.stringify(position)
             })
             .eq(
               "id",
@@ -1056,14 +1013,9 @@
           await db
             .from("members")
             .insert({
-              name:
-                JSON.stringify(name),
-
-              phone:
-                JSON.stringify(phone),
-
-              position:
-                JSON.stringify(position)
+              name: JSON.stringify(name),
+              phone: JSON.stringify(phone),
+              position: JSON.stringify(position)
             });
       }
 
@@ -1205,7 +1157,7 @@
 
       list.innerHTML = "";
 
-      data.forEach(item => {
+      (data || []).forEach(item => {
 
         const name =
           readJsonValue(item.name);
@@ -1431,6 +1383,8 @@
 
     /* ==========================================
        FINANCE
+       IMPORTANT:
+       amount is sent as a NUMBER, NOT JSON STRING
     ========================================== */
 
     async function loadFinance() {
@@ -1462,7 +1416,7 @@
 
       list.innerHTML = "";
 
-      data.forEach(item => {
+      (data || []).forEach(item => {
 
         const name =
           readJsonValue(item.name);
@@ -1471,7 +1425,7 @@
           readJsonValue(item.category);
 
         const amount =
-          readJsonValue(item.amount);
+          item.amount;
 
         const description =
           readJsonValue(item.description);
@@ -1538,10 +1492,11 @@
           .getElementById("financeCategory")
           .value;
 
-      const amount =
+      const amountText =
         document
           .getElementById("financeAmount")
-          .value;
+          .value
+          .trim();
 
       const description =
         document
@@ -1549,7 +1504,10 @@
           .value
           .trim();
 
-      if (!name || !amount) {
+
+      /* Check amount */
+
+      if (!name || !amountText) {
 
         showStatus(
           "financeStatus",
@@ -1560,22 +1518,48 @@
         return;
       }
 
+
+      /* Convert amount to a real number */
+
+      const amount =
+        Number(amountText);
+
+
+      if (
+        !Number.isFinite(amount) ||
+        amount < 0
+      ) {
+
+        showStatus(
+          "financeStatus",
+          "Please enter a valid numeric amount.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      /*
+        IMPORTANT:
+        name/category/description can be text.
+        amount MUST be a number.
+      */
+
       const values = {
 
-        name:
-          JSON.stringify(name),
+        name: name,
 
-        category:
-          JSON.stringify(category),
+        category: category,
 
-        amount:
-          JSON.stringify(amount),
+        amount: amount,
 
-        description:
-          JSON.stringify(description)
+        description: description
       };
 
+
       let result;
+
 
       if (editingFinanceId) {
 
@@ -1596,6 +1580,7 @@
             .insert(values);
       }
 
+
       if (result.error) {
 
         showStatus(
@@ -1608,6 +1593,7 @@
         return;
       }
 
+
       showStatus(
         "financeStatus",
         editingFinanceId
@@ -1615,6 +1601,7 @@
           : "Transaction saved successfully.",
         "success"
       );
+
 
       clearFinanceForm();
 
@@ -1744,7 +1731,7 @@
 
       list.innerHTML = "";
 
-      data.forEach(meeting => {
+      (data || []).forEach(meeting => {
 
         list.innerHTML += `
           <div class="record">
@@ -2000,7 +1987,7 @@
 
       list.innerHTML = "";
 
-      data.forEach(event => {
+      (data || []).forEach(event => {
 
         list.innerHTML += `
           <div class="record">
@@ -2280,7 +2267,7 @@
         "<h3>Saved Documents</h3>";
 
 
-      databaseDocuments.forEach(
+      (databaseDocuments || []).forEach(
         documentItem => {
 
           list.innerHTML += `
@@ -2501,6 +2488,18 @@
         );
 
 
+      if (!newWindow) {
+
+        showStatus(
+          "documentStatus",
+          "Please allow pop-ups to open the document.",
+          "error"
+        );
+
+        return;
+      }
+
+
       newWindow.document.write(`
 
         <!DOCTYPE html>
@@ -2679,6 +2678,15 @@
 
       if (databaseError) {
 
+        /* Remove uploaded file if database save fails */
+
+        await db
+          .storage
+          .from(DOCUMENT_BUCKET)
+          .remove([
+            filePath
+          ]);
+
         showStatus(
           "documentStatus",
           "File uploaded but database record failed: " +
@@ -2780,13 +2788,29 @@
       }
 
 
-      await db
-        .from("documents")
-        .delete()
-        .eq(
-          "content",
-          fileName
+      const {
+        error: databaseError
+      } =
+        await db
+          .from("documents")
+          .delete()
+          .eq(
+            "content",
+            fileName
+          );
+
+
+      if (databaseError) {
+
+        showStatus(
+          "documentStatus",
+          "File deleted, but database record could not be deleted: " +
+          databaseError.message,
+          "error"
         );
+
+        return;
+      }
 
 
       showStatus(
