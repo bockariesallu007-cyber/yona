@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>YONA App</title>
+  <title>YONA Management App</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -17,10 +18,116 @@
 
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Arial, sans-serif;
+      background: #f2f5f8;
+      color: #222;
+    }
+
+    /* =========================
+       ADMIN LOGIN
+    ========================= */
+
+    #loginScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 25px 15px;
       background:
-        linear-gradient(180deg, #eef6ff 0%, #f5f7fa 35%, #f5f7fa 100%);
-      color: #1f2937;
+        linear-gradient(135deg, #064f91, #0874c9);
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.22);
+    }
+
+    .login-brand {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 15px;
+      border-radius: 50%;
+      background: #075eaa;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 21px;
+    }
+
+    .login-box h2 {
+      text-align: center;
+      margin: 0;
+      color: #075eaa;
+    }
+
+    .login-box p {
+      text-align: center;
+      color: #6b7280;
+      font-size: 14px;
+      margin: 7px 0 22px;
+    }
+
+    .login-group {
+      margin-bottom: 15px;
+    }
+
+    .login-group label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .login-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .login-group input:focus {
+      border-color: #075eaa;
+      box-shadow: 0 0 0 3px rgba(7, 94, 170, 0.12);
+    }
+
+    .login-button {
+      width: 100%;
+      border: none;
+      background: #075eaa;
+      color: white;
+      padding: 13px;
+      border-radius: 9px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .login-button:hover {
+      background: #064f91;
+    }
+
+    .login-error {
+      display: none;
+      background: #ffe5e5;
+      color: #a00000;
+      border: 1px solid #f5bcbc;
+      padding: 11px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    #managementApp {
+      display: none;
     }
 
     /* =========================
@@ -28,281 +135,210 @@
     ========================= */
 
     header {
-      background:
-        linear-gradient(135deg, #064f91, #0874c9);
+      background: linear-gradient(135deg, #064f91, #0874c9);
       color: white;
-      padding: 28px 20px 30px;
-      text-align: center;
-      box-shadow: 0 5px 18px rgba(0, 61, 120, 0.25);
-      position: relative;
-      overflow: hidden;
+      padding: 25px 20px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
     }
 
-    header::before {
-      content: "";
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.08);
-      top: -90px;
-      left: -50px;
-    }
-
-    header::after {
-      content: "";
-      position: absolute;
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.06);
-      bottom: -130px;
-      right: -50px;
-    }
-
-    .header-content {
-      position: relative;
-      z-index: 2;
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
 
     .brand-circle {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 12px;
+      width: 65px;
+      height: 65px;
       border-radius: 50%;
       background: white;
       color: #075eaa;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 25px;
       font-weight: 900;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.18);
-      border: 4px solid rgba(255,255,255,0.35);
+      font-size: 19px;
+      flex-shrink: 0;
     }
 
-    header h1 {
+    .header-text h1 {
       margin: 0;
-      font-size: 32px;
-      letter-spacing: 1px;
-      font-weight: 800;
+      font-size: 25px;
     }
 
-    header .organization {
-      margin: 7px 0 0;
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    header .motto {
-      margin: 7px 0 0;
-      font-size: 14px;
-      opacity: 0.95;
-      letter-spacing: 0.5px;
+    .header-text p {
+      margin: 5px 0 0;
+      opacity: 0.9;
     }
 
     /* =========================
-       DASHBOARD
+       LOGOUT
     ========================= */
 
-    .dashboard-wrapper {
+    .logout-area {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 26px 20px 12px;
+      padding: 10px 20px 0;
+      text-align: right;
+    }
+
+    .logout-button {
+      border: none;
+      background: #c62828;
+      color: white;
+      padding: 9px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .logout-button:hover {
+      background: #a91f1f;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 25px 20px 50px;
     }
 
     .dashboard-title {
       text-align: center;
-      margin-bottom: 18px;
+      margin-bottom: 25px;
     }
 
     .dashboard-title h2 {
       margin: 0;
       color: #075eaa;
-      font-size: 22px;
     }
 
     .dashboard-title p {
-      margin: 6px 0 0;
+      margin-top: 7px;
+      color: #6b7280;
+    }
+
+    /* =========================
+       DASHBOARD CARDS
+    ========================= */
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 35px;
+    }
+
+    .dashboard-card {
+      background: white;
+      border-radius: 15px;
+      padding: 22px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      transition: 0.2s;
+      border: 1px solid #e5e7eb;
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .dashboard-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 11px;
+      background: #e8f2fb;
+      color: #075eaa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .dashboard-card h3 {
+      margin: 0 0 6px;
+      color: #075eaa;
+    }
+
+    .dashboard-card p {
+      margin: 0;
       color: #6b7280;
       font-size: 14px;
     }
 
-    .dashboard {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .dashboard button {
-      border: 1px solid #e1eaf3;
-      border-radius: 18px;
-      background: white;
-      min-height: 145px;
-      padding: 20px 14px;
-      cursor: pointer;
-      color: #075eaa;
-      box-shadow: 0 5px 16px rgba(15, 52, 86, 0.09);
-      transition: all 0.2s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .dashboard button::after {
-      content: "";
-      position: absolute;
-      width: 75px;
-      height: 75px;
-      border-radius: 50%;
-      background: #eef7ff;
-      right: -25px;
-      bottom: -25px;
-    }
-
-    .dashboard button:hover {
-      transform: translateY(-4px);
-      border-color: #b9daf5;
-      box-shadow: 0 10px 24px rgba(15, 52, 86, 0.14);
-    }
-
-    .dashboard button:active {
-      transform: scale(0.98);
-    }
-
-    .dashboard-icon {
-      display: flex;
-      width: 52px;
-      height: 52px;
-      margin: 0 auto 12px;
-      align-items: center;
-      justify-content: center;
-      border-radius: 15px;
-      background: #eaf5ff;
-      font-size: 27px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .dashboard-label {
-      display: block;
-      font-size: 18px;
-      font-weight: 800;
-      position: relative;
-      z-index: 2;
-    }
-
-    .dashboard-subtitle {
-      display: block;
-      margin-top: 5px;
-      font-size: 12px;
-      color: #7b8794;
-      font-weight: normal;
-      position: relative;
-      z-index: 2;
-    }
-
     /* =========================
-       MAIN CONTAINER
+       SECTIONS
     ========================= */
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 14px 20px 35px;
-    }
 
     .section {
       display: none;
       background: white;
-      border-radius: 18px;
-      padding: 26px;
-      margin-bottom: 22px;
-      box-shadow: 0 5px 20px rgba(15, 52, 86, 0.09);
-      border: 1px solid #e5edf5;
-      animation: sectionOpen 0.25s ease;
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
     }
 
     .section.active {
       display: block;
     }
 
-    @keyframes sectionOpen {
-      from {
-        opacity: 0;
-        transform: translateY(7px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* =========================
-       SECTION HEADER
-    ========================= */
-
     .section-header {
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding-bottom: 18px;
-      margin-bottom: 22px;
-      border-bottom: 1px solid #e8eef4;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #e5e7eb;
     }
 
     .section-header-icon {
-      width: 52px;
-      height: 52px;
-      min-width: 52px;
+      width: 45px;
+      height: 45px;
+      border-radius: 10px;
+      background: #e8f2fb;
+      color: #075eaa;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 15px;
-      background: #eaf5ff;
-      font-size: 25px;
+      font-size: 21px;
     }
 
-    .section-header-text h2 {
+    .section-header h2 {
       margin: 0;
       color: #075eaa;
-      font-size: 25px;
-    }
-
-    .section-header-text p {
-      margin: 5px 0 0;
-      color: #7b8794;
-      font-size: 13px;
-    }
-
-    .section h3 {
-      color: #075eaa;
-      font-size: 18px;
-      margin-top: 24px;
+      font-size: 21px;
     }
 
     /* =========================
-       FORM
+       FORMS
     ========================= */
 
     .form-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
-    .form-grid .full-width {
-      grid-column: 1 / -1;
+      gap: 15px;
     }
 
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 5px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
     }
 
     label {
       display: block;
       font-weight: 700;
-      margin-bottom: 7px;
-      color: #344054;
+      margin-bottom: 6px;
       font-size: 14px;
     }
 
@@ -310,145 +346,91 @@
     select,
     textarea {
       width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #ccd6e0;
-      border-radius: 10px;
-      font-size: 15px;
-      background: #fff;
-      color: #222;
-      transition: 0.2s ease;
+      padding: 11px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      outline: none;
     }
 
-    input:hover,
-    select:hover,
-    textarea:hover {
-      border-color: #9db8cf;
+    textarea {
+      min-height: 100px;
+      resize: vertical;
     }
 
     input:focus,
     select:focus,
     textarea:focus {
-      outline: none;
-      border-color: #0874c9;
-      box-shadow: 0 0 0 3px rgba(8,116,201,0.11);
-    }
-
-    input[type="file"] {
-      padding: 10px;
-      background: #f8fafc;
-    }
-
-    textarea {
-      min-height: 115px;
-      resize: vertical;
-      line-height: 1.5;
+      border-color: #075eaa;
+      box-shadow: 0 0 0 3px rgba(7, 94, 170, 0.1);
     }
 
     /* =========================
        BUTTONS
     ========================= */
 
-    .form-buttons {
+    .button-row {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin-top: 4px;
+      margin-top: 17px;
     }
 
-    button.primary,
-    button.secondary,
-    button.danger,
-    button.edit {
-      border: none;
-      cursor: pointer;
-      font-weight: 700;
-      border-radius: 9px;
-      transition: 0.2s ease;
+    button {
+      font-family: Arial, sans-serif;
     }
 
-    button.primary {
+    .primary-button {
       background: #075eaa;
       color: white;
-      padding: 12px 19px;
-      box-shadow: 0 3px 8px rgba(7,94,170,0.18);
+      border: none;
+      padding: 11px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
     }
 
-    button.primary:hover {
+    .primary-button:hover {
       background: #064f91;
-      transform: translateY(-1px);
     }
 
-    button.secondary {
-      background: #eef1f4;
-      color: #3f4b57;
-      padding: 12px 19px;
+    .secondary-button {
+      background: #6b7280;
+      color: white;
+      border: none;
+      padding: 11px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
     }
 
-    button.secondary:hover {
-      background: #e1e6eb;
+    .secondary-button:hover {
+      background: #4b5563;
     }
 
-    button.danger {
+    .danger-button {
       background: #c62828;
       color: white;
-      padding: 8px 13px;
+      border: none;
+      padding: 9px 13px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: 700;
     }
 
-    button.danger:hover {
+    .danger-button:hover {
       background: #a91f1f;
     }
 
-    button.edit {
-      background: #ef8f00;
-      color: white;
-      padding: 8px 13px;
-    }
-
-    button.edit:hover {
-      background: #d67d00;
-    }
-
-    /* =========================
-       RECORDS
-    ========================= */
-
-    #membersList,
-    #executiveList,
-    #financeList,
-    #meetingsList,
-    #eventsList,
-    #documentsList {
-      margin-top: 25px;
-    }
-
-    .record {
-      border: 1px solid #dfe7ef;
-      border-radius: 13px;
-      padding: 17px;
-      margin-top: 12px;
-      background: #fbfdff;
-      box-shadow: 0 2px 8px rgba(15, 52, 86, 0.05);
-      transition: 0.2s ease;
-      line-height: 1.7;
-    }
-
-    .record:hover {
-      border-color: #b9d7ee;
-      box-shadow: 0 5px 14px rgba(15, 52, 86, 0.08);
-    }
-
-    .record strong {
+    .edit-button {
+      background: #e8f2fb;
       color: #075eaa;
-      font-size: 17px;
-    }
-
-    .record-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-      padding-top: 11px;
-      border-top: 1px solid #edf1f5;
-      flex-wrap: wrap;
+      border: none;
+      padding: 9px 13px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: 700;
     }
 
     /* =========================
@@ -456,19 +438,19 @@
     ========================= */
 
     .status {
-      padding: 12px 14px;
-      margin: 0 0 17px;
-      border-radius: 9px;
       display: none;
-      font-weight: 700;
+      margin-top: 15px;
+      padding: 11px;
+      border-radius: 8px;
       font-size: 14px;
+      font-weight: 700;
     }
 
     .status.success {
       display: block;
-      background: #e0f6e5;
-      color: #176b2c;
-      border: 1px solid #bde8c7;
+      background: #e5f7eb;
+      color: #137333;
+      border: 1px solid #b7e4c3;
     }
 
     .status.error {
@@ -479,24 +461,49 @@
     }
 
     /* =========================
-       DIVIDER
+       RECORDS
     ========================= */
 
-    hr {
-      border: 0;
-      border-top: 1px solid #e3e9ef;
-      margin: 30px 0;
+    .records {
+      margin-top: 25px;
     }
 
-    /* =========================
-       DOCUMENT HEADINGS
-    ========================= */
+    .records-title {
+      color: #075eaa;
+      margin-bottom: 12px;
+      font-size: 17px;
+    }
 
-    #documentsSection h3 {
-      background: #f4f9fd;
-      border-left: 4px solid #075eaa;
-      padding: 10px 13px;
-      border-radius: 6px;
+    .record-card {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 11px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+
+    .record-card strong {
+      color: #075eaa;
+    }
+
+    .record-info {
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .record-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .empty-message {
+      color: #6b7280;
+      padding: 15px;
+      text-align: center;
+      background: #f8fafc;
+      border-radius: 8px;
     }
 
     /* =========================
@@ -505,25 +512,23 @@
 
     footer {
       text-align: center;
-      padding: 28px 20px;
-      color: #687585;
-      font-size: 13px;
-      border-top: 1px solid #e1e8ef;
-      background: white;
-      line-height: 1.7;
+      padding: 25px 15px;
+      background: #064f91;
+      color: white;
+      margin-top: 30px;
     }
 
-    footer strong {
-      color: #075eaa;
+    footer p {
+      margin: 4px 0;
     }
 
     /* =========================
-       TABLET
+       MOBILE
     ========================= */
 
     @media (max-width: 800px) {
 
-      .dashboard {
+      .dashboard-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
@@ -531,286 +536,341 @@
         grid-template-columns: 1fr;
       }
 
-      .form-grid .full-width {
+      .form-group.full {
         grid-column: auto;
-      }
-
-      .section {
-        padding: 21px;
       }
     }
 
-    /* =========================
-       PHONE
-    ========================= */
-
     @media (max-width: 600px) {
 
+      .login-box {
+        padding: 25px 20px;
+      }
+
+      .logout-area {
+        padding: 10px 12px 0;
+      }
+
       header {
-        padding: 24px 15px 27px;
+        padding: 20px 15px;
+      }
+
+      .header-inner {
+        gap: 10px;
       }
 
       .brand-circle {
-        width: 64px;
-        height: 64px;
-        font-size: 22px;
+        width: 55px;
+        height: 55px;
+        font-size: 16px;
       }
 
-      header h1 {
-        font-size: 27px;
-      }
-
-      header .organization {
-        font-size: 14px;
-      }
-
-      header .motto {
-        font-size: 13px;
-      }
-
-      .dashboard-wrapper {
-        padding: 20px 12px 10px;
-      }
-
-      .dashboard-title h2 {
+      .header-text h1 {
         font-size: 20px;
       }
 
-      .dashboard {
-        gap: 12px;
+      .header-text p {
+        font-size: 13px;
       }
 
-      .dashboard button {
-        min-height: 125px;
-        padding: 16px 8px;
-        border-radius: 15px;
+      main {
+        padding: 20px 12px 40px;
       }
 
-      .dashboard-icon {
-        width: 46px;
-        height: 46px;
-        font-size: 23px;
-        margin-bottom: 9px;
+      .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
       }
 
-      .dashboard-label {
+      .dashboard-card {
+        padding: 15px;
+      }
+
+      .dashboard-card h3 {
         font-size: 15px;
       }
 
-      .dashboard-subtitle {
-        font-size: 11px;
+      .dashboard-card p {
+        font-size: 12px;
       }
 
-      .container {
-        padding: 10px 12px 25px;
+      .dashboard-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
       }
 
       .section {
         padding: 17px;
-        border-radius: 15px;
       }
 
-      .section-header {
-        gap: 10px;
-        padding-bottom: 15px;
-        margin-bottom: 18px;
-      }
-
-      .section-header-icon {
-        width: 45px;
-        height: 45px;
-        min-width: 45px;
-        font-size: 21px;
-      }
-
-      .section-header-text h2 {
-        font-size: 21px;
-      }
-
-      .section-header-text p {
-        font-size: 12px;
-      }
-
-      .record {
-        padding: 14px;
-      }
-
-      button.primary,
-      button.secondary {
-        padding: 11px 15px;
+      .section-header h2 {
+        font-size: 18px;
       }
     }
 
-    @media (max-width: 380px) {
-
-      .dashboard {
-        gap: 9px;
-      }
-
-      .dashboard button {
-        min-height: 115px;
-      }
-
-      .dashboard-label {
-        font-size: 14px;
-      }
-
-      .dashboard-subtitle {
-        display: none;
-      }
-    }
   </style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
+<!-- =========================
+     ADMIN LOGIN
+========================= -->
+
+<div id="loginScreen">
+
+  <div class="login-box">
+
+    <div class="login-brand">
+      YONA
+    </div>
+
+    <h2>YONA Admin Login</h2>
+
+    <p>
+      Sign in to access the YONA Management App
+    </p>
+
+    <div id="loginError" class="login-error"></div>
+
+    <div class="login-group">
+
+      <label for="loginEmail">
+        Email
+      </label>
+
+      <input
+        id="loginEmail"
+        type="email"
+        placeholder="Enter admin email"
+        autocomplete="email">
+
+    </div>
+
+    <div class="login-group">
+
+      <label for="loginPassword">
+        Password
+      </label>
+
+      <input
+        id="loginPassword"
+        type="password"
+        placeholder="Enter password"
+        autocomplete="current-password">
+
+    </div>
+
+    <button
+      class="login-button"
+      onclick="loginAdmin()">
+
+      Login
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     MANAGEMENT APP
+========================= -->
+
+<div id="managementApp">
+
+  <!-- =========================
+       HEADER
+  ========================= -->
 
   <header>
-    <div class="header-content">
+
+    <div class="header-inner">
 
       <div class="brand-circle">
         YONA
       </div>
 
-      <h1>YONA App</h1>
+      <div class="header-text">
 
-      <p class="organization">
-        Youths of Ndasei Association
-      </p>
+        <h1>
+          YOUTHS OF NDASEI ASSOCIATION
+        </h1>
 
-      <p class="motto">
-        Unity and Development
-      </p>
+        <p>
+          Unity and Development
+        </p>
+
+      </div>
 
     </div>
+
   </header>
 
 
-  <!-- DASHBOARD -->
+  <!-- =========================
+       LOGOUT
+  ========================= -->
 
-  <div class="dashboard-wrapper">
+  <div class="logout-area">
 
-    <div class="dashboard-title">
-      <h2>YONA Management</h2>
-      <p>Select a section below</p>
-    </div>
+    <button
+      class="logout-button"
+      onclick="logoutAdmin()">
 
-    <div class="dashboard">
+      Logout
 
-      <button onclick="showSection('membersSection')">
-
-        <span class="dashboard-icon">
-          👥
-        </span>
-
-        <span class="dashboard-label">
-          Members
-        </span>
-
-        <span class="dashboard-subtitle">
-          Member Records
-        </span>
-
-      </button>
-
-
-      <button onclick="showSection('executiveSection')">
-
-        <span class="dashboard-icon">
-          👔
-        </span>
-
-        <span class="dashboard-label">
-          Executive
-        </span>
-
-        <span class="dashboard-subtitle">
-          Leadership
-        </span>
-
-      </button>
-
-
-      <button onclick="showSection('financeSection')">
-
-        <span class="dashboard-icon">
-          💰
-        </span>
-
-        <span class="dashboard-label">
-          Finance
-        </span>
-
-        <span class="dashboard-subtitle">
-          Financial Records
-        </span>
-
-      </button>
-
-
-      <button onclick="showSection('meetingsSection')">
-
-        <span class="dashboard-icon">
-          📅
-        </span>
-
-        <span class="dashboard-label">
-          Meetings
-        </span>
-
-        <span class="dashboard-subtitle">
-          Meeting Records
-        </span>
-
-      </button>
-
-
-      <button onclick="showSection('eventsSection')">
-
-        <span class="dashboard-icon">
-          🎉
-        </span>
-
-        <span class="dashboard-label">
-          Events
-        </span>
-
-        <span class="dashboard-subtitle">
-          YONA Events
-        </span>
-
-      </button>
-
-
-      <button onclick="showSection('documentsSection')">
-
-        <span class="dashboard-icon">
-          📄
-        </span>
-
-        <span class="dashboard-label">
-          Documents
-        </span>
-
-        <span class="dashboard-subtitle">
-          Files & Documents
-        </span>
-
-      </button>
-
-    </div>
+    </button>
 
   </div>
 
 
-  <div class="container">
+  <main>
+
+    <!-- =========================
+         DASHBOARD
+    ========================= -->
+
+    <div class="dashboard-title">
+
+      <h2>
+        YONA Management Dashboard
+      </h2>
+
+      <p>
+        Manage members, executive records, finance, meetings, events and documents.
+      </p>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+      <div
+        class="dashboard-card"
+        onclick="showSection('membersSection')">
+
+        <div class="dashboard-icon">
+          👥
+        </div>
+
+        <h3>
+          Members
+        </h3>
+
+        <p>
+          Manage YONA members
+        </p>
+
+      </div>
+
+
+      <div
+        class="dashboard-card"
+        onclick="showSection('executiveSection')">
+
+        <div class="dashboard-icon">
+          👔
+        </div>
+
+        <h3>
+          Executive
+        </h3>
+
+        <p>
+          Manage executive leaders
+        </p>
+
+      </div>
+
+
+      <div
+        class="dashboard-card"
+        onclick="showSection('financeSection')">
+
+        <div class="dashboard-icon">
+          💰
+        </div>
+
+        <h3>
+          Finance
+        </h3>
+
+        <p>
+          Manage financial records
+        </p>
+
+      </div>
+
+
+      <div
+        class="dashboard-card"
+        onclick="showSection('meetingsSection')">
+
+        <div class="dashboard-icon">
+          📅
+        </div>
+
+        <h3>
+          Meetings
+        </h3>
+
+        <p>
+          Manage meetings
+        </p>
+
+      </div>
+
+
+      <div
+        class="dashboard-card"
+        onclick="showSection('eventsSection')">
+
+        <div class="dashboard-icon">
+          🎉
+        </div>
+
+        <h3>
+          Events
+        </h3>
+
+        <p>
+          Manage YONA events
+        </p>
+
+      </div>
+
+
+      <div
+        class="dashboard-card"
+        onclick="showSection('documentsSection')">
+
+        <div class="dashboard-icon">
+          📄
+        </div>
+
+        <h3>
+          Documents
+        </h3>
+
+        <p>
+          Manage YONA documents
+        </p>
+
+      </div>
+
+    </div>
+
 
     <!-- =========================
          MEMBERS
     ========================= -->
 
-    <section id="membersSection" class="section">
+    <section
+      id="membersSection"
+      class="section">
 
       <div class="section-header">
 
@@ -818,66 +878,95 @@
           👥
         </div>
 
-        <div class="section-header-text">
-          <h2>Members</h2>
-          <p>Manage YONA member records</p>
-        </div>
+        <h2>
+          Members
+        </h2>
 
       </div>
 
-      <div id="memberStatus" class="status"></div>
 
       <div class="form-grid">
 
         <div class="form-group">
-          <label>Name</label>
+
+          <label for="memberName">
+            Name
+          </label>
 
           <input
             id="memberName"
             type="text"
             placeholder="Enter member name">
+
         </div>
 
 
         <div class="form-group">
-          <label>Phone</label>
+
+          <label for="memberPhone">
+            Phone
+          </label>
 
           <input
             id="memberPhone"
             type="text"
             placeholder="Enter phone number">
+
         </div>
 
 
-        <div class="form-group full-width">
-          <label>Position</label>
+        <div class="form-group full">
+
+          <label for="memberPosition">
+            Position
+          </label>
 
           <input
             id="memberPosition"
             type="text"
             placeholder="Enter position">
+
         </div>
 
       </div>
 
 
-      <div class="form-buttons">
+      <div class="button-row">
 
         <button
-          class="primary"
+          class="primary-button"
           onclick="saveMember()">
+
           Save Member
+
         </button>
 
         <button
-          class="secondary"
+          class="secondary-button"
           onclick="clearMemberForm()">
+
           Clear
+
         </button>
 
       </div>
 
-      <div id="membersList"></div>
+
+      <div
+        id="memberStatus"
+        class="status">
+      </div>
+
+
+      <div class="records">
+
+        <div class="records-title">
+          Member Records
+        </div>
+
+        <div id="membersList"></div>
+
+      </div>
 
     </section>
 
@@ -886,7 +975,9 @@
          EXECUTIVE
     ========================= -->
 
-    <section id="executiveSection" class="section">
+    <section
+      id="executiveSection"
+      class="section">
 
       <div class="section-header">
 
@@ -894,66 +985,95 @@
           👔
         </div>
 
-        <div class="section-header-text">
-          <h2>Executive Leadership</h2>
-          <p>Manage YONA executive leadership records</p>
-        </div>
+        <h2>
+          Executive
+        </h2>
 
       </div>
 
-      <div id="executiveStatus" class="status"></div>
 
       <div class="form-grid">
 
         <div class="form-group">
-          <label>Name</label>
+
+          <label for="executiveName">
+            Name
+          </label>
 
           <input
             id="executiveName"
             type="text"
             placeholder="Enter name">
+
         </div>
 
 
         <div class="form-group">
-          <label>Position</label>
+
+          <label for="executivePosition">
+            Position
+          </label>
 
           <input
             id="executivePosition"
             type="text"
             placeholder="Enter position">
+
         </div>
 
 
-        <div class="form-group full-width">
-          <label>Phone</label>
+        <div class="form-group full">
+
+          <label for="executivePhone">
+            Phone
+          </label>
 
           <input
             id="executivePhone"
             type="text"
-            placeholder="Enter phone">
+            placeholder="Enter phone number">
+
         </div>
 
       </div>
 
 
-      <div class="form-buttons">
+      <div class="button-row">
 
         <button
-          class="primary"
+          class="primary-button"
           onclick="saveExecutive()">
+
           Save Executive
+
         </button>
 
         <button
-          class="secondary"
+          class="secondary-button"
           onclick="clearExecutiveForm()">
+
           Clear
+
         </button>
 
       </div>
 
-      <div id="executiveList"></div>
+
+      <div
+        id="executiveStatus"
+        class="status">
+      </div>
+
+
+      <div class="records">
+
+        <div class="records-title">
+          Executive Records
+        </div>
+
+        <div id="executiveList"></div>
+
+      </div>
 
     </section>
 
@@ -962,7 +1082,9 @@
          FINANCE
     ========================= -->
 
-    <section id="financeSection" class="section">
+    <section
+      id="financeSection"
+      class="section">
 
       <div class="section-header">
 
@@ -970,92 +1092,110 @@
           💰
         </div>
 
-        <div class="section-header-text">
-          <h2>Finance</h2>
-          <p>Manage YONA financial records</p>
-        </div>
+        <h2>
+          Finance
+        </h2>
 
       </div>
 
-      <div id="financeStatus" class="status"></div>
 
       <div class="form-grid">
 
         <div class="form-group">
-          <label>Name</label>
+
+          <label for="financeName">
+            Name
+          </label>
 
           <input
             id="financeName"
             type="text"
             placeholder="Enter name">
+
         </div>
 
 
         <div class="form-group">
-          <label>Category</label>
 
-          <select id="financeCategory">
+          <label for="financeCategory">
+            Category
+          </label>
 
-            <option value="Monthly Contribution">
-              Monthly Contribution
-            </option>
+          <input
+            id="financeCategory"
+            type="text"
+            placeholder="Income / Expense">
 
-            <option value="End of Year Contribution">
-              End of Year Contribution
-            </option>
-
-            <option value="Welfare">
-              Welfare
-            </option>
-
-            <option value="Other">
-              Other
-            </option>
-
-          </select>
         </div>
 
 
         <div class="form-group">
-          <label>Amount</label>
+
+          <label for="financeAmount">
+            Amount
+          </label>
 
           <input
             id="financeAmount"
             type="number"
             step="0.01"
-            min="0"
             placeholder="Enter amount">
+
         </div>
 
 
         <div class="form-group">
-          <label>Description</label>
 
-          <textarea
+          <label for="financeDescription">
+            Description
+          </label>
+
+          <input
             id="financeDescription"
-            placeholder="Enter description"></textarea>
+            type="text"
+            placeholder="Enter description">
+
         </div>
 
       </div>
 
 
-      <div class="form-buttons">
+      <div class="button-row">
 
         <button
-          class="primary"
+          class="primary-button"
           onclick="saveFinance()">
+
           Save Transaction
+
         </button>
 
         <button
-          class="secondary"
+          class="secondary-button"
           onclick="clearFinanceForm()">
+
           Clear
+
         </button>
 
       </div>
 
-      <div id="financeList"></div>
+
+      <div
+        id="financeStatus"
+        class="status">
+      </div>
+
+
+      <div class="records">
+
+        <div class="records-title">
+          Financial Records
+        </div>
+
+        <div id="financeList"></div>
+
+      </div>
 
     </section>
 
@@ -1064,7 +1204,9 @@
          MEETINGS
     ========================= -->
 
-    <section id="meetingsSection" class="section">
+    <section
+      id="meetingsSection"
+      class="section">
 
       <div class="section-header">
 
@@ -1072,65 +1214,94 @@
           📅
         </div>
 
-        <div class="section-header-text">
-          <h2>Meetings</h2>
-          <p>Manage YONA meeting records</p>
-        </div>
+        <h2>
+          Meetings
+        </h2>
 
       </div>
 
-      <div id="meetingStatus" class="status"></div>
 
       <div class="form-grid">
 
         <div class="form-group">
-          <label>Date</label>
+
+          <label for="meetingDate">
+            Meeting Date
+          </label>
 
           <input
             id="meetingDate"
             type="date">
+
         </div>
 
 
         <div class="form-group">
-          <label>Meeting Title</label>
+
+          <label for="meetingTitle">
+            Meeting Title
+          </label>
 
           <input
             id="meetingTitle"
             type="text"
             placeholder="Enter meeting title">
+
         </div>
 
 
-        <div class="form-group full-width">
-          <label>Location</label>
+        <div class="form-group full">
+
+          <label for="meetingLocation">
+            Location
+          </label>
 
           <input
             id="meetingLocation"
             type="text"
             placeholder="Enter meeting location">
+
         </div>
 
       </div>
 
 
-      <div class="form-buttons">
+      <div class="button-row">
 
         <button
-          class="primary"
+          class="primary-button"
           onclick="saveMeeting()">
+
           Save Meeting
+
         </button>
 
         <button
-          class="secondary"
+          class="secondary-button"
           onclick="clearMeetingForm()">
+
           Clear
+
         </button>
 
       </div>
 
-      <div id="meetingsList"></div>
+
+      <div
+        id="meetingStatus"
+        class="status">
+      </div>
+
+
+      <div class="records">
+
+        <div class="records-title">
+          Meeting Records
+        </div>
+
+        <div id="meetingsList"></div>
+
+      </div>
 
     </section>
 
@@ -1139,7 +1310,9 @@
          EVENTS
     ========================= -->
 
-    <section id="eventsSection" class="section">
+    <section
+      id="eventsSection"
+      class="section">
 
       <div class="section-header">
 
@@ -1147,74 +1320,108 @@
           🎉
         </div>
 
-        <div class="section-header-text">
-          <h2>Events</h2>
-          <p>Manage YONA events and activities</p>
-        </div>
+        <h2>
+          Events
+        </h2>
 
       </div>
 
-      <div id="eventStatus" class="status"></div>
 
       <div class="form-grid">
 
         <div class="form-group">
-          <label>Event Title</label>
+
+          <label for="eventTitle">
+            Event Title
+          </label>
 
           <input
             id="eventTitle"
             type="text"
             placeholder="Enter event title">
+
         </div>
 
 
         <div class="form-group">
-          <label>Date</label>
+
+          <label for="eventDate">
+            Event Date
+          </label>
 
           <input
             id="eventDate"
             type="date">
+
         </div>
 
 
-        <div class="form-group full-width">
-          <label>Location</label>
+        <div class="form-group full">
+
+          <label for="eventLocation">
+            Location
+          </label>
 
           <input
             id="eventLocation"
             type="text"
             placeholder="Enter event location">
+
         </div>
 
 
-        <div class="form-group full-width">
-          <label>Description</label>
+        <div class="form-group full">
+
+          <label for="eventDescription">
+            Description
+          </label>
 
           <textarea
             id="eventDescription"
-            placeholder="Enter event description"></textarea>
+            placeholder="Enter event description">
+          </textarea>
+
         </div>
 
       </div>
 
 
-      <div class="form-buttons">
+      <div class="button-row">
 
         <button
-          class="primary"
+          class="primary-button"
           onclick="saveEvent()">
+
           Save Event
+
         </button>
 
         <button
-          class="secondary"
+          class="secondary-button"
           onclick="clearEventForm()">
+
           Clear
+
         </button>
 
       </div>
 
-      <div id="eventsList"></div>
+
+      <div
+        id="eventStatus"
+        class="status">
+      </div>
+
+
+      <div class="records">
+
+        <div class="records-title">
+          Event Records
+        </div>
+
+        <div id="eventsList"></div>
+
+      </div>
 
     </section>
 
@@ -1223,7 +1430,9 @@
          DOCUMENTS
     ========================= -->
 
-    <section id="documentsSection" class="section">
+    <section
+      id="documentsSection"
+      class="section">
 
       <div class="section-header">
 
@@ -1231,22 +1440,25 @@
           📄
         </div>
 
-        <div class="section-header-text">
-          <h2>Documents</h2>
-          <p>Create, upload and manage YONA documents</p>
-        </div>
+        <h2>
+          Documents
+        </h2>
 
       </div>
 
-      <div id="documentStatus" class="status"></div>
 
-      <h3>Create Typed Document</h3>
+      <h3>
+        Add Typed Document
+      </h3>
+
 
       <div class="form-grid">
 
-        <div class="form-group full-width">
+        <div class="form-group">
 
-          <label>Document Title</label>
+          <label for="documentTitle">
+            Title
+          </label>
 
           <input
             id="documentTitle"
@@ -1256,239 +1468,586 @@
         </div>
 
 
-        <div class="form-group full-width">
+        <div class="form-group">
 
-          <label>Document Content</label>
+          <label for="documentType">
+            Type
+          </label>
+
+          <input
+            id="documentType"
+            type="text"
+            placeholder="e.g. Minutes, Notice">
+
+        </div>
+
+
+        <div class="form-group full">
+
+          <label for="documentContent">
+            Content
+          </label>
 
           <textarea
             id="documentContent"
-            placeholder="Type your document here"></textarea>
+            placeholder="Enter document content">
+          </textarea>
 
         </div>
 
       </div>
 
 
-      <div class="form-buttons">
+      <div class="button-row">
 
         <button
-          class="primary"
-          onclick="saveTypedDocument()">
+          class="primary-button"
+          onclick="saveDocument()">
+
           Save Document
+
         </button>
 
         <button
-          class="secondary"
+          class="secondary-button"
           onclick="clearDocumentForm()">
+
           Clear
+
         </button>
 
       </div>
 
 
-      <hr>
+      <div
+        id="documentStatus"
+        class="status">
+      </div>
 
 
-      <h3>Upload Document</h3>
+      <div class="records">
 
-      <div class="form-group">
+        <div class="records-title">
+          Typed Documents
+        </div>
 
-        <label>Select File</label>
-
-        <input
-          id="documentFile"
-          type="file">
+        <div id="documentsList"></div>
 
       </div>
 
 
-      <button
-        class="primary"
-        onclick="uploadDocument()">
+      <hr style="margin:30px 0;border:none;border-top:1px solid #e5e7eb;">
+
+
+      <h3>
         Upload File
-      </button>
+      </h3>
 
 
-      <div id="documentsList"></div>
+      <div class="form-grid">
+
+        <div class="form-group full">
+
+          <label for="documentFile">
+            Select File
+          </label>
+
+          <input
+            id="documentFile"
+            type="file">
+
+        </div>
+
+      </div>
+
+
+      <div class="button-row">
+
+        <button
+          class="primary-button"
+          onclick="uploadDocumentFile()">
+
+          Upload File
+
+        </button>
+
+      </div>
+
+
+      <div
+        id="fileStatus"
+        class="status">
+      </div>
+
+
+      <div class="records">
+
+        <div class="records-title">
+          Uploaded Files
+        </div>
+
+        <div id="filesList"></div>
+
+      </div>
 
     </section>
 
-  </div>
+  </main>
 
 
-  <!-- FOOTER -->
+  <!-- =========================
+       FOOTER
+  ========================= -->
 
   <footer>
 
-    <strong>
-      YOUTHS OF NDASEI ASSOCIATION (YONA)
-    </strong>
+    <p>
+      <strong>YOUTHS OF NDASEI ASSOCIATION</strong>
+    </p>
 
-    <br>
+    <p>
+      Unity and Development
+    </p>
 
-    Unity and Development
-
-    <br>
-
-    YONA Management App
+    <p>
+      12 Berry Street, Back of Albert Academy
+    </p>
 
   </footer>
 
-
-  <!-- SUPABASE -->
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script>
-
-    const SUPABASE_URL =
-      "https://atxeeymireukwbbsczbv.supabase.co";
-
-    const SUPABASE_KEY =
-      "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
-
-    const db =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
-
-    const DOCUMENT_BUCKET =
-      "yona-documents";
-
-    let editingMemberId = null;
-    let editingExecutiveId = null;
-    let editingFinanceId = null;
-    let editingMeetingId = null;
-    let editingEventId = null;
+</div>
 
 
-    function showSection(sectionId) {
+<!-- =========================
+     SUPABASE
+========================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+  /* =========================
+     SUPABASE CONFIGURATION
+  ========================= */
+
+  const SUPABASE_URL =
+    "https://atxeeymireukwbbsczbv.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
+
+  const DOCUMENT_BUCKET =
+    "yona-documents";
+
+
+  const db =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  /* =========================
+     ADMIN AUTHENTICATION
+  ========================= */
+
+  async function loginAdmin() {
+
+    const email =
+      document
+        .getElementById("loginEmail")
+        .value
+        .trim();
+
+    const password =
+      document
+        .getElementById("loginPassword")
+        .value;
+
+    const errorBox =
+      document.getElementById("loginError");
+
+    errorBox.style.display = "none";
+    errorBox.textContent = "";
+
+
+    if (!email || !password) {
+
+      errorBox.textContent =
+        "Please enter your email and password.";
+
+      errorBox.style.display = "block";
+
+      return;
+    }
+
+
+    const {
+      data,
+      error
+    } =
+      await db.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+
+    if (error) {
+
+      errorBox.textContent =
+        "Login failed: " + error.message;
+
+      errorBox.style.display = "block";
+
+      return;
+    }
+
+
+    if (data.session) {
 
       document
-        .querySelectorAll(".section")
-        .forEach(section => {
-          section.classList.remove("active");
-        });
+        .getElementById("loginScreen")
+        .style.display = "none";
 
-      const section =
-        document.getElementById(sectionId);
+      document
+        .getElementById("managementApp")
+        .style.display = "block";
 
-      if (section) {
-        section.classList.add("active");
+      showSection("membersSection");
+    }
 
-        setTimeout(() => {
-          section.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-        }, 50);
-      }
+  }
 
-      if (sectionId === "membersSection") loadMembers();
-      if (sectionId === "executiveSection") loadExecutive();
-      if (sectionId === "financeSection") loadFinance();
-      if (sectionId === "meetingsSection") loadMeetings();
-      if (sectionId === "eventsSection") loadEvents();
-      if (sectionId === "documentsSection") loadDocuments();
+
+  async function logoutAdmin() {
+
+    const {
+      error
+    } =
+      await db.auth.signOut();
+
+
+    if (error) {
+
+      alert(
+        "Could not log out: " +
+        error.message
+      );
+
+      return;
     }
 
 
-    function showStatus(elementId, message, type) {
+    document
+      .getElementById("managementApp")
+      .style.display = "none";
 
-      const element =
-        document.getElementById(elementId);
 
-      if (!element) return;
+    document
+      .getElementById("loginScreen")
+      .style.display = "flex";
 
-      element.textContent = message;
 
-      element.className =
-        "status " + type;
+    document
+      .getElementById("loginEmail")
+      .value = "";
 
-      setTimeout(() => {
-        element.className = "status";
-      }, 4000);
+
+    document
+      .getElementById("loginPassword")
+      .value = "";
+
+  }
+
+
+  async function checkAdminSession() {
+
+    const {
+      data,
+      error
+    } =
+      await db.auth.getSession();
+
+
+    if (error) {
+
+      console.error(
+        "Session check error:",
+        error.message
+      );
+
+      return;
     }
 
 
-    function escapeHtml(value) {
+    if (data.session) {
 
-      if (
-        value === null ||
-        value === undefined
-      ) {
-        return "";
-      }
+      document
+        .getElementById("loginScreen")
+        .style.display = "none";
 
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+
+      document
+        .getElementById("managementApp")
+        .style.display = "block";
+
+
+      showSection("membersSection");
+
     }
 
+    else {
 
-    function escapeJs(value) {
+      document
+        .getElementById("loginScreen")
+        .style.display = "flex";
 
-      return String(value || "")
-        .replace(/\\/g, "\\\\")
-        .replace(/'/g, "\\'");
+
+      document
+        .getElementById("managementApp")
+        .style.display = "none";
+
     }
 
+  }
 
-    function readJsonValue(value) {
 
-      if (
-        value === null ||
-        value === undefined
-      ) {
-        return "";
+  db.auth.onAuthStateChange(
+    (event, session) => {
+
+      if (session) {
+
+        document
+          .getElementById("loginScreen")
+          .style.display = "none";
+
+
+        document
+          .getElementById("managementApp")
+          .style.display = "block";
+
       }
 
-      if (typeof value !== "string") {
-        return String(value);
+      else {
+
+        document
+          .getElementById("loginScreen")
+          .style.display = "flex";
+
+
+        document
+          .getElementById("managementApp")
+          .style.display = "none";
+
       }
+
+    }
+  );
+
+
+  /* =========================
+     GENERAL FUNCTIONS
+  ========================= */
+
+  function showStatus(
+    id,
+    message,
+    type
+  ) {
+
+    const element =
+      document.getElementById(id);
+
+    if (!element) return;
+
+    element.textContent = message;
+
+    element.className =
+      "status " + type;
+
+  }
+
+
+  function escapeHtml(value) {
+
+    if (value === null ||
+        value === undefined) {
+
+      return "";
+
+    }
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  function escapeJs(value) {
+
+    return String(value ?? "")
+      .replace(/\\/g, "\\\\")
+      .replace(/'/g, "\\'")
+      .replace(/\n/g, "\\n")
+      .replace(/\r/g, "\\r");
+
+  }
+
+
+  function readJsonValue(value) {
+
+    if (
+      typeof value === "string" &&
+      value.length >= 2 &&
+      (
+        value.startsWith('"') ||
+        value.startsWith("'")
+      )
+    ) {
 
       try {
+
         return JSON.parse(value);
-      } catch {
-        return value;
+
       }
+
+      catch (error) {
+
+        return value;
+
+      }
+
+    }
+
+    return value ?? "";
+
+  }
+
+
+  function showSection(sectionId) {
+
+    const sections =
+      document.querySelectorAll(".section");
+
+    sections.forEach(
+      section => {
+
+        section.classList.remove("active");
+
+      }
+    );
+
+
+    const section =
+      document.getElementById(sectionId);
+
+
+    if (!section) return;
+
+
+    section.classList.add("active");
+
+
+    section.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+
+    if (sectionId === "membersSection") {
+
+      loadMembers();
+
+    }
+
+    if (sectionId === "executiveSection") {
+
+      loadExecutive();
+
+    }
+
+    if (sectionId === "financeSection") {
+
+      loadFinance();
+
+    }
+
+    if (sectionId === "meetingsSection") {
+
+      loadMeetings();
+
+    }
+
+    if (sectionId === "eventsSection") {
+
+      loadEvents();
+
+    }
+
+    if (sectionId === "documentsSection") {
+
+      loadDocuments();
+      loadFiles();
+
+    }
+
+  }
+
+
+  /* =========================
+     MEMBERS
+  ========================= */
+
+  let editingMemberId = null;
+
+
+  async function loadMembers() {
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("members")
+        .select("*")
+        .order("created_at", {
+          ascending: false
+        });
+
+
+    const list =
+      document.getElementById("membersList");
+
+
+    if (error) {
+
+      list.innerHTML =
+        `<div class="empty-message">
+          Could not load members:
+          ${escapeHtml(error.message)}
+        </div>`;
+
+      return;
     }
 
 
-    /* MEMBERS */
+    if (!data || data.length === 0) {
 
-    async function loadMembers() {
+      list.innerHTML =
+        `<div class="empty-message">
+          No member records found.
+        </div>`;
 
-      const { data, error } =
-        await db
-          .from("members")
-          .select("*")
-          .order("id", {
-            ascending: false
-          });
+      return;
+    }
 
-      if (error) {
 
-        showStatus(
-          "memberStatus",
-          "Could not load members: " +
-          error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      const list =
-        document.getElementById("membersList");
-
-      list.innerHTML = "";
-
-      (data || []).forEach(member => {
+    list.innerHTML =
+      data.map(member => {
 
         const name =
           readJsonValue(member.name);
@@ -1499,208 +2058,319 @@
         const position =
           readJsonValue(member.position);
 
-        list.innerHTML += `
-          <div class="record">
 
-            <strong>
-              ${escapeHtml(name)}
-            </strong>
-            <br>
+        return `
+          <div class="record-card">
 
-            Phone:
-            ${escapeHtml(phone)}
-            <br>
+            <div class="record-info">
 
-            Position:
-            ${escapeHtml(position)}
+              <strong>
+                ${escapeHtml(name)}
+              </strong>
+
+              <br>
+
+              Phone:
+              ${escapeHtml(phone)}
+
+              <br>
+
+              Position:
+              ${escapeHtml(position)}
+
+            </div>
+
 
             <div class="record-actions">
 
               <button
-                class="edit"
-                onclick="editMember(
-                  ${member.id},
-                  '${escapeJs(name)}',
-                  '${escapeJs(phone)}',
-                  '${escapeJs(position)}'
-                )">
+                class="edit-button"
+                onclick="editMember('${escapeJs(member.id)}')">
+
                 Edit
+
               </button>
 
+
               <button
-                class="danger"
-                onclick="deleteMember(${member.id})">
+                class="danger-button"
+                onclick="deleteMember('${escapeJs(member.id)}')">
+
                 Delete
+
               </button>
 
             </div>
 
           </div>
         `;
-      });
-    }
+
+      }).join("");
+
+  }
 
 
-    async function saveMember() {
+  async function saveMember() {
 
-      const name =
-        document.getElementById("memberName").value.trim();
-
-      const phone =
-        document.getElementById("memberPhone").value.trim();
-
-      const position =
-        document.getElementById("memberPosition").value.trim();
-
-      if (!name) {
-
-        showStatus(
-          "memberStatus",
-          "Please enter the member name.",
-          "error"
-        );
-
-        return;
-      }
-
-      let result;
-
-      if (editingMemberId) {
-
-        result =
-          await db
-            .from("members")
-            .update({
-              name: JSON.stringify(name),
-              phone: JSON.stringify(phone),
-              position: JSON.stringify(position)
-            })
-            .eq("id", editingMemberId);
-
-      } else {
-
-        result =
-          await db
-            .from("members")
-            .insert({
-              name: JSON.stringify(name),
-              phone: JSON.stringify(phone),
-              position: JSON.stringify(position)
-            });
-      }
-
-      if (result.error) {
-
-        showStatus(
-          "memberStatus",
-          "Could not save member: " +
-          result.error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      showStatus(
-        "memberStatus",
-        editingMemberId
-          ? "Member updated successfully."
-          : "Member saved successfully.",
-        "success"
-      );
-
-      clearMemberForm();
-
-      loadMembers();
-    }
-
-
-    function editMember(id, name, phone, position) {
-
-      editingMemberId = id;
-
-      document.getElementById("memberName").value = name;
-      document.getElementById("memberPhone").value = phone;
-      document.getElementById("memberPosition").value = position;
-
+    const name =
       document
         .getElementById("memberName")
-        .focus();
-    }
+        .value
+        .trim();
 
 
-    async function deleteMember(id) {
+    const phone =
+      document
+        .getElementById("memberPhone")
+        .value
+        .trim();
 
-      if (!confirm("Delete this member?")) return;
 
-      const { error } =
-        await db
-          .from("members")
-          .delete()
-          .eq("id", id);
+    const position =
+      document
+        .getElementById("memberPosition")
+        .value
+        .trim();
 
-      if (error) {
 
-        showStatus(
-          "memberStatus",
-          "Could not delete member: " +
-          error.message,
-          "error"
-        );
-
-        return;
-      }
+    if (!name) {
 
       showStatus(
         "memberStatus",
-        "Member deleted successfully.",
-        "success"
+        "Please enter the member name.",
+        "error"
       );
 
-      loadMembers();
+      return;
     }
 
 
-    function clearMemberForm() {
+    const values = {
 
-      editingMemberId = null;
+      name: JSON.stringify(name),
 
-      document.getElementById("memberName").value = "";
-      document.getElementById("memberPhone").value = "";
-      document.getElementById("memberPosition").value = "";
-    }
+      phone: JSON.stringify(phone),
+
+      position: JSON.stringify(position)
+
+    };
 
 
-    /* EXECUTIVE */
+    let result;
 
-    async function loadExecutive() {
 
-      const { data, error } =
+    if (editingMemberId) {
+
+      result =
         await db
-          .from("executive")
-          .select("*")
-          .order("id", {
-            ascending: false
-          });
+          .from("members")
+          .update(values)
+          .eq("id", editingMemberId);
 
-      if (error) {
+    }
 
-        showStatus(
-          "executiveStatus",
-          "Could not load executive: " +
-          error.message,
-          "error"
-        );
+    else {
 
-        return;
-      }
+      result =
+        await db
+          .from("members")
+          .insert([values]);
 
-      const list =
-        document.getElementById("executiveList");
+    }
 
-      list.innerHTML = "";
 
-      (data || []).forEach(item => {
+    if (result.error) {
+
+      showStatus(
+        "memberStatus",
+        "Could not save member: " +
+        result.error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showStatus(
+      "memberStatus",
+      editingMemberId
+        ? "Member updated successfully."
+        : "Member saved successfully.",
+      "success"
+    );
+
+
+    clearMemberForm();
+
+    loadMembers();
+
+  }
+
+
+  async function editMember(id) {
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("members")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+
+    if (error) {
+
+      alert(
+        "Could not load member: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    editingMemberId = id;
+
+
+    document
+      .getElementById("memberName")
+      .value =
+        readJsonValue(data.name);
+
+
+    document
+      .getElementById("memberPhone")
+      .value =
+        readJsonValue(data.phone);
+
+
+    document
+      .getElementById("memberPosition")
+      .value =
+        readJsonValue(data.position);
+
+
+    window.scrollTo({
+      top: document
+        .getElementById("membersSection")
+        .offsetTop,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  async function deleteMember(id) {
+
+    if (
+      !confirm(
+        "Delete this member?"
+      )
+    ) return;
+
+
+    const {
+      error
+    } =
+      await db
+        .from("members")
+        .delete()
+        .eq("id", id);
+
+
+    if (error) {
+
+      alert(
+        "Could not delete member: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    loadMembers();
+
+  }
+
+
+  function clearMemberForm() {
+
+    editingMemberId = null;
+
+
+    document
+      .getElementById("memberName")
+      .value = "";
+
+
+    document
+      .getElementById("memberPhone")
+      .value = "";
+
+
+    document
+      .getElementById("memberPosition")
+      .value = "";
+
+  }
+
+
+  /* =========================
+     EXECUTIVE
+  ========================= */
+
+  let editingExecutiveId = null;
+
+
+  async function loadExecutive() {
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("executive")
+        .select("*")
+        .order("id", {
+          ascending: false
+        });
+
+
+    const list =
+      document.getElementById(
+        "executiveList"
+      );
+
+
+    if (error) {
+
+      list.innerHTML =
+        `<div class="empty-message">
+          Could not load executive records:
+          ${escapeHtml(error.message)}
+        </div>`;
+
+      return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML =
+        `<div class="empty-message">
+          No executive records found.
+        </div>`;
+
+      return;
+    }
+
+
+    list.innerHTML =
+      data.map(item => {
 
         const name =
           readJsonValue(item.name);
@@ -1711,206 +2381,314 @@
         const phone =
           readJsonValue(item.phone);
 
-        list.innerHTML += `
-          <div class="record">
 
-            <strong>
-              ${escapeHtml(name)}
-            </strong>
-            <br>
+        return `
+          <div class="record-card">
 
-            Position:
-            ${escapeHtml(position)}
-            <br>
+            <div class="record-info">
 
-            Phone:
-            ${escapeHtml(phone)}
+              <strong>
+                ${escapeHtml(name)}
+              </strong>
+
+              <br>
+
+              Position:
+              ${escapeHtml(position)}
+
+              <br>
+
+              Phone:
+              ${escapeHtml(phone)}
+
+            </div>
+
 
             <div class="record-actions">
 
               <button
-                class="edit"
-                onclick="editExecutive(
-                  ${item.id},
-                  '${escapeJs(name)}',
-                  '${escapeJs(position)}',
-                  '${escapeJs(phone)}'
-                )">
+                class="edit-button"
+                onclick="editExecutive('${escapeJs(item.id)}')">
+
                 Edit
+
               </button>
 
+
               <button
-                class="danger"
-                onclick="deleteExecutive(${item.id})">
+                class="danger-button"
+                onclick="deleteExecutive('${escapeJs(item.id)}')">
+
                 Delete
+
               </button>
 
             </div>
 
           </div>
         `;
-      });
-    }
+
+      }).join("");
+
+  }
 
 
-    async function saveExecutive() {
+  async function saveExecutive() {
 
-      const name =
-        document.getElementById("executiveName").value.trim();
-
-      const position =
-        document.getElementById("executivePosition").value.trim();
-
-      const phone =
-        document.getElementById("executivePhone").value.trim();
-
-      if (!name) {
-
-        showStatus(
-          "executiveStatus",
-          "Please enter the executive name.",
-          "error"
-        );
-
-        return;
-      }
-
-      const values = {
-        name: JSON.stringify(name),
-        position: JSON.stringify(position),
-        phone: JSON.stringify(phone)
-      };
-
-      let result;
-
-      if (editingExecutiveId) {
-
-        result =
-          await db
-            .from("executive")
-            .update(values)
-            .eq("id", editingExecutiveId);
-
-      } else {
-
-        result =
-          await db
-            .from("executive")
-            .insert(values);
-      }
-
-      if (result.error) {
-
-        showStatus(
-          "executiveStatus",
-          "Could not save executive: " +
-          result.error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      showStatus(
-        "executiveStatus",
-        editingExecutiveId
-          ? "Executive updated successfully."
-          : "Executive saved successfully.",
-        "success"
-      );
-
-      clearExecutiveForm();
-
-      loadExecutive();
-    }
-
-
-    function editExecutive(id, name, position, phone) {
-
-      editingExecutiveId = id;
-
-      document.getElementById("executiveName").value = name;
-      document.getElementById("executivePosition").value = position;
-      document.getElementById("executivePhone").value = phone;
-
+    const name =
       document
         .getElementById("executiveName")
-        .focus();
-    }
+        .value
+        .trim();
 
 
-    async function deleteExecutive(id) {
+    const position =
+      document
+        .getElementById("executivePosition")
+        .value
+        .trim();
 
-      if (!confirm("Delete this executive record?")) return;
 
-      const { error } =
-        await db
-          .from("executive")
-          .delete()
-          .eq("id", id);
+    const phone =
+      document
+        .getElementById("executivePhone")
+        .value
+        .trim();
 
-      if (error) {
 
-        showStatus(
-          "executiveStatus",
-          "Could not delete executive: " +
-          error.message,
-          "error"
-        );
-
-        return;
-      }
+    if (!name || !position) {
 
       showStatus(
         "executiveStatus",
-        "Executive deleted successfully.",
-        "success"
+        "Please enter name and position.",
+        "error"
       );
 
-      loadExecutive();
+      return;
     }
 
 
-    function clearExecutiveForm() {
+    const values = {
 
-      editingExecutiveId = null;
+      name: JSON.stringify(name),
 
-      document.getElementById("executiveName").value = "";
-      document.getElementById("executivePosition").value = "";
-      document.getElementById("executivePhone").value = "";
-    }
+      position: JSON.stringify(position),
+
+      phone: JSON.stringify(phone)
+
+    };
 
 
-    /* FINANCE */
+    let result;
 
-    async function loadFinance() {
 
-      const { data, error } =
+    if (editingExecutiveId) {
+
+      result =
         await db
-          .from("finance")
-          .select("*")
-          .order("id", {
-            ascending: false
-          });
+          .from("executive")
+          .update(values)
+          .eq("id", editingExecutiveId);
 
-      if (error) {
+    }
 
-        showStatus(
-          "financeStatus",
-          "Could not load finance records: " +
-          error.message,
-          "error"
-        );
+    else {
 
-        return;
-      }
+      result =
+        await db
+          .from("executive")
+          .insert([values]);
 
-      const list =
-        document.getElementById("financeList");
+    }
 
-      list.innerHTML = "";
 
-      (data || []).forEach(item => {
+    if (result.error) {
+
+      showStatus(
+        "executiveStatus",
+        "Could not save executive: " +
+        result.error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showStatus(
+      "executiveStatus",
+      editingExecutiveId
+        ? "Executive updated successfully."
+        : "Executive saved successfully.",
+      "success"
+    );
+
+
+    clearExecutiveForm();
+
+    loadExecutive();
+
+  }
+
+
+  async function editExecutive(id) {
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("executive")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+
+    if (error) {
+
+      alert(
+        "Could not load executive: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    editingExecutiveId = id;
+
+
+    document
+      .getElementById("executiveName")
+      .value =
+        readJsonValue(data.name);
+
+
+    document
+      .getElementById("executivePosition")
+      .value =
+        readJsonValue(data.position);
+
+
+    document
+      .getElementById("executivePhone")
+      .value =
+        readJsonValue(data.phone);
+
+
+    showSection("executiveSection");
+
+  }
+
+
+  async function deleteExecutive(id) {
+
+    if (
+      !confirm(
+        "Delete this executive record?"
+      )
+    ) return;
+
+
+    const {
+      error
+    } =
+      await db
+        .from("executive")
+        .delete()
+        .eq("id", id);
+
+
+    if (error) {
+
+      alert(
+        "Could not delete executive: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    loadExecutive();
+
+  }
+
+
+  function clearExecutiveForm() {
+
+    editingExecutiveId = null;
+
+
+    document
+      .getElementById("executiveName")
+      .value = "";
+
+
+    document
+      .getElementById("executivePosition")
+      .value = "";
+
+
+    document
+      .getElementById("executivePhone")
+      .value = "";
+
+  }
+
+
+  /* =========================
+     FINANCE
+  ========================= */
+
+  let editingFinanceId = null;
+
+
+  async function loadFinance() {
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("finance")
+        .select("*")
+        .order("id", {
+          ascending: false
+        });
+
+
+    const list =
+      document.getElementById(
+        "financeList"
+      );
+
+
+    if (error) {
+
+      list.innerHTML =
+        `<div class="empty-message">
+          Could not load finance records:
+          ${escapeHtml(error.message)}
+        </div>`;
+
+      return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML =
+        `<div class="empty-message">
+          No financial records found.
+        </div>`;
+
+      return;
+    }
+
+
+    list.innerHTML =
+      data.map(item => {
 
         const name =
           readJsonValue(item.name);
@@ -1918,1133 +2696,1490 @@
         const category =
           readJsonValue(item.category);
 
-        const amount =
-          item.amount;
-
         const description =
           readJsonValue(item.description);
 
-        list.innerHTML += `
-          <div class="record">
 
-            <strong>
-              ${escapeHtml(name)}
-            </strong>
-            <br>
+        return `
+          <div class="record-card">
 
-            Category:
-            ${escapeHtml(category)}
-            <br>
-
-            Amount:
-            ${escapeHtml(amount)}
-            <br>
-
-            Description:
-            ${escapeHtml(description)}
-
-            <div class="record-actions">
-
-              <button
-                class="edit"
-                onclick="editFinance(
-                  ${item.id},
-                  '${escapeJs(name)}',
-                  '${escapeJs(category)}',
-                  '${escapeJs(amount)}',
-                  '${escapeJs(description)}'
-                )">
-                Edit
-              </button>
-
-              <button
-                class="danger"
-                onclick="deleteFinance(${item.id})">
-                Delete
-              </button>
-
-            </div>
-
-          </div>
-        `;
-      });
-    }
-
-
-    async function saveFinance() {
-
-      const name =
-        document.getElementById("financeName").value.trim();
-
-      const category =
-        document.getElementById("financeCategory").value;
-
-      const amountText =
-        document.getElementById("financeAmount").value.trim();
-
-      const description =
-        document.getElementById("financeDescription").value.trim();
-
-      if (!name || !amountText) {
-
-        showStatus(
-          "financeStatus",
-          "Please enter the name and amount.",
-          "error"
-        );
-
-        return;
-      }
-
-      const amount =
-        Number(amountText);
-
-      if (
-        !Number.isFinite(amount) ||
-        amount < 0
-      ) {
-
-        showStatus(
-          "financeStatus",
-          "Please enter a valid numeric amount.",
-          "error"
-        );
-
-        return;
-      }
-
-      const values = {
-        name: name,
-        category: category,
-        amount: amount,
-        description: description
-      };
-
-      let result;
-
-      if (editingFinanceId) {
-
-        result =
-          await db
-            .from("finance")
-            .update(values)
-            .eq("id", editingFinanceId);
-
-      } else {
-
-        result =
-          await db
-            .from("finance")
-            .insert(values);
-      }
-
-      if (result.error) {
-
-        showStatus(
-          "financeStatus",
-          "Could not save transaction: " +
-          result.error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      showStatus(
-        "financeStatus",
-        editingFinanceId
-          ? "Transaction updated successfully."
-          : "Transaction saved successfully.",
-        "success"
-      );
-
-      clearFinanceForm();
-
-      loadFinance();
-    }
-
-
-    function editFinance(
-      id,
-      name,
-      category,
-      amount,
-      description
-    ) {
-
-      editingFinanceId = id;
-
-      document.getElementById("financeName").value = name;
-      document.getElementById("financeCategory").value = category;
-      document.getElementById("financeAmount").value = amount;
-      document.getElementById("financeDescription").value = description;
-
-      document
-        .getElementById("financeName")
-        .focus();
-    }
-
-
-    async function deleteFinance(id) {
-
-      if (!confirm("Delete this transaction?")) return;
-
-      const { error } =
-        await db
-          .from("finance")
-          .delete()
-          .eq("id", id);
-
-      if (error) {
-
-        showStatus(
-          "financeStatus",
-          "Could not delete transaction: " +
-          error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      showStatus(
-        "financeStatus",
-        "Transaction deleted successfully.",
-        "success"
-      );
-
-      loadFinance();
-    }
-
-
-    function clearFinanceForm() {
-
-      editingFinanceId = null;
-
-      document.getElementById("financeName").value = "";
-      document.getElementById("financeCategory").value =
-        "Monthly Contribution";
-      document.getElementById("financeAmount").value = "";
-      document.getElementById("financeDescription").value = "";
-    }
-
-
-    /* MEETINGS */
-
-    async function loadMeetings() {
-
-      const { data, error } =
-        await db
-          .from("meetings")
-          .select("*")
-          .order("meeting_date", {
-            ascending: false
-          });
-
-      if (error) {
-
-        showStatus(
-          "meetingStatus",
-          "Could not load meetings: " +
-          error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      const list =
-        document.getElementById("meetingsList");
-
-      list.innerHTML = "";
-
-      (data || []).forEach(meeting => {
-
-        list.innerHTML += `
-          <div class="record">
-
-            <strong>
-              ${escapeHtml(meeting.meeting_title)}
-            </strong>
-            <br>
-
-            Date:
-            ${escapeHtml(meeting.meeting_date)}
-            <br>
-
-            Location:
-            ${escapeHtml(meeting.location)}
-
-            <div class="record-actions">
-
-              <button
-                class="edit"
-                onclick="editMeeting(
-                  ${meeting.id},
-                  '${escapeJs(meeting.meeting_date)}',
-                  '${escapeJs(meeting.meeting_title)}',
-                  '${escapeJs(meeting.location)}'
-                )">
-                Edit
-              </button>
-
-              <button
-                class="danger"
-                onclick="deleteMeeting(${meeting.id})">
-                Delete
-              </button>
-
-            </div>
-
-          </div>
-        `;
-      });
-    }
-
-
-    async function saveMeeting() {
-
-      const date =
-        document.getElementById("meetingDate").value;
-
-      const title =
-        document.getElementById("meetingTitle").value.trim();
-
-      const location =
-        document.getElementById("meetingLocation").value.trim();
-
-      if (!date || !title) {
-
-        showStatus(
-          "meetingStatus",
-          "Please enter the meeting date and title.",
-          "error"
-        );
-
-        return;
-      }
-
-      const values = {
-        meeting_date: date,
-        meeting_title: title,
-        location: location
-      };
-
-      let result;
-
-      if (editingMeetingId) {
-
-        result =
-          await db
-            .from("meetings")
-            .update(values)
-            .eq("id", editingMeetingId);
-
-      } else {
-
-        result =
-          await db
-            .from("meetings")
-            .insert(values);
-      }
-
-      if (result.error) {
-
-        showStatus(
-          "meetingStatus",
-          "Could not save meeting: " +
-          result.error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      showStatus(
-        "meetingStatus",
-        editingMeetingId
-          ? "Meeting updated successfully."
-          : "Meeting saved successfully.",
-        "success"
-      );
-
-      clearMeetingForm();
-
-      loadMeetings();
-    }
-
-
-    function editMeeting(id, date, title, location) {
-
-      editingMeetingId = id;
-
-      document.getElementById("meetingDate").value = date;
-      document.getElementById("meetingTitle").value = title;
-      document.getElementById("meetingLocation").value = location;
-
-      document
-        .getElementById("meetingTitle")
-        .focus();
-    }
-
-
-    async function deleteMeeting(id) {
-
-      if (!confirm("Delete this meeting?")) return;
-
-      const { error } =
-        await db
-          .from("meetings")
-          .delete()
-          .eq("id", id);
-
-      if (error) {
-
-        showStatus(
-          "meetingStatus",
-          "Could not delete meeting: " +
-          error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      showStatus(
-        "meetingStatus",
-        "Meeting deleted successfully.",
-        "success"
-      );
-
-      loadMeetings();
-    }
-
-
-    function clearMeetingForm() {
-
-      editingMeetingId = null;
-
-      document.getElementById("meetingDate").value = "";
-      document.getElementById("meetingTitle").value = "";
-      document.getElementById("meetingLocation").value = "";
-    }
-
-
-    /* EVENTS */
-
-    async function loadEvents() {
-
-      const { data, error } =
-        await db
-          .from("events")
-          .select("*")
-          .order("date", {
-            ascending: false
-          });
-
-      if (error) {
-
-        showStatus(
-          "eventStatus",
-          "Could not load events: " +
-          error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      const list =
-        document.getElementById("eventsList");
-
-      list.innerHTML = "";
-
-      (data || []).forEach(event => {
-
-        list.innerHTML += `
-          <div class="record">
-
-            <strong>
-              ${escapeHtml(event.title)}
-            </strong>
-            <br>
-
-            Date:
-            ${escapeHtml(event.date)}
-            <br>
-
-            Location:
-            ${escapeHtml(event.location)}
-            <br>
-
-            Description:
-            ${escapeHtml(event.description)}
-
-            <div class="record-actions">
-
-              <button
-                class="edit"
-                onclick="editEvent(
-                  ${event.id},
-                  '${escapeJs(event.title)}',
-                  '${escapeJs(event.date)}',
-                  '${escapeJs(event.location)}',
-                  '${escapeJs(event.description)}'
-                )">
-                Edit
-              </button>
-
-              <button
-                class="danger"
-                onclick="deleteEvent(${event.id})">
-                Delete
-              </button>
-
-            </div>
-
-          </div>
-        `;
-      });
-    }
-
-
-    async function saveEvent() {
-
-      const title =
-        document.getElementById("eventTitle").value.trim();
-
-      const date =
-        document.getElementById("eventDate").value;
-
-      const location =
-        document.getElementById("eventLocation").value.trim();
-
-      const description =
-        document.getElementById("eventDescription").value.trim();
-
-      if (!title || !date) {
-
-        showStatus(
-          "eventStatus",
-          "Please enter the event title and date.",
-          "error"
-        );
-
-        return;
-      }
-
-      const values = {
-        title: title,
-        date: date,
-        location: location,
-        description: description
-      };
-
-      let result;
-
-      if (editingEventId) {
-
-        result =
-          await db
-            .from("events")
-            .update(values)
-            .eq("id", editingEventId);
-
-      } else {
-
-        result =
-          await db
-            .from("events")
-            .insert(values);
-      }
-
-      if (result.error) {
-
-        showStatus(
-          "eventStatus",
-          "Could not save event: " +
-          result.error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      showStatus(
-        "eventStatus",
-        editingEventId
-          ? "Event updated successfully."
-          : "Event saved successfully.",
-        "success"
-      );
-
-      clearEventForm();
-
-      loadEvents();
-    }
-
-
-    function editEvent(
-      id,
-      title,
-      date,
-      location,
-      description
-    ) {
-
-      editingEventId = id;
-
-      document.getElementById("eventTitle").value = title;
-      document.getElementById("eventDate").value = date;
-      document.getElementById("eventLocation").value = location;
-      document.getElementById("eventDescription").value = description;
-
-      document
-        .getElementById("eventTitle")
-        .focus();
-    }
-
-
-    async function deleteEvent(id) {
-
-      if (!confirm("Delete this event?")) return;
-
-      const { error } =
-        await db
-          .from("events")
-          .delete()
-          .eq("id", id);
-
-      if (error) {
-
-        showStatus(
-          "eventStatus",
-          "Could not delete event: " +
-          error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      showStatus(
-        "eventStatus",
-        "Event deleted successfully.",
-        "success"
-      );
-
-      loadEvents();
-    }
-
-
-    function clearEventForm() {
-
-      editingEventId = null;
-
-      document.getElementById("eventTitle").value = "";
-      document.getElementById("eventDate").value = "";
-      document.getElementById("eventLocation").value = "";
-      document.getElementById("eventDescription").value = "";
-    }
-
-
-    /* DOCUMENTS */
-
-    async function loadDocuments() {
-
-      const list =
-        document.getElementById("documentsList");
-
-      list.innerHTML =
-        "<p>Loading documents...</p>";
-
-      const {
-        data: databaseDocuments,
-        error: databaseError
-      } =
-        await db
-          .from("documents")
-          .select("*")
-          .order("id", {
-            ascending: false
-          });
-
-      if (databaseError) {
-
-        showStatus(
-          "documentStatus",
-          "Could not load typed documents: " +
-          databaseError.message,
-          "error"
-        );
-
-        list.innerHTML = "";
-
-        return;
-      }
-
-      list.innerHTML =
-        "<h3>Saved Documents</h3>";
-
-      (databaseDocuments || []).forEach(
-        documentItem => {
-
-          list.innerHTML += `
-            <div class="record">
+            <div class="record-info">
 
               <strong>
-                ${escapeHtml(documentItem.title)}
+                ${escapeHtml(name)}
               </strong>
+
+              <br>
+
+              Category:
+              ${escapeHtml(category)}
+
+              <br>
+
+              Amount:
+              ${escapeHtml(item.amount)}
+
+              <br>
+
+              Description:
+              ${escapeHtml(description)}
+
+            </div>
+
+
+            <div class="record-actions">
+
+              <button
+                class="edit-button"
+                onclick="editFinance('${escapeJs(item.id)}')">
+
+                Edit
+
+              </button>
+
+
+              <button
+                class="danger-button"
+                onclick="deleteFinance('${escapeJs(item.id)}')">
+
+                Delete
+
+              </button>
+
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
+
+  }
+
+
+  async function saveFinance() {
+
+    const name =
+      document
+        .getElementById("financeName")
+        .value
+        .trim();
+
+
+    const category =
+      document
+        .getElementById("financeCategory")
+        .value
+        .trim();
+
+
+    const amountText =
+      document
+        .getElementById("financeAmount")
+        .value
+        .trim();
+
+
+    const amount =
+      Number(amountText);
+
+
+    const description =
+      document
+        .getElementById("financeDescription")
+        .value
+        .trim();
+
+
+    if (
+      !Number.isFinite(amount) ||
+      amount < 0
+    ) {
+
+      showStatus(
+        "financeStatus",
+        "Please enter a valid numeric amount.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const values = {
+
+      name: JSON.stringify(name),
+
+      category: JSON.stringify(category),
+
+      amount: amount,
+
+      description: JSON.stringify(description)
+
+    };
+
+
+    let result;
+
+
+    if (editingFinanceId) {
+
+      result =
+        await db
+          .from("finance")
+          .update(values)
+          .eq("id", editingFinanceId);
+
+    }
+
+    else {
+
+      result =
+        await db
+          .from("finance")
+          .insert([values]);
+
+    }
+
+
+    if (result.error) {
+
+      showStatus(
+        "financeStatus",
+        "Could not save transaction: " +
+        result.error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showStatus(
+      "financeStatus",
+      editingFinanceId
+        ? "Transaction updated successfully."
+        : "Transaction saved successfully.",
+      "success"
+    );
+
+
+    clearFinanceForm();
+
+    loadFinance();
+
+  }
+
+
+  async function editFinance(id) {
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("finance")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+
+    if (error) {
+
+      alert(
+        "Could not load transaction: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    editingFinanceId = id;
+
+
+    document
+      .getElementById("financeName")
+      .value =
+        readJsonValue(data.name);
+
+
+    document
+      .getElementById("financeCategory")
+      .value =
+        readJsonValue(data.category);
+
+
+    document
+      .getElementById("financeAmount")
+      .value =
+        data.amount ?? "";
+
+
+    document
+      .getElementById("financeDescription")
+      .value =
+        readJsonValue(data.description);
+
+
+    showSection("financeSection");
+
+  }
+
+
+  async function deleteFinance(id) {
+
+    if (
+      !confirm(
+        "Delete this financial record?"
+      )
+    ) return;
+
+
+    const {
+      error
+    } =
+      await db
+        .from("finance")
+        .delete()
+        .eq("id", id);
+
+
+    if (error) {
+
+      alert(
+        "Could not delete transaction: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    loadFinance();
+
+  }
+
+
+  function clearFinanceForm() {
+
+    editingFinanceId = null;
+
+
+    document
+      .getElementById("financeName")
+      .value = "";
+
+
+    document
+      .getElementById("financeCategory")
+      .value = "";
+
+
+    document
+      .getElementById("financeAmount")
+      .value = "";
+
+
+    document
+      .getElementById("financeDescription")
+      .value = "";
+
+  }
+
+
+  /* =========================
+     MEETINGS
+  ========================= */
+
+  let editingMeetingId = null;
+
+
+  async function loadMeetings() {
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("meetings")
+        .select("*")
+        .order("meeting_date", {
+          ascending: false
+        });
+
+
+    const list =
+      document.getElementById(
+        "meetingsList"
+      );
+
+
+    if (error) {
+
+      list.innerHTML =
+        `<div class="empty-message">
+          Could not load meetings:
+          ${escapeHtml(error.message)}
+        </div>`;
+
+      return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML =
+        `<div class="empty-message">
+          No meeting records found.
+        </div>`;
+
+      return;
+    }
+
+
+    list.innerHTML =
+      data.map(item => {
+
+        return `
+          <div class="record-card">
+
+            <div class="record-info">
+
+              <strong>
+                ${escapeHtml(item.meeting_title)}
+              </strong>
+
+              <br>
+
+              Date:
+              ${escapeHtml(item.meeting_date)}
+
+              <br>
+
+              Location:
+              ${escapeHtml(item.location)}
+
+            </div>
+
+
+            <div class="record-actions">
+
+              <button
+                class="edit-button"
+                onclick="editMeeting('${escapeJs(item.id)}')">
+
+                Edit
+
+              </button>
+
+
+              <button
+                class="danger-button"
+                onclick="deleteMeeting('${escapeJs(item.id)}')">
+
+                Delete
+
+              </button>
+
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
+
+  }
+
+
+  async function saveMeeting() {
+
+    const meetingDate =
+      document
+        .getElementById("meetingDate")
+        .value;
+
+
+    const meetingTitle =
+      document
+        .getElementById("meetingTitle")
+        .value
+        .trim();
+
+
+    const location =
+      document
+        .getElementById("meetingLocation")
+        .value
+        .trim();
+
+
+    if (!meetingDate || !meetingTitle) {
+
+      showStatus(
+        "meetingStatus",
+        "Please enter the meeting date and title.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const values = {
+
+      meeting_date: meetingDate,
+
+      meeting_title: meetingTitle,
+
+      location: location
+
+    };
+
+
+    let result;
+
+
+    if (editingMeetingId) {
+
+      result =
+        await db
+          .from("meetings")
+          .update(values)
+          .eq("id", editingMeetingId);
+
+    }
+
+    else {
+
+      result =
+        await db
+          .from("meetings")
+          .insert([values]);
+
+    }
+
+
+    if (result.error) {
+
+      showStatus(
+        "meetingStatus",
+        "Could not save meeting: " +
+        result.error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showStatus(
+      "meetingStatus",
+      editingMeetingId
+        ? "Meeting updated successfully."
+        : "Meeting saved successfully.",
+      "success"
+    );
+
+
+    clearMeetingForm();
+
+    loadMeetings();
+
+  }
+
+
+  async function editMeeting(id) {
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("meetings")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+
+    if (error) {
+
+      alert(
+        "Could not load meeting: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    editingMeetingId = id;
+
+
+    document
+      .getElementById("meetingDate")
+      .value =
+        data.meeting_date || "";
+
+
+    document
+      .getElementById("meetingTitle")
+      .value =
+        data.meeting_title || "";
+
+
+    document
+      .getElementById("meetingLocation")
+      .value =
+        data.location || "";
+
+
+    showSection("meetingsSection");
+
+  }
+
+
+  async function deleteMeeting(id) {
+
+    if (
+      !confirm(
+        "Delete this meeting?"
+      )
+    ) return;
+
+
+    const {
+      error
+    } =
+      await db
+        .from("meetings")
+        .delete()
+        .eq("id", id);
+
+
+    if (error) {
+
+      alert(
+        "Could not delete meeting: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    loadMeetings();
+
+  }
+
+
+  function clearMeetingForm() {
+
+    editingMeetingId = null;
+
+
+    document
+      .getElementById("meetingDate")
+      .value = "";
+
+
+    document
+      .getElementById("meetingTitle")
+      .value = "";
+
+
+    document
+      .getElementById("meetingLocation")
+      .value = "";
+
+  }
+
+
+  /* =========================
+     EVENTS
+  ========================= */
+
+  let editingEventId = null;
+
+
+  async function loadEvents() {
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("events")
+        .select("*")
+        .order("date", {
+          ascending: false
+        });
+
+
+    const list =
+      document.getElementById(
+        "eventsList"
+      );
+
+
+    if (error) {
+
+      list.innerHTML =
+        `<div class="empty-message">
+          Could not load events:
+          ${escapeHtml(error.message)}
+        </div>`;
+
+      return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML =
+        `<div class="empty-message">
+          No event records found.
+        </div>`;
+
+      return;
+    }
+
+
+    list.innerHTML =
+      data.map(item => {
+
+        return `
+          <div class="record-card">
+
+            <div class="record-info">
+
+              <strong>
+                ${escapeHtml(item.title)}
+              </strong>
+
+              <br>
+
+              Date:
+              ${escapeHtml(item.date)}
+
+              <br>
+
+              Location:
+              ${escapeHtml(item.location)}
+
+              <br>
+
+              Description:
+              ${escapeHtml(item.description)}
+
+            </div>
+
+
+            <div class="record-actions">
+
+              <button
+                class="edit-button"
+                onclick="editEvent('${escapeJs(item.id)}')">
+
+                Edit
+
+              </button>
+
+
+              <button
+                class="danger-button"
+                onclick="deleteEvent('${escapeJs(item.id)}')">
+
+                Delete
+
+              </button>
+
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
+
+  }
+
+
+  async function saveEvent() {
+
+    const title =
+      document
+        .getElementById("eventTitle")
+        .value
+        .trim();
+
+
+    const date =
+      document
+        .getElementById("eventDate")
+        .value;
+
+
+    const location =
+      document
+        .getElementById("eventLocation")
+        .value
+        .trim();
+
+
+    const description =
+      document
+        .getElementById("eventDescription")
+        .value
+        .trim();
+
+
+    if (!title || !date) {
+
+      showStatus(
+        "eventStatus",
+        "Please enter the event title and date.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const values = {
+
+      title: title,
+
+      date: date,
+
+      location: location,
+
+      description: description
+
+    };
+
+
+    let result;
+
+
+    if (editingEventId) {
+
+      result =
+        await db
+          .from("events")
+          .update(values)
+          .eq("id", editingEventId);
+
+    }
+
+    else {
+
+      result =
+        await db
+          .from("events")
+          .insert([values]);
+
+    }
+
+
+    if (result.error) {
+
+      showStatus(
+        "eventStatus",
+        "Could not save event: " +
+        result.error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showStatus(
+      "eventStatus",
+      editingEventId
+        ? "Event updated successfully."
+        : "Event saved successfully.",
+      "success"
+    );
+
+
+    clearEventForm();
+
+    loadEvents();
+
+  }
+
+
+  async function editEvent(id) {
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("events")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+
+    if (error) {
+
+      alert(
+        "Could not load event: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    editingEventId = id;
+
+
+    document
+      .getElementById("eventTitle")
+      .value =
+        data.title || "";
+
+
+    document
+      .getElementById("eventDate")
+      .value =
+        data.date || "";
+
+
+    document
+      .getElementById("eventLocation")
+      .value =
+        data.location || "";
+
+
+    document
+      .getElementById("eventDescription")
+      .value =
+        data.description || "";
+
+
+    showSection("eventsSection");
+
+  }
+
+
+  async function deleteEvent(id) {
+
+    if (
+      !confirm(
+        "Delete this event?"
+      )
+    ) return;
+
+
+    const {
+      error
+    } =
+      await db
+        .from("events")
+        .delete()
+        .eq("id", id);
+
+
+    if (error) {
+
+      alert(
+        "Could not delete event: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    loadEvents();
+
+  }
+
+
+  function clearEventForm() {
+
+    editingEventId = null;
+
+
+    document
+      .getElementById("eventTitle")
+      .value = "";
+
+
+    document
+      .getElementById("eventDate")
+      .value = "";
+
+
+    document
+      .getElementById("eventLocation")
+      .value = "";
+
+
+    document
+      .getElementById("eventDescription")
+      .value = "";
+
+  }
+
+
+  /* =========================
+     DOCUMENTS
+  ========================= */
+
+  let editingDocumentId = null;
+
+
+  async function loadDocuments() {
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("documents")
+        .select("*")
+        .order("id", {
+          ascending: false
+        });
+
+
+    const list =
+      document.getElementById(
+        "documentsList"
+      );
+
+
+    if (error) {
+
+      list.innerHTML =
+        `<div class="empty-message">
+          Could not load documents:
+          ${escapeHtml(error.message)}
+        </div>`;
+
+      return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML =
+        `<div class="empty-message">
+          No typed documents found.
+        </div>`;
+
+      return;
+    }
+
+
+    list.innerHTML =
+      data.map(item => {
+
+        return `
+          <div class="record-card">
+
+            <div class="record-info">
+
+              <strong>
+                ${escapeHtml(item.title)}
+              </strong>
+
               <br>
 
               Type:
-              ${escapeHtml(documentItem.type)}
+              ${escapeHtml(item.type)}
 
-              <div class="record-actions">
+              <br><br>
 
-                <button
-                  class="primary"
-                  onclick="openTypedDocument(${documentItem.id})">
-                  Open
-                </button>
-
-                <button
-                  class="danger"
-                  onclick="deleteTypedDocument(${documentItem.id})">
-                  Delete
-                </button>
-
-              </div>
+              ${escapeHtml(item.content)}
 
             </div>
-          `;
-        }
-      );
 
-      const {
-        data: files,
-        error: storageError
-      } =
-        await db
-          .storage
-          .from(DOCUMENT_BUCKET)
-          .list("", {
-            limit: 100
-          });
 
-      if (storageError) {
+            <div class="record-actions">
 
-        showStatus(
-          "documentStatus",
-          "Could not load uploaded files: " +
-          storageError.message,
-          "error"
-        );
+              <button
+                class="edit-button"
+                onclick="editDocument('${escapeJs(item.id)}')">
 
-        return;
-      }
+                Edit
 
-      if (files && files.length > 0) {
+              </button>
 
-        list.innerHTML +=
-          "<h3>Uploaded Files</h3>";
 
-        files.forEach(file => {
+              <button
+                class="danger-button"
+                onclick="deleteDocument('${escapeJs(item.id)}')">
 
-          if (!file.name) return;
+                Delete
 
-          list.innerHTML += `
-            <div class="record">
-
-              <strong>
-                ${escapeHtml(file.name)}
-              </strong>
-
-              <div class="record-actions">
-
-                <button
-                  class="primary"
-                  onclick="openDocument('${escapeJs(file.name)}')">
-                  Open
-                </button>
-
-                <button
-                  class="danger"
-                  onclick="deleteDocument('${escapeJs(file.name)}')">
-                  Delete
-                </button>
-
-              </div>
+              </button>
 
             </div>
-          `;
-        });
-      }
-    }
 
-
-    async function saveTypedDocument() {
-
-      const title =
-        document.getElementById("documentTitle").value.trim();
-
-      const content =
-        document.getElementById("documentContent").value.trim();
-
-      if (!title || !content) {
-
-        showStatus(
-          "documentStatus",
-          "Please enter the document title and content.",
-          "error"
-        );
-
-        return;
-      }
-
-      const { error } =
-        await db
-          .from("documents")
-          .insert({
-            title: title,
-            type: "Typed Document",
-            content: content
-          });
-
-      if (error) {
-
-        showStatus(
-          "documentStatus",
-          "Could not save document: " +
-          error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      showStatus(
-        "documentStatus",
-        "Document saved successfully.",
-        "success"
-      );
-
-      clearDocumentForm();
-
-      loadDocuments();
-    }
-
-
-    async function openTypedDocument(id) {
-
-      const {
-        data,
-        error
-      } =
-        await db
-          .from("documents")
-          .select("*")
-          .eq("id", id)
-          .single();
-
-      if (error) {
-
-        showStatus(
-          "documentStatus",
-          "Could not open document: " +
-          error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      const newWindow =
-        window.open("", "_blank");
-
-      if (!newWindow) {
-
-        showStatus(
-          "documentStatus",
-          "Please allow pop-ups to open the document.",
-          "error"
-        );
-
-        return;
-      }
-
-      newWindow.document.write(`
-
-        <!DOCTYPE html>
-
-        <html>
-
-        <head>
-
-          <title>
-            ${escapeHtml(data.title)}
-          </title>
-
-          <style>
-
-            body {
-              font-family: Arial, sans-serif;
-              padding: 30px;
-              line-height: 1.6;
-              background: #f5f7fa;
-            }
-
-            h1 {
-              color: #075eaa;
-            }
-
-            .content {
-              white-space: pre-wrap;
-              background: white;
-              padding: 25px;
-              border-radius: 12px;
-              box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-            }
-
-          </style>
-
-        </head>
-
-        <body>
-
-          <h1>
-            ${escapeHtml(data.title)}
-          </h1>
-
-          <div class="content">
-            ${escapeHtml(data.content)}
           </div>
+        `;
 
-        </body>
+      }).join("");
 
-        </html>
-
-      `);
-
-      newWindow.document.close();
-    }
+  }
 
 
-    async function deleteTypedDocument(id) {
+  async function saveDocument() {
 
-      if (!confirm("Delete this document?")) return;
-
-      const { error } =
-        await db
-          .from("documents")
-          .delete()
-          .eq("id", id);
-
-      if (error) {
-
-        showStatus(
-          "documentStatus",
-          "Could not delete document: " +
-          error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      showStatus(
-        "documentStatus",
-        "Document deleted successfully.",
-        "success"
-      );
-
-      loadDocuments();
-    }
+    const title =
+      document
+        .getElementById("documentTitle")
+        .value
+        .trim();
 
 
-    async function uploadDocument() {
+    const type =
+      document
+        .getElementById("documentType")
+        .value
+        .trim();
 
-      const fileInput =
-        document.getElementById("documentFile");
 
-      const file =
-        fileInput.files[0];
+    const content =
+      document
+        .getElementById("documentContent")
+        .value
+        .trim();
 
-      if (!file) {
 
-        showStatus(
-          "documentStatus",
-          "Please select a file first.",
-          "error"
-        );
-
-        return;
-      }
-
-      const filePath =
-        Date.now() + "_" + file.name;
-
-      const {
-        error: uploadError
-      } =
-        await db
-          .storage
-          .from(DOCUMENT_BUCKET)
-          .upload(
-            filePath,
-            file
-          );
-
-      if (uploadError) {
-
-        showStatus(
-          "documentStatus",
-          "Could not upload file: " +
-          uploadError.message,
-          "error"
-        );
-
-        return;
-      }
-
-      const {
-        error: databaseError
-      } =
-        await db
-          .from("documents")
-          .insert({
-            title: file.name,
-            type: "Uploaded File",
-            content: filePath
-          });
-
-      if (databaseError) {
-
-        await db
-          .storage
-          .from(DOCUMENT_BUCKET)
-          .remove([filePath]);
-
-        showStatus(
-          "documentStatus",
-          "File uploaded but database record failed: " +
-          databaseError.message,
-          "error"
-        );
-
-        return;
-      }
+    if (!title || !content) {
 
       showStatus(
         "documentStatus",
-        "File uploaded successfully.",
-        "success"
+        "Please enter a title and document content.",
+        "error"
       );
 
-      fileInput.value = "";
-
-      loadDocuments();
+      return;
     }
 
 
-    async function openDocument(fileName) {
+    const values = {
 
-      const {
-        data,
-        error
-      } =
+      title: title,
+
+      type: type,
+
+      content: content
+
+    };
+
+
+    let result;
+
+
+    if (editingDocumentId) {
+
+      result =
         await db
-          .storage
-          .from(DOCUMENT_BUCKET)
-          .createSignedUrl(
-            fileName,
-            3600
-          );
+          .from("documents")
+          .update(values)
+          .eq("id", editingDocumentId);
 
-      if (error) {
+    }
 
-        showStatus(
-          "documentStatus",
-          "Could not open file: " +
-          error.message,
-          "error"
+    else {
+
+      result =
+        await db
+          .from("documents")
+          .insert([values]);
+
+    }
+
+
+    if (result.error) {
+
+      showStatus(
+        "documentStatus",
+        "Could not save document: " +
+        result.error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showStatus(
+      "documentStatus",
+      editingDocumentId
+        ? "Document updated successfully."
+        : "Document saved successfully.",
+      "success"
+    );
+
+
+    clearDocumentForm();
+
+    loadDocuments();
+
+  }
+
+
+  async function editDocument(id) {
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("documents")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+
+    if (error) {
+
+      alert(
+        "Could not load document: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    editingDocumentId = id;
+
+
+    document
+      .getElementById("documentTitle")
+      .value =
+        data.title || "";
+
+
+    document
+      .getElementById("documentType")
+      .value =
+        data.type || "";
+
+
+    document
+      .getElementById("documentContent")
+      .value =
+        data.content || "";
+
+
+    showSection("documentsSection");
+
+  }
+
+
+  async function deleteDocument(id) {
+
+    if (
+      !confirm(
+        "Delete this document?"
+      )
+    ) return;
+
+
+    const {
+      error
+    } =
+      await db
+        .from("documents")
+        .delete()
+        .eq("id", id);
+
+
+    if (error) {
+
+      alert(
+        "Could not delete document: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    loadDocuments();
+
+  }
+
+
+  function clearDocumentForm() {
+
+    editingDocumentId = null;
+
+
+    document
+      .getElementById("documentTitle")
+      .value = "";
+
+
+    document
+      .getElementById("documentType")
+      .value = "";
+
+
+    document
+      .getElementById("documentContent")
+      .value = "";
+
+  }
+
+
+  /* =========================
+     FILE UPLOAD
+  ========================= */
+
+  async function uploadDocumentFile() {
+
+    const fileInput =
+      document.getElementById(
+        "documentFile"
+      );
+
+
+    const file =
+      fileInput.files[0];
+
+
+    if (!file) {
+
+      showStatus(
+        "fileStatus",
+        "Please select a file.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const fileName =
+      Date.now() +
+      "_" +
+      file.name.replace(
+        /[^a-zA-Z0-9._-]/g,
+        "_"
+      );
+
+
+    const {
+      error
+    } =
+      await db.storage
+        .from(DOCUMENT_BUCKET)
+        .upload(
+          fileName,
+          file
         );
 
-        return;
-      }
+
+    if (error) {
+
+      showStatus(
+        "fileStatus",
+        "Could not upload file: " +
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showStatus(
+      "fileStatus",
+      "File uploaded successfully.",
+      "success"
+    );
+
+
+    fileInput.value = "";
+
+    loadFiles();
+
+  }
+
+
+  async function loadFiles() {
+
+    const list =
+      document.getElementById(
+        "filesList"
+      );
+
+
+    const {
+      data,
+      error
+    } =
+      await db.storage
+        .from(DOCUMENT_BUCKET)
+        .list("", {
+          limit: 100,
+          sortBy: {
+            column: "created_at",
+            order: "desc"
+          }
+        });
+
+
+    if (error) {
+
+      list.innerHTML =
+        `<div class="empty-message">
+          Could not load files:
+          ${escapeHtml(error.message)}
+        </div>`;
+
+      return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML =
+        `<div class="empty-message">
+          No uploaded files found.
+        </div>`;
+
+      return;
+    }
+
+
+    list.innerHTML =
+      data
+        .filter(file => file.name)
+        .map(file => {
+
+          return `
+            <div class="record-card">
+
+              <div class="record-info">
+
+                <strong>
+                  ${escapeHtml(file.name)}
+                </strong>
+
+              </div>
+
+
+              <div class="record-actions">
+
+                <button
+                  class="edit-button"
+                  onclick="openFile('${escapeJs(file.name)}')">
+
+                  Open
+
+                </button>
+
+
+                <button
+                  class="danger-button"
+                  onclick="deleteFile('${escapeJs(file.name)}')">
+
+                  Delete
+
+                </button>
+
+              </div>
+
+            </div>
+          `;
+
+        })
+        .join("");
+
+  }
+
+
+  async function openFile(fileName) {
+
+    const {
+      data,
+      error
+    } =
+      await db.storage
+        .from(DOCUMENT_BUCKET)
+        .createSignedUrl(
+          fileName,
+          3600
+        );
+
+
+    if (error) {
+
+      alert(
+        "Could not open file: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    if (data && data.signedUrl) {
 
       window.open(
         data.signedUrl,
         "_blank"
       );
+
     }
 
+  }
 
-    async function deleteDocument(fileName) {
 
-      if (!confirm("Delete this uploaded file?")) return;
+  async function deleteFile(fileName) {
 
-      const {
-        error: storageError
-      } =
-        await db
-          .storage
-          .from(DOCUMENT_BUCKET)
-          .remove([fileName]);
+    if (
+      !confirm(
+        "Delete this file?"
+      )
+    ) return;
 
-      if (storageError) {
 
-        showStatus(
-          "documentStatus",
-          "Could not delete file: " +
-          storageError.message,
-          "error"
-        );
+    const {
+      error
+    } =
+      await db.storage
+        .from(DOCUMENT_BUCKET)
+        .remove([
+          fileName
+        ]);
 
-        return;
-      }
 
-      const {
-        error: databaseError
-      } =
-        await db
-          .from("documents")
-          .delete()
-          .eq("content", fileName);
+    if (error) {
 
-      if (databaseError) {
-
-        showStatus(
-          "documentStatus",
-          "File deleted, but database record could not be deleted: " +
-          databaseError.message,
-          "error"
-        );
-
-        return;
-      }
-
-      showStatus(
-        "documentStatus",
-        "File deleted successfully.",
-        "success"
+      alert(
+        "Could not delete file: " +
+        error.message
       );
 
-      loadDocuments();
+      return;
     }
 
 
-    function clearDocumentForm() {
+    loadFiles();
 
-      document.getElementById("documentTitle").value = "";
-      document.getElementById("documentContent").value = "";
-      document.getElementById("documentFile").value = "";
-    }
+  }
 
 
-    showSection("membersSection");
+  /* =========================
+     START APP
+  ========================= */
 
-  </script>
+  checkAdminSession();
+
+</script>
 
 </body>
 </html>
