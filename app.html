@@ -507,6 +507,36 @@
     }
 
     /* =========================
+       EXECUTIVE PERIOD
+    ========================= */
+
+    .period-heading {
+      background: #075eaa;
+      color: white;
+      padding: 13px 15px;
+      border-radius: 10px;
+      margin: 22px 0 10px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .period-heading:first-child {
+      margin-top: 0;
+    }
+
+    .period-actions {
+      margin-bottom: 10px;
+    }
+
+    .period-box {
+      background: #f8fafc;
+      border: 1px solid #dbe3ea;
+      border-radius: 11px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    /* =========================
        FOOTER
     ========================= */
 
@@ -681,10 +711,6 @@
 
 <div id="managementApp">
 
-  <!-- =========================
-       HEADER
-  ========================= -->
-
   <header>
 
     <div class="header-inner">
@@ -710,10 +736,6 @@
   </header>
 
 
-  <!-- =========================
-       LOGOUT
-  ========================= -->
-
   <div class="logout-area">
 
     <button
@@ -728,10 +750,6 @@
 
 
   <main>
-
-    <!-- =========================
-         DASHBOARD
-    ========================= -->
 
     <div class="dashboard-title">
 
@@ -818,7 +836,7 @@
         </h3>
 
         <p>
-          Manage meetings
+          Manage meetings and minutes
         </p>
 
       </div>
@@ -915,7 +933,40 @@
         </div>
 
 
-        <div class="form-group full">
+        <div class="form-group">
+
+          <label for="memberType">
+            Member Type
+          </label>
+
+          <select id="memberType">
+
+            <option value="">
+              Select member type
+            </option>
+
+            <option value="Old Member">
+              Old Member
+            </option>
+
+            <option value="Current Member">
+              Current Member
+            </option>
+
+            <option value="Probationary Member">
+              Probationary Member
+            </option>
+
+            <option value="Inactive Member">
+              Inactive Member
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
 
           <label for="memberPosition">
             Position
@@ -992,76 +1043,169 @@
       </div>
 
 
-      <div class="form-grid">
+      <!-- EXECUTIVE PERIOD -->
 
-        <div class="form-group">
+      <div class="period-box">
 
-          <label for="executiveName">
-            Name
-          </label>
+        <h3 style="margin-top:0;color:#075eaa;">
+          Executive Period
+        </h3>
 
-          <input
-            id="executiveName"
-            type="text"
-            placeholder="Enter name">
+        <p style="color:#6b7280;font-size:14px;">
+          Create a period first, for example 2022–2023 Executive.
+          The period will appear as a heading above the executive members.
+        </p>
+
+        <div class="form-grid">
+
+          <div class="form-group full">
+
+            <label for="executivePeriod">
+              Period / Year Range
+            </label>
+
+            <input
+              id="executivePeriod"
+              type="text"
+              placeholder="Example: 2022–2023">
+
+          </div>
 
         </div>
 
 
-        <div class="form-group">
+        <div class="button-row">
 
-          <label for="executivePosition">
-            Position
-          </label>
+          <button
+            class="primary-button"
+            onclick="saveExecutivePeriod()">
 
-          <input
-            id="executivePosition"
-            type="text"
-            placeholder="Enter position">
+            Save Executive Period
+
+          </button>
+
+          <button
+            class="secondary-button"
+            onclick="clearExecutivePeriodForm()">
+
+            Clear
+
+          </button>
 
         </div>
 
 
-        <div class="form-group full">
+        <div
+          id="executivePeriodStatus"
+          class="status">
+        </div>
 
-          <label for="executivePhone">
-            Phone
-          </label>
 
-          <input
-            id="executivePhone"
-            type="text"
-            placeholder="Enter phone number">
-
+        <div
+          id="executivePeriodsList"
+          style="margin-top:20px;">
         </div>
 
       </div>
 
 
-      <div class="button-row">
+      <!-- EXECUTIVE MEMBER -->
 
-        <button
-          class="primary-button"
-          onclick="saveExecutive()">
+      <div class="period-box">
 
-          Save Executive
+        <h3 style="margin-top:0;color:#075eaa;">
+          Add Executive Member
+        </h3>
 
-        </button>
+        <div class="form-grid">
 
-        <button
-          class="secondary-button"
-          onclick="clearExecutiveForm()">
+          <div class="form-group">
 
-          Clear
+            <label for="executivePeriodSelect">
+              Executive Period
+            </label>
 
-        </button>
+            <select id="executivePeriodSelect">
 
-      </div>
+              <option value="">
+                Select executive period
+              </option>
+
+            </select>
+
+          </div>
 
 
-      <div
-        id="executiveStatus"
-        class="status">
+          <div class="form-group">
+
+            <label for="executiveName">
+              Name
+            </label>
+
+            <input
+              id="executiveName"
+              type="text"
+              placeholder="Enter name">
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="executivePosition">
+              Position
+            </label>
+
+            <input
+              id="executivePosition"
+              type="text"
+              placeholder="Enter position">
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="executivePhone">
+              Phone
+            </label>
+
+            <input
+              id="executivePhone"
+              type="text"
+              placeholder="Enter phone number">
+
+          </div>
+
+        </div>
+
+
+        <div class="button-row">
+
+          <button
+            class="primary-button"
+            onclick="saveExecutive()">
+
+            Save Executive
+
+          </button>
+
+          <button
+            class="secondary-button"
+            onclick="clearExecutiveForm()">
+
+            Clear
+
+          </button>
+
+        </div>
+
+
+        <div
+          id="executiveStatus"
+          class="status">
+        </div>
+
       </div>
 
 
@@ -1263,6 +1407,19 @@
 
         </div>
 
+
+        <div class="form-group full">
+
+          <label for="meetingMinutes">
+            Meeting Minutes
+          </label>
+
+          <textarea
+            id="meetingMinutes"
+            placeholder="Enter the full meeting minutes here..."></textarea>
+
+        </div>
+
       </div>
 
 
@@ -1378,8 +1535,7 @@
 
           <textarea
             id="eventDescription"
-            placeholder="Enter event description">
-          </textarea>
+            placeholder="Enter event description"></textarea>
 
         </div>
 
@@ -1490,8 +1646,7 @@
 
           <textarea
             id="documentContent"
-            placeholder="Enter document content">
-          </textarea>
+            placeholder="Enter document content"></textarea>
 
         </div>
 
@@ -1595,10 +1750,6 @@
   </main>
 
 
-  <!-- =========================
-       FOOTER
-  ========================= -->
-
   <footer>
 
     <p>
@@ -1636,8 +1787,12 @@
   const SUPABASE_KEY =
     "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
 
+  /* IMPORTANT:
+     Your actual Supabase bucket is yona-document
+  */
+
   const DOCUMENT_BUCKET =
-    "yona-documents";
+    "yona-document";
 
 
   const db =
@@ -1870,8 +2025,10 @@
 
   function escapeHtml(value) {
 
-    if (value === null ||
-        value === undefined) {
+    if (
+      value === null ||
+      value === undefined
+    ) {
 
       return "";
 
@@ -1966,6 +2123,7 @@
 
     if (sectionId === "executiveSection") {
 
+      loadExecutivePeriods();
       loadExecutive();
 
     }
@@ -2058,6 +2216,9 @@
         const position =
           readJsonValue(member.position);
 
+        const memberType =
+          readJsonValue(member.member_type);
+
 
         return `
           <div class="record-card">
@@ -2077,6 +2238,11 @@
 
               Position:
               ${escapeHtml(position)}
+
+              <br>
+
+              Member Type:
+              ${escapeHtml(memberType || "Not specified")}
 
             </div>
 
@@ -2133,6 +2299,12 @@
         .trim();
 
 
+    const memberType =
+      document
+        .getElementById("memberType")
+        .value;
+
+
     if (!name) {
 
       showStatus(
@@ -2151,7 +2323,9 @@
 
       phone: JSON.stringify(phone),
 
-      position: JSON.stringify(position)
+      position: JSON.stringify(position),
+
+      member_type: JSON.stringify(memberType)
 
     };
 
@@ -2253,12 +2427,13 @@
         readJsonValue(data.position);
 
 
-    window.scrollTo({
-      top: document
-        .getElementById("membersSection")
-        .offsetTop,
-      behavior: "smooth"
-    });
+    document
+      .getElementById("memberType")
+      .value =
+        readJsonValue(data.member_type);
+
+
+    showSection("membersSection");
 
   }
 
@@ -2316,11 +2491,321 @@
       .getElementById("memberPosition")
       .value = "";
 
+
+    document
+      .getElementById("memberType")
+      .value = "";
+
   }
 
 
   /* =========================
-     EXECUTIVE
+     EXECUTIVE PERIODS
+  ========================= */
+
+  let editingExecutivePeriodId = null;
+
+
+  async function loadExecutivePeriods() {
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("executive_periods")
+        .select("*")
+        .order("id", {
+          ascending: false
+        });
+
+
+    const select =
+      document.getElementById(
+        "executivePeriodSelect"
+      );
+
+
+    const list =
+      document.getElementById(
+        "executivePeriodsList"
+      );
+
+
+    if (error) {
+
+      if (select) {
+
+        select.innerHTML =
+          `<option value="">
+            Could not load periods
+          </option>`;
+
+      }
+
+      if (list) {
+
+        list.innerHTML =
+          `<div class="empty-message">
+            Could not load executive periods:
+            ${escapeHtml(error.message)}
+          </div>`;
+
+      }
+
+      return;
+    }
+
+
+    select.innerHTML =
+      `<option value="">
+        Select executive period
+      </option>`;
+
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML =
+        `<div class="empty-message">
+          No executive periods created yet.
+        </div>`;
+
+      return;
+    }
+
+
+    data.forEach(period => {
+
+      const option =
+        document.createElement("option");
+
+      option.value =
+        period.id;
+
+      option.textContent =
+        period.period;
+
+      select.appendChild(option);
+
+    });
+
+
+    list.innerHTML =
+      data.map(period => {
+
+        return `
+          <div class="record-card">
+
+            <div class="record-info">
+
+              <strong>
+                ${escapeHtml(period.period)}
+              </strong>
+
+            </div>
+
+            <div class="record-actions">
+
+              <button
+                class="edit-button"
+                onclick="editExecutivePeriod('${escapeJs(period.id)}')">
+
+                Edit Period
+
+              </button>
+
+
+              <button
+                class="danger-button"
+                onclick="deleteExecutivePeriod('${escapeJs(period.id)}')">
+
+                Delete Period
+
+              </button>
+
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
+
+  }
+
+
+  async function saveExecutivePeriod() {
+
+    const period =
+      document
+        .getElementById("executivePeriod")
+        .value
+        .trim();
+
+
+    if (!period) {
+
+      showStatus(
+        "executivePeriodStatus",
+        "Please enter the executive period.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const values = {
+      period: period
+    };
+
+
+    let result;
+
+
+    if (editingExecutivePeriodId) {
+
+      result =
+        await db
+          .from("executive_periods")
+          .update(values)
+          .eq("id", editingExecutivePeriodId);
+
+    }
+
+    else {
+
+      result =
+        await db
+          .from("executive_periods")
+          .insert([values]);
+
+    }
+
+
+    if (result.error) {
+
+      showStatus(
+        "executivePeriodStatus",
+        "Could not save executive period: " +
+        result.error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showStatus(
+      "executivePeriodStatus",
+      editingExecutivePeriodId
+        ? "Executive period updated successfully."
+        : "Executive period saved successfully.",
+      "success"
+    );
+
+
+    clearExecutivePeriodForm();
+
+    loadExecutivePeriods();
+
+    loadExecutive();
+
+  }
+
+
+  async function editExecutivePeriod(id) {
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("executive_periods")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+
+    if (error) {
+
+      alert(
+        "Could not load executive period: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    editingExecutivePeriodId = id;
+
+
+    document
+      .getElementById("executivePeriod")
+      .value =
+        data.period || "";
+
+
+    window.scrollTo({
+      top: document
+        .getElementById("executiveSection")
+        .offsetTop,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  async function deleteExecutivePeriod(id) {
+
+    if (
+      !confirm(
+        "Delete this executive period? It must not have executive members assigned to it."
+      )
+    ) return;
+
+
+    const {
+      error
+    } =
+      await db
+        .from("executive_periods")
+        .delete()
+        .eq("id", id);
+
+
+    if (error) {
+
+      alert(
+        "Could not delete executive period: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    loadExecutivePeriods();
+
+    loadExecutive();
+
+  }
+
+
+  function clearExecutivePeriodForm() {
+
+    editingExecutivePeriodId = null;
+
+
+    document
+      .getElementById("executivePeriod")
+      .value = "";
+
+  }
+
+
+  /* =========================
+     EXECUTIVE MEMBERS
   ========================= */
 
   let editingExecutiveId = null;
@@ -2369,8 +2854,91 @@
     }
 
 
-    list.innerHTML =
-      data.map(item => {
+    const periodIds =
+      [...new Set(
+        data
+          .map(item => item.period_id)
+          .filter(id => id !== null)
+      )];
+
+
+    let periods = [];
+
+
+    if (periodIds.length > 0) {
+
+      const {
+        data: periodData
+      } =
+        await db
+          .from("executive_periods")
+          .select("*")
+          .in("id", periodIds);
+
+
+      periods =
+        periodData || [];
+
+    }
+
+
+    const periodMap = {};
+
+
+    periods.forEach(period => {
+
+      periodMap[period.id] =
+        period.period;
+
+    });
+
+
+    const grouped = {};
+
+
+    data.forEach(item => {
+
+      const key =
+        item.period_id === null
+          ? "unassigned"
+          : String(item.period_id);
+
+
+      if (!grouped[key]) {
+
+        grouped[key] = [];
+
+      }
+
+
+      grouped[key].push(item);
+
+    });
+
+
+    let html = "";
+
+
+    Object.keys(grouped).forEach(key => {
+
+      const heading =
+        key === "unassigned"
+          ? "Executive — Unassigned Period"
+          : "Executive — " +
+            (
+              periodMap[key] ||
+              "Unknown Period"
+            );
+
+
+      html += `
+        <div class="period-heading">
+          ${escapeHtml(heading)}
+        </div>
+      `;
+
+
+      grouped[key].forEach(item => {
 
         const name =
           readJsonValue(item.name);
@@ -2382,7 +2950,7 @@
           readJsonValue(item.phone);
 
 
-        return `
+        html += `
           <div class="record-card">
 
             <div class="record-info">
@@ -2428,7 +2996,12 @@
           </div>
         `;
 
-      }).join("");
+      });
+
+    });
+
+
+    list.innerHTML = html;
 
   }
 
@@ -2456,11 +3029,29 @@
         .trim();
 
 
+    const periodId =
+      document
+        .getElementById("executivePeriodSelect")
+        .value;
+
+
     if (!name || !position) {
 
       showStatus(
         "executiveStatus",
         "Please enter name and position.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if (!periodId) {
+
+      showStatus(
+        "executiveStatus",
+        "Please select an executive period.",
         "error"
       );
 
@@ -2474,7 +3065,9 @@
 
       position: JSON.stringify(position),
 
-      phone: JSON.stringify(phone)
+      phone: JSON.stringify(phone),
+
+      period_id: periodId
 
     };
 
@@ -2576,6 +3169,15 @@
         readJsonValue(data.phone);
 
 
+    await loadExecutivePeriods();
+
+
+    document
+      .getElementById("executivePeriodSelect")
+      .value =
+        data.period_id || "";
+
+
     showSection("executiveSection");
 
   }
@@ -2632,6 +3234,11 @@
 
     document
       .getElementById("executivePhone")
+      .value = "";
+
+
+    document
+      .getElementById("executivePeriodSelect")
       .value = "";
 
   }
@@ -3059,6 +3666,18 @@
               Location:
               ${escapeHtml(item.location)}
 
+              <br><br>
+
+              <strong>
+                Meeting Minutes
+              </strong>
+
+              <br>
+
+              <div style="white-space:pre-wrap;margin-top:7px;">
+                ${escapeHtml(item.minutes || "No minutes recorded.")}
+              </div>
+
             </div>
 
 
@@ -3113,6 +3732,13 @@
         .trim();
 
 
+    const minutes =
+      document
+        .getElementById("meetingMinutes")
+        .value
+        .trim();
+
+
     if (!meetingDate || !meetingTitle) {
 
       showStatus(
@@ -3131,7 +3757,9 @@
 
       meeting_title: meetingTitle,
 
-      location: location
+      location: location,
+
+      minutes: minutes
 
     };
 
@@ -3233,6 +3861,12 @@
         data.location || "";
 
 
+    document
+      .getElementById("meetingMinutes")
+      .value =
+        data.minutes || "";
+
+
     showSection("meetingsSection");
 
   }
@@ -3289,6 +3923,11 @@
 
     document
       .getElementById("meetingLocation")
+      .value = "";
+
+
+    document
+      .getElementById("meetingMinutes")
       .value = "";
 
   }
