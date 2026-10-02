@@ -337,7 +337,50 @@ Create a period first, for example 2022–2023. The period appears as a heading 
 <h2>Finance</h2>
 </div>
 
+<!-- FINANCE PERIOD MANAGER -->
+
+<div class="period-box">
+
+<h3 style="margin-top:0;color:#075eaa">Finance Period</h3>
+
+<p style="color:#6b7280;font-size:14px">
+Create a period first, for example 2022–2023. The period will appear as a heading above the financial records.
+</p>
+
 <div class="form-grid">
+
+<div class="form-group full">
+<label for="financePeriod">Period / Year Range</label>
+<input id="financePeriod" type="text" placeholder="Example: 2022–2023">
+</div>
+
+</div>
+
+<div class="button-row">
+<button class="primary-button" onclick="saveFinancePeriod()">Save Finance Period</button>
+<button class="secondary-button" onclick="clearFinancePeriodForm()">Clear</button>
+</div>
+
+<div id="financePeriodStatus" class="status"></div>
+
+<div id="financePeriodsList" style="margin-top:20px"></div>
+
+</div>
+
+<!-- ADD FINANCE RECORD -->
+
+<div class="period-box">
+
+<h3 style="margin-top:0;color:#075eaa">Add Financial Record</h3>
+
+<div class="form-grid">
+
+<div class="form-group">
+<label for="financePeriodSelect">Finance Period</label>
+<select id="financePeriodSelect">
+<option value="">Select finance period</option>
+</select>
+</div>
 
 <div class="form-group">
 <label for="financeName">Name</label>
@@ -354,7 +397,7 @@ Create a period first, for example 2022–2023. The period appears as a heading 
 <input id="financeAmount" type="number" step="0.01" placeholder="Enter amount">
 </div>
 
-<div class="form-group">
+<div class="form-group full">
 <label for="financeDescription">Description</label>
 <input id="financeDescription" type="text" placeholder="Enter description">
 </div>
@@ -367,6 +410,8 @@ Create a period first, for example 2022–2023. The period appears as a heading 
 </div>
 
 <div id="financeStatus" class="status"></div>
+
+</div>
 
 <div class="records">
 <div class="records-title">Financial Records</div>
@@ -699,11 +744,25 @@ section.classList.add("active");
 section.scrollIntoView({behavior:"smooth",block:"start"});
 
 if(sectionId==="membersSection")loadMembers();
-if(sectionId==="executiveSection"){loadExecutivePeriods();loadExecutive();}
-if(sectionId==="financeSection")loadFinance();
+
+if(sectionId==="executiveSection"){
+loadExecutivePeriods();
+loadExecutive();
+}
+
+if(sectionId==="financeSection"){
+loadFinancePeriods();
+loadFinance();
+}
+
 if(sectionId==="meetingsSection")loadMeetings();
+
 if(sectionId==="eventsSection")loadEvents();
-if(sectionId==="documentsSection"){loadDocuments();loadFiles();}
+
+if(sectionId==="documentsSection"){
+loadDocuments();
+loadFiles();
+}
 
 }
 
@@ -732,21 +791,10 @@ list.innerHTML=`<div class="empty-message">No member records found.</div>`;
 return;
 }
 
-/* GROUP MEMBERS BY CATEGORY */
-
 const categories=[
-{
-key:"Old Member",
-title:"OLD MEMBERS"
-},
-{
-key:"Current Member",
-title:"CURRENT MEMBERS"
-},
-{
-key:"Probationary Member",
-title:"NEW REGISTERED MEMBERS (PROBATIONARY)"
-}
+{key:"Old Member",title:"OLD MEMBERS"},
+{key:"Current Member",title:"CURRENT MEMBERS"},
+{key:"Probationary Member",title:"NEW REGISTERED MEMBERS (PROBATIONARY)"}
 ];
 
 let html="";
@@ -831,8 +879,6 @@ Delete
 html+="</div>";
 
 });
-
-/* SHOW OLD RECORDS THAT HAVE NO CATEGORY */
 
 const uncategorized=data.filter(member=>{
 
@@ -1464,6 +1510,213 @@ document.getElementById("executivePeriodSelect").value="";
 }
 
 /* =========================
+FINANCE PERIODS
+========================= */
+
+let editingFinancePeriodId=null;
+
+async function loadFinancePeriods(){
+
+const {data,error}=await db
+.from("finance_periods")
+.select("*")
+.order("id",{ascending:false});
+
+const select=document.getElementById("financePeriodSelect");
+const list=document.getElementById("financePeriodsList");
+
+if(error){
+
+select.innerHTML=`<option value="">Could not load periods</option>`;
+
+list.innerHTML=`
+<div class="empty-message">
+Could not load finance periods: ${escapeHtml(error.message)}
+</div>
+`;
+
+return;
+
+}
+
+select.innerHTML=`<option value="">Select finance period</option>`;
+
+if(!data||data.length===0){
+
+list.innerHTML=`
+<div class="empty-message">
+No finance periods created yet.
+</div>
+`;
+
+return;
+
+}
+
+data.forEach(period=>{
+
+const option=document.createElement("option");
+
+option.value=period.id;
+option.textContent=period.period;
+
+select.appendChild(option);
+
+});
+
+list.innerHTML=data.map(period=>`
+
+<div class="record-card">
+
+<div class="record-info">
+<strong>${escapeHtml(period.period)}</strong>
+</div>
+
+<div class="record-actions">
+
+<button
+class="edit-button"
+onclick="editFinancePeriod('${escapeJs(period.id)}')">
+Edit Period
+</button>
+
+<button
+class="danger-button"
+onclick="deleteFinancePeriod('${escapeJs(period.id)}')">
+Delete Period
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+async function saveFinancePeriod(){
+
+const period=document.getElementById("financePeriod").value.trim();
+
+if(!period){
+
+showStatus(
+"financePeriodStatus",
+"Please enter the finance period.",
+"error"
+);
+
+return;
+
+}
+
+const values={period};
+
+let result;
+
+if(editingFinancePeriodId){
+
+result=await db
+.from("finance_periods")
+.update(values)
+.eq("id",editingFinancePeriodId);
+
+}else{
+
+result=await db
+.from("finance_periods")
+.insert([values]);
+
+}
+
+if(result.error){
+
+showStatus(
+"financePeriodStatus",
+"Could not save finance period: "+result.error.message,
+"error"
+);
+
+return;
+
+}
+
+showStatus(
+"financePeriodStatus",
+editingFinancePeriodId
+?"Finance period updated successfully."
+:"Finance period saved successfully.",
+"success"
+);
+
+clearFinancePeriodForm();
+
+loadFinancePeriods();
+loadFinance();
+
+}
+
+async function editFinancePeriod(id){
+
+const {data,error}=await db
+.from("finance_periods")
+.select("*")
+.eq("id",id)
+.single();
+
+if(error){
+
+alert("Could not load finance period: "+error.message);
+return;
+
+}
+
+editingFinancePeriodId=id;
+
+document.getElementById("financePeriod").value=data.period||"";
+
+document.getElementById("financeSection").scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
+
+}
+
+async function deleteFinancePeriod(id){
+
+if(!confirm(
+"Delete this finance period? It must not have financial records assigned to it."
+))return;
+
+const {error}=await db
+.from("finance_periods")
+.delete()
+.eq("id",id);
+
+if(error){
+
+alert(
+"Could not delete finance period: "+error.message
+);
+
+return;
+
+}
+
+loadFinancePeriods();
+loadFinance();
+
+}
+
+function clearFinancePeriodForm(){
+
+editingFinancePeriodId=null;
+
+document.getElementById("financePeriod").value="";
+
+}
+
+/* =========================
 FINANCE
 ========================= */
 
@@ -1479,42 +1732,148 @@ const {data,error}=await db
 const list=document.getElementById("financeList");
 
 if(error){
-list.innerHTML=`<div class="empty-message">Could not load finance records: ${escapeHtml(error.message)}</div>`;
+
+list.innerHTML=`
+<div class="empty-message">
+Could not load finance records: ${escapeHtml(error.message)}
+</div>
+`;
+
 return;
+
 }
 
 if(!data||data.length===0){
-list.innerHTML=`<div class="empty-message">No financial records found.</div>`;
+
+list.innerHTML=`
+<div class="empty-message">
+No financial records found.
+</div>
+`;
+
 return;
+
 }
 
-list.innerHTML=data.map(item=>{
+/* GET PERIODS */
+
+const periodIds=[
+...new Set(
+data
+.map(item=>item.period_id)
+.filter(id=>id!==null)
+)
+];
+
+let periods=[];
+
+if(periodIds.length){
+
+const {data:periodData,error:periodError}=await db
+.from("finance_periods")
+.select("*")
+.in("id",periodIds);
+
+if(periodError){
+
+list.innerHTML=`
+<div class="empty-message">
+Could not load finance periods: ${escapeHtml(periodError.message)}
+</div>
+`;
+
+return;
+
+}
+
+periods=periodData||[];
+
+}
+
+const periodMap={};
+
+periods.forEach(period=>{
+periodMap[period.id]=period.period;
+});
+
+/* GROUP FINANCE BY PERIOD */
+
+const grouped={};
+
+data.forEach(item=>{
+
+const key=item.period_id===null
+?"unassigned"
+:String(item.period_id);
+
+if(!grouped[key]){
+grouped[key]=[];
+}
+
+grouped[key].push(item);
+
+});
+
+/* DISPLAY GROUPS */
+
+let html="";
+
+Object.keys(grouped).forEach(key=>{
+
+const heading=key==="unassigned"
+?"Finance — Unassigned Period"
+:"Finance — "+(periodMap[key]||"Unknown Period");
+
+html+=`
+<div class="period-heading">
+${escapeHtml(heading)}
+</div>
+`;
+
+grouped[key].forEach(item=>{
 
 const name=readJsonValue(item.name);
 const category=readJsonValue(item.category);
 const description=readJsonValue(item.description);
 
-return`
+html+=`
 
 <div class="record-card">
 
 <div class="record-info">
 
 <strong>${escapeHtml(name)}</strong>
+
 <br>
-Category: ${escapeHtml(category)}
+
+Category:
+${escapeHtml(category)}
+
 <br>
-Amount: ${escapeHtml(item.amount)}
+
+Amount:
+${escapeHtml(item.amount)}
+
 <br>
-Description: ${escapeHtml(description)}
+
+Description:
+${escapeHtml(description||"Not specified")}
 
 </div>
 
 <div class="record-actions">
 
-<button class="edit-button" onclick="editFinance('${escapeJs(item.id)}')">Edit</button>
+<button
+class="edit-button"
+onclick="editFinance('${escapeJs(item.id)}')">
+Edit
+</button>
 
-<button class="danger-button" onclick="deleteFinance('${escapeJs(item.id)}')">Delete</button>
+<button
+class="danger-button"
+onclick="deleteFinance('${escapeJs(item.id)}')">
+Delete
+</button>
 
 </div>
 
@@ -1522,7 +1881,11 @@ Description: ${escapeHtml(description)}
 
 `;
 
-}).join("");
+});
+
+});
+
+list.innerHTML=html;
 
 }
 
@@ -1533,6 +1896,19 @@ const category=document.getElementById("financeCategory").value.trim();
 const amountText=document.getElementById("financeAmount").value.trim();
 const amount=Number(amountText);
 const description=document.getElementById("financeDescription").value.trim();
+const periodId=document.getElementById("financePeriodSelect").value;
+
+if(!periodId){
+
+showStatus(
+"financeStatus",
+"Please select a finance period.",
+"error"
+);
+
+return;
+
+}
 
 if(!Number.isFinite(amount)||amount<0){
 
@@ -1550,7 +1926,8 @@ const values={
 name:JSON.stringify(name),
 category:JSON.stringify(category),
 amount:amount,
-description:JSON.stringify(description)
+description:JSON.stringify(description),
+period_id:periodId
 };
 
 let result;
@@ -1584,11 +1961,14 @@ return;
 
 showStatus(
 "financeStatus",
-editingFinanceId?"Transaction updated successfully.":"Transaction saved successfully.",
+editingFinanceId
+?"Transaction updated successfully."
+:"Transaction saved successfully.",
 "success"
 );
 
 clearFinanceForm();
+
 loadFinance();
 
 }
@@ -1602,16 +1982,35 @@ const {data,error}=await db
 .single();
 
 if(error){
-alert("Could not load transaction: "+error.message);
+
+alert(
+"Could not load transaction: "+error.message
+);
+
 return;
+
 }
 
 editingFinanceId=id;
 
-document.getElementById("financeName").value=readJsonValue(data.name);
-document.getElementById("financeCategory").value=readJsonValue(data.category);
-document.getElementById("financeAmount").value=data.amount??"";
-document.getElementById("financeDescription").value=readJsonValue(data.description);
+document.getElementById("financeName").value=
+readJsonValue(data.name);
+
+document.getElementById("financeCategory").value=
+readJsonValue(data.category);
+
+document.getElementById("financeAmount").value=
+data.amount??"";
+
+document.getElementById("financeDescription").value=
+readJsonValue(data.description);
+
+/* LOAD PERIODS BEFORE SETTING SELECTED PERIOD */
+
+await loadFinancePeriods();
+
+document.getElementById("financePeriodSelect").value=
+data.period_id||"";
 
 showSection("financeSection");
 
@@ -1627,8 +2026,13 @@ const {error}=await db
 .eq("id",id);
 
 if(error){
-alert("Could not delete transaction: "+error.message);
+
+alert(
+"Could not delete transaction: "+error.message
+);
+
 return;
+
 }
 
 loadFinance();
@@ -1643,6 +2047,7 @@ document.getElementById("financeName").value="";
 document.getElementById("financeCategory").value="";
 document.getElementById("financeAmount").value="";
 document.getElementById("financeDescription").value="";
+document.getElementById("financePeriodSelect").value="";
 
 }
 
@@ -2321,7 +2726,9 @@ loadFiles();
 
 }
 
-/* START */
+/* =========================
+START
+========================= */
 
 checkAdminSession();
 
