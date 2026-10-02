@@ -141,6 +141,48 @@ color:#075eaa;
 text-align:right;
 }
 
+/* PERSON PHOTOS */
+
+.person-photo{
+width:90px;
+height:90px;
+border-radius:50%;
+object-fit:cover;
+border:3px solid #e8f2fb;
+display:block;
+margin-bottom:10px;
+background:#fff;
+}
+
+.photo-placeholder{
+width:90px;
+height:90px;
+border-radius:50%;
+background:#e8f2fb;
+color:#075eaa;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:32px;
+margin-bottom:10px;
+border:3px solid #fff;
+}
+
+.photo-note{
+display:block;
+margin-top:6px;
+color:#6b7280;
+font-size:12px;
+}
+
+.current-photo-box{
+margin-bottom:12px;
+padding:10px;
+background:#fff;
+border:1px solid #e5e7eb;
+border-radius:8px;
+}
+
 footer{text-align:center;padding:25px 15px;background:#064f91;color:#fff;margin-top:30px}
 footer p{margin:4px 0}
 
@@ -173,6 +215,7 @@ main{padding:20px 12px 40px}
 <body>
 
 <div id="loginScreen">
+
 <div class="login-box">
 
 <div class="login-brand">YONA</div>
@@ -272,7 +315,9 @@ main{padding:20px 12px 40px}
 
 </div>
 
-<!-- MEMBERS -->
+<!-- =========================
+MEMBERS
+========================= -->
 
 <section id="membersSection" class="section">
 
@@ -294,6 +339,7 @@ main{padding:20px 12px 40px}
 </div>
 
 <div class="form-group">
+
 <label for="memberType">Member Category</label>
 
 <select id="memberType">
@@ -313,8 +359,33 @@ New Registered Member (Probationary)
 </div>
 
 <div class="form-group">
+
 <label for="memberPosition">Position</label>
-<input id="memberPosition" type="text" placeholder="Enter position">
+
+<input
+id="memberPosition"
+type="text"
+placeholder="Enter position">
+
+</div>
+
+<div class="form-group full">
+
+<label for="memberPhoto">
+Member Photo
+</label>
+
+<input
+id="memberPhoto"
+type="file"
+accept="image/*">
+
+<small class="photo-note">
+Upload a clear photo of the member. Maximum size: 5 MB.
+</small>
+
+<div id="memberCurrentPhoto"></div>
+
 </div>
 
 </div>
@@ -343,7 +414,9 @@ Clear
 
 </section>
 
-<!-- EXECUTIVE -->
+<!-- =========================
+EXECUTIVE
+========================= -->
 
 <section id="executiveSection" class="section">
 
@@ -464,6 +537,25 @@ placeholder="Enter phone number">
 
 </div>
 
+<div class="form-group full">
+
+<label for="executivePhoto">
+Executive Photo
+</label>
+
+<input
+id="executivePhoto"
+type="file"
+accept="image/*">
+
+<small class="photo-note">
+Upload a clear photo of the executive member. Maximum size: 5 MB.
+</small>
+
+<div id="executiveCurrentPhoto"></div>
+
+</div>
+
 </div>
 
 <div class="button-row">
@@ -498,7 +590,9 @@ Executive Records
 
 </section>
 
-<!-- FINANCE -->
+<!-- =========================
+FINANCE
+========================= -->
 
 <section id="financeSection" class="section">
 
@@ -609,7 +703,9 @@ Financial Records
 
 </section>
 
-<!-- MEETINGS -->
+<!-- =========================
+MEETINGS
+========================= -->
 
 <section id="meetingsSection" class="section">
 
@@ -702,7 +798,9 @@ Meeting Records
 
 </section>
 
-<!-- EVENTS -->
+<!-- =========================
+EVENTS
+========================= -->
 
 <section id="eventsSection" class="section">
 
@@ -795,7 +893,9 @@ Event Records
 
 </section>
 
-<!-- DOCUMENTS -->
+<!-- =========================
+DOCUMENTS
+========================= -->
 
 <section id="documentsSection" class="section">
 
@@ -1206,6 +1306,81 @@ loadFiles();
 }
 
 /* =========================
+PHOTO STORAGE
+========================= */
+
+async function uploadPersonPhoto(file,folder,id){
+
+if(!file){
+return null;
+}
+
+if(!file.type.startsWith("image/")){
+
+throw new Error(
+"Please select an image file."
+);
+
+}
+
+if(file.size>5*1024*1024){
+
+throw new Error(
+"Photo must be smaller than 5 MB."
+);
+
+}
+
+const extension=
+file.name.split(".").pop().toLowerCase();
+
+const fileName=
+folder+"/"+
+id+"_"+Date.now()+"."+extension;
+
+const {error}=await db.storage
+.from(DOCUMENT_BUCKET)
+.upload(fileName,file,{
+upsert:true
+});
+
+if(error){
+throw error;
+}
+
+return fileName;
+
+}
+
+async function getPhotoUrl(path){
+
+if(!path){
+return "";
+}
+
+const {data,error}=await db.storage
+.from(DOCUMENT_BUCKET)
+.createSignedUrl(
+path,
+3600
+);
+
+if(error){
+
+console.error(
+"Could not create photo URL:",
+error.message
+);
+
+return "";
+
+}
+
+return data?.signedUrl||"";
+
+}
+
+/* =========================
 MEMBERS
 ========================= */
 
@@ -1218,7 +1393,8 @@ const {data,error}=await db
 .select("*")
 .order("created_at",{ascending:false});
 
-const list=document.getElementById("membersList");
+const list=
+document.getElementById("membersList");
 
 if(error){
 
@@ -1242,6 +1418,13 @@ No member records found.
 `;
 
 return;
+
+}
+
+for(const member of data){
+
+member.photo_signed_url=
+await getPhotoUrl(member.photo_url);
 
 }
 
@@ -1321,6 +1504,23 @@ html+=`
 <div class="record-card">
 
 <div class="record-info">
+
+${
+member.photo_signed_url
+?
+`
+<img
+src="${escapeHtml(member.photo_signed_url)}"
+class="person-photo"
+alt="Member photo">
+`
+:
+`
+<div class="photo-placeholder">
+👤
+</div>
+`
+}
 
 <strong>
 ${escapeHtml(name)}
@@ -1414,6 +1614,23 @@ html+=`
 
 <div class="record-info">
 
+${
+member.photo_signed_url
+?
+`
+<img
+src="${escapeHtml(member.photo_signed_url)}"
+class="person-photo"
+alt="Member photo">
+`
+:
+`
+<div class="photo-placeholder">
+👤
+</div>
+`
+}
+
 <strong>
 ${escapeHtml(name)}
 </strong>
@@ -1486,6 +1703,12 @@ const memberType=
 document.getElementById("memberType")
 .value;
 
+const photoInput=
+document.getElementById("memberPhoto");
+
+const file=
+photoInput.files[0];
+
 if(!name){
 
 showStatus(
@@ -1510,7 +1733,29 @@ return;
 
 }
 
-const values={
+try{
+
+let memberId=editingMemberId;
+
+let existingPhoto=null;
+
+if(editingMemberId){
+
+const {data,error}=await db
+.from("members")
+.select("photo_url")
+.eq("id",editingMemberId)
+.single();
+
+if(error)throw error;
+
+existingPhoto=data?.photo_url||null;
+
+}else{
+
+const {data,error}=await db
+.from("members")
+.insert([{
 
 name:JSON.stringify(name),
 
@@ -1520,37 +1765,47 @@ position:JSON.stringify(position),
 
 member_type:JSON.stringify(memberType)
 
-};
+}])
+.select()
+.single();
 
-let result;
+if(error)throw error;
 
-if(editingMemberId){
-
-result=await db
-.from("members")
-.update(values)
-.eq("id",editingMemberId);
-
-}else{
-
-result=await db
-.from("members")
-.insert([values]);
+memberId=data.id;
 
 }
 
-if(result.error){
+let photoPath=existingPhoto;
 
-showStatus(
-"memberStatus",
-"Could not save member: "+
-result.error.message,
-"error"
+if(file){
+
+photoPath=
+await uploadPersonPhoto(
+file,
+"members",
+memberId
 );
 
-return;
-
 }
+
+const {error:updateError}=await db
+.from("members")
+.update({
+
+name:JSON.stringify(name),
+
+phone:JSON.stringify(phone),
+
+position:JSON.stringify(position),
+
+member_type:JSON.stringify(memberType),
+
+photo_url:photoPath
+
+})
+.eq("id",memberId);
+
+if(updateError)throw updateError;
 
 showStatus(
 "memberStatus",
@@ -1563,6 +1818,17 @@ editingMemberId
 clearMemberForm();
 
 loadMembers();
+
+}catch(error){
+
+showStatus(
+"memberStatus",
+"Could not save member: "+
+error.message,
+"error"
+);
+
+}
 
 }
 
@@ -1599,6 +1865,40 @@ document.getElementById("memberPosition")
 document.getElementById("memberType")
 .value=readJsonValue(data.member_type);
 
+document.getElementById("memberPhoto").value="";
+
+const photoBox=
+document.getElementById("memberCurrentPhoto");
+
+if(data.photo_url){
+
+const url=
+await getPhotoUrl(data.photo_url);
+
+photoBox.innerHTML=url
+?
+`
+<div class="current-photo-box">
+
+<strong>Current Photo</strong>
+
+<br><br>
+
+<img
+src="${escapeHtml(url)}"
+class="person-photo"
+alt="Current member photo">
+
+</div>
+`
+:"";
+
+}else{
+
+photoBox.innerHTML="";
+
+}
+
 showSection("membersSection");
 
 }
@@ -1607,6 +1907,20 @@ async function deleteMember(id){
 
 if(!confirm("Delete this member?"))
 return;
+
+const {data}=await db
+.from("members")
+.select("photo_url")
+.eq("id",id)
+.single();
+
+if(data?.photo_url){
+
+await db.storage
+.from(DOCUMENT_BUCKET)
+.remove([data.photo_url]);
+
+}
 
 const {error}=await db
 .from("members")
@@ -1639,6 +1953,10 @@ document.getElementById("memberPhone").value="";
 document.getElementById("memberPosition").value="";
 
 document.getElementById("memberType").value="";
+
+document.getElementById("memberPhoto").value="";
+
+document.getElementById("memberCurrentPhoto").innerHTML="";
 
 }
 
@@ -1919,6 +2237,13 @@ return;
 
 }
 
+for(const executive of data){
+
+executive.photo_signed_url=
+await getPhotoUrl(executive.photo_url);
+
+}
+
 const periodIds=[
 ...new Set(
 data
@@ -1974,6 +2299,7 @@ key==="unassigned"
 (periodMap[key]||"Unknown Period");
 
 html+=`
+
 <div class="period-heading">
 ${escapeHtml(heading)}
 </div>
@@ -1995,6 +2321,23 @@ html+=`
 <div class="record-card">
 
 <div class="record-info">
+
+${
+item.photo_signed_url
+?
+`
+<img
+src="${escapeHtml(item.photo_signed_url)}"
+class="person-photo"
+alt="Executive photo">
+`
+:
+`
+<div class="photo-placeholder">
+👤
+</div>
+`
+}
 
 <strong>
 ${escapeHtml(name)}
@@ -2058,6 +2401,12 @@ const periodId=
 document.getElementById("executivePeriodSelect")
 .value;
 
+const photoInput=
+document.getElementById("executivePhoto");
+
+const file=
+photoInput.files[0];
+
 if(!name||!position){
 
 showStatus(
@@ -2082,7 +2431,29 @@ return;
 
 }
 
-const values={
+try{
+
+let executiveId=editingExecutiveId;
+
+let existingPhoto=null;
+
+if(editingExecutiveId){
+
+const {data,error}=await db
+.from("executive")
+.select("photo_url")
+.eq("id",editingExecutiveId)
+.single();
+
+if(error)throw error;
+
+existingPhoto=data?.photo_url||null;
+
+}else{
+
+const {data,error}=await db
+.from("executive")
+.insert([{
 
 name:JSON.stringify(name),
 
@@ -2092,37 +2463,47 @@ phone:JSON.stringify(phone),
 
 period_id:periodId
 
-};
+}])
+.select()
+.single();
 
-let result;
+if(error)throw error;
 
-if(editingExecutiveId){
-
-result=await db
-.from("executive")
-.update(values)
-.eq("id",editingExecutiveId);
-
-}else{
-
-result=await db
-.from("executive")
-.insert([values]);
+executiveId=data.id;
 
 }
 
-if(result.error){
+let photoPath=existingPhoto;
 
-showStatus(
-"executiveStatus",
-"Could not save executive: "+
-result.error.message,
-"error"
+if(file){
+
+photoPath=
+await uploadPersonPhoto(
+file,
+"executive",
+executiveId
 );
 
-return;
-
 }
+
+const {error:updateError}=await db
+.from("executive")
+.update({
+
+name:JSON.stringify(name),
+
+position:JSON.stringify(position),
+
+phone:JSON.stringify(phone),
+
+period_id:periodId,
+
+photo_url:photoPath
+
+})
+.eq("id",executiveId);
+
+if(updateError)throw updateError;
 
 showStatus(
 "executiveStatus",
@@ -2135,6 +2516,17 @@ editingExecutiveId
 clearExecutiveForm();
 
 loadExecutive();
+
+}catch(error){
+
+showStatus(
+"executiveStatus",
+"Could not save executive: "+
+error.message,
+"error"
+);
+
+}
 
 }
 
@@ -2168,6 +2560,40 @@ document.getElementById("executivePosition")
 document.getElementById("executivePhone")
 .value=readJsonValue(data.phone);
 
+document.getElementById("executivePhoto").value="";
+
+const photoBox=
+document.getElementById("executiveCurrentPhoto");
+
+if(data.photo_url){
+
+const url=
+await getPhotoUrl(data.photo_url);
+
+photoBox.innerHTML=url
+?
+`
+<div class="current-photo-box">
+
+<strong>Current Photo</strong>
+
+<br><br>
+
+<img
+src="${escapeHtml(url)}"
+class="person-photo"
+alt="Current executive photo">
+
+</div>
+`
+:"";
+
+}else{
+
+photoBox.innerHTML="";
+
+}
+
 await loadExecutivePeriods();
 
 document.getElementById("executivePeriodSelect")
@@ -2181,6 +2607,20 @@ async function deleteExecutive(id){
 
 if(!confirm("Delete this executive record?"))
 return;
+
+const {data}=await db
+.from("executive")
+.select("photo_url")
+.eq("id",id)
+.single();
+
+if(data?.photo_url){
+
+await db.storage
+.from(DOCUMENT_BUCKET)
+.remove([data.photo_url]);
+
+}
 
 const {error}=await db
 .from("executive")
@@ -2215,11 +2655,14 @@ document.getElementById("executivePhone").value="";
 document.getElementById("executivePeriodSelect")
 .value="";
 
+document.getElementById("executivePhoto").value="";
+
+document.getElementById("executiveCurrentPhoto").innerHTML="";
+
 }
 
 /* =========================
 FINANCE
-NEW CATEGORY / GROUP SYSTEM
 ========================= */
 
 let editingFinanceId=null;
@@ -2258,20 +2701,6 @@ No financial records found.
 return;
 
 }
-
-/*
-GROUP FINANCE RECORDS BY CATEGORY
-
-Examples:
-
-Monthly Contribution 2022
-Monthly Contribution 2023
-Welfare — Married
-Welfare — Funeral
-Loan
-Loan Interest
-Other
-*/
 
 const grouped={};
 
