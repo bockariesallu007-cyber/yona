@@ -21,43 +21,57 @@
     header {
       background: #075eaa;
       color: white;
-      padding: 18px;
+      padding: 22px 18px;
       text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
     }
 
     header h1 {
       margin: 0;
-      font-size: 26px;
+      font-size: 30px;
+      letter-spacing: 0.5px;
     }
 
     header p {
-      margin: 5px 0 0;
-      font-size: 14px;
+      margin: 6px 0 0;
+      font-size: 15px;
     }
+
+    /* =========================
+       DASHBOARD DESIGN
+    ========================= */
 
     .dashboard {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      padding: 20px;
-      max-width: 1100px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      padding: 25px 20px;
+      max-width: 1000px;
       margin: auto;
     }
 
     .dashboard button {
       border: none;
-      border-radius: 12px;
+      border-radius: 16px;
       background: white;
-      min-height: 80px;
-      font-size: 17px;
+      min-height: 120px;
+      padding: 20px 10px;
+      font-size: 20px;
       font-weight: bold;
       color: #075eaa;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.14);
+      transition: 0.2s ease;
     }
 
     .dashboard button:hover {
       background: #eaf4ff;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 14px rgba(0,0,0,0.18);
+    }
+
+    .dashboard button:active {
+      transform: scale(0.98);
     }
 
     .container {
@@ -69,8 +83,8 @@
     .section {
       display: none;
       background: white;
-      border-radius: 12px;
-      padding: 20px;
+      border-radius: 14px;
+      padding: 22px;
       margin-bottom: 20px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
@@ -81,6 +95,11 @@
 
     .section h2 {
       margin-top: 0;
+      color: #075eaa;
+      font-size: 24px;
+    }
+
+    .section h3 {
       color: #075eaa;
     }
 
@@ -102,6 +121,14 @@
       border: 1px solid #ccc;
       border-radius: 7px;
       font-size: 15px;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #075eaa;
+      box-shadow: 0 0 0 2px rgba(7,94,170,0.10);
     }
 
     textarea {
@@ -200,17 +227,22 @@
       font-size: 13px;
     }
 
+    /* =========================
+       TABLET / PHONE
+    ========================= */
+
     @media (max-width: 700px) {
 
       .dashboard {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
-        padding: 15px;
+        padding: 18px 12px;
       }
 
       .dashboard button {
-        min-height: 75px;
-        font-size: 15px;
+        min-height: 105px;
+        font-size: 16px;
+        border-radius: 14px;
       }
 
       .container {
@@ -220,17 +252,22 @@
       .section {
         padding: 15px;
       }
+
+      header h1 {
+        font-size: 26px;
+      }
     }
 
     @media (max-width: 420px) {
 
       .dashboard {
         grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
       }
 
       .dashboard button {
-        min-height: 70px;
-        font-size: 14px;
+        min-height: 95px;
+        font-size: 15px;
       }
     }
   </style>
@@ -714,10 +751,6 @@
 
   <script>
 
-    /* ==========================================
-       SUPABASE CONNECTION
-    ========================================== */
-
     const SUPABASE_URL =
       "https://atxeeymireukwbbsczbv.supabase.co";
 
@@ -733,21 +766,12 @@
     const DOCUMENT_BUCKET =
       "yona-documents";
 
-
-    /* ==========================================
-       GLOBAL EDIT IDs
-    ========================================== */
-
     let editingMemberId = null;
     let editingExecutiveId = null;
     let editingFinanceId = null;
     let editingMeetingId = null;
     let editingEventId = null;
 
-
-    /* ==========================================
-       NAVIGATION
-    ========================================== */
 
     function showSection(sectionId) {
 
@@ -764,41 +788,16 @@
         section.classList.add("active");
       }
 
-      if (sectionId === "membersSection") {
-        loadMembers();
-      }
-
-      if (sectionId === "executiveSection") {
-        loadExecutive();
-      }
-
-      if (sectionId === "financeSection") {
-        loadFinance();
-      }
-
-      if (sectionId === "meetingsSection") {
-        loadMeetings();
-      }
-
-      if (sectionId === "eventsSection") {
-        loadEvents();
-      }
-
-      if (sectionId === "documentsSection") {
-        loadDocuments();
-      }
+      if (sectionId === "membersSection") loadMembers();
+      if (sectionId === "executiveSection") loadExecutive();
+      if (sectionId === "financeSection") loadFinance();
+      if (sectionId === "meetingsSection") loadMeetings();
+      if (sectionId === "eventsSection") loadEvents();
+      if (sectionId === "documentsSection") loadDocuments();
     }
 
 
-    /* ==========================================
-       STATUS MESSAGE
-    ========================================== */
-
-    function showStatus(
-      elementId,
-      message,
-      type
-    ) {
+    function showStatus(elementId, message, type) {
 
       const element =
         document.getElementById(elementId);
@@ -815,10 +814,6 @@
       }, 4000);
     }
 
-
-    /* ==========================================
-       HTML SECURITY
-    ========================================== */
 
     function escapeHtml(value) {
 
@@ -846,10 +841,6 @@
     }
 
 
-    /* ==========================================
-       JSON HELPER
-    ========================================== */
-
     function readJsonValue(value) {
 
       if (
@@ -871,9 +862,7 @@
     }
 
 
-    /* ==========================================
-       MEMBERS
-    ========================================== */
+    /* MEMBERS */
 
     async function loadMembers() {
 
@@ -898,9 +887,7 @@
       }
 
       const list =
-        document.getElementById(
-          "membersList"
-        );
+        document.getElementById("membersList");
 
       list.innerHTML = "";
 
@@ -945,9 +932,7 @@
 
               <button
                 class="danger"
-                onclick="deleteMember(
-                  ${member.id}
-                )">
+                onclick="deleteMember(${member.id})">
                 Delete
               </button>
 
@@ -962,22 +947,13 @@
     async function saveMember() {
 
       const name =
-        document
-          .getElementById("memberName")
-          .value
-          .trim();
+        document.getElementById("memberName").value.trim();
 
       const phone =
-        document
-          .getElementById("memberPhone")
-          .value
-          .trim();
+        document.getElementById("memberPhone").value.trim();
 
       const position =
-        document
-          .getElementById("memberPosition")
-          .value
-          .trim();
+        document.getElementById("memberPosition").value.trim();
 
       if (!name) {
 
@@ -1002,10 +978,7 @@
               phone: JSON.stringify(phone),
               position: JSON.stringify(position)
             })
-            .eq(
-              "id",
-              editingMemberId
-            );
+            .eq("id", editingMemberId);
 
       } else {
 
@@ -1045,38 +1018,19 @@
     }
 
 
-    function editMember(
-      id,
-      name,
-      phone,
-      position
-    ) {
+    function editMember(id, name, phone, position) {
 
       editingMemberId = id;
 
-      document
-        .getElementById("memberName")
-        .value = name;
-
-      document
-        .getElementById("memberPhone")
-        .value = phone;
-
-      document
-        .getElementById("memberPosition")
-        .value = position;
+      document.getElementById("memberName").value = name;
+      document.getElementById("memberPhone").value = phone;
+      document.getElementById("memberPosition").value = position;
     }
 
 
     async function deleteMember(id) {
 
-      if (
-        !confirm(
-          "Delete this member?"
-        )
-      ) {
-        return;
-      }
+      if (!confirm("Delete this member?")) return;
 
       const { error } =
         await db
@@ -1110,23 +1064,13 @@
 
       editingMemberId = null;
 
-      document
-        .getElementById("memberName")
-        .value = "";
-
-      document
-        .getElementById("memberPhone")
-        .value = "";
-
-      document
-        .getElementById("memberPosition")
-        .value = "";
+      document.getElementById("memberName").value = "";
+      document.getElementById("memberPhone").value = "";
+      document.getElementById("memberPosition").value = "";
     }
 
 
-    /* ==========================================
-       EXECUTIVE
-    ========================================== */
+    /* EXECUTIVE */
 
     async function loadExecutive() {
 
@@ -1151,9 +1095,7 @@
       }
 
       const list =
-        document.getElementById(
-          "executiveList"
-        );
+        document.getElementById("executiveList");
 
       list.innerHTML = "";
 
@@ -1198,9 +1140,7 @@
 
               <button
                 class="danger"
-                onclick="deleteExecutive(
-                  ${item.id}
-                )">
+                onclick="deleteExecutive(${item.id})">
                 Delete
               </button>
 
@@ -1215,22 +1155,13 @@
     async function saveExecutive() {
 
       const name =
-        document
-          .getElementById("executiveName")
-          .value
-          .trim();
+        document.getElementById("executiveName").value.trim();
 
       const position =
-        document
-          .getElementById("executivePosition")
-          .value
-          .trim();
+        document.getElementById("executivePosition").value.trim();
 
       const phone =
-        document
-          .getElementById("executivePhone")
-          .value
-          .trim();
+        document.getElementById("executivePhone").value.trim();
 
       if (!name) {
 
@@ -1244,15 +1175,9 @@
       }
 
       const values = {
-
-        name:
-          JSON.stringify(name),
-
-        position:
-          JSON.stringify(position),
-
-        phone:
-          JSON.stringify(phone)
+        name: JSON.stringify(name),
+        position: JSON.stringify(position),
+        phone: JSON.stringify(phone)
       };
 
       let result;
@@ -1263,10 +1188,7 @@
           await db
             .from("executive")
             .update(values)
-            .eq(
-              "id",
-              editingExecutiveId
-            );
+            .eq("id", editingExecutiveId);
 
       } else {
 
@@ -1302,38 +1224,19 @@
     }
 
 
-    function editExecutive(
-      id,
-      name,
-      position,
-      phone
-    ) {
+    function editExecutive(id, name, position, phone) {
 
       editingExecutiveId = id;
 
-      document
-        .getElementById("executiveName")
-        .value = name;
-
-      document
-        .getElementById("executivePosition")
-        .value = position;
-
-      document
-        .getElementById("executivePhone")
-        .value = phone;
+      document.getElementById("executiveName").value = name;
+      document.getElementById("executivePosition").value = position;
+      document.getElementById("executivePhone").value = phone;
     }
 
 
     async function deleteExecutive(id) {
 
-      if (
-        !confirm(
-          "Delete this executive record?"
-        )
-      ) {
-        return;
-      }
+      if (!confirm("Delete this executive record?")) return;
 
       const { error } =
         await db
@@ -1367,25 +1270,13 @@
 
       editingExecutiveId = null;
 
-      document
-        .getElementById("executiveName")
-        .value = "";
-
-      document
-        .getElementById("executivePosition")
-        .value = "";
-
-      document
-        .getElementById("executivePhone")
-        .value = "";
+      document.getElementById("executiveName").value = "";
+      document.getElementById("executivePosition").value = "";
+      document.getElementById("executivePhone").value = "";
     }
 
 
-    /* ==========================================
-       FINANCE
-       IMPORTANT:
-       amount is sent as a NUMBER, NOT JSON STRING
-    ========================================== */
+    /* FINANCE */
 
     async function loadFinance() {
 
@@ -1410,9 +1301,7 @@
       }
 
       const list =
-        document.getElementById(
-          "financeList"
-        );
+        document.getElementById("financeList");
 
       list.innerHTML = "";
 
@@ -1465,9 +1354,7 @@
 
               <button
                 class="danger"
-                onclick="deleteFinance(
-                  ${item.id}
-                )">
+                onclick="deleteFinance(${item.id})">
                 Delete
               </button>
 
@@ -1482,30 +1369,16 @@
     async function saveFinance() {
 
       const name =
-        document
-          .getElementById("financeName")
-          .value
-          .trim();
+        document.getElementById("financeName").value.trim();
 
       const category =
-        document
-          .getElementById("financeCategory")
-          .value;
+        document.getElementById("financeCategory").value;
 
       const amountText =
-        document
-          .getElementById("financeAmount")
-          .value
-          .trim();
+        document.getElementById("financeAmount").value.trim();
 
       const description =
-        document
-          .getElementById("financeDescription")
-          .value
-          .trim();
-
-
-      /* Check amount */
+        document.getElementById("financeDescription").value.trim();
 
       if (!name || !amountText) {
 
@@ -1518,12 +1391,8 @@
         return;
       }
 
-
-      /* Convert amount to a real number */
-
       const amount =
         Number(amountText);
-
 
       if (
         !Number.isFinite(amount) ||
@@ -1539,27 +1408,14 @@
         return;
       }
 
-
-      /*
-        IMPORTANT:
-        name/category/description can be text.
-        amount MUST be a number.
-      */
-
       const values = {
-
         name: name,
-
         category: category,
-
         amount: amount,
-
         description: description
       };
 
-
       let result;
-
 
       if (editingFinanceId) {
 
@@ -1567,10 +1423,7 @@
           await db
             .from("finance")
             .update(values)
-            .eq(
-              "id",
-              editingFinanceId
-            );
+            .eq("id", editingFinanceId);
 
       } else {
 
@@ -1579,7 +1432,6 @@
             .from("finance")
             .insert(values);
       }
-
 
       if (result.error) {
 
@@ -1593,7 +1445,6 @@
         return;
       }
 
-
       showStatus(
         "financeStatus",
         editingFinanceId
@@ -1601,7 +1452,6 @@
           : "Transaction saved successfully.",
         "success"
       );
-
 
       clearFinanceForm();
 
@@ -1619,33 +1469,16 @@
 
       editingFinanceId = id;
 
-      document
-        .getElementById("financeName")
-        .value = name;
-
-      document
-        .getElementById("financeCategory")
-        .value = category;
-
-      document
-        .getElementById("financeAmount")
-        .value = amount;
-
-      document
-        .getElementById("financeDescription")
-        .value = description;
+      document.getElementById("financeName").value = name;
+      document.getElementById("financeCategory").value = category;
+      document.getElementById("financeAmount").value = amount;
+      document.getElementById("financeDescription").value = description;
     }
 
 
     async function deleteFinance(id) {
 
-      if (
-        !confirm(
-          "Delete this transaction?"
-        )
-      ) {
-        return;
-      }
+      if (!confirm("Delete this transaction?")) return;
 
       const { error } =
         await db
@@ -1679,28 +1512,15 @@
 
       editingFinanceId = null;
 
-      document
-        .getElementById("financeName")
-        .value = "";
-
-      document
-        .getElementById("financeCategory")
-        .value =
+      document.getElementById("financeName").value = "";
+      document.getElementById("financeCategory").value =
         "Monthly Contribution";
-
-      document
-        .getElementById("financeAmount")
-        .value = "";
-
-      document
-        .getElementById("financeDescription")
-        .value = "";
+      document.getElementById("financeAmount").value = "";
+      document.getElementById("financeDescription").value = "";
     }
 
 
-    /* ==========================================
-       MEETINGS
-    ========================================== */
+    /* MEETINGS */
 
     async function loadMeetings() {
 
@@ -1725,9 +1545,7 @@
       }
 
       const list =
-        document.getElementById(
-          "meetingsList"
-        );
+        document.getElementById("meetingsList");
 
       list.innerHTML = "";
 
@@ -1737,22 +1555,16 @@
           <div class="record">
 
             <strong>
-              ${escapeHtml(
-                meeting.meeting_title
-              )}
+              ${escapeHtml(meeting.meeting_title)}
             </strong>
             <br>
 
             Date:
-            ${escapeHtml(
-              meeting.meeting_date
-            )}
+            ${escapeHtml(meeting.meeting_date)}
             <br>
 
             Location:
-            ${escapeHtml(
-              meeting.location
-            )}
+            ${escapeHtml(meeting.location)}
 
             <div class="record-actions">
 
@@ -1760,24 +1572,16 @@
                 class="edit"
                 onclick="editMeeting(
                   ${meeting.id},
-                  '${escapeJs(
-                    meeting.meeting_date
-                  )}',
-                  '${escapeJs(
-                    meeting.meeting_title
-                  )}',
-                  '${escapeJs(
-                    meeting.location
-                  )}'
+                  '${escapeJs(meeting.meeting_date)}',
+                  '${escapeJs(meeting.meeting_title)}',
+                  '${escapeJs(meeting.location)}'
                 )">
                 Edit
               </button>
 
               <button
                 class="danger"
-                onclick="deleteMeeting(
-                  ${meeting.id}
-                )">
+                onclick="deleteMeeting(${meeting.id})">
                 Delete
               </button>
 
@@ -1792,21 +1596,13 @@
     async function saveMeeting() {
 
       const date =
-        document
-          .getElementById("meetingDate")
-          .value;
+        document.getElementById("meetingDate").value;
 
       const title =
-        document
-          .getElementById("meetingTitle")
-          .value
-          .trim();
+        document.getElementById("meetingTitle").value.trim();
 
       const location =
-        document
-          .getElementById("meetingLocation")
-          .value
-          .trim();
+        document.getElementById("meetingLocation").value.trim();
 
       if (!date || !title) {
 
@@ -1820,11 +1616,8 @@
       }
 
       const values = {
-
         meeting_date: date,
-
         meeting_title: title,
-
         location: location
       };
 
@@ -1836,10 +1629,7 @@
           await db
             .from("meetings")
             .update(values)
-            .eq(
-              "id",
-              editingMeetingId
-            );
+            .eq("id", editingMeetingId);
 
       } else {
 
@@ -1875,38 +1665,19 @@
     }
 
 
-    function editMeeting(
-      id,
-      date,
-      title,
-      location
-    ) {
+    function editMeeting(id, date, title, location) {
 
       editingMeetingId = id;
 
-      document
-        .getElementById("meetingDate")
-        .value = date;
-
-      document
-        .getElementById("meetingTitle")
-        .value = title;
-
-      document
-        .getElementById("meetingLocation")
-        .value = location;
+      document.getElementById("meetingDate").value = date;
+      document.getElementById("meetingTitle").value = title;
+      document.getElementById("meetingLocation").value = location;
     }
 
 
     async function deleteMeeting(id) {
 
-      if (
-        !confirm(
-          "Delete this meeting?"
-        )
-      ) {
-        return;
-      }
+      if (!confirm("Delete this meeting?")) return;
 
       const { error } =
         await db
@@ -1940,23 +1711,13 @@
 
       editingMeetingId = null;
 
-      document
-        .getElementById("meetingDate")
-        .value = "";
-
-      document
-        .getElementById("meetingTitle")
-        .value = "";
-
-      document
-        .getElementById("meetingLocation")
-        .value = "";
+      document.getElementById("meetingDate").value = "";
+      document.getElementById("meetingTitle").value = "";
+      document.getElementById("meetingLocation").value = "";
     }
 
 
-    /* ==========================================
-       EVENTS
-    ========================================== */
+    /* EVENTS */
 
     async function loadEvents() {
 
@@ -1981,9 +1742,7 @@
       }
 
       const list =
-        document.getElementById(
-          "eventsList"
-        );
+        document.getElementById("eventsList");
 
       list.innerHTML = "";
 
@@ -2024,9 +1783,7 @@
 
               <button
                 class="danger"
-                onclick="deleteEvent(
-                  ${event.id}
-                )">
+                onclick="deleteEvent(${event.id})">
                 Delete
               </button>
 
@@ -2041,27 +1798,16 @@
     async function saveEvent() {
 
       const title =
-        document
-          .getElementById("eventTitle")
-          .value
-          .trim();
+        document.getElementById("eventTitle").value.trim();
 
       const date =
-        document
-          .getElementById("eventDate")
-          .value;
+        document.getElementById("eventDate").value;
 
       const location =
-        document
-          .getElementById("eventLocation")
-          .value
-          .trim();
+        document.getElementById("eventLocation").value.trim();
 
       const description =
-        document
-          .getElementById("eventDescription")
-          .value
-          .trim();
+        document.getElementById("eventDescription").value.trim();
 
       if (!title || !date) {
 
@@ -2075,13 +1821,9 @@
       }
 
       const values = {
-
         title: title,
-
         date: date,
-
         location: location,
-
         description: description
       };
 
@@ -2093,10 +1835,7 @@
           await db
             .from("events")
             .update(values)
-            .eq(
-              "id",
-              editingEventId
-            );
+            .eq("id", editingEventId);
 
       } else {
 
@@ -2142,34 +1881,16 @@
 
       editingEventId = id;
 
-      document
-        .getElementById("eventTitle")
-        .value = title;
-
-      document
-        .getElementById("eventDate")
-        .value = date;
-
-      document
-        .getElementById("eventLocation")
-        .value = location;
-
-      document
-        .getElementById("eventDescription")
-        .value =
-        description;
+      document.getElementById("eventTitle").value = title;
+      document.getElementById("eventDate").value = date;
+      document.getElementById("eventLocation").value = location;
+      document.getElementById("eventDescription").value = description;
     }
 
 
     async function deleteEvent(id) {
 
-      if (
-        !confirm(
-          "Delete this event?"
-        )
-      ) {
-        return;
-      }
+      if (!confirm("Delete this event?")) return;
 
       const { error } =
         await db
@@ -2203,38 +1924,22 @@
 
       editingEventId = null;
 
-      document
-        .getElementById("eventTitle")
-        .value = "";
-
-      document
-        .getElementById("eventDate")
-        .value = "";
-
-      document
-        .getElementById("eventLocation")
-        .value = "";
-
-      document
-        .getElementById("eventDescription")
-        .value = "";
+      document.getElementById("eventTitle").value = "";
+      document.getElementById("eventDate").value = "";
+      document.getElementById("eventLocation").value = "";
+      document.getElementById("eventDescription").value = "";
     }
 
 
-    /* ==========================================
-       DOCUMENTS
-    ========================================== */
+    /* DOCUMENTS */
 
     async function loadDocuments() {
 
       const list =
-        document.getElementById(
-          "documentsList"
-        );
+        document.getElementById("documentsList");
 
       list.innerHTML =
         "<p>Loading documents...</p>";
-
 
       const {
         data: databaseDocuments,
@@ -2246,7 +1951,6 @@
           .order("id", {
             ascending: false
           });
-
 
       if (databaseError) {
 
@@ -2262,10 +1966,8 @@
         return;
       }
 
-
       list.innerHTML =
         "<h3>Saved Documents</h3>";
-
 
       (databaseDocuments || []).forEach(
         documentItem => {
@@ -2274,32 +1976,24 @@
             <div class="record">
 
               <strong>
-                ${escapeHtml(
-                  documentItem.title
-                )}
+                ${escapeHtml(documentItem.title)}
               </strong>
               <br>
 
               Type:
-              ${escapeHtml(
-                documentItem.type
-              )}
+              ${escapeHtml(documentItem.type)}
 
               <div class="record-actions">
 
                 <button
                   class="primary"
-                  onclick="openTypedDocument(
-                    ${documentItem.id}
-                  )">
+                  onclick="openTypedDocument(${documentItem.id})">
                   Open
                 </button>
 
                 <button
                   class="danger"
-                  onclick="deleteTypedDocument(
-                    ${documentItem.id}
-                  )">
+                  onclick="deleteTypedDocument(${documentItem.id})">
                   Delete
                 </button>
 
@@ -2309,7 +2003,6 @@
           `;
         }
       );
-
 
       const {
         data: files,
@@ -2321,7 +2014,6 @@
           .list("", {
             limit: 100
           });
-
 
       if (storageError) {
 
@@ -2335,11 +2027,7 @@
         return;
       }
 
-
-      if (
-        files &&
-        files.length > 0
-      ) {
+      if (files && files.length > 0) {
 
         list.innerHTML +=
           "<h3>Uploaded Files</h3>";
@@ -2359,17 +2047,13 @@
 
                 <button
                   class="primary"
-                  onclick="openDocument(
-                    '${escapeJs(file.name)}'
-                  )">
+                  onclick="openDocument('${escapeJs(file.name)}')">
                   Open
                 </button>
 
                 <button
                   class="danger"
-                  onclick="deleteDocument(
-                    '${escapeJs(file.name)}'
-                  )">
+                  onclick="deleteDocument('${escapeJs(file.name)}')">
                   Delete
                 </button>
 
@@ -2382,23 +2066,13 @@
     }
 
 
-    /* ==========================================
-       SAVE TYPED DOCUMENT
-    ========================================== */
-
     async function saveTypedDocument() {
 
       const title =
-        document
-          .getElementById("documentTitle")
-          .value
-          .trim();
+        document.getElementById("documentTitle").value.trim();
 
       const content =
-        document
-          .getElementById("documentContent")
-          .value
-          .trim();
+        document.getElementById("documentContent").value.trim();
 
       if (!title || !content) {
 
@@ -2411,20 +2085,14 @@
         return;
       }
 
-
       const { error } =
         await db
           .from("documents")
           .insert({
-
             title: title,
-
             type: "Typed Document",
-
             content: content
-
           });
-
 
       if (error) {
 
@@ -2438,7 +2106,6 @@
         return;
       }
 
-
       showStatus(
         "documentStatus",
         "Document saved successfully.",
@@ -2450,10 +2117,6 @@
       loadDocuments();
     }
 
-
-    /* ==========================================
-       OPEN TYPED DOCUMENT
-    ========================================== */
 
     async function openTypedDocument(id) {
 
@@ -2467,7 +2130,6 @@
           .eq("id", id)
           .single();
 
-
       if (error) {
 
         showStatus(
@@ -2480,13 +2142,8 @@
         return;
       }
 
-
       const newWindow =
-        window.open(
-          "",
-          "_blank"
-        );
-
+        window.open("", "_blank");
 
       if (!newWindow) {
 
@@ -2499,7 +2156,6 @@
         return;
       }
 
-
       newWindow.document.write(`
 
         <!DOCTYPE html>
@@ -2509,9 +2165,7 @@
         <head>
 
           <title>
-            ${escapeHtml(
-              data.title
-            )}
+            ${escapeHtml(data.title)}
           </title>
 
           <style>
@@ -2537,15 +2191,11 @@
         <body>
 
           <h1>
-            ${escapeHtml(
-              data.title
-            )}
+            ${escapeHtml(data.title)}
           </h1>
 
           <div class="content">
-            ${escapeHtml(
-              data.content
-            )}
+            ${escapeHtml(data.content)}
           </div>
 
         </body>
@@ -2558,27 +2208,15 @@
     }
 
 
-    /* ==========================================
-       DELETE TYPED DOCUMENT
-    ========================================== */
-
     async function deleteTypedDocument(id) {
 
-      if (
-        !confirm(
-          "Delete this document?"
-        )
-      ) {
-        return;
-      }
-
+      if (!confirm("Delete this document?")) return;
 
       const { error } =
         await db
           .from("documents")
           .delete()
           .eq("id", id);
-
 
       if (error) {
 
@@ -2592,7 +2230,6 @@
         return;
       }
 
-
       showStatus(
         "documentStatus",
         "Document deleted successfully.",
@@ -2603,16 +2240,10 @@
     }
 
 
-    /* ==========================================
-       UPLOAD FILE
-    ========================================== */
-
     async function uploadDocument() {
 
       const fileInput =
-        document.getElementById(
-          "documentFile"
-        );
+        document.getElementById("documentFile");
 
       const file =
         fileInput.files[0];
@@ -2628,12 +2259,8 @@
         return;
       }
 
-
       const filePath =
-        Date.now() +
-        "_" +
-        file.name;
-
+        Date.now() + "_" + file.name;
 
       const {
         error: uploadError
@@ -2645,7 +2272,6 @@
             filePath,
             file
           );
-
 
       if (uploadError) {
 
@@ -2659,33 +2285,23 @@
         return;
       }
 
-
       const {
         error: databaseError
       } =
         await db
           .from("documents")
           .insert({
-
             title: file.name,
-
             type: "Uploaded File",
-
             content: filePath
-
           });
 
-
       if (databaseError) {
-
-        /* Remove uploaded file if database save fails */
 
         await db
           .storage
           .from(DOCUMENT_BUCKET)
-          .remove([
-            filePath
-          ]);
+          .remove([filePath]);
 
         showStatus(
           "documentStatus",
@@ -2696,7 +2312,6 @@
 
         return;
       }
-
 
       showStatus(
         "documentStatus",
@@ -2709,10 +2324,6 @@
       loadDocuments();
     }
 
-
-    /* ==========================================
-       OPEN UPLOADED FILE
-    ========================================== */
 
     async function openDocument(fileName) {
 
@@ -2728,7 +2339,6 @@
             3600
           );
 
-
       if (error) {
 
         showStatus(
@@ -2741,7 +2351,6 @@
         return;
       }
 
-
       window.open(
         data.signedUrl,
         "_blank"
@@ -2749,20 +2358,9 @@
     }
 
 
-    /* ==========================================
-       DELETE UPLOADED FILE
-    ========================================== */
-
     async function deleteDocument(fileName) {
 
-      if (
-        !confirm(
-          "Delete this uploaded file?"
-        )
-      ) {
-        return;
-      }
-
+      if (!confirm("Delete this uploaded file?")) return;
 
       const {
         error: storageError
@@ -2770,10 +2368,7 @@
         await db
           .storage
           .from(DOCUMENT_BUCKET)
-          .remove([
-            fileName
-          ]);
-
+          .remove([fileName]);
 
       if (storageError) {
 
@@ -2787,18 +2382,13 @@
         return;
       }
 
-
       const {
         error: databaseError
       } =
         await db
           .from("documents")
           .delete()
-          .eq(
-            "content",
-            fileName
-          );
-
+          .eq("content", fileName);
 
       if (databaseError) {
 
@@ -2812,7 +2402,6 @@
         return;
       }
 
-
       showStatus(
         "documentStatus",
         "File deleted successfully.",
@@ -2823,39 +2412,15 @@
     }
 
 
-    /* ==========================================
-       CLEAR DOCUMENT FORM
-    ========================================== */
-
     function clearDocumentForm() {
 
-      document
-        .getElementById(
-          "documentTitle"
-        )
-        .value = "";
-
-      document
-        .getElementById(
-          "documentContent"
-        )
-        .value = "";
-
-      document
-        .getElementById(
-          "documentFile"
-        )
-        .value = "";
+      document.getElementById("documentTitle").value = "";
+      document.getElementById("documentContent").value = "";
+      document.getElementById("documentFile").value = "";
     }
 
 
-    /* ==========================================
-       START APP
-    ========================================== */
-
-    showSection(
-      "membersSection"
-    );
+    showSection("membersSection");
 
   </script>
 
