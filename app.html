@@ -1,42 +1,1826 @@
-async function saveMember(event) {
-  event.preventDefault();
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YONA App</title>
 
-  const button = document.getElementById("memberSaveButton");
+<style>
+*{box-sizing:border-box}
 
-  button.disabled = true;
-  button.textContent = editingMemberId
-    ? "Updating..."
-    : "Saving...";
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f2f5f8;
+  color:#222
+}
 
-  try {
-    /* =====================================================
-       CHECK LOGIN SESSION
-       ===================================================== */
+button,input,select,textarea{font-family:inherit}
+
+.hidden{display:none!important}
+
+.login-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:linear-gradient(135deg,#0b4f9c,#123d70)
+}
+
+.login-box{
+  width:100%;
+  max-width:420px;
+  background:white;
+  padding:30px;
+  border-radius:14px;
+  box-shadow:0 10px 35px rgba(0,0,0,.2)
+}
+
+.login-box h1{
+  margin-top:0;
+  text-align:center;
+  color:#0b4f9c
+}
+
+.login-box p{
+  text-align:center;
+  color:#666
+}
+
+.app{min-height:100vh}
+
+.topbar{
+  background:#0b4f9c;
+  color:white;
+  padding:15px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  position:sticky;
+  top:0;
+  z-index:10;
+  box-shadow:0 2px 10px rgba(0,0,0,.15)
+}
+
+.topbar h2{
+  margin:0;
+  font-size:20px
+}
+
+.logout-btn{
+  background:white;
+  color:#0b4f9c;
+  border:none;
+  padding:9px 14px;
+  border-radius:7px;
+  cursor:pointer;
+  font-weight:bold
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:20px
+}
+
+/* DASHBOARD */
+
+.dashboard-header{
+  background:white;
+  border-radius:14px;
+  padding:22px;
+  margin-bottom:18px;
+  box-shadow:0 3px 12px rgba(0,0,0,.08)
+}
+
+.dashboard-header h1{
+  margin:0 0 7px;
+  color:#0b4f9c;
+  font-size:25px
+}
+
+.dashboard-header p{
+  margin:0;
+  color:#666;
+  font-size:15px
+}
+
+.dashboard{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+  margin-bottom:25px
+}
+
+.dashboard-card{
+  background:white;
+  border-radius:16px;
+  padding:24px 18px;
+  min-height:155px;
+  text-align:center;
+  cursor:pointer;
+  border:2px solid transparent;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
+  transition:.2s ease;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center
+}
+
+.dashboard-card:hover{
+  border-color:#0b4f9c;
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,0,0,.12)
+}
+
+.dashboard-icon{
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  background:#eaf2fb;
+  color:#0b4f9c;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  margin-bottom:12px
+}
+
+.dashboard-card h3{
+  margin:0 0 6px;
+  color:#0b4f9c;
+  font-size:18px
+}
+
+.dashboard-card p{
+  margin:0;
+  color:#666;
+  font-size:13px
+}
+
+/* SECTIONS */
+
+.section{
+  background:white;
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:25px;
+  box-shadow:0 3px 12px rgba(0,0,0,.08)
+}
+
+.section-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+  flex-wrap:wrap
+}
+
+.section-header h2{
+  margin:0;
+  color:#0b4f9c
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px
+}
+
+.full-width{grid-column:1/-1}
+
+label{
+  display:block;
+  margin-bottom:6px;
+  font-weight:bold;
+  font-size:14px
+}
+
+input,select,textarea{
+  width:100%;
+  padding:11px;
+  border:1px solid #ccc;
+  border-radius:7px;
+  font-size:15px;
+  background:white
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical
+}
+
+input[type=file]{padding:8px}
+
+.btn{
+  border:none;
+  border-radius:7px;
+  padding:10px 15px;
+  cursor:pointer;
+  font-weight:bold
+}
+
+.btn:disabled{
+  opacity:.6;
+  cursor:not-allowed
+}
+
+.btn-primary{
+  background:#0b4f9c;
+  color:white
+}
+
+.btn-success{
+  background:#16833b;
+  color:white
+}
+
+.btn-danger{
+  background:#c62828;
+  color:white
+}
+
+.btn-secondary{
+  background:#666;
+  color:white
+}
+
+.btn-warning{
+  background:#e69b00;
+  color:white
+}
+
+.form-actions{
+  margin-top:15px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap
+}
+
+/* MESSAGES */
+
+.message{
+  padding:12px;
+  border-radius:7px;
+  margin-bottom:15px;
+  display:none;
+  white-space:pre-wrap;
+  word-break:break-word
+}
+
+.message.success{
+  display:block;
+  background:#e7f7ec;
+  color:#176b32
+}
+
+.message.error{
+  display:block;
+  background:#fdeaea;
+  color:#a51d1d
+}
+
+/* RECORDS */
+
+.records{margin-top:25px}
+
+.record-group{margin-bottom:25px}
+
+.record-group-title{
+  background:#eaf2fb;
+  color:#0b4f9c;
+  padding:10px 12px;
+  border-radius:7px;
+  font-weight:bold;
+  margin-bottom:10px
+}
+
+.record{
+  border:1px solid #ddd;
+  border-radius:9px;
+  padding:14px;
+  margin-bottom:10px;
+  background:#fff
+}
+
+.record h4{
+  margin:0 0 8px;
+  color:#0b4f9c
+}
+
+.record p{
+  margin:5px 0;
+  font-size:14px
+}
+
+.record-actions{
+  margin-top:12px;
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap
+}
+
+.record-actions button{
+  padding:7px 11px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  color:white
+}
+
+.edit-btn{background:#e69b00}
+.delete-btn{background:#c62828}
+.view-btn{background:#0b4f9c}
+.cancel-btn{background:#666}
+
+/* PHOTOS */
+
+.photo-preview{
+  margin-top:10px;
+  width:110px;
+  height:110px;
+  border-radius:8px;
+  object-fit:cover;
+  border:1px solid #ccc;
+  display:none
+}
+
+.person-photo{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid #0b4f9c;
+  margin-bottom:8px
+}
+
+.no-photo{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:#e9eef4;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#777;
+  font-size:12px;
+  margin-bottom:8px
+}
+
+/* PERIODS */
+
+.period-box{
+  background:#f8fafc;
+  border:1px solid #ddd;
+  border-radius:8px;
+  padding:15px;
+  margin-bottom:20px
+}
+
+.period-list{margin-top:10px}
+
+.period-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:9px;
+  background:white;
+  border:1px solid #ddd;
+  margin-bottom:7px;
+  border-radius:6px;
+  gap:10px
+}
+
+/* DOCUMENTS */
+
+.document-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border:1px solid #ddd;
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:8px;
+  gap:10px
+}
+
+.document-info{flex:1}
+
+.document-info strong{
+  display:block;
+  color:#0b4f9c
+}
+
+.empty{
+  text-align:center;
+  color:#777;
+  padding:20px
+}
+
+.loading{
+  text-align:center;
+  padding:15px;
+  color:#666
+}
+
+@media(max-width:800px){
+  .dashboard{grid-template-columns:repeat(2,1fr)}
+  .form-grid{grid-template-columns:1fr}
+  .full-width{grid-column:auto}
+}
+
+@media(max-width:500px){
+  .dashboard{grid-template-columns:1fr}
+  .dashboard-card{
+    min-height:130px;
+    padding:20px
+  }
+  .container{padding:12px}
+  .section{padding:15px}
+  .topbar{padding:12px}
+  .topbar h2{font-size:17px}
+  .dashboard-header{padding:18px}
+  .dashboard-header h1{font-size:22px}
+  .document-item{
+    flex-direction:column;
+    align-items:stretch
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div id="loginScreen" class="login-screen">
+
+  <div class="login-box">
+
+    <h1>YONA App</h1>
+
+    <p>Youths of Ndasei Association</p>
+
+    <div id="loginMessage" class="message"></div>
+
+    <label>Email</label>
+    <input
+      type="email"
+      id="loginEmail"
+      placeholder="Enter email"
+    >
+
+    <br><br>
+
+    <label>Password</label>
+    <input
+      type="password"
+      id="loginPassword"
+      placeholder="Enter password"
+    >
+
+    <br><br>
+
+    <button
+      class="btn btn-primary"
+      style="width:100%;"
+      onclick="login()"
+    >
+      Login
+    </button>
+
+  </div>
+</div>
+
+
+<!-- APP -->
+
+<div id="app" class="app hidden">
+
+  <div class="topbar">
+
+    <h2>YONA Management App</h2>
+
+    <button
+      class="logout-btn"
+      onclick="logout()"
+    >
+      Logout
+    </button>
+
+  </div>
+
+  <div class="container">
+
+    <div id="globalMessage" class="message"></div>
+
+
+    <!-- DASHBOARD -->
+
+    <div id="dashboard">
+
+      <div class="dashboard-header">
+
+        <h1>YONA Dashboard</h1>
+
+        <p>
+          Youths of Ndasei Association — Management System
+        </p>
+
+      </div>
+
+      <div class="dashboard">
+
+        <div
+          class="dashboard-card"
+          onclick="showSection('membersSection')"
+        >
+          <div class="dashboard-icon">👥</div>
+          <h3>Members</h3>
+          <p>Manage YONA members</p>
+        </div>
+
+        <div
+          class="dashboard-card"
+          onclick="showSection('executiveSection')"
+        >
+          <div class="dashboard-icon">👔</div>
+          <h3>Executive</h3>
+          <p>Manage executive leadership</p>
+        </div>
+
+        <div
+          class="dashboard-card"
+          onclick="showSection('financeSection')"
+        >
+          <div class="dashboard-icon">💰</div>
+          <h3>Finance</h3>
+          <p>Manage financial records</p>
+        </div>
+
+        <div
+          class="dashboard-card"
+          onclick="showSection('meetingsSection')"
+        >
+          <div class="dashboard-icon">📝</div>
+          <h3>Meetings</h3>
+          <p>Manage meetings and minutes</p>
+        </div>
+
+        <div
+          class="dashboard-card"
+          onclick="showSection('eventsSection')"
+        >
+          <div class="dashboard-icon">📅</div>
+          <h3>Events</h3>
+          <p>Manage YONA events</p>
+        </div>
+
+        <div
+          class="dashboard-card"
+          onclick="showSection('documentsSection')"
+        >
+          <div class="dashboard-icon">📁</div>
+          <h3>Documents</h3>
+          <p>Manage organization documents</p>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- MEMBERS -->
+
+    <section id="membersSection" class="section hidden">
+
+      <div class="section-header">
+
+        <h2>Members</h2>
+
+        <button
+          class="btn btn-secondary"
+          onclick="backToDashboard()"
+        >
+          Dashboard
+        </button>
+
+      </div>
+
+      <form id="memberForm">
+
+        <div class="form-grid">
+
+          <div>
+            <label>Name</label>
+            <input
+              type="text"
+              id="memberName"
+              required
+            >
+          </div>
+
+          <div>
+            <label>Phone</label>
+            <input
+              type="text"
+              id="memberPhone"
+            >
+          </div>
+
+          <div>
+            <label>Member Category</label>
+
+            <select id="memberType" required>
+
+              <option value="">
+                Select category
+              </option>
+
+              <option value="Old Member">
+                Old Member
+              </option>
+
+              <option value="Current Member">
+                Current Member
+              </option>
+
+              <option value="Probationary Member">
+                New Registered Member (Probationary)
+              </option>
+
+            </select>
+          </div>
+
+          <div>
+            <label>Position</label>
+
+            <input
+              type="text"
+              id="memberPosition"
+            >
+          </div>
+
+          <div class="full-width">
+
+            <label>Member Photo</label>
+
+            <input
+              type="file"
+              id="memberPhoto"
+              accept="image/*"
+              onchange="previewPhoto('memberPhoto','memberPhotoPreview')"
+            >
+
+            <img
+              id="memberPhotoPreview"
+              class="photo-preview"
+              alt="Member photo preview"
+            >
+
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="memberSaveButton"
+          >
+            Save Member
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-secondary hidden"
+            id="memberCancelButton"
+            onclick="cancelMemberEdit()"
+          >
+            Cancel
+          </button>
+
+        </div>
+
+      </form>
+
+      <div id="membersRecords" class="records"></div>
+
+    </section>
+
+
+    <!-- EXECUTIVE -->
+
+    <section id="executiveSection" class="section hidden">
+
+      <div class="section-header">
+
+        <h2>Executive Leadership</h2>
+
+        <button
+          class="btn btn-secondary"
+          onclick="backToDashboard()"
+        >
+          Dashboard
+        </button>
+
+      </div>
+
+      <div class="period-box">
+
+        <h3>Executive Periods</h3>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+
+          <input
+            type="text"
+            id="periodName"
+            placeholder="Example: 2026 - 2028"
+            style="flex:1;min-width:200px;"
+          >
+
+          <button
+            class="btn btn-primary"
+            onclick="addExecutivePeriod()"
+          >
+            Add Period
+          </button>
+
+        </div>
+
+        <div
+          id="periodList"
+          class="period-list"
+        ></div>
+
+      </div>
+
+      <form id="executiveForm">
+
+        <div class="form-grid">
+
+          <div>
+
+            <label>Executive Period</label>
+
+            <select
+              id="executivePeriod"
+              required
+            >
+
+              <option value="">
+                Select period
+              </option>
+
+            </select>
+
+          </div>
+
+          <div>
+
+            <label>Name</label>
+
+            <input
+              type="text"
+              id="executiveName"
+              required
+            >
+
+          </div>
+
+          <div>
+
+            <label>Position</label>
+
+            <input
+              type="text"
+              id="executivePosition"
+              required
+            >
+
+          </div>
+
+          <div>
+
+            <label>Phone</label>
+
+            <input
+              type="text"
+              id="executivePhone"
+            >
+
+          </div>
+
+          <div class="full-width">
+
+            <label>Executive Photo</label>
+
+            <input
+              type="file"
+              id="executivePhoto"
+              accept="image/*"
+              onchange="previewPhoto('executivePhoto','executivePhotoPreview')"
+            >
+
+            <img
+              id="executivePhotoPreview"
+              class="photo-preview"
+              alt="Executive photo preview"
+            >
+
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="executiveSaveButton"
+          >
+            Save Executive
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-secondary hidden"
+            id="executiveCancelButton"
+            onclick="cancelExecutiveEdit()"
+          >
+            Cancel
+          </button>
+
+        </div>
+
+      </form>
+
+      <div id="executiveRecords" class="records"></div>
+
+    </section>
+
+
+    <!-- FINANCE -->
+
+    <section id="financeSection" class="section hidden">
+
+      <div class="section-header">
+
+        <h2>Finance</h2>
+
+        <button
+          class="btn btn-secondary"
+          onclick="backToDashboard()"
+        >
+          Dashboard
+        </button>
+
+      </div>
+
+      <form id="financeForm">
+
+        <div class="form-grid">
+
+          <div>
+
+            <label>Financial Category / Group</label>
+
+            <select
+              id="financeCategory"
+              required
+            >
+
+              <option value="">
+                Select category
+              </option>
+
+              <option value="Monthly Contribution 2022">
+                Monthly Contribution 2022
+              </option>
+
+              <option value="Monthly Contribution 2023">
+                Monthly Contribution 2023
+              </option>
+
+              <option value="End of Year">
+                End of Year
+              </option>
+
+              <option value="Welfare">
+                Welfare
+              </option>
+
+              <option value="Loan Interest">
+                Loan Interest
+              </option>
+
+              <option value="Other">
+                Other
+              </option>
+
+            </select>
+
+          </div>
+
+          <div>
+
+            <label>Name</label>
+
+            <input
+              type="text"
+              id="financeName"
+              required
+            >
+
+          </div>
+
+          <div>
+
+            <label>Amount</label>
+
+            <input
+              type="number"
+              id="financeAmount"
+              step="0.01"
+              required
+            >
+
+          </div>
+
+          <div>
+
+            <label>Description / Purpose</label>
+
+            <input
+              type="text"
+              id="financeDescription"
+              placeholder="Example: Married"
+            >
+
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="financeSaveButton"
+          >
+            Save Finance Record
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-secondary hidden"
+            id="financeCancelButton"
+            onclick="cancelFinanceEdit()"
+          >
+            Cancel
+          </button>
+
+        </div>
+
+      </form>
+
+      <div id="financeRecords" class="records"></div>
+
+    </section>
+
+
+    <!-- MEETINGS -->
+
+    <section id="meetingsSection" class="section hidden">
+
+      <div class="section-header">
+
+        <h2>Meetings</h2>
+
+        <button
+          class="btn btn-secondary"
+          onclick="backToDashboard()"
+        >
+          Dashboard
+        </button>
+
+      </div>
+
+      <form id="meetingForm">
+
+        <div class="form-grid">
+
+          <div>
+
+            <label>Meeting Date</label>
+
+            <input
+              type="date"
+              id="meetingDate"
+              required
+            >
+
+          </div>
+
+          <div>
+
+            <label>Meeting Title</label>
+
+            <input
+              type="text"
+              id="meetingTitle"
+              required
+            >
+
+          </div>
+
+          <div>
+
+            <label>Location</label>
+
+            <input
+              type="text"
+              id="meetingLocation"
+            >
+
+          </div>
+
+          <div class="full-width">
+
+            <label>Minutes</label>
+
+            <textarea
+              id="meetingMinutes"
+              placeholder="Enter meeting minutes..."
+            ></textarea>
+
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="meetingSaveButton"
+          >
+            Save Meeting
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-secondary hidden"
+            id="meetingCancelButton"
+            onclick="cancelMeetingEdit()"
+          >
+            Cancel
+          </button>
+
+        </div>
+
+      </form>
+
+      <div id="meetingRecords" class="records"></div>
+
+    </section>
+
+
+    <!-- EVENTS -->
+
+    <section id="eventsSection" class="section hidden">
+
+      <div class="section-header">
+
+        <h2>Events</h2>
+
+        <button
+          class="btn btn-secondary"
+          onclick="backToDashboard()"
+        >
+          Dashboard
+        </button>
+
+      </div>
+
+      <form id="eventForm">
+
+        <div class="form-grid">
+
+          <div>
+
+            <label>Event Title</label>
+
+            <input
+              type="text"
+              id="eventTitle"
+              required
+            >
+
+          </div>
+
+          <div>
+
+            <label>Date</label>
+
+            <input
+              type="date"
+              id="eventDate"
+              required
+            >
+
+          </div>
+
+          <div>
+
+            <label>Location</label>
+
+            <input
+              type="text"
+              id="eventLocation"
+            >
+
+          </div>
+
+          <div class="full-width">
+
+            <label>Description</label>
+
+            <textarea
+              id="eventDescription"
+              placeholder="Enter event description..."
+            ></textarea>
+
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="eventSaveButton"
+          >
+            Save Event
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-secondary hidden"
+            id="eventCancelButton"
+            onclick="cancelEventEdit()"
+          >
+            Cancel
+          </button>
+
+        </div>
+
+      </form>
+
+      <div id="eventRecords" class="records"></div>
+
+    </section>
+
+
+    <!-- DOCUMENTS -->
+
+    <section id="documentsSection" class="section hidden">
+
+      <div class="section-header">
+
+        <h2>Documents</h2>
+
+        <button
+          class="btn btn-secondary"
+          onclick="backToDashboard()"
+        >
+          Dashboard
+        </button>
+
+      </div>
+
+      <form id="documentForm">
+
+        <div class="form-grid">
+
+          <div>
+
+            <label>Document Title</label>
+
+            <input
+              type="text"
+              id="documentTitle"
+              required
+            >
+
+          </div>
+
+          <div>
+
+            <label>Document Type</label>
+
+            <input
+              type="text"
+              id="documentType"
+              placeholder="Example: Meeting Minutes"
+            >
+
+          </div>
+
+          <div class="full-width">
+
+            <label>Select File</label>
+
+            <input
+              type="file"
+              id="documentFile"
+              required
+            >
+
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="documentSaveButton"
+          >
+            Upload Document
+          </button>
+
+        </div>
+
+      </form>
+
+      <div id="documentRecords" class="records"></div>
+
+    </section>
+
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+/* =========================================================
+   SUPABASE
+   ========================================================= */
+
+const SUPABASE_URL =
+  "https://atxeeymireukwbbsczbv.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
+
+const DOCUMENT_BUCKET =
+  "yona-documents";
+
+const db =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
+let editingMemberId = null;
+let editingMemberOldPhoto = null;
+
+let editingExecutiveId = null;
+let editingExecutiveOldPhoto = null;
+
+let editingFinanceId = null;
+let editingMeetingId = null;
+let editingEventId = null;
+
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+function escapeHtml(value){
+
+  if(value===null || value===undefined){
+    return "";
+  }
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+function showMessage(
+  message,
+  type="success"
+){
+
+  const box =
+    document.getElementById(
+      "globalMessage"
+    );
+
+  box.textContent =
+    message;
+
+  box.className =
+    "message " + type;
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  setTimeout(()=>{
+    box.className="message";
+  },8000);
+}
+
+
+function showLoginMessage(
+  message,
+  type="error"
+){
+
+  const box =
+    document.getElementById(
+      "loginMessage"
+    );
+
+  box.textContent =
+    message;
+
+  box.className =
+    "message " + type;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+function showSection(sectionId){
+
+  document
+    .querySelectorAll(".section")
+    .forEach(section=>{
+      section.classList.add("hidden");
+    });
+
+  document
+    .getElementById("dashboard")
+    .classList.add("hidden");
+
+  document
+    .getElementById(sectionId)
+    .classList.remove("hidden");
+
+  if(sectionId==="membersSection"){
+    loadMembers();
+  }
+
+  if(sectionId==="executiveSection"){
+    loadExecutivePeriods();
+    loadExecutives();
+  }
+
+  if(sectionId==="financeSection"){
+    loadFinance();
+  }
+
+  if(sectionId==="meetingsSection"){
+    loadMeetings();
+  }
+
+  if(sectionId==="eventsSection"){
+    loadEvents();
+  }
+
+  if(sectionId==="documentsSection"){
+    loadDocuments();
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+function backToDashboard(){
+
+  document
+    .querySelectorAll(".section")
+    .forEach(section=>{
+      section.classList.add("hidden");
+    });
+
+  document
+    .getElementById("dashboard")
+    .classList.remove("hidden");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+async function login(){
+
+  const email =
+    document
+      .getElementById("loginEmail")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("loginPassword")
+      .value;
+
+  if(!email || !password){
+
+    showLoginMessage(
+      "Please enter your email and password.",
+      "error"
+    );
+
+    return;
+  }
+
+  showLoginMessage(
+    "Logging in...",
+    "success"
+  );
+
+  try{
 
     const {
-      data: sessionData,
-      error: sessionError
-    } = await db.auth.getSession();
+      data,
+      error
+    } =
+      await db.auth.signInWithPassword({
+        email,
+        password
+      });
 
-    if (sessionError) {
+    if(error){
+      throw error;
+    }
+
+    if(!data || !data.session){
+
+      throw new Error(
+        "Login did not create a valid session."
+      );
+    }
+
+    document
+      .getElementById("loginScreen")
+      .classList.add("hidden");
+
+    document
+      .getElementById("app")
+      .classList.remove("hidden");
+
+    await loadAll();
+
+  }catch(error){
+
+    showLoginMessage(
+      error.message ||
+      "Login failed.",
+      "error"
+    );
+  }
+}
+
+
+async function logout(){
+
+  await db.auth.signOut();
+
+  document
+    .getElementById("app")
+    .classList.add("hidden");
+
+  document
+    .getElementById("loginScreen")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("loginPassword")
+    .value="";
+}
+
+
+/* =========================================================
+   PHOTO FUNCTIONS
+   ========================================================= */
+
+function validatePhoto(file){
+
+  if(!file){
+    return true;
+  }
+
+  if(!file.type.startsWith("image/")){
+
+    alert(
+      "Please select an image file."
+    );
+
+    return false;
+  }
+
+  if(file.size > 5*1024*1024){
+
+    alert(
+      "Photo must not be larger than 5 MB."
+    );
+
+    return false;
+  }
+
+  return true;
+}
+
+
+function previewPhoto(
+  inputId,
+  previewId
+){
+
+  const input =
+    document.getElementById(
+      inputId
+    );
+
+  const preview =
+    document.getElementById(
+      previewId
+    );
+
+  const file =
+    input.files &&
+    input.files[0];
+
+  if(!file){
+
+    preview.style.display="none";
+    preview.src="";
+
+    return;
+  }
+
+  if(!validatePhoto(file)){
+
+    input.value="";
+    preview.style.display="none";
+    preview.src="";
+
+    return;
+  }
+
+  const reader =
+    new FileReader();
+
+  reader.onload =
+    function(event){
+
+      preview.src =
+        event.target.result;
+
+      preview.style.display =
+        "block";
+    };
+
+  reader.readAsDataURL(file);
+}
+
+
+/*
+ IMPORTANT FIX:
+ We no longer call db.storage.list()
+ before uploading a photo.
+
+ The bucket already exists:
+ yona-documents
+
+ The old list() check could fail because of Storage
+ permissions even when uploading was allowed.
+ */
+
+async function uploadPersonPhoto(
+  file,
+  folder,
+  prefix
+){
+
+  if(!file){
+    return null;
+  }
+
+  if(!validatePhoto(file)){
+
+    throw new Error(
+      "Invalid photo."
+    );
+  }
+
+  const safeName =
+    file.name.replace(
+      /[^a-zA-Z0-9._-]/g,
+      "_"
+    );
+
+  const path =
+    `${folder}/${prefix}_${Date.now()}_${Math.random()
+      .toString(36)
+      .slice(2,8)}_${safeName}`;
+
+  const {
+    error
+  } =
+    await db.storage
+      .from(DOCUMENT_BUCKET)
+      .upload(
+        path,
+        file,
+        {
+          upsert:false
+        }
+      );
+
+  if(error){
+    throw error;
+  }
+
+  return path;
+}
+
+
+async function getPhotoUrl(path){
+
+  if(!path){
+    return null;
+  }
+
+  const {
+    data,
+    error
+  } =
+    await db.storage
+      .from(DOCUMENT_BUCKET)
+      .createSignedUrl(
+        path,
+        3600
+      );
+
+  if(error){
+    console.error(
+      "Photo URL error:",
+      error
+    );
+
+    return null;
+  }
+
+  return data.signedUrl;
+}
+
+
+async function deleteStoredPhoto(path){
+
+  if(!path){
+    return;
+  }
+
+  const {
+    error
+  } =
+    await db.storage
+      .from(DOCUMENT_BUCKET)
+      .remove([path]);
+
+  if(error){
+
+    console.warn(
+      "Could not delete old photo:",
+      error
+    );
+  }
+}
+
+
+/*
+ This function is kept for DOCUMENT uploads.
+ It is NOT used by member/executive photo uploads.
+ */
+
+async function ensureStorageBucket(){
+
+  const {
+    data,
+    error
+  } =
+    await db.storage
+      .from(DOCUMENT_BUCKET)
+      .list("",{
+        limit:1
+      });
+
+  if(error){
+
+    throw new Error(
+      `Storage bucket "${DOCUMENT_BUCKET}" is not available. Please check Supabase Storage.`
+    );
+  }
+
+  return true;
+}
+
+
+/* =========================================================
+   MEMBERS
+   ========================================================= */
+
+document
+  .getElementById("memberForm")
+  .addEventListener(
+    "submit",
+    saveMember
+  );
+
+
+async function saveMember(event){
+
+  event.preventDefault();
+
+  const button =
+    document.getElementById(
+      "memberSaveButton"
+    );
+
+  button.disabled=true;
+
+  button.textContent =
+    editingMemberId
+      ? "Updating..."
+      : "Saving...";
+
+  try{
+
+    /*
+     CHECK LOGIN SESSION
+    */
+
+    const {
+      data:sessionData,
+      error:sessionError
+    } =
+      await db.auth.getSession();
+
+    if(sessionError){
+
       throw new Error(
         "Could not check your login session: " +
         sessionError.message
       );
     }
 
-    if (
+    if(
       !sessionData ||
       !sessionData.session
-    ) {
+    ){
+
       throw new Error(
         "Your login session has expired. Please log in again."
       );
     }
 
-    /* =====================================================
-       GET MEMBER INFORMATION
-       ===================================================== */
 
     const name =
       document
@@ -62,40 +1846,46 @@ async function saveMember(event) {
         .trim();
 
     const photoInput =
-      document.getElementById("memberPhoto");
+      document.getElementById(
+        "memberPhoto"
+      );
 
     const file =
       photoInput.files &&
       photoInput.files[0];
 
-    /* =====================================================
-       VALIDATION
-       ===================================================== */
+    if(!name){
 
-    if (!name) {
       throw new Error(
         "Member name is required."
       );
     }
 
-    if (!memberType) {
+    if(!memberType){
+
       throw new Error(
         "Please select the member category."
       );
     }
 
-    if (file && !validatePhoto(file)) {
+    if(file && !validatePhoto(file)){
       return;
     }
 
-    /* =====================================================
-       PHOTO
-       ===================================================== */
+
+    /*
+     KEEP OLD PHOTO WHEN EDITING
+    */
 
     let newPhotoPath =
       editingMemberOldPhoto || null;
 
-    if (file) {
+
+    /*
+     UPLOAD NEW PHOTO ONLY IF USER SELECTS ONE
+    */
+
+    if(file){
 
       newPhotoPath =
         await uploadPersonPhoto(
@@ -105,51 +1895,48 @@ async function saveMember(event) {
         );
     }
 
-    /* =====================================================
-       MEMBER RECORD
-       ===================================================== */
 
     const record = {
-      name: name,
-      phone: phone,
-      position: position,
-      member_type: memberType,
-      photo_url: newPhotoPath
+
+      name:name,
+
+      phone:phone,
+
+      position:position,
+
+      member_type:memberType,
+
+      photo_url:newPhotoPath
+
     };
 
-    console.log(
-      "Saving YONA member:",
-      record
-    );
 
-    /* =====================================================
-       UPDATE EXISTING MEMBER
-       ===================================================== */
+    /*
+     UPDATE
+    */
 
-    if (editingMemberId) {
+    if(editingMemberId){
 
       const {
         error
-      } = await db
-        .from("members")
-        .update(record)
-        .eq(
-          "id",
-          editingMemberId
-        );
+      } =
+        await db
+          .from("members")
+          .update(record)
+          .eq(
+            "id",
+            editingMemberId
+          );
 
-      if (error) {
+      if(error){
 
-        console.error(
-          "MEMBER UPDATE ERROR:",
-          error
-        );
-
-        if (
+        if(
           file &&
           newPhotoPath &&
-          newPhotoPath !== editingMemberOldPhoto
-        ) {
+          newPhotoPath !==
+            editingMemberOldPhoto
+        ){
+
           await deleteStoredPhoto(
             newPhotoPath
           );
@@ -165,43 +1952,48 @@ Hint: ${error.hint || "None"}`
         );
       }
 
-      /* Delete old photo only after successful update */
 
-      if (
+      if(
         file &&
         editingMemberOldPhoto &&
-        editingMemberOldPhoto !== newPhotoPath
-      ) {
+        editingMemberOldPhoto !==
+          newPhotoPath
+      ){
+
         await deleteStoredPhoto(
           editingMemberOldPhoto
         );
       }
 
+
       showMessage(
         "Member updated successfully."
       );
+
     }
 
-    /* =====================================================
-       INSERT NEW MEMBER
-       ===================================================== */
+    /*
+     INSERT
+     
+     IMPORTANT:
+     No .select().single() here.
+     This prevents an INSERT from appearing to fail
+     because SELECT permission is different.
+    */
 
-    else {
+    else{
 
       const {
         error
-      } = await db
-        .from("members")
-        .insert([record]);
+      } =
+        await db
+          .from("members")
+          .insert([record]);
 
-      if (error) {
+      if(error){
 
-        console.error(
-          "MEMBER INSERT ERROR:",
-          error
-        );
+        if(newPhotoPath){
 
-        if (newPhotoPath) {
           await deleteStoredPhoto(
             newPhotoPath
           );
@@ -217,28 +2009,18 @@ Hint: ${error.hint || "None"}`
         );
       }
 
-      console.log(
-        "YONA member saved successfully."
-      );
 
       showMessage(
         "Member saved successfully."
       );
     }
 
-    /* =====================================================
-       RESET FORM
-       ===================================================== */
 
     resetMemberForm();
 
-    /* =====================================================
-       RELOAD MEMBERS
-       ===================================================== */
-
     await loadMembers();
 
-  } catch (error) {
+  }catch(error){
 
     console.error(
       "YONA MEMBER SAVE FAILED:",
@@ -246,30 +2028,33 @@ Hint: ${error.hint || "None"}`
     );
 
     let message =
-      error && error.message
+      error &&
+      error.message
         ? error.message
         : "Unknown error occurred.";
 
-    /* Special message for browser/network failure */
 
-    if (
-      message === "Failed to fetch" ||
-      message.toLowerCase().includes("failed to fetch")
-    ) {
+    if(
+      message
+        .toLowerCase()
+        .includes("failed to fetch")
+    ){
 
       message =
         "The app could not connect to Supabase.\n\n" +
         "Please check your internet connection and make sure the Supabase project is online.";
     }
 
+
     showMessage(
-      "Could not save member:\n" + message,
+      "Could not save member:\n" +
+      message,
       "error"
     );
 
-  } finally {
+  }finally{
 
-    button.disabled = false;
+    button.disabled=false;
 
     button.textContent =
       editingMemberId
@@ -277,3 +2062,2718 @@ Hint: ${error.hint || "None"}`
         : "Save Member";
   }
 }
+
+
+async function loadMembers(){
+
+  const container =
+    document.getElementById(
+      "membersRecords"
+    );
+
+  container.innerHTML =
+    `<div class="loading">
+      Loading members...
+    </div>`;
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("members")
+        .select("*")
+        .order(
+          "created_at",
+          {
+            ascending:false
+          }
+        );
+
+    if(error){
+      throw error;
+    }
+
+
+    if(!data || data.length===0){
+
+      container.innerHTML =
+        `<div class="empty">
+          No members found.
+        </div>`;
+
+      return;
+    }
+
+
+    const groups={
+
+      "Old Member":[],
+
+      "Current Member":[],
+
+      "Probationary Member":[]
+
+    };
+
+
+    data.forEach(member=>{
+
+      if(groups[member.member_type]){
+
+        groups[
+          member.member_type
+        ].push(member);
+
+      }else{
+
+        groups[
+          "Current Member"
+        ].push(member);
+      }
+
+    });
+
+
+    const displayNames={
+
+      "Old Member":
+        "Old Members",
+
+      "Current Member":
+        "Current Members",
+
+      "Probationary Member":
+        "New Registered Members (Probationary)"
+
+    };
+
+
+    let html="";
+
+
+    for(
+      const category of
+      Object.keys(groups)
+    ){
+
+      if(
+        groups[category].length===0
+      ){
+        continue;
+      }
+
+
+      html += `
+        <div class="record-group">
+
+          <div class="record-group-title">
+            ${displayNames[category]}
+            (${groups[category].length})
+          </div>
+      `;
+
+
+      for(
+        const member of
+        groups[category]
+      ){
+
+        const photoUrl =
+          await getPhotoUrl(
+            member.photo_url
+          );
+
+
+        html += `
+
+          <div class="record">
+
+            ${
+              photoUrl
+                ? `
+                  <img
+                    src="${photoUrl}"
+                    class="person-photo"
+                    alt="Member photo"
+                  >
+                `
+                : `
+                  <div class="no-photo">
+                    No Photo
+                  </div>
+                `
+            }
+
+            <h4>
+              ${escapeHtml(member.name)}
+            </h4>
+
+            <p>
+              <strong>Phone:</strong>
+              ${escapeHtml(member.phone || "-")}
+            </p>
+
+            <p>
+              <strong>Position:</strong>
+              ${escapeHtml(member.position || "-")}
+            </p>
+
+            <p>
+              <strong>Category:</strong>
+              ${escapeHtml(member.member_type || "-")}
+            </p>
+
+            <div class="record-actions">
+
+              <button
+                class="edit-btn"
+                onclick="editMember('${member.id}')"
+              >
+                Edit
+              </button>
+
+              <button
+                class="delete-btn"
+                onclick="deleteMember('${member.id}')"
+              >
+                Delete
+              </button>
+
+            </div>
+
+          </div>
+        `;
+      }
+
+
+      html += `</div>`;
+    }
+
+
+    container.innerHTML=html;
+
+  }catch(error){
+
+    console.error(
+      "Load members error:",
+      error
+    );
+
+    container.innerHTML =
+      `<div class="empty">
+        Could not load members:
+        ${escapeHtml(error.message)}
+      </div>`;
+  }
+}
+
+
+async function editMember(id){
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("members")
+      .select("*")
+      .eq("id",id)
+      .single();
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  editingMemberId =
+    data.id;
+
+  editingMemberOldPhoto =
+    data.photo_url || null;
+
+
+  document
+    .getElementById("memberName")
+    .value =
+    data.name || "";
+
+
+  document
+    .getElementById("memberPhone")
+    .value =
+    data.phone || "";
+
+
+  document
+    .getElementById("memberType")
+    .value =
+    data.member_type || "";
+
+
+  document
+    .getElementById("memberPosition")
+    .value =
+    data.position || "";
+
+
+  const preview =
+    document.getElementById(
+      "memberPhotoPreview"
+    );
+
+
+  if(data.photo_url){
+
+    const url =
+      await getPhotoUrl(
+        data.photo_url
+      );
+
+    if(url){
+
+      preview.src=url;
+      preview.style.display="block";
+    }
+
+  }else{
+
+    preview.src="";
+    preview.style.display="none";
+  }
+
+
+  document
+    .getElementById("memberSaveButton")
+    .textContent =
+    "Update Member";
+
+
+  document
+    .getElementById("memberCancelButton")
+    .classList.remove(
+      "hidden"
+    );
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+async function deleteMember(id){
+
+  if(
+    !confirm(
+      "Are you sure you want to delete this member?"
+    )
+  ){
+    return;
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("members")
+      .select("photo_url")
+      .eq("id",id)
+      .single();
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  const {
+    error:deleteError
+  } =
+    await db
+      .from("members")
+      .delete()
+      .eq("id",id);
+
+
+  if(deleteError){
+
+    showMessage(
+      deleteError.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(data && data.photo_url){
+
+    await deleteStoredPhoto(
+      data.photo_url
+    );
+  }
+
+
+  showMessage(
+    "Member deleted successfully."
+  );
+
+  await loadMembers();
+}
+
+
+function cancelMemberEdit(){
+  resetMemberForm();
+}
+
+
+function resetMemberForm(){
+
+  document
+    .getElementById("memberForm")
+    .reset();
+
+  editingMemberId=null;
+  editingMemberOldPhoto=null;
+
+  const preview =
+    document.getElementById(
+      "memberPhotoPreview"
+    );
+
+  preview.style.display="none";
+  preview.src="";
+
+  document
+    .getElementById("memberSaveButton")
+    .textContent =
+    "Save Member";
+
+  document
+    .getElementById("memberCancelButton")
+    .classList.add("hidden");
+}
+
+
+/* =========================================================
+   EXECUTIVE PERIODS
+   ========================================================= */
+
+async function addExecutivePeriod(){
+
+  const period =
+    document
+      .getElementById("periodName")
+      .value
+      .trim();
+
+
+  if(!period){
+
+    showMessage(
+      "Enter an executive period.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    await db
+      .from("executive_periods")
+      .insert({
+        period
+      });
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  document
+    .getElementById("periodName")
+    .value="";
+
+
+  showMessage(
+    "Executive period added successfully."
+  );
+
+  await loadExecutivePeriods();
+}
+
+
+async function loadExecutivePeriods(){
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("executive_periods")
+      .select("*")
+      .order(
+        "created_at",
+        {
+          ascending:true
+        }
+      );
+
+
+  if(error){
+
+    console.error(error);
+
+    return;
+  }
+
+
+  const select =
+    document.getElementById(
+      "executivePeriod"
+    );
+
+
+  select.innerHTML =
+    `<option value="">
+      Select period
+    </option>`;
+
+
+  const list =
+    document.getElementById(
+      "periodList"
+    );
+
+
+  list.innerHTML="";
+
+
+  (data || []).forEach(item=>{
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value=item.id;
+    option.textContent=item.period;
+
+    select.appendChild(option);
+
+
+    const div =
+      document.createElement(
+        "div"
+      );
+
+    div.className="period-item";
+
+    div.innerHTML=`
+
+      <span>
+        ${escapeHtml(item.period)}
+      </span>
+
+      <button
+        class="btn btn-danger"
+        onclick="deleteExecutivePeriod('${item.id}')"
+      >
+        Delete
+      </button>
+
+    `;
+
+    list.appendChild(div);
+  });
+}
+
+
+async function deleteExecutivePeriod(id){
+
+  if(
+    !confirm(
+      "Delete this executive period?"
+    )
+  ){
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    await db
+      .from("executive_periods")
+      .delete()
+      .eq("id",id);
+
+
+  if(error){
+
+    showMessage(
+      "Could not delete period: " +
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Executive period deleted."
+  );
+
+  await loadExecutivePeriods();
+  await loadExecutives();
+}
+
+
+/* =========================================================
+   EXECUTIVE
+   ========================================================= */
+
+document
+  .getElementById("executiveForm")
+  .addEventListener(
+    "submit",
+    saveExecutive
+  );
+
+
+async function saveExecutive(event){
+
+  event.preventDefault();
+
+
+  const periodId =
+    document
+      .getElementById("executivePeriod")
+      .value;
+
+  const name =
+    document
+      .getElementById("executiveName")
+      .value
+      .trim();
+
+  const position =
+    document
+      .getElementById("executivePosition")
+      .value
+      .trim();
+
+  const phone =
+    document
+      .getElementById("executivePhone")
+      .value
+      .trim();
+
+  const file =
+    document
+      .getElementById("executivePhoto")
+      .files[0];
+
+
+  if(
+    !periodId ||
+    !name ||
+    !position
+  ){
+
+    showMessage(
+      "Period, name and position are required.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const button =
+    document.getElementById(
+      "executiveSaveButton"
+    );
+
+  button.disabled=true;
+  button.textContent="Saving...";
+
+
+  try{
+
+    let newPhotoPath =
+      editingExecutiveOldPhoto;
+
+
+    if(file){
+
+      newPhotoPath =
+        await uploadPersonPhoto(
+          file,
+          "executive-photos",
+          "executive"
+        );
+    }
+
+
+    const record={
+
+      period_id:periodId,
+      name:name,
+      position:position,
+      phone:phone,
+      photo_url:newPhotoPath
+
+    };
+
+
+    if(editingExecutiveId){
+
+      const {
+        error
+      } =
+        await db
+          .from("executive")
+          .update(record)
+          .eq(
+            "id",
+            editingExecutiveId
+          );
+
+
+      if(error){
+        throw error;
+      }
+
+
+      if(
+        file &&
+        editingExecutiveOldPhoto &&
+        editingExecutiveOldPhoto !==
+          newPhotoPath
+      ){
+
+        await deleteStoredPhoto(
+          editingExecutiveOldPhoto
+        );
+      }
+
+
+      showMessage(
+        "Executive updated successfully."
+      );
+
+    }else{
+
+      const {
+        error
+      } =
+        await db
+          .from("executive")
+          .insert(record);
+
+
+      if(error){
+
+        if(newPhotoPath){
+
+          await deleteStoredPhoto(
+            newPhotoPath
+          );
+        }
+
+        throw error;
+      }
+
+
+      showMessage(
+        "Executive saved successfully."
+      );
+    }
+
+
+    resetExecutiveForm();
+    await loadExecutives();
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      "Could not save executive: " +
+      error.message,
+      "error"
+    );
+
+  }finally{
+
+    button.disabled=false;
+
+    button.textContent =
+      editingExecutiveId
+        ? "Update Executive"
+        : "Save Executive";
+  }
+}
+
+
+async function loadExecutives(){
+
+  const container =
+    document.getElementById(
+      "executiveRecords"
+    );
+
+
+  container.innerHTML =
+    `<div class="loading">
+      Loading executive records...
+    </div>`;
+
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("executive")
+      .select(`
+        *,
+        executive_periods (
+          id,
+          period
+        )
+      `)
+      .order(
+        "name",
+        {
+          ascending:true
+        }
+      );
+
+
+  if(error){
+
+    container.innerHTML =
+      `<div class="empty">
+        Could not load executives:
+        ${escapeHtml(error.message)}
+      </div>`;
+
+    return;
+  }
+
+
+  if(!data || data.length===0){
+
+    container.innerHTML =
+      `<div class="empty">
+        No executive records found.
+      </div>`;
+
+    return;
+  }
+
+
+  const grouped={};
+
+
+  data.forEach(item=>{
+
+    const period =
+      item.executive_periods
+        ? item.executive_periods.period
+        : "No Period";
+
+
+    if(!grouped[period]){
+      grouped[period]=[];
+    }
+
+    grouped[period].push(item);
+  });
+
+
+  let html="";
+
+
+  for(
+    const period of
+    Object.keys(grouped)
+  ){
+
+    html += `
+      <div class="record-group">
+
+        <div class="record-group-title">
+          ${escapeHtml(period)}
+        </div>
+    `;
+
+
+    for(
+      const executive of
+      grouped[period]
+    ){
+
+      const photoUrl =
+        await getPhotoUrl(
+          executive.photo_url
+        );
+
+
+      html += `
+
+        <div class="record">
+
+          ${
+            photoUrl
+              ? `
+                <img
+                  src="${photoUrl}"
+                  class="person-photo"
+                  alt="Executive photo"
+                >
+              `
+              : `
+                <div class="no-photo">
+                  No Photo
+                </div>
+              `
+          }
+
+          <h4>
+            ${escapeHtml(executive.name)}
+          </h4>
+
+          <p>
+            <strong>Position:</strong>
+            ${escapeHtml(executive.position || "-")}
+          </p>
+
+          <p>
+            <strong>Phone:</strong>
+            ${escapeHtml(executive.phone || "-")}
+          </p>
+
+          <div class="record-actions">
+
+            <button
+              class="edit-btn"
+              onclick="editExecutive('${executive.id}')"
+            >
+              Edit
+            </button>
+
+            <button
+              class="delete-btn"
+              onclick="deleteExecutive('${executive.id}')"
+            >
+              Delete
+            </button>
+
+          </div>
+
+        </div>
+      `;
+    }
+
+
+    html += `</div>`;
+  }
+
+
+  container.innerHTML=html;
+}
+
+
+async function editExecutive(id){
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("executive")
+      .select("*")
+      .eq("id",id)
+      .single();
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  editingExecutiveId=data.id;
+  editingExecutiveOldPhoto=
+    data.photo_url || null;
+
+
+  document
+    .getElementById("executivePeriod")
+    .value =
+    data.period_id || "";
+
+
+  document
+    .getElementById("executiveName")
+    .value =
+    data.name || "";
+
+
+  document
+    .getElementById("executivePosition")
+    .value =
+    data.position || "";
+
+
+  document
+    .getElementById("executivePhone")
+    .value =
+    data.phone || "";
+
+
+  const preview =
+    document.getElementById(
+      "executivePhotoPreview"
+    );
+
+
+  if(data.photo_url){
+
+    const url =
+      await getPhotoUrl(
+        data.photo_url
+      );
+
+    if(url){
+
+      preview.src=url;
+      preview.style.display="block";
+    }
+
+  }else{
+
+    preview.src="";
+    preview.style.display="none";
+  }
+
+
+  document
+    .getElementById("executiveSaveButton")
+    .textContent =
+    "Update Executive";
+
+
+  document
+    .getElementById("executiveCancelButton")
+    .classList.remove(
+      "hidden"
+    );
+}
+
+
+async function deleteExecutive(id){
+
+  if(
+    !confirm(
+      "Are you sure you want to delete this executive record?"
+    )
+  ){
+    return;
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("executive")
+      .select("photo_url")
+      .eq("id",id)
+      .single();
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  const {
+    error:deleteError
+  } =
+    await db
+      .from("executive")
+      .delete()
+      .eq("id",id);
+
+
+  if(deleteError){
+
+    showMessage(
+      deleteError.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(data && data.photo_url){
+
+    await deleteStoredPhoto(
+      data.photo_url
+    );
+  }
+
+
+  showMessage(
+    "Executive deleted successfully."
+  );
+
+  await loadExecutives();
+}
+
+
+function cancelExecutiveEdit(){
+  resetExecutiveForm();
+}
+
+
+function resetExecutiveForm(){
+
+  document
+    .getElementById("executiveForm")
+    .reset();
+
+  editingExecutiveId=null;
+  editingExecutiveOldPhoto=null;
+
+
+  const preview =
+    document.getElementById(
+      "executivePhotoPreview"
+    );
+
+  preview.style.display="none";
+  preview.src="";
+
+
+  document
+    .getElementById("executiveSaveButton")
+    .textContent =
+    "Save Executive";
+
+
+  document
+    .getElementById("executiveCancelButton")
+    .classList.add("hidden");
+}
+
+
+/* =========================================================
+   FINANCE
+   ========================================================= */
+
+document
+  .getElementById("financeForm")
+  .addEventListener(
+    "submit",
+    saveFinance
+  );
+
+
+async function saveFinance(event){
+
+  event.preventDefault();
+
+
+  const category =
+    document
+      .getElementById("financeCategory")
+      .value;
+
+  const name =
+    document
+      .getElementById("financeName")
+      .value
+      .trim();
+
+  const amount =
+    document
+      .getElementById("financeAmount")
+      .value;
+
+  const description =
+    document
+      .getElementById("financeDescription")
+      .value
+      .trim();
+
+
+  if(!category || !name || !amount){
+
+    showMessage(
+      "Category, name and amount are required.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const record={
+    category,
+    name,
+    amount:Number(amount),
+    description
+  };
+
+
+  const {
+    error
+  } =
+    editingFinanceId
+
+      ? await db
+          .from("finance")
+          .update(record)
+          .eq("id",editingFinanceId)
+
+      : await db
+          .from("finance")
+          .insert(record);
+
+
+  if(error){
+
+    showMessage(
+      "Could not save finance record: " +
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    editingFinanceId
+      ? "Finance record updated successfully."
+      : "Finance record saved successfully."
+  );
+
+
+  resetFinanceForm();
+
+  await loadFinance();
+}
+
+
+async function loadFinance(){
+
+  const container =
+    document.getElementById(
+      "financeRecords"
+    );
+
+
+  container.innerHTML =
+    `<div class="loading">
+      Loading finance records...
+    </div>`;
+
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("finance")
+      .select("*")
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    container.innerHTML =
+      `<div class="empty">
+        ${escapeHtml(error.message)}
+      </div>`;
+
+    return;
+  }
+
+
+  if(!data || data.length===0){
+
+    container.innerHTML =
+      `<div class="empty">
+        No finance records found.
+      </div>`;
+
+    return;
+  }
+
+
+  const grouped={};
+
+
+  data.forEach(record=>{
+
+    const category =
+      record.category || "Other";
+
+    if(!grouped[category]){
+      grouped[category]=[];
+    }
+
+    grouped[category].push(record);
+  });
+
+
+  let html="";
+
+
+  for(
+    const category of
+    Object.keys(grouped)
+  ){
+
+    html += `
+      <div class="record-group">
+
+        <div class="record-group-title">
+          ${escapeHtml(category)}
+        </div>
+    `;
+
+
+    for(
+      const record of
+      grouped[category]
+    ){
+
+      html += `
+
+        <div class="record">
+
+          <h4>
+            ${escapeHtml(record.name)}
+          </h4>
+
+          <p>
+            <strong>Amount:</strong>
+            Le ${Number(
+              record.amount || 0
+            ).toLocaleString()}
+          </p>
+
+          <p>
+            <strong>Purpose / Description:</strong>
+            ${escapeHtml(
+              record.description || "-"
+            )}
+          </p>
+
+          <div class="record-actions">
+
+            <button
+              class="edit-btn"
+              onclick="editFinance('${record.id}')"
+            >
+              Edit
+            </button>
+
+            <button
+              class="delete-btn"
+              onclick="deleteFinance('${record.id}')"
+            >
+              Delete
+            </button>
+
+          </div>
+
+        </div>
+      `;
+    }
+
+
+    html += `</div>`;
+  }
+
+
+  container.innerHTML=html;
+}
+
+
+async function editFinance(id){
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("finance")
+      .select("*")
+      .eq("id",id)
+      .single();
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  editingFinanceId=data.id;
+
+
+  document
+    .getElementById("financeCategory")
+    .value =
+    data.category || "";
+
+
+  document
+    .getElementById("financeName")
+    .value =
+    data.name || "";
+
+
+  document
+    .getElementById("financeAmount")
+    .value =
+    data.amount || "";
+
+
+  document
+    .getElementById("financeDescription")
+    .value =
+    data.description || "";
+
+
+  document
+    .getElementById("financeSaveButton")
+    .textContent =
+    "Update Finance Record";
+
+
+  document
+    .getElementById("financeCancelButton")
+    .classList.remove(
+      "hidden"
+    );
+}
+
+
+async function deleteFinance(id){
+
+  if(
+    !confirm(
+      "Delete this finance record?"
+    )
+  ){
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    await db
+      .from("finance")
+      .delete()
+      .eq("id",id);
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Finance record deleted."
+  );
+
+  await loadFinance();
+}
+
+
+function cancelFinanceEdit(){
+  resetFinanceForm();
+}
+
+
+function resetFinanceForm(){
+
+  document
+    .getElementById("financeForm")
+    .reset();
+
+  editingFinanceId=null;
+
+
+  document
+    .getElementById("financeSaveButton")
+    .textContent =
+    "Save Finance Record";
+
+
+  document
+    .getElementById("financeCancelButton")
+    .classList.add(
+      "hidden"
+    );
+}
+
+
+/* =========================================================
+   MEETINGS
+   ========================================================= */
+
+document
+  .getElementById("meetingForm")
+  .addEventListener(
+    "submit",
+    saveMeeting
+  );
+
+
+async function saveMeeting(event){
+
+  event.preventDefault();
+
+
+  const record={
+
+    meeting_date:
+      document
+        .getElementById("meetingDate")
+        .value,
+
+    meeting_title:
+      document
+        .getElementById("meetingTitle")
+        .value
+        .trim(),
+
+    location:
+      document
+        .getElementById("meetingLocation")
+        .value
+        .trim(),
+
+    minutes:
+      document
+        .getElementById("meetingMinutes")
+        .value
+        .trim()
+  };
+
+
+  if(
+    !record.meeting_date ||
+    !record.meeting_title
+  ){
+
+    showMessage(
+      "Meeting date and title are required.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    editingMeetingId
+
+      ? await db
+          .from("meetings")
+          .update(record)
+          .eq("id",editingMeetingId)
+
+      : await db
+          .from("meetings")
+          .insert(record);
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    editingMeetingId
+      ? "Meeting updated successfully."
+      : "Meeting saved successfully."
+  );
+
+
+  resetMeetingForm();
+
+  await loadMeetings();
+}
+
+
+async function loadMeetings(){
+
+  const container =
+    document.getElementById(
+      "meetingRecords"
+    );
+
+
+  container.innerHTML =
+    `<div class="loading">
+      Loading meetings...
+    </div>`;
+
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("meetings")
+      .select("*")
+      .order(
+        "meeting_date",
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    container.innerHTML =
+      `<div class="empty">
+        ${escapeHtml(error.message)}
+      </div>`;
+
+    return;
+  }
+
+
+  if(!data || data.length===0){
+
+    container.innerHTML =
+      `<div class="empty">
+        No meetings found.
+      </div>`;
+
+    return;
+  }
+
+
+  let html="";
+
+
+  data.forEach(meeting=>{
+
+    html += `
+
+      <div class="record">
+
+        <h4>
+          ${escapeHtml(meeting.meeting_title)}
+        </h4>
+
+        <p>
+          <strong>Date:</strong>
+          ${escapeHtml(meeting.meeting_date || "-")}
+        </p>
+
+        <p>
+          <strong>Location:</strong>
+          ${escapeHtml(meeting.location || "-")}
+        </p>
+
+        <p>
+          <strong>Minutes:</strong>
+        </p>
+
+        <p style="white-space:pre-wrap;">
+          ${escapeHtml(meeting.minutes || "-")}
+        </p>
+
+        <div class="record-actions">
+
+          <button
+            class="edit-btn"
+            onclick="editMeeting('${meeting.id}')"
+          >
+            Edit
+          </button>
+
+          <button
+            class="delete-btn"
+            onclick="deleteMeeting('${meeting.id}')"
+          >
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+  });
+
+
+  container.innerHTML=html;
+}
+
+
+async function editMeeting(id){
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("meetings")
+      .select("*")
+      .eq("id",id)
+      .single();
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  editingMeetingId=data.id;
+
+
+  document
+    .getElementById("meetingDate")
+    .value =
+    data.meeting_date || "";
+
+
+  document
+    .getElementById("meetingTitle")
+    .value =
+    data.meeting_title || "";
+
+
+  document
+    .getElementById("meetingLocation")
+    .value =
+    data.location || "";
+
+
+  document
+    .getElementById("meetingMinutes")
+    .value =
+    data.minutes || "";
+
+
+  document
+    .getElementById("meetingSaveButton")
+    .textContent =
+    "Update Meeting";
+
+
+  document
+    .getElementById("meetingCancelButton")
+    .classList.remove(
+      "hidden"
+    );
+}
+
+
+async function deleteMeeting(id){
+
+  if(
+    !confirm(
+      "Delete this meeting?"
+    )
+  ){
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    await db
+      .from("meetings")
+      .delete()
+      .eq("id",id);
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Meeting deleted."
+  );
+
+  await loadMeetings();
+}
+
+
+function cancelMeetingEdit(){
+  resetMeetingForm();
+}
+
+
+function resetMeetingForm(){
+
+  document
+    .getElementById("meetingForm")
+    .reset();
+
+  editingMeetingId=null;
+
+
+  document
+    .getElementById("meetingSaveButton")
+    .textContent =
+    "Save Meeting";
+
+
+  document
+    .getElementById("meetingCancelButton")
+    .classList.add(
+      "hidden"
+    );
+}
+
+
+/* =========================================================
+   EVENTS
+   ========================================================= */
+
+document
+  .getElementById("eventForm")
+  .addEventListener(
+    "submit",
+    saveEvent
+  );
+
+
+async function saveEvent(event){
+
+  event.preventDefault();
+
+
+  const record={
+
+    title:
+      document
+        .getElementById("eventTitle")
+        .value
+        .trim(),
+
+    date:
+      document
+        .getElementById("eventDate")
+        .value,
+
+    location:
+      document
+        .getElementById("eventLocation")
+        .value
+        .trim(),
+
+    description:
+      document
+        .getElementById("eventDescription")
+        .value
+        .trim()
+  };
+
+
+  if(
+    !record.title ||
+    !record.date
+  ){
+
+    showMessage(
+      "Event title and date are required.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    editingEventId
+
+      ? await db
+          .from("events")
+          .update(record)
+          .eq("id",editingEventId)
+
+      : await db
+          .from("events")
+          .insert(record);
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    editingEventId
+      ? "Event updated successfully."
+      : "Event saved successfully."
+  );
+
+
+  resetEventForm();
+
+  await loadEvents();
+}
+
+
+async function loadEvents(){
+
+  const container =
+    document.getElementById(
+      "eventRecords"
+    );
+
+
+  container.innerHTML =
+    `<div class="loading">
+      Loading events...
+    </div>`;
+
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("events")
+      .select("*")
+      .order(
+        "date",
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    container.innerHTML =
+      `<div class="empty">
+        ${escapeHtml(error.message)}
+      </div>`;
+
+    return;
+  }
+
+
+  if(!data || data.length===0){
+
+    container.innerHTML =
+      `<div class="empty">
+        No events found.
+      </div>`;
+
+    return;
+  }
+
+
+  let html="";
+
+
+  data.forEach(event=>{
+
+    html += `
+
+      <div class="record">
+
+        <h4>
+          ${escapeHtml(event.title)}
+        </h4>
+
+        <p>
+          <strong>Date:</strong>
+          ${escapeHtml(event.date || "-")}
+        </p>
+
+        <p>
+          <strong>Location:</strong>
+          ${escapeHtml(event.location || "-")}
+        </p>
+
+        <p>
+          <strong>Description:</strong>
+        </p>
+
+        <p style="white-space:pre-wrap;">
+          ${escapeHtml(event.description || "-")}
+        </p>
+
+        <div class="record-actions">
+
+          <button
+            class="edit-btn"
+            onclick="editEvent('${event.id}')"
+          >
+            Edit
+          </button>
+
+          <button
+            class="delete-btn"
+            onclick="deleteEvent('${event.id}')"
+          >
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+  });
+
+
+  container.innerHTML=html;
+}
+
+
+async function editEvent(id){
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("events")
+      .select("*")
+      .eq("id",id)
+      .single();
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  editingEventId=data.id;
+
+
+  document
+    .getElementById("eventTitle")
+    .value =
+    data.title || "";
+
+
+  document
+    .getElementById("eventDate")
+    .value =
+    data.date || "";
+
+
+  document
+    .getElementById("eventLocation")
+    .value =
+    data.location || "";
+
+
+  document
+    .getElementById("eventDescription")
+    .value =
+    data.description || "";
+
+
+  document
+    .getElementById("eventSaveButton")
+    .textContent =
+    "Update Event";
+
+
+  document
+    .getElementById("eventCancelButton")
+    .classList.remove(
+      "hidden"
+    );
+}
+
+
+async function deleteEvent(id){
+
+  if(
+    !confirm(
+      "Delete this event?"
+    )
+  ){
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    await db
+      .from("events")
+      .delete()
+      .eq("id",id);
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Event deleted."
+  );
+
+  await loadEvents();
+}
+
+
+function cancelEventEdit(){
+  resetEventForm();
+}
+
+
+function resetEventForm(){
+
+  document
+    .getElementById("eventForm")
+    .reset();
+
+  editingEventId=null;
+
+
+  document
+    .getElementById("eventSaveButton")
+    .textContent =
+    "Save Event";
+
+
+  document
+    .getElementById("eventCancelButton")
+    .classList.add(
+      "hidden"
+    );
+}
+
+
+/* =========================================================
+   DOCUMENTS
+   ========================================================= */
+
+document
+  .getElementById("documentForm")
+  .addEventListener(
+    "submit",
+    uploadDocument
+  );
+
+
+async function uploadDocument(event){
+
+  event.preventDefault();
+
+
+  const title =
+    document
+      .getElementById("documentTitle")
+      .value
+      .trim();
+
+  const type =
+    document
+      .getElementById("documentType")
+      .value
+      .trim();
+
+  const file =
+    document
+      .getElementById("documentFile")
+      .files[0];
+
+
+  if(!title || !file){
+
+    showMessage(
+      "Document title and file are required.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const button =
+    document.getElementById(
+      "documentSaveButton"
+    );
+
+  button.disabled=true;
+  button.textContent="Uploading...";
+
+
+  try{
+
+    await ensureStorageBucket();
+
+
+    const safeName =
+      file.name.replace(
+        /[^a-zA-Z0-9._-]/g,
+        "_"
+      );
+
+
+    const path =
+      `${Date.now()}_${safeName}`;
+
+
+    const {
+      error:uploadError
+    } =
+      await db.storage
+        .from(DOCUMENT_BUCKET)
+        .upload(
+          path,
+          file,
+          {
+            upsert:false
+          }
+        );
+
+
+    if(uploadError){
+      throw uploadError;
+    }
+
+
+    const {
+      error:databaseError
+    } =
+      await db
+        .from("documents")
+        .insert({
+          title,
+          type,
+          file_path:path
+        });
+
+
+    if(databaseError){
+
+      await db.storage
+        .from(DOCUMENT_BUCKET)
+        .remove([path]);
+
+      throw databaseError;
+    }
+
+
+    showMessage(
+      "Document uploaded successfully."
+    );
+
+
+    document
+      .getElementById("documentForm")
+      .reset();
+
+
+    await loadDocuments();
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      "Could not upload document: " +
+      error.message,
+      "error"
+    );
+
+  }finally{
+
+    button.disabled=false;
+    button.textContent="Upload Document";
+  }
+}
+
+
+async function loadDocuments(){
+
+  const container =
+    document.getElementById(
+      "documentRecords"
+    );
+
+
+  container.innerHTML =
+    `<div class="loading">
+      Loading documents...
+    </div>`;
+
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("documents")
+      .select("*")
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    container.innerHTML =
+      `<div class="empty">
+        Could not load documents:
+        ${escapeHtml(error.message)}
+      </div>`;
+
+    return;
+  }
+
+
+  if(!data || data.length===0){
+
+    container.innerHTML =
+      `<div class="empty">
+        No documents found.
+      </div>`;
+
+    return;
+  }
+
+
+  let html="";
+
+
+  data.forEach(document=>{
+
+    html += `
+
+      <div class="document-item">
+
+        <div class="document-info">
+
+          <strong>
+            ${escapeHtml(document.title)}
+          </strong>
+
+          <span>
+            ${escapeHtml(
+              document.type || "Document"
+            )}
+          </span>
+
+        </div>
+
+        <div
+          style="
+            display:flex;
+            gap:6px;
+            flex-wrap:wrap;
+          "
+        >
+
+          <button
+            class="btn btn-primary"
+            onclick="openDocument('${document.id}')"
+          >
+            Open
+          </button>
+
+          <button
+            class="btn btn-danger"
+            onclick="deleteDocument('${document.id}')"
+          >
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+  });
+
+
+  container.innerHTML=html;
+}
+
+
+async function openDocument(id){
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("documents")
+      .select("*")
+      .eq("id",id)
+      .single();
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  const {
+    data:signedData,
+    error:signedError
+  } =
+    await db.storage
+      .from(DOCUMENT_BUCKET)
+      .createSignedUrl(
+        data.file_path,
+        3600
+      );
+
+
+  if(signedError){
+
+    showMessage(
+      signedError.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  window.open(
+    signedData.signedUrl,
+    "_blank"
+  );
+}
+
+
+async function deleteDocument(id){
+
+  if(
+    !confirm(
+      "Delete this document?"
+    )
+  ){
+    return;
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("documents")
+      .select("file_path")
+      .eq("id",id)
+      .single();
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  const {
+    error:deleteError
+  } =
+    await db
+      .from("documents")
+      .delete()
+      .eq("id",id);
+
+
+  if(deleteError){
+
+    showMessage(
+      deleteError.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(
+    data &&
+    data.file_path
+  ){
+
+    await db.storage
+      .from(DOCUMENT_BUCKET)
+      .remove([
+        data.file_path
+      ]);
+  }
+
+
+  showMessage(
+    "Document deleted successfully."
+  );
+
+  await loadDocuments();
+}
+
+
+/* =========================================================
+   LOAD EVERYTHING
+   ========================================================= */
+
+async function loadAll(){
+
+  await loadMembers();
+
+  await loadExecutivePeriods();
+
+  await loadExecutives();
+
+  await loadFinance();
+
+  await loadMeetings();
+
+  await loadEvents();
+
+  await loadDocuments();
+}
+
+
+/* =========================================================
+   CHECK LOGIN
+   ========================================================= */
+
+async function checkUser(){
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await db.auth.getSession();
+
+
+    if(error){
+      throw error;
+    }
+
+
+    if(
+      data &&
+      data.session
+    ){
+
+      document
+        .getElementById("loginScreen")
+        .classList.add("hidden");
+
+      document
+        .getElementById("app")
+        .classList.remove("hidden");
+
+      await loadAll();
+
+    }else{
+
+      document
+        .getElementById("loginScreen")
+        .classList.remove("hidden");
+
+      document
+        .getElementById("app")
+        .classList.add("hidden");
+    }
+
+  }catch(error){
+
+    console.error(
+      "Session check error:",
+      error
+    );
+
+    document
+      .getElementById("loginScreen")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("app")
+      .classList.add("hidden");
+  }
+}
+
+
+/* =========================================================
+   AUTH STATE
+   ========================================================= */
+
+db.auth.onAuthStateChange(
+  (
+    event,
+    session
+  )=>{
+
+    if(session){
+
+      document
+        .getElementById("loginScreen")
+        .classList.add("hidden");
+
+      document
+        .getElementById("app")
+        .classList.remove("hidden");
+
+    }else{
+
+      document
+        .getElementById("loginScreen")
+        .classList.remove("hidden");
+
+      document
+        .getElementById("app")
+        .classList.add("hidden");
+    }
+  }
+);
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+checkUser();
+
+</script>
+
+</body>
+</html>
+```
