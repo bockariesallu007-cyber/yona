@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1289,7 +1288,14 @@ const DOCUMENT_BUCKET =
 const db =
   window.supabase.createClient(
     SUPABASE_URL,
-    SUPABASE_KEY
+    SUPABASE_KEY,
+    {
+      auth:{
+        persistSession:true,
+        autoRefreshToken:true,
+        detectSessionInUrl:true
+      }
+    }
   );
 
 
@@ -1621,18 +1627,6 @@ function previewPhoto(
 }
 
 
-/*
- IMPORTANT FIX:
- We no longer call db.storage.list()
- before uploading a photo.
-
- The bucket already exists:
- yona-documents
-
- The old list() check could fail because of Storage
- permissions even when uploading was allowed.
- */
-
 async function uploadPersonPhoto(
   file,
   folder,
@@ -1735,11 +1729,6 @@ async function deleteStoredPhoto(path){
 }
 
 
-/*
- This function is kept for DOCUMENT uploads.
- It is NOT used by member/executive photo uploads.
- */
-
 async function ensureStorageBucket(){
 
   const {
@@ -1775,6 +1764,19 @@ document
   );
 
 
+/*
+ IMPORTANT MEMBER SAVE FUNCTION
+
+ The member database save is done with the REST API.
+
+ This uses:
+ - the current Supabase project URL
+ - the publishable key
+ - the logged-in user's access token
+
+ Therefore the request still follows Supabase RLS.
+*/
+
 async function saveMember(event){
 
   event.preventDefault();
@@ -1791,11 +1793,11 @@ async function saveMember(event){
       ? "Updating..."
       : "Saving...";
 
+  let newPhotoPath=null;
+
   try{
 
-    /*
-     CHECK LOGIN SESSION
-    */
+    /* CHECK LOGIN SESSION */
 
     const {
       data:sessionData,
@@ -1811,10 +1813,11 @@ async function saveMember(event){
       );
     }
 
-    if(
-      !sessionData ||
-      !sessionData.session
-    ){
+    const session =
+      sessionData &&
+      sessionData.session;
+
+    if(!session){
 
       throw new Error(
         "Your login session has expired. Please log in again."
@@ -1854,6 +1857,7 @@ async function saveMember(event){
       photoInput.files &&
       photoInput.files[0];
 
+
     if(!name){
 
       throw new Error(
@@ -1869,21 +1873,20 @@ async function saveMember(event){
     }
 
     if(file && !validatePhoto(file)){
-      return;
+
+      throw new Error(
+        "Please select a valid member photo."
+      );
     }
 
 
-    /*
-     KEEP OLD PHOTO WHEN EDITING
-    */
+    /* KEEP OLD PHOTO */
 
-    let newPhotoPath =
+    newPhotoPath =
       editingMemberOldPhoto || null;
 
 
-    /*
-     UPLOAD NEW PHOTO ONLY IF USER SELECTS ONE
-    */
+    /* UPLOAD NEW PHOTO */
 
     if(file){
 
@@ -1912,103 +1915,156 @@ async function saveMember(event){
 
 
     /*
-     UPDATE
+     DIRECT REST REQUEST
+
+     This is the important change.
     */
+
+    const restUrl =
+      `${SUPABASE_URL}/rest/v1/members`;
+
+
+    let response;
+
 
     if(editingMemberId){
 
-      const {
-        error
-      } =
-        await db
-          .from("members")
-          .update(record)
-          .eq(
-            "id",
-            editingMemberId
-          );
+      response =
+        await fetch(
+          `${restUrl}?id=eq.${encodeURIComponent(editingMemberId)}`,
+          {
+            method:"PATCH",
 
-      if(error){
+            headers:{
+              "apikey":SUPABASE_KEY,
+
+              "Authorization":
+                `Bearer ${session.access_token}`,
+
+              "Content-Type":
+                "application/json",
+
+              "Prefer":
+                "return=minimal"
+            },
+
+            body:
+              JSON.stringify(record)
+          }
+        );
+
+    }else{
+
+      response =
+        await fetch(
+          restUrl,
+          {
+            method:"POST",
+
+            headers:{
+              "apikey":SUPABASE_KEY,
+
+              "Authorization":
+                `Bearer ${session.access_token}`,
+
+              "Content-Type":
+                "application/json",
+
+              "Prefer":
+                "return=minimal"
+            },
+
+            body:
+              JSON.stringify(record)
+          }
+        );
+    }
+
+
+    /*
+     READ THE REAL SUPABASE RESPONSE
+    */
+
+    const responseText =
+      await response.text();
+
+
+    if(!response.ok){
+
+      let readableError =
+        responseText;
+
+      try{
+
+        const json =
+          JSON.parse(responseText);
+
+        readableError =
+          json.message ||
+          json.error_description ||
+          json.hint ||
+          responseText;
 
         if(
-          file &&
-          newPhotoPath &&
-          newPhotoPath !==
-            editingMemberOldPhoto
+          json.code &&
+          json.code !==
+            readableError
         ){
 
-          await deleteStoredPhoto(
-            newPhotoPath
-          );
+          readableError +=
+            `\nCode: ${json.code}`;
         }
 
-        throw new Error(
-          `Could not update member.
+      }catch(parseError){
 
-Code: ${error.code || "N/A"}
-Message: ${error.message || "Unknown error"}
-Details: ${error.details || "None"}
-Hint: ${error.hint || "None"}`
-        );
+        /* Keep original response */
       }
 
 
       if(
         file &&
-        editingMemberOldPhoto &&
-        editingMemberOldPhoto !==
-          newPhotoPath
+        newPhotoPath &&
+        newPhotoPath !==
+          editingMemberOldPhoto
       ){
 
         await deleteStoredPhoto(
-          editingMemberOldPhoto
+          newPhotoPath
         );
       }
 
+
+      throw new Error(
+        `Supabase rejected the member save.\n\n${readableError}`
+      );
+    }
+
+
+    /*
+     DELETE OLD PHOTO AFTER SUCCESSFUL UPDATE
+    */
+
+    if(
+      editingMemberId &&
+      file &&
+      editingMemberOldPhoto &&
+      editingMemberOldPhoto !==
+        newPhotoPath
+    ){
+
+      await deleteStoredPhoto(
+        editingMemberOldPhoto
+      );
+    }
+
+
+    if(editingMemberId){
 
       showMessage(
         "Member updated successfully."
       );
 
-    }
-
-    /*
-     INSERT
-     
-     IMPORTANT:
-     No .select().single() here.
-     This prevents an INSERT from appearing to fail
-     because SELECT permission is different.
-    */
-
-    else{
-
-      const {
-        error
-      } =
-        await db
-          .from("members")
-          .insert([record]);
-
-      if(error){
-
-        if(newPhotoPath){
-
-          await deleteStoredPhoto(
-            newPhotoPath
-          );
-        }
-
-        throw new Error(
-          `Could not save member.
-
-Code: ${error.code || "N/A"}
-Message: ${error.message || "Unknown error"}
-Details: ${error.details || "None"}
-Hint: ${error.hint || "None"}`
-        );
-      }
-
+    }else{
 
       showMessage(
         "Member saved successfully."
@@ -2027,27 +2083,16 @@ Hint: ${error.hint || "None"}`
       error
     );
 
-    let message =
+
+    const message =
       error &&
       error.message
         ? error.message
         : "Unknown error occurred.";
 
 
-    if(
-      message
-        .toLowerCase()
-        .includes("failed to fetch")
-    ){
-
-      message =
-        "The app could not connect to Supabase.\n\n" +
-        "Please check your internet connection and make sure the Supabase project is online.";
-    }
-
-
     showMessage(
-      "Could not save member:\n" +
+      "Could not save member:\n\n" +
       message,
       "error"
     );
@@ -4776,4 +4821,3 @@ checkUser();
 
 </body>
 </html>
-```
