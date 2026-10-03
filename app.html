@@ -29,6 +29,10 @@
       display: none !important;
     }
 
+    /* =========================================================
+       LOGIN
+       ========================================================= */
+
     .login-screen {
       min-height: 100vh;
       display: flex;
@@ -58,6 +62,10 @@
       color: #666;
     }
 
+    /* =========================================================
+       APP
+       ========================================================= */
+
     .app {
       min-height: 100vh;
     }
@@ -73,6 +81,7 @@
       position: sticky;
       top: 0;
       z-index: 10;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
     }
 
     .topbar h2 {
@@ -96,32 +105,77 @@
       padding: 20px;
     }
 
+    /* =========================================================
+       DASHBOARD
+       ========================================================= */
+
+    .dashboard-header {
+      background: white;
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    .dashboard-header h1 {
+      margin: 0 0 7px;
+      color: #0b4f9c;
+      font-size: 25px;
+    }
+
+    .dashboard-header p {
+      margin: 0;
+      color: #666;
+      font-size: 15px;
+    }
+
     .dashboard {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
+      gap: 18px;
       margin-bottom: 25px;
     }
 
     .dashboard-card {
       background: white;
-      border-radius: 12px;
-      padding: 22px;
+      border-radius: 14px;
+      padding: 25px 20px;
+      min-height: 145px;
       text-align: center;
       cursor: pointer;
       border: 2px solid transparent;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
       transition: 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .dashboard-card:hover {
       border-color: #0b4f9c;
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: 0 7px 18px rgba(0,0,0,0.12);
+    }
+
+    .dashboard-icon {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: #eaf2fb;
+      color: #0b4f9c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      font-weight: bold;
+      margin-bottom: 12px;
     }
 
     .dashboard-card h3 {
-      margin: 0 0 8px;
+      margin: 0 0 7px;
       color: #0b4f9c;
+      font-size: 18px;
     }
 
     .dashboard-card p {
@@ -129,6 +183,10 @@
       color: #666;
       font-size: 14px;
     }
+
+    /* =========================================================
+       SECTIONS
+       ========================================================= */
 
     .section {
       background: white;
@@ -197,6 +255,11 @@
       font-weight: bold;
     }
 
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .btn-primary {
       background: #0b4f9c;
       color: white;
@@ -229,6 +292,10 @@
       flex-wrap: wrap;
     }
 
+    /* =========================================================
+       MESSAGES
+       ========================================================= */
+
     .message {
       padding: 12px;
       border-radius: 7px;
@@ -247,6 +314,10 @@
       background: #fdeaea;
       color: #a51d1d;
     }
+
+    /* =========================================================
+       RECORDS
+       ========================================================= */
 
     .records {
       margin-top: 25px;
@@ -314,6 +385,10 @@
       background: #666;
     }
 
+    /* =========================================================
+       PHOTOS
+       ========================================================= */
+
     .photo-preview {
       margin-top: 10px;
       width: 110px;
@@ -346,6 +421,10 @@
       margin-bottom: 8px;
     }
 
+    /* =========================================================
+       PERIODS
+       ========================================================= */
+
     .period-box {
       background: #f8fafc;
       border: 1px solid #ddd;
@@ -369,6 +448,10 @@
       border-radius: 6px;
       gap: 10px;
     }
+
+    /* =========================================================
+       DOCUMENTS
+       ========================================================= */
 
     .document-item {
       display: flex;
@@ -406,7 +489,12 @@
       margin-bottom: 15px;
     }
 
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
     @media (max-width: 800px) {
+
       .dashboard {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -418,11 +506,18 @@
       .full-width {
         grid-column: auto;
       }
+
     }
 
     @media (max-width: 500px) {
+
       .dashboard {
         grid-template-columns: 1fr;
+      }
+
+      .dashboard-card {
+        min-height: 130px;
+        padding: 20px;
       }
 
       .container {
@@ -440,96 +535,253 @@
       .topbar h2 {
         font-size: 17px;
       }
+
+      .dashboard-header {
+        padding: 18px;
+      }
+
+      .dashboard-header h1 {
+        font-size: 22px;
+      }
+
+      .document-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
     }
   </style>
 </head>
 
 <body>
 
-  <!-- LOGIN -->
+  <!-- =========================================================
+       LOGIN
+       ========================================================= -->
+
   <div id="loginScreen" class="login-screen">
+
     <div class="login-box">
+
       <h1>YONA App</h1>
+
       <p>Youths of Ndasei Association</p>
 
       <div id="loginMessage" class="message"></div>
 
       <div>
         <label>Email</label>
-        <input type="email" id="loginEmail" placeholder="Enter email">
+        <input
+          type="email"
+          id="loginEmail"
+          placeholder="Enter email"
+        >
       </div>
 
       <br>
 
       <div>
         <label>Password</label>
-        <input type="password" id="loginPassword" placeholder="Enter password">
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="Enter password"
+        >
       </div>
 
       <br>
 
-      <button class="btn btn-primary" style="width:100%;" onclick="login()">
+      <button
+        class="btn btn-primary"
+        style="width:100%;"
+        onclick="login()"
+      >
         Login
       </button>
+
     </div>
+
   </div>
 
 
-  <!-- APP -->
+  <!-- =========================================================
+       APP
+       ========================================================= -->
+
   <div id="app" class="app hidden">
 
     <div class="topbar">
+
       <h2>YONA Management App</h2>
-      <button class="logout-btn" onclick="logout()">Logout</button>
+
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
+        Logout
+      </button>
+
     </div>
+
 
     <div class="container">
 
       <div id="globalMessage" class="message"></div>
 
-      <!-- DASHBOARD -->
-      <div id="dashboard" class="dashboard">
 
-        <div class="dashboard-card" onclick="showSection('membersSection')">
-          <h3>Members</h3>
-          <p>Manage YONA members</p>
+      <!-- =====================================================
+           DASHBOARD
+           ===================================================== -->
+
+      <div id="dashboard">
+
+        <div class="dashboard-header">
+
+          <h1>YONA Dashboard</h1>
+
+          <p>
+            Youths of Ndasei Association — Management System
+          </p>
+
         </div>
 
-        <div class="dashboard-card" onclick="showSection('executiveSection')">
-          <h3>Executive</h3>
-          <p>Manage executive leadership</p>
-        </div>
 
-        <div class="dashboard-card" onclick="showSection('financeSection')">
-          <h3>Finance</h3>
-          <p>Manage financial records</p>
-        </div>
+        <div class="dashboard">
 
-        <div class="dashboard-card" onclick="showSection('meetingsSection')">
-          <h3>Meetings</h3>
-          <p>Manage meetings and minutes</p>
-        </div>
+          <div
+            class="dashboard-card"
+            onclick="showSection('membersSection')"
+          >
 
-        <div class="dashboard-card" onclick="showSection('eventsSection')">
-          <h3>Events</h3>
-          <p>Manage YONA events</p>
-        </div>
+            <div class="dashboard-icon">
+              👥
+            </div>
 
-        <div class="dashboard-card" onclick="showSection('documentsSection')">
-          <h3>Documents</h3>
-          <p>Manage organization documents</p>
+            <h3>Members</h3>
+
+            <p>
+              Manage YONA members
+            </p>
+
+          </div>
+
+
+          <div
+            class="dashboard-card"
+            onclick="showSection('executiveSection')"
+          >
+
+            <div class="dashboard-icon">
+              ★
+            </div>
+
+            <h3>Executive</h3>
+
+            <p>
+              Manage executive leadership
+            </p>
+
+          </div>
+
+
+          <div
+            class="dashboard-card"
+            onclick="showSection('financeSection')"
+          >
+
+            <div class="dashboard-icon">
+              Le
+            </div>
+
+            <h3>Finance</h3>
+
+            <p>
+              Manage financial records
+            </p>
+
+          </div>
+
+
+          <div
+            class="dashboard-card"
+            onclick="showSection('meetingsSection')"
+          >
+
+            <div class="dashboard-icon">
+              📝
+            </div>
+
+            <h3>Meetings</h3>
+
+            <p>
+              Manage meetings and minutes
+            </p>
+
+          </div>
+
+
+          <div
+            class="dashboard-card"
+            onclick="showSection('eventsSection')"
+          >
+
+            <div class="dashboard-icon">
+              📅
+            </div>
+
+            <h3>Events</h3>
+
+            <p>
+              Manage YONA events
+            </p>
+
+          </div>
+
+
+          <div
+            class="dashboard-card"
+            onclick="showSection('documentsSection')"
+          >
+
+            <div class="dashboard-icon">
+              📁
+            </div>
+
+            <h3>Documents</h3>
+
+            <p>
+              Manage organization documents
+            </p>
+
+          </div>
+
         </div>
 
       </div>
 
 
-      <!-- MEMBERS -->
-      <section id="membersSection" class="section hidden">
+      <!-- =====================================================
+           MEMBERS
+           ===================================================== -->
+
+      <section
+        id="membersSection"
+        class="section hidden"
+      >
 
         <div class="section-header">
+
           <h2>Members</h2>
-          <button class="btn btn-secondary" onclick="backToDashboard()">Dashboard</button>
+
+          <button
+            class="btn btn-secondary"
+            onclick="backToDashboard()"
+          >
+            Dashboard
+          </button>
+
         </div>
+
 
         <form id="memberForm">
 
@@ -537,33 +789,71 @@
 
             <div>
               <label>Name</label>
-              <input type="text" id="memberName" required>
+
+              <input
+                type="text"
+                id="memberName"
+                required
+              >
             </div>
+
 
             <div>
               <label>Phone</label>
-              <input type="text" id="memberPhone">
+
+              <input
+                type="text"
+                id="memberPhone"
+              >
             </div>
 
+
             <div>
+
               <label>Member Category</label>
-              <select id="memberType" required>
-                <option value="">Select category</option>
-                <option value="Old Member">Old Member</option>
-                <option value="Current Member">Current Member</option>
+
+              <select
+                id="memberType"
+                required
+              >
+
+                <option value="">
+                  Select category
+                </option>
+
+                <option value="Old Member">
+                  Old Member
+                </option>
+
+                <option value="Current Member">
+                  Current Member
+                </option>
+
                 <option value="Probationary Member">
                   New Registered Member (Probationary)
                 </option>
+
               </select>
+
             </div>
+
 
             <div>
+
               <label>Position</label>
-              <input type="text" id="memberPosition">
+
+              <input
+                type="text"
+                id="memberPosition"
+              >
+
             </div>
 
+
             <div class="full-width">
+
               <label>Member Photo</label>
+
               <input
                 type="file"
                 id="memberPhoto"
@@ -576,9 +866,11 @@
                 class="photo-preview"
                 alt="Member photo preview"
               >
+
             </div>
 
           </div>
+
 
           <div class="form-actions">
 
@@ -589,6 +881,7 @@
             >
               Save Member
             </button>
+
 
             <button
               type="button"
@@ -603,25 +896,45 @@
 
         </form>
 
-        <div id="membersRecords" class="records"></div>
+
+        <div
+          id="membersRecords"
+          class="records"
+        ></div>
 
       </section>
 
 
-      <!-- EXECUTIVE -->
-      <section id="executiveSection" class="section hidden">
+      <!-- =====================================================
+           EXECUTIVE
+           ===================================================== -->
+
+      <section
+        id="executiveSection"
+        class="section hidden"
+      >
 
         <div class="section-header">
+
           <h2>Executive Leadership</h2>
-          <button class="btn btn-secondary" onclick="backToDashboard()">Dashboard</button>
+
+          <button
+            class="btn btn-secondary"
+            onclick="backToDashboard()"
+          >
+            Dashboard
+          </button>
+
         </div>
 
-        <!-- PERIOD MANAGER -->
+
         <div class="period-box">
 
           <h3>Executive Periods</h3>
 
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <div
+            style="display:flex; gap:8px; flex-wrap:wrap;"
+          >
 
             <input
               type="text"
@@ -639,7 +952,10 @@
 
           </div>
 
-          <div id="periodList" class="period-list"></div>
+          <div
+            id="periodList"
+            class="period-list"
+          ></div>
 
         </div>
 
@@ -649,28 +965,63 @@
           <div class="form-grid">
 
             <div>
+
               <label>Executive Period</label>
-              <select id="executivePeriod" required>
-                <option value="">Select period</option>
+
+              <select
+                id="executivePeriod"
+                required
+              >
+
+                <option value="">
+                  Select period
+                </option>
+
               </select>
+
             </div>
 
+
             <div>
+
               <label>Name</label>
-              <input type="text" id="executiveName" required>
+
+              <input
+                type="text"
+                id="executiveName"
+                required
+              >
+
             </div>
 
+
             <div>
+
               <label>Position</label>
-              <input type="text" id="executivePosition" required>
+
+              <input
+                type="text"
+                id="executivePosition"
+                required
+              >
+
             </div>
 
+
             <div>
+
               <label>Phone</label>
-              <input type="text" id="executivePhone">
+
+              <input
+                type="text"
+                id="executivePhone"
+              >
+
             </div>
+
 
             <div class="full-width">
+
               <label>Executive Photo</label>
 
               <input
@@ -685,9 +1036,11 @@
                 class="photo-preview"
                 alt="Executive photo preview"
               >
+
             </div>
 
           </div>
+
 
           <div class="form-actions">
 
@@ -698,6 +1051,7 @@
             >
               Save Executive
             </button>
+
 
             <button
               type="button"
@@ -712,29 +1066,54 @@
 
         </form>
 
-        <div id="executiveRecords" class="records"></div>
+
+        <div
+          id="executiveRecords"
+          class="records"
+        ></div>
 
       </section>
 
 
-      <!-- FINANCE -->
-      <section id="financeSection" class="section hidden">
+      <!-- =====================================================
+           FINANCE
+           ===================================================== -->
+
+      <section
+        id="financeSection"
+        class="section hidden"
+      >
 
         <div class="section-header">
+
           <h2>Finance</h2>
-          <button class="btn btn-secondary" onclick="backToDashboard()">Dashboard</button>
+
+          <button
+            class="btn btn-secondary"
+            onclick="backToDashboard()"
+          >
+            Dashboard
+          </button>
+
         </div>
+
 
         <form id="financeForm">
 
           <div class="form-grid">
 
             <div>
+
               <label>Financial Category / Group</label>
 
-              <select id="financeCategory" required>
+              <select
+                id="financeCategory"
+                required
+              >
 
-                <option value="">Select category</option>
+                <option value="">
+                  Select category
+                </option>
 
                 <option value="Monthly Contribution 2022">
                   Monthly Contribution 2022
@@ -761,28 +1140,51 @@
                 </option>
 
               </select>
+
             </div>
 
+
             <div>
+
               <label>Name</label>
-              <input type="text" id="financeName" required>
+
+              <input
+                type="text"
+                id="financeName"
+                required
+              >
+
             </div>
 
+
             <div>
+
               <label>Amount</label>
-              <input type="number" id="financeAmount" step="0.01" required>
+
+              <input
+                type="number"
+                id="financeAmount"
+                step="0.01"
+                required
+              >
+
             </div>
 
+
             <div>
+
               <label>Description / Purpose</label>
+
               <input
                 type="text"
                 id="financeDescription"
                 placeholder="Example: Married"
               >
+
             </div>
 
           </div>
+
 
           <div class="form-actions">
 
@@ -793,6 +1195,7 @@
             >
               Save Finance Record
             </button>
+
 
             <button
               type="button"
@@ -807,39 +1210,82 @@
 
         </form>
 
-        <div id="financeRecords" class="records"></div>
+
+        <div
+          id="financeRecords"
+          class="records"
+        ></div>
 
       </section>
 
 
-      <!-- MEETINGS -->
-      <section id="meetingsSection" class="section hidden">
+      <!-- =====================================================
+           MEETINGS
+           ===================================================== -->
+
+      <section
+        id="meetingsSection"
+        class="section hidden"
+      >
 
         <div class="section-header">
+
           <h2>Meetings</h2>
-          <button class="btn btn-secondary" onclick="backToDashboard()">Dashboard</button>
+
+          <button
+            class="btn btn-secondary"
+            onclick="backToDashboard()"
+          >
+            Dashboard
+          </button>
+
         </div>
+
 
         <form id="meetingForm">
 
           <div class="form-grid">
 
             <div>
+
               <label>Meeting Date</label>
-              <input type="date" id="meetingDate" required>
+
+              <input
+                type="date"
+                id="meetingDate"
+                required
+              >
+
             </div>
 
+
             <div>
+
               <label>Meeting Title</label>
-              <input type="text" id="meetingTitle" required>
+
+              <input
+                type="text"
+                id="meetingTitle"
+                required
+              >
+
             </div>
 
+
             <div>
+
               <label>Location</label>
-              <input type="text" id="meetingLocation">
+
+              <input
+                type="text"
+                id="meetingLocation"
+              >
+
             </div>
+
 
             <div class="full-width">
+
               <label>Minutes</label>
 
               <textarea
@@ -851,6 +1297,7 @@
 
           </div>
 
+
           <div class="form-actions">
 
             <button
@@ -860,6 +1307,7 @@
             >
               Save Meeting
             </button>
+
 
             <button
               type="button"
@@ -874,39 +1322,82 @@
 
         </form>
 
-        <div id="meetingRecords" class="records"></div>
+
+        <div
+          id="meetingRecords"
+          class="records"
+        ></div>
 
       </section>
 
 
-      <!-- EVENTS -->
-      <section id="eventsSection" class="section hidden">
+      <!-- =====================================================
+           EVENTS
+           ===================================================== -->
+
+      <section
+        id="eventsSection"
+        class="section hidden"
+      >
 
         <div class="section-header">
+
           <h2>Events</h2>
-          <button class="btn btn-secondary" onclick="backToDashboard()">Dashboard</button>
+
+          <button
+            class="btn btn-secondary"
+            onclick="backToDashboard()"
+          >
+            Dashboard
+          </button>
+
         </div>
+
 
         <form id="eventForm">
 
           <div class="form-grid">
 
             <div>
+
               <label>Event Title</label>
-              <input type="text" id="eventTitle" required>
+
+              <input
+                type="text"
+                id="eventTitle"
+                required
+              >
+
             </div>
 
+
             <div>
+
               <label>Date</label>
-              <input type="date" id="eventDate" required>
+
+              <input
+                type="date"
+                id="eventDate"
+                required
+              >
+
             </div>
 
+
             <div>
+
               <label>Location</label>
-              <input type="text" id="eventLocation">
+
+              <input
+                type="text"
+                id="eventLocation"
+              >
+
             </div>
+
 
             <div class="full-width">
+
               <label>Description</label>
 
               <textarea
@@ -918,6 +1409,7 @@
 
           </div>
 
+
           <div class="form-actions">
 
             <button
@@ -927,6 +1419,7 @@
             >
               Save Event
             </button>
+
 
             <button
               type="button"
@@ -941,43 +1434,82 @@
 
         </form>
 
-        <div id="eventRecords" class="records"></div>
+
+        <div
+          id="eventRecords"
+          class="records"
+        ></div>
 
       </section>
 
 
-      <!-- DOCUMENTS -->
-      <section id="documentsSection" class="section hidden">
+      <!-- =====================================================
+           DOCUMENTS
+           ===================================================== -->
+
+      <section
+        id="documentsSection"
+        class="section hidden"
+      >
 
         <div class="section-header">
+
           <h2>Documents</h2>
-          <button class="btn btn-secondary" onclick="backToDashboard()">Dashboard</button>
+
+          <button
+            class="btn btn-secondary"
+            onclick="backToDashboard()"
+          >
+            Dashboard
+          </button>
+
         </div>
+
 
         <form id="documentForm">
 
           <div class="form-grid">
 
             <div>
+
               <label>Document Title</label>
-              <input type="text" id="documentTitle" required>
+
+              <input
+                type="text"
+                id="documentTitle"
+                required
+              >
+
             </div>
 
+
             <div>
+
               <label>Document Type</label>
+
               <input
                 type="text"
                 id="documentType"
                 placeholder="Example: Meeting Minutes"
               >
+
             </div>
 
+
             <div class="full-width">
+
               <label>Select File</label>
-              <input type="file" id="documentFile" required>
+
+              <input
+                type="file"
+                id="documentFile"
+                required
+              >
+
             </div>
 
           </div>
+
 
           <div class="form-actions">
 
@@ -993,15 +1525,23 @@
 
         </form>
 
-        <div id="documentRecords" class="records"></div>
+
+        <div
+          id="documentRecords"
+          class="records"
+        ></div>
 
       </section>
 
     </div>
+
   </div>
 
 
-  <!-- SUPABASE -->
+  <!-- =========================================================
+       SUPABASE
+       ========================================================= -->
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
@@ -1016,11 +1556,8 @@
     const SUPABASE_KEY =
       "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
 
-    /*
-      IMPORTANT:
-      Your actual Supabase Storage bucket is yona-documents.
-    */
-    const DOCUMENT_BUCKET = "yona-documents";
+    const DOCUMENT_BUCKET =
+      "yona-documents";
 
     const db =
       window.supabase.createClient(
@@ -1040,9 +1577,7 @@
     let editingExecutiveOldPhoto = null;
 
     let editingFinanceId = null;
-
     let editingMeetingId = null;
-
     let editingEventId = null;
 
 
@@ -1052,7 +1587,10 @@
 
     function escapeHtml(value) {
 
-      if (value === null || value === undefined) {
+      if (
+        value === null ||
+        value === undefined
+      ) {
         return "";
       }
 
@@ -1065,13 +1603,21 @@
     }
 
 
-    function showMessage(message, type = "success") {
+    function showMessage(
+      message,
+      type = "success"
+    ) {
 
-      const box = document.getElementById("globalMessage");
+      const box =
+        document.getElementById(
+          "globalMessage"
+        );
 
-      box.textContent = message;
+      box.textContent =
+        message;
 
-      box.className = "message " + type;
+      box.className =
+        "message " + type;
 
       window.scrollTo({
         top: 0,
@@ -1079,18 +1625,29 @@
       });
 
       setTimeout(() => {
-        box.className = "message";
+
+        box.className =
+          "message";
+
       }, 5000);
     }
 
 
-    function showLoginMessage(message, type = "error") {
+    function showLoginMessage(
+      message,
+      type = "error"
+    ) {
 
-      const box = document.getElementById("loginMessage");
+      const box =
+        document.getElementById(
+          "loginMessage"
+        );
 
-      box.textContent = message;
+      box.textContent =
+        message;
 
-      box.className = "message " + type;
+      box.className =
+        "message " + type;
     }
 
 
@@ -1103,41 +1660,90 @@
       document
         .querySelectorAll(".section")
         .forEach(section => {
-          section.classList.add("hidden");
+
+          section.classList.add(
+            "hidden"
+          );
+
         });
+
 
       document
         .getElementById("dashboard")
         .classList.add("hidden");
 
+
       document
         .getElementById(sectionId)
         .classList.remove("hidden");
 
-      if (sectionId === "membersSection") {
+
+      if (
+        sectionId ===
+        "membersSection"
+      ) {
+
         loadMembers();
+
       }
 
-      if (sectionId === "executiveSection") {
+
+      if (
+        sectionId ===
+        "executiveSection"
+      ) {
+
         loadExecutivePeriods();
+
         loadExecutives();
+
       }
 
-      if (sectionId === "financeSection") {
+
+      if (
+        sectionId ===
+        "financeSection"
+      ) {
+
         loadFinance();
+
       }
 
-      if (sectionId === "meetingsSection") {
+
+      if (
+        sectionId ===
+        "meetingsSection"
+      ) {
+
         loadMeetings();
+
       }
 
-      if (sectionId === "eventsSection") {
+
+      if (
+        sectionId ===
+        "eventsSection"
+      ) {
+
         loadEvents();
+
       }
 
-      if (sectionId === "documentsSection") {
+
+      if (
+        sectionId ===
+        "documentsSection"
+      ) {
+
         loadDocuments();
+
       }
+
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
     }
 
 
@@ -1146,12 +1752,23 @@
       document
         .querySelectorAll(".section")
         .forEach(section => {
-          section.classList.add("hidden");
+
+          section.classList.add(
+            "hidden"
+          );
+
         });
+
 
       document
         .getElementById("dashboard")
         .classList.remove("hidden");
+
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
     }
 
 
@@ -1162,12 +1779,21 @@
     async function login() {
 
       const email =
-        document.getElementById("loginEmail").value.trim();
+        document
+          .getElementById("loginEmail")
+          .value
+          .trim();
 
       const password =
-        document.getElementById("loginPassword").value;
+        document
+          .getElementById("loginPassword")
+          .value;
 
-      if (!email || !password) {
+
+      if (
+        !email ||
+        !password
+      ) {
 
         showLoginMessage(
           "Please enter your email and password.",
@@ -1177,16 +1803,22 @@
         return;
       }
 
+
       showLoginMessage(
         "Logging in...",
         "success"
       );
 
-      const { error } =
+
+      const {
+        data,
+        error
+      } =
         await db.auth.signInWithPassword({
           email,
           password
         });
+
 
       if (error) {
 
@@ -1198,13 +1830,40 @@
         return;
       }
 
-      document
-        .getElementById("loginScreen")
-        .classList.add("hidden");
+
+      if (
+        !data ||
+        !data.session
+      ) {
+
+        showLoginMessage(
+          "Login did not create a valid session.",
+          "error"
+        );
+
+        return;
+      }
+
 
       document
-        .getElementById("app")
+        .getElementById(
+          "loginScreen"
+        )
+        .classList.add("hidden");
+
+
+      document
+        .getElementById(
+          "app"
+        )
         .classList.remove("hidden");
+
+
+      showLoginMessage(
+        "",
+        "success"
+      );
+
 
       await loadAll();
     }
@@ -1214,13 +1873,16 @@
 
       await db.auth.signOut();
 
+
       document
         .getElementById("app")
         .classList.add("hidden");
 
+
       document
         .getElementById("loginScreen")
         .classList.remove("hidden");
+
 
       document
         .getElementById("loginPassword")
@@ -1238,63 +1900,99 @@
         return true;
       }
 
-      if (!file.type.startsWith("image/")) {
 
-        alert("Please select an image file.");
+      if (
+        !file.type.startsWith(
+          "image/"
+        )
+      ) {
+
+        alert(
+          "Please select an image file."
+        );
 
         return false;
       }
 
-      if (file.size > 5 * 1024 * 1024) {
 
-        alert("Photo must not be larger than 5 MB.");
+      if (
+        file.size >
+        5 * 1024 * 1024
+      ) {
+
+        alert(
+          "Photo must not be larger than 5 MB."
+        );
 
         return false;
       }
+
 
       return true;
     }
 
 
-    function previewPhoto(inputId, previewId) {
+    function previewPhoto(
+      inputId,
+      previewId
+    ) {
 
       const input =
-        document.getElementById(inputId);
+        document.getElementById(
+          inputId
+        );
 
       const preview =
-        document.getElementById(previewId);
+        document.getElementById(
+          previewId
+        );
+
 
       const file =
-        input.files && input.files[0];
+        input.files &&
+        input.files[0];
+
 
       if (!file) {
 
-        preview.style.display = "none";
+        preview.style.display =
+          "none";
+
         preview.src = "";
 
         return;
       }
 
-      if (!validatePhoto(file)) {
+
+      if (
+        !validatePhoto(file)
+      ) {
 
         input.value = "";
 
-        preview.style.display = "none";
+        preview.style.display =
+          "none";
+
         preview.src = "";
 
         return;
       }
+
 
       const reader =
         new FileReader();
 
-      reader.onload = function(event) {
 
-        preview.src =
-          event.target.result;
+      reader.onload =
+        function(event) {
 
-        preview.style.display = "block";
-      };
+          preview.src =
+            event.target.result;
+
+          preview.style.display =
+            "block";
+        };
+
 
       reader.readAsDataURL(file);
     }
@@ -1312,12 +2010,14 @@
             limit: 1
           });
 
+
       if (error) {
 
         throw new Error(
           `Storage bucket "${DOCUMENT_BUCKET}" is not available. Please check Supabase Storage.`
         );
       }
+
 
       return true;
     }
@@ -1333,14 +2033,19 @@
         return null;
       }
 
-      if (!validatePhoto(file)) {
+
+      if (
+        !validatePhoto(file)
+      ) {
 
         throw new Error(
           "Invalid photo."
         );
       }
 
+
       await ensureStorageBucket();
+
 
       const safeName =
         file.name.replace(
@@ -1348,10 +2053,12 @@
           "_"
         );
 
+
       const path =
         `${folder}/${prefix}_${Date.now()}_${Math.random()
           .toString(36)
           .slice(2, 8)}_${safeName}`;
+
 
       const {
         error
@@ -1366,9 +2073,11 @@
             }
           );
 
+
       if (error) {
         throw error;
       }
+
 
       return path;
     }
@@ -1379,6 +2088,7 @@
       if (!path) {
         return null;
       }
+
 
       const {
         data,
@@ -1391,28 +2101,37 @@
             3600
           );
 
+
       if (error) {
         return null;
       }
+
 
       return data.signedUrl;
     }
 
 
-    async function deleteStoredPhoto(path) {
+    async function deleteStoredPhoto(
+      path
+    ) {
 
       if (!path) {
         return;
       }
+
 
       const {
         error
       } =
         await db.storage
           .from(DOCUMENT_BUCKET)
-          .remove([path]);
+          .remove([
+            path
+          ]);
+
 
       if (error) {
+
         console.warn(
           "Could not delete old photo:",
           error
@@ -1426,48 +2145,98 @@
        ========================================================= */
 
     document
-      .getElementById("memberForm")
+      .getElementById(
+        "memberForm"
+      )
       .addEventListener(
         "submit",
         saveMember
       );
 
 
-    async function saveMember(event) {
+    async function saveMember(
+      event
+    ) {
 
       event.preventDefault();
 
+
+      /* -------------------------------------------------------
+         CHECK CURRENT LOGIN SESSION
+         ------------------------------------------------------- */
+
+      const {
+        data: sessionData,
+        error: sessionError
+      } =
+        await db.auth.getSession();
+
+
+      if (
+        sessionError ||
+        !sessionData ||
+        !sessionData.session
+      ) {
+
+        showMessage(
+          "Your login session has expired. Please log in again.",
+          "error"
+        );
+
+        return;
+      }
+
+
       const name =
         document
-          .getElementById("memberName")
+          .getElementById(
+            "memberName"
+          )
           .value
           .trim();
+
 
       const phone =
         document
-          .getElementById("memberPhone")
+          .getElementById(
+            "memberPhone"
+          )
           .value
           .trim();
+
 
       const memberType =
         document
-          .getElementById("memberType")
+          .getElementById(
+            "memberType"
+          )
           .value;
+
 
       const position =
         document
-          .getElementById("memberPosition")
+          .getElementById(
+            "memberPosition"
+          )
           .value
           .trim();
 
+
       const photoInput =
-        document.getElementById("memberPhoto");
+        document.getElementById(
+          "memberPhoto"
+        );
+
 
       const file =
         photoInput.files &&
         photoInput.files[0];
 
-      if (!name || !memberType) {
+
+      if (
+        !name ||
+        !memberType
+      ) {
 
         showMessage(
           "Name and member category are required.",
@@ -1477,18 +2246,24 @@
         return;
       }
 
+
       const button =
         document.getElementById(
           "memberSaveButton"
         );
 
+
       button.disabled = true;
-      button.textContent = "Saving...";
+
+      button.textContent =
+        "Saving...";
+
 
       try {
 
         let newPhotoPath =
           editingMemberOldPhoto;
+
 
         if (file) {
 
@@ -1499,6 +2274,7 @@
               "member"
             );
         }
+
 
         const record = {
 
@@ -1516,7 +2292,9 @@
         };
 
 
-        if (editingMemberId) {
+        if (
+          editingMemberId
+        ) {
 
           const {
             error
@@ -1529,20 +2307,24 @@
                 editingMemberId
               );
 
+
           if (error) {
             throw error;
           }
 
+
           if (
             file &&
             editingMemberOldPhoto &&
-            editingMemberOldPhoto !== newPhotoPath
+            editingMemberOldPhoto !==
+              newPhotoPath
           ) {
 
             await deleteStoredPhoto(
               editingMemberOldPhoto
             );
           }
+
 
           showMessage(
             "Member updated successfully."
@@ -1555,23 +2337,30 @@
           } =
             await db
               .from("members")
-              .insert(record);
+              .insert(
+                record
+              );
+
 
           if (error) {
 
             if (newPhotoPath) {
+
               await deleteStoredPhoto(
                 newPhotoPath
               );
+
             }
 
             throw error;
           }
 
+
           showMessage(
             "Member saved successfully."
           );
         }
+
 
         resetMemberForm();
 
@@ -1579,7 +2368,11 @@
 
       } catch (error) {
 
-        console.error(error);
+        console.error(
+          "Member save error:",
+          error
+        );
+
 
         showMessage(
           "Could not save member: " +
@@ -1606,8 +2399,12 @@
           "membersRecords"
         );
 
+
       container.innerHTML =
-        `<div class="loading">Loading members...</div>`;
+        `<div class="loading">
+          Loading members...
+        </div>`;
+
 
       const {
         data,
@@ -1623,17 +2420,25 @@
             }
           );
 
+
       if (error) {
 
         container.innerHTML =
           `<div class="empty">
-            Could not load members: ${escapeHtml(error.message)}
+            Could not load members:
+            ${escapeHtml(
+              error.message
+            )}
           </div>`;
 
         return;
       }
 
-      if (!data || data.length === 0) {
+
+      if (
+        !data ||
+        data.length === 0
+      ) {
 
         container.innerHTML =
           `<div class="empty">
@@ -1643,6 +2448,7 @@
         return;
       }
 
+
       const groups = {
 
         "Old Member": [],
@@ -1650,33 +2456,37 @@
         "Current Member": [],
 
         "Probationary Member": []
+
       };
 
 
-      data.forEach(member => {
+      data.forEach(
+        member => {
 
-        if (
-          groups[member.member_type]
-        ) {
+          if (
+            groups[
+              member.member_type
+            ]
+          ) {
 
-          groups[
-            member.member_type
-          ].push(member);
+            groups[
+              member.member_type
+            ].push(member);
 
-        } else {
+          } else {
 
-          if (!groups["Current Member"]) {
-            groups["Current Member"] = [];
+            groups[
+              "Current Member"
+            ].push(member);
+
           }
 
-          groups[
-            "Current Member"
-          ].push(member);
         }
-      });
+      );
 
 
       let html = "";
+
 
       const displayNames = {
 
@@ -1688,31 +2498,41 @@
 
         "Probationary Member":
           "New Registered Members (Probationary)"
+
       };
 
 
       for (
-        const category of Object.keys(groups)
+        const category of
+        Object.keys(groups)
       ) {
 
         if (
-          groups[category].length === 0
+          groups[category]
+            .length === 0
         ) {
           continue;
         }
 
+
         html += `
+
           <div class="record-group">
 
             <div class="record-group-title">
+
               ${displayNames[category]}
+
               (${groups[category].length})
+
             </div>
+
         `;
 
 
         for (
-          const member of groups[category]
+          const member of
+          groups[category]
         ) {
 
           const photoUrl =
@@ -1742,22 +2562,30 @@
               }
 
               <h4>
-                ${escapeHtml(member.name)}
+                ${escapeHtml(
+                  member.name
+                )}
               </h4>
 
               <p>
                 <strong>Phone:</strong>
-                ${escapeHtml(member.phone || "-")}
+                ${escapeHtml(
+                  member.phone || "-"
+                )}
               </p>
 
               <p>
                 <strong>Position:</strong>
-                ${escapeHtml(member.position || "-")}
+                ${escapeHtml(
+                  member.position || "-"
+                )}
               </p>
 
               <p>
                 <strong>Category:</strong>
-                ${escapeHtml(member.member_type || "-")}
+                ${escapeHtml(
+                  member.member_type || "-"
+                )}
               </p>
 
               <div class="record-actions">
@@ -1779,18 +2607,23 @@
               </div>
 
             </div>
+
           `;
         }
+
 
         html += `</div>`;
       }
 
 
-      container.innerHTML = html;
+      container.innerHTML =
+        html;
     }
 
 
-    async function editMember(id) {
+    async function editMember(
+      id
+    ) {
 
       const {
         data,
@@ -1799,8 +2632,12 @@
         await db
           .from("members")
           .select("*")
-          .eq("id", id)
+          .eq(
+            "id",
+            id
+          )
           .single();
+
 
       if (error) {
 
@@ -1817,26 +2654,38 @@
         data.id;
 
       editingMemberOldPhoto =
-        data.photo_url || null;
+        data.photo_url ||
+        null;
 
 
       document
-        .getElementById("memberName")
+        .getElementById(
+          "memberName"
+        )
         .value =
         data.name || "";
 
+
       document
-        .getElementById("memberPhone")
+        .getElementById(
+          "memberPhone"
+        )
         .value =
         data.phone || "";
 
+
       document
-        .getElementById("memberType")
+        .getElementById(
+          "memberType"
+        )
         .value =
         data.member_type || "";
 
+
       document
-        .getElementById("memberPosition")
+        .getElementById(
+          "memberPosition"
+        )
         .value =
         data.position || "";
 
@@ -1847,12 +2696,15 @@
         );
 
 
-      if (data.photo_url) {
+      if (
+        data.photo_url
+      ) {
 
         const url =
           await getPhotoUrl(
             data.photo_url
           );
+
 
         if (url) {
 
@@ -1861,6 +2713,7 @@
           preview.style.display =
             "block";
         }
+
       } else {
 
         preview.src = "";
@@ -1894,13 +2747,16 @@
     }
 
 
-    async function deleteMember(id) {
+    async function deleteMember(
+      id
+    ) {
 
       if (
         !confirm(
           "Are you sure you want to delete this member?"
         )
       ) {
+
         return;
       }
 
@@ -1911,8 +2767,13 @@
       } =
         await db
           .from("members")
-          .select("photo_url")
-          .eq("id", id)
+          .select(
+            "photo_url"
+          )
+          .eq(
+            "id",
+            id
+          )
           .single();
 
 
@@ -1933,7 +2794,10 @@
         await db
           .from("members")
           .delete()
-          .eq("id", id);
+          .eq(
+            "id",
+            id
+          );
 
 
       if (deleteError) {
@@ -1947,7 +2811,10 @@
       }
 
 
-      if (data && data.photo_url) {
+      if (
+        data &&
+        data.photo_url
+      ) {
 
         await deleteStoredPhoto(
           data.photo_url
@@ -1959,11 +2826,13 @@
         "Member deleted successfully."
       );
 
+
       await loadMembers();
     }
 
 
     function cancelMemberEdit() {
+
       resetMemberForm();
     }
 
@@ -1971,19 +2840,25 @@
     function resetMemberForm() {
 
       document
-        .getElementById("memberForm")
+        .getElementById(
+          "memberForm"
+        )
         .reset();
 
-      editingMemberId = null;
 
-      editingMemberOldPhoto = null;
+      editingMemberId =
+        null;
+
+      editingMemberOldPhoto =
+        null;
 
 
       document
         .getElementById(
           "memberPhotoPreview"
         )
-        .style.display = "none";
+        .style.display =
+        "none";
 
 
       document
@@ -2019,9 +2894,12 @@
 
       const period =
         document
-          .getElementById("periodName")
+          .getElementById(
+            "periodName"
+          )
           .value
           .trim();
+
 
       if (!period) {
 
@@ -2038,7 +2916,9 @@
         error
       } =
         await db
-          .from("executive_periods")
+          .from(
+            "executive_periods"
+          )
           .insert({
             period
           });
@@ -2056,7 +2936,9 @@
 
 
       document
-        .getElementById("periodName")
+        .getElementById(
+          "periodName"
+        )
         .value = "";
 
 
@@ -2076,7 +2958,9 @@
         error
       } =
         await db
-          .from("executive_periods")
+          .from(
+            "executive_periods"
+          )
           .select("*")
           .order(
             "created_at",
@@ -2099,8 +2983,11 @@
           "executivePeriod"
         );
 
+
       select.innerHTML =
-        `<option value="">Select period</option>`;
+        `<option value="">
+          Select period
+        </option>`;
 
 
       const list =
@@ -2108,62 +2995,81 @@
           "periodList"
         );
 
+
       list.innerHTML = "";
 
 
-      (data || []).forEach(item => {
+      (
+        data || []
+      ).forEach(
+        item => {
 
-        const option =
-          document.createElement(
-            "option"
+          const option =
+            document.createElement(
+              "option"
+            );
+
+
+          option.value =
+            item.id;
+
+
+          option.textContent =
+            item.period;
+
+
+          select.appendChild(
+            option
           );
 
-        option.value =
-          item.id;
 
-        option.textContent =
-          item.period;
-
-        select.appendChild(
-          option
-        );
+          const div =
+            document.createElement(
+              "div"
+            );
 
 
-        const div =
-          document.createElement(
-            "div"
+          div.className =
+            "period-item";
+
+
+          div.innerHTML = `
+
+            <span>
+              ${escapeHtml(
+                item.period
+              )}
+            </span>
+
+            <button
+              class="btn btn-danger"
+              onclick="deleteExecutivePeriod('${item.id}')"
+            >
+              Delete
+            </button>
+
+          `;
+
+
+          list.appendChild(
+            div
           );
 
-        div.className =
-          "period-item";
-
-        div.innerHTML = `
-
-          <span>
-            ${escapeHtml(item.period)}
-          </span>
-
-          <button
-            class="btn btn-danger"
-            onclick="deleteExecutivePeriod('${item.id}')"
-          >
-            Delete
-          </button>
-
-        `;
-
-        list.appendChild(div);
-      });
+        }
+      );
     }
 
 
-    async function deleteExecutivePeriod(id) {
+    async function deleteExecutivePeriod(
+      id
+    ) {
 
       if (
         !confirm(
           "Delete this executive period?"
         )
       ) {
+
         return;
       }
 
@@ -2172,9 +3078,14 @@
         error
       } =
         await db
-          .from("executive_periods")
+          .from(
+            "executive_periods"
+          )
           .delete()
-          .eq("id", id);
+          .eq(
+            "id",
+            id
+          );
 
 
       if (error) {
@@ -2205,14 +3116,18 @@
        ========================================================= */
 
     document
-      .getElementById("executiveForm")
+      .getElementById(
+        "executiveForm"
+      )
       .addEventListener(
         "submit",
         saveExecutive
       );
 
 
-    async function saveExecutive(event) {
+    async function saveExecutive(
+      event
+    ) {
 
       event.preventDefault();
 
@@ -2224,6 +3139,7 @@
           )
           .value;
 
+
       const name =
         document
           .getElementById(
@@ -2231,6 +3147,7 @@
           )
           .value
           .trim();
+
 
       const position =
         document
@@ -2240,6 +3157,7 @@
           .value
           .trim();
 
+
       const phone =
         document
           .getElementById(
@@ -2248,17 +3166,23 @@
           .value
           .trim();
 
+
       const photoInput =
         document.getElementById(
           "executivePhoto"
         );
+
 
       const file =
         photoInput.files &&
         photoInput.files[0];
 
 
-      if (!periodId || !name || !position) {
+      if (
+        !periodId ||
+        !name ||
+        !position
+      ) {
 
         showMessage(
           "Period, name and position are required.",
@@ -2273,6 +3197,7 @@
         document.getElementById(
           "executiveSaveButton"
         );
+
 
       button.disabled = true;
 
@@ -2310,16 +3235,21 @@
 
           photo_url:
             newPhotoPath
+
         };
 
 
-        if (editingExecutiveId) {
+        if (
+          editingExecutiveId
+        ) {
 
           const {
             error
           } =
             await db
-              .from("executive")
+              .from(
+                "executive"
+              )
               .update(record)
               .eq(
                 "id",
@@ -2355,7 +3285,9 @@
             error
           } =
             await db
-              .from("executive")
+              .from(
+                "executive"
+              )
               .insert(record);
 
 
@@ -2366,6 +3298,7 @@
               await deleteStoredPhoto(
                 newPhotoPath
               );
+
             }
 
             throw error;
@@ -2423,7 +3356,9 @@
         error
       } =
         await db
-          .from("executive")
+          .from(
+            "executive"
+          )
           .select(`
             *,
             executive_periods (
@@ -2444,14 +3379,19 @@
         container.innerHTML =
           `<div class="empty">
             Could not load executives:
-            ${escapeHtml(error.message)}
+            ${escapeHtml(
+              error.message
+            )}
           </div>`;
 
         return;
       }
 
 
-      if (!data || data.length === 0) {
+      if (
+        !data ||
+        data.length === 0
+      ) {
 
         container.innerHTML =
           `<div class="empty">
@@ -2465,28 +3405,38 @@
       const grouped = {};
 
 
-      data.forEach(item => {
+      data.forEach(
+        item => {
 
-        const period =
-          item.executive_periods
-            ? item.executive_periods.period
-            : "No Period";
+          const period =
+            item.executive_periods
+              ? item.executive_periods.period
+              : "No Period";
 
 
-        if (!grouped[period]) {
-          grouped[period] = [];
+          if (
+            !grouped[period]
+          ) {
+
+            grouped[period] = [];
+
+          }
+
+
+          grouped[period].push(
+            item
+          );
+
         }
-
-
-        grouped[period].push(item);
-      });
+      );
 
 
       let html = "";
 
 
       for (
-        const period of Object.keys(grouped)
+        const period of
+        Object.keys(grouped)
       ) {
 
         html += `
@@ -2494,14 +3444,17 @@
           <div class="record-group">
 
             <div class="record-group-title">
+
               ${escapeHtml(period)}
+
             </div>
 
         `;
 
 
         for (
-          const executive of grouped[period]
+          const executive of
+          grouped[period]
         ) {
 
           const photoUrl =
@@ -2531,7 +3484,9 @@
               }
 
               <h4>
-                ${escapeHtml(executive.name)}
+                ${escapeHtml(
+                  executive.name
+                )}
               </h4>
 
               <p>
@@ -2581,16 +3536,23 @@
     }
 
 
-    async function editExecutive(id) {
+    async function editExecutive(
+      id
+    ) {
 
       const {
         data,
         error
       } =
         await db
-          .from("executive")
+          .from(
+            "executive"
+          )
           .select("*")
-          .eq("id", id)
+          .eq(
+            "id",
+            id
+          )
           .single();
 
 
@@ -2608,8 +3570,10 @@
       editingExecutiveId =
         data.id;
 
+
       editingExecutiveOldPhoto =
-        data.photo_url || null;
+        data.photo_url ||
+        null;
 
 
       document
@@ -2650,7 +3614,9 @@
         );
 
 
-      if (data.photo_url) {
+      if (
+        data.photo_url
+      ) {
 
         const url =
           await getPhotoUrl(
@@ -2699,13 +3665,16 @@
     }
 
 
-    async function deleteExecutive(id) {
+    async function deleteExecutive(
+      id
+    ) {
 
       if (
         !confirm(
           "Are you sure you want to delete this executive record?"
         )
       ) {
+
         return;
       }
 
@@ -2715,9 +3684,16 @@
         error
       } =
         await db
-          .from("executive")
-          .select("photo_url")
-          .eq("id", id)
+          .from(
+            "executive"
+          )
+          .select(
+            "photo_url"
+          )
+          .eq(
+            "id",
+            id
+          )
           .single();
 
 
@@ -2736,9 +3712,14 @@
         error: deleteError
       } =
         await db
-          .from("executive")
+          .from(
+            "executive"
+          )
           .delete()
-          .eq("id", id);
+          .eq(
+            "id",
+            id
+          );
 
 
       if (deleteError) {
@@ -2787,7 +3768,9 @@
         .reset();
 
 
-      editingExecutiveId = null;
+      editingExecutiveId =
+        null;
+
 
       editingExecutiveOldPhoto =
         null;
@@ -2831,14 +3814,18 @@
        ========================================================= */
 
     document
-      .getElementById("financeForm")
+      .getElementById(
+        "financeForm"
+      )
       .addEventListener(
         "submit",
         saveFinance
       );
 
 
-    async function saveFinance(event) {
+    async function saveFinance(
+      event
+    ) {
 
       event.preventDefault();
 
@@ -2850,6 +3837,7 @@
           )
           .value;
 
+
       const name =
         document
           .getElementById(
@@ -2858,12 +3846,14 @@
           .value
           .trim();
 
+
       const amount =
         document
           .getElementById(
             "financeAmount"
           )
           .value;
+
 
       const description =
         document
@@ -2874,7 +3864,11 @@
           .trim();
 
 
-      if (!category || !name || !amount) {
+      if (
+        !category ||
+        !name ||
+        !amount
+      ) {
 
         showMessage(
           "Category, name and amount are required.",
@@ -2895,6 +3889,7 @@
           Number(amount),
 
         description
+
       };
 
 
@@ -2904,7 +3899,9 @@
         editingFinanceId
 
           ? await db
-              .from("finance")
+              .from(
+                "finance"
+              )
               .update(record)
               .eq(
                 "id",
@@ -2912,7 +3909,9 @@
               )
 
           : await db
-              .from("finance")
+              .from(
+                "finance"
+              )
               .insert(record);
 
 
@@ -2960,7 +3959,9 @@
         error
       } =
         await db
-          .from("finance")
+          .from(
+            "finance"
+          )
           .select("*")
           .order(
             "created_at",
@@ -2974,14 +3975,19 @@
 
         container.innerHTML =
           `<div class="empty">
-            ${escapeHtml(error.message)}
+            ${escapeHtml(
+              error.message
+            )}
           </div>`;
 
         return;
       }
 
 
-      if (!data || data.length === 0) {
+      if (
+        !data ||
+        data.length === 0
+      ) {
 
         container.innerHTML =
           `<div class="empty">
@@ -2995,29 +4001,37 @@
       const grouped = {};
 
 
-      data.forEach(record => {
+      data.forEach(
+        record => {
 
-        const category =
-          record.category ||
-          "Other";
+          const category =
+            record.category ||
+            "Other";
 
 
-        if (!grouped[category]) {
-          grouped[category] = [];
+          if (
+            !grouped[category]
+          ) {
+
+            grouped[category] = [];
+
+          }
+
+
+          grouped[category].push(
+            record
+          );
+
         }
-
-
-        grouped[category].push(
-          record
-        );
-      });
+      );
 
 
       let html = "";
 
 
       for (
-        const category of Object.keys(grouped)
+        const category of
+        Object.keys(grouped)
       ) {
 
         html += `
@@ -3025,14 +4039,17 @@
           <div class="record-group">
 
             <div class="record-group-title">
+
               ${escapeHtml(category)}
+
             </div>
 
         `;
 
 
         for (
-          const record of grouped[category]
+          const record of
+          grouped[category]
         ) {
 
           html += `
@@ -3040,7 +4057,9 @@
             <div class="record">
 
               <h4>
-                ${escapeHtml(record.name)}
+                ${escapeHtml(
+                  record.name
+                )}
               </h4>
 
               <p>
@@ -3051,10 +4070,14 @@
               </p>
 
               <p>
-                <strong>Purpose / Description:</strong>
+                <strong>
+                  Purpose / Description:
+                </strong>
+
                 ${escapeHtml(
                   record.description || "-"
                 )}
+
               </p>
 
               <div class="record-actions">
@@ -3090,16 +4113,23 @@
     }
 
 
-    async function editFinance(id) {
+    async function editFinance(
+      id
+    ) {
 
       const {
         data,
         error
       } =
         await db
-          .from("finance")
+          .from(
+            "finance"
+          )
           .select("*")
-          .eq("id", id)
+          .eq(
+            "id",
+            id
+          )
           .single();
 
 
@@ -3168,13 +4198,16 @@
     }
 
 
-    async function deleteFinance(id) {
+    async function deleteFinance(
+      id
+    ) {
 
       if (
         !confirm(
           "Delete this finance record?"
         )
       ) {
+
         return;
       }
 
@@ -3183,9 +4216,14 @@
         error
       } =
         await db
-          .from("finance")
+          .from(
+            "finance"
+          )
           .delete()
-          .eq("id", id);
+          .eq(
+            "id",
+            id
+          );
 
 
       if (error) {
@@ -3250,14 +4288,18 @@
        ========================================================= */
 
     document
-      .getElementById("meetingForm")
+      .getElementById(
+        "meetingForm"
+      )
       .addEventListener(
         "submit",
         saveMeeting
       );
 
 
-    async function saveMeeting(event) {
+    async function saveMeeting(
+      event
+    ) {
 
       event.preventDefault();
 
@@ -3294,6 +4336,7 @@
             )
             .value
             .trim()
+
       };
 
 
@@ -3317,7 +4360,9 @@
         editingMeetingId
 
           ? await db
-              .from("meetings")
+              .from(
+                "meetings"
+              )
               .update(record)
               .eq(
                 "id",
@@ -3325,7 +4370,9 @@
               )
 
           : await db
-              .from("meetings")
+              .from(
+                "meetings"
+              )
               .insert(record);
 
 
@@ -3361,12 +4408,20 @@
         );
 
 
+      container.innerHTML =
+        `<div class="loading">
+          Loading meetings...
+        </div>`;
+
+
       const {
         data,
         error
       } =
         await db
-          .from("meetings")
+          .from(
+            "meetings"
+          )
           .select("*")
           .order(
             "meeting_date",
@@ -3380,14 +4435,19 @@
 
         container.innerHTML =
           `<div class="empty">
-            ${escapeHtml(error.message)}
+            ${escapeHtml(
+              error.message
+            )}
           </div>`;
 
         return;
       }
 
 
-      if (!data || data.length === 0) {
+      if (
+        !data ||
+        data.length === 0
+      ) {
 
         container.innerHTML =
           `<div class="empty">
@@ -3401,64 +4461,67 @@
       let html = "";
 
 
-      data.forEach(meeting => {
+      data.forEach(
+        meeting => {
 
-        html += `
+          html += `
 
-          <div class="record">
+            <div class="record">
 
-            <h4>
-              ${escapeHtml(
-                meeting.meeting_title
-              )}
-            </h4>
+              <h4>
+                ${escapeHtml(
+                  meeting.meeting_title
+                )}
+              </h4>
 
-            <p>
-              <strong>Date:</strong>
-              ${escapeHtml(
-                meeting.meeting_date || "-"
-              )}
-            </p>
+              <p>
+                <strong>Date:</strong>
+                ${escapeHtml(
+                  meeting.meeting_date || "-"
+                )}
+              </p>
 
-            <p>
-              <strong>Location:</strong>
-              ${escapeHtml(
-                meeting.location || "-"
-              )}
-            </p>
+              <p>
+                <strong>Location:</strong>
+                ${escapeHtml(
+                  meeting.location || "-"
+                )}
+              </p>
 
-            <p>
-              <strong>Minutes:</strong>
-            </p>
+              <p>
+                <strong>Minutes:</strong>
+              </p>
 
-            <p style="white-space:pre-wrap;">
-              ${escapeHtml(
-                meeting.minutes || "-"
-              )}
-            </p>
+              <p style="white-space:pre-wrap;">
+                ${escapeHtml(
+                  meeting.minutes || "-"
+                )}
+              </p>
 
-            <div class="record-actions">
+              <div class="record-actions">
 
-              <button
-                class="edit-btn"
-                onclick="editMeeting('${meeting.id}')"
-              >
-                Edit
-              </button>
+                <button
+                  class="edit-btn"
+                  onclick="editMeeting('${meeting.id}')"
+                >
+                  Edit
+                </button>
 
-              <button
-                class="delete-btn"
-                onclick="deleteMeeting('${meeting.id}')"
-              >
-                Delete
-              </button>
+                <button
+                  class="delete-btn"
+                  onclick="deleteMeeting('${meeting.id}')"
+                >
+                  Delete
+                </button>
+
+              </div>
 
             </div>
 
-          </div>
+          `;
 
-        `;
-      });
+        }
+      );
 
 
       container.innerHTML =
@@ -3466,16 +4529,23 @@
     }
 
 
-    async function editMeeting(id) {
+    async function editMeeting(
+      id
+    ) {
 
       const {
         data,
         error
       } =
         await db
-          .from("meetings")
+          .from(
+            "meetings"
+          )
           .select("*")
-          .eq("id", id)
+          .eq(
+            "id",
+            id
+          )
           .single();
 
 
@@ -3544,13 +4614,16 @@
     }
 
 
-    async function deleteMeeting(id) {
+    async function deleteMeeting(
+      id
+    ) {
 
       if (
         !confirm(
           "Delete this meeting?"
         )
       ) {
+
         return;
       }
 
@@ -3559,9 +4632,14 @@
         error
       } =
         await db
-          .from("meetings")
+          .from(
+            "meetings"
+          )
           .delete()
-          .eq("id", id);
+          .eq(
+            "id",
+            id
+          );
 
 
       if (error) {
@@ -3626,14 +4704,18 @@
        ========================================================= */
 
     document
-      .getElementById("eventForm")
+      .getElementById(
+        "eventForm"
+      )
       .addEventListener(
         "submit",
         saveEvent
       );
 
 
-    async function saveEvent(event) {
+    async function saveEvent(
+      event
+    ) {
 
       event.preventDefault();
 
@@ -3670,6 +4752,7 @@
             )
             .value
             .trim()
+
       };
 
 
@@ -3693,7 +4776,9 @@
         editingEventId
 
           ? await db
-              .from("events")
+              .from(
+                "events"
+              )
               .update(record)
               .eq(
                 "id",
@@ -3701,7 +4786,9 @@
               )
 
           : await db
-              .from("events")
+              .from(
+                "events"
+              )
               .insert(record);
 
 
@@ -3737,12 +4824,20 @@
         );
 
 
+      container.innerHTML =
+        `<div class="loading">
+          Loading events...
+        </div>`;
+
+
       const {
         data,
         error
       } =
         await db
-          .from("events")
+          .from(
+            "events"
+          )
           .select("*")
           .order(
             "date",
@@ -3756,14 +4851,19 @@
 
         container.innerHTML =
           `<div class="empty">
-            ${escapeHtml(error.message)}
+            ${escapeHtml(
+              error.message
+            )}
           </div>`;
 
         return;
       }
 
 
-      if (!data || data.length === 0) {
+      if (
+        !data ||
+        data.length === 0
+      ) {
 
         container.innerHTML =
           `<div class="empty">
@@ -3777,62 +4877,67 @@
       let html = "";
 
 
-      data.forEach(event => {
+      data.forEach(
+        event => {
 
-        html += `
+          html += `
 
-          <div class="record">
+            <div class="record">
 
-            <h4>
-              ${escapeHtml(event.title)}
-            </h4>
+              <h4>
+                ${escapeHtml(
+                  event.title
+                )}
+              </h4>
 
-            <p>
-              <strong>Date:</strong>
-              ${escapeHtml(
-                event.date || "-"
-              )}
-            </p>
+              <p>
+                <strong>Date:</strong>
+                ${escapeHtml(
+                  event.date || "-"
+                )}
+              </p>
 
-            <p>
-              <strong>Location:</strong>
-              ${escapeHtml(
-                event.location || "-"
-              )}
-            </p>
+              <p>
+                <strong>Location:</strong>
+                ${escapeHtml(
+                  event.location || "-"
+                )}
+              </p>
 
-            <p>
-              <strong>Description:</strong>
-            </p>
+              <p>
+                <strong>Description:</strong>
+              </p>
 
-            <p style="white-space:pre-wrap;">
-              ${escapeHtml(
-                event.description || "-"
-              )}
-            </p>
+              <p style="white-space:pre-wrap;">
+                ${escapeHtml(
+                  event.description || "-"
+                )}
+              </p>
 
-            <div class="record-actions">
+              <div class="record-actions">
 
-              <button
-                class="edit-btn"
-                onclick="editEvent('${event.id}')"
-              >
-                Edit
-              </button>
+                <button
+                  class="edit-btn"
+                  onclick="editEvent('${event.id}')"
+                >
+                  Edit
+                </button>
 
-              <button
-                class="delete-btn"
-                onclick="deleteEvent('${event.id}')"
-              >
-                Delete
-              </button>
+                <button
+                  class="delete-btn"
+                  onclick="deleteEvent('${event.id}')"
+                >
+                  Delete
+                </button>
+
+              </div>
 
             </div>
 
-          </div>
+          `;
 
-        `;
-      });
+        }
+      );
 
 
       container.innerHTML =
@@ -3840,16 +4945,23 @@
     }
 
 
-    async function editEvent(id) {
+    async function editEvent(
+      id
+    ) {
 
       const {
         data,
         error
       } =
         await db
-          .from("events")
+          .from(
+            "events"
+          )
           .select("*")
-          .eq("id", id)
+          .eq(
+            "id",
+            id
+          )
           .single();
 
 
@@ -3918,13 +5030,16 @@
     }
 
 
-    async function deleteEvent(id) {
+    async function deleteEvent(
+      id
+    ) {
 
       if (
         !confirm(
           "Delete this event?"
         )
       ) {
+
         return;
       }
 
@@ -3933,9 +5048,14 @@
         error
       } =
         await db
-          .from("events")
+          .from(
+            "events"
+          )
           .delete()
-          .eq("id", id);
+          .eq(
+            "id",
+            id
+          );
 
 
       if (error) {
@@ -4000,14 +5120,18 @@
        ========================================================= */
 
     document
-      .getElementById("documentForm")
+      .getElementById(
+        "documentForm"
+      )
       .addEventListener(
         "submit",
         uploadDocument
       );
 
 
-    async function uploadDocument(event) {
+    async function uploadDocument(
+      event
+    ) {
 
       event.preventDefault();
 
@@ -4020,6 +5144,7 @@
           .value
           .trim();
 
+
       const type =
         document
           .getElementById(
@@ -4027,6 +5152,7 @@
           )
           .value
           .trim();
+
 
       const file =
         document
@@ -4036,7 +5162,10 @@
           .files[0];
 
 
-      if (!title || !file) {
+      if (
+        !title ||
+        !file
+      ) {
 
         showMessage(
           "Document title and file are required.",
@@ -4079,7 +5208,9 @@
           error: uploadError
         } =
           await db.storage
-            .from(DOCUMENT_BUCKET)
+            .from(
+              DOCUMENT_BUCKET
+            )
             .upload(
               path,
               file,
@@ -4098,19 +5229,26 @@
           error: databaseError
         } =
           await db
-            .from("documents")
+            .from(
+              "documents"
+            )
             .insert({
               title,
               type,
-              file_path: path
+              file_path:
+                path
             });
 
 
         if (databaseError) {
 
           await db.storage
-            .from(DOCUMENT_BUCKET)
-            .remove([path]);
+            .from(
+              DOCUMENT_BUCKET
+            )
+            .remove([
+              path
+            ]);
 
           throw databaseError;
         }
@@ -4169,7 +5307,9 @@
         error
       } =
         await db
-          .from("documents")
+          .from(
+            "documents"
+          )
           .select("*")
           .order(
             "created_at",
@@ -4184,14 +5324,19 @@
         container.innerHTML =
           `<div class="empty">
             Could not load documents:
-            ${escapeHtml(error.message)}
+            ${escapeHtml(
+              error.message
+            )}
           </div>`;
 
         return;
       }
 
 
-      if (!data || data.length === 0) {
+      if (
+        !data ||
+        data.length === 0
+      ) {
 
         container.innerHTML =
           `<div class="empty">
@@ -4205,52 +5350,60 @@
       let html = "";
 
 
-      data.forEach(document => {
+      data.forEach(
+        document => {
 
-        html += `
+          html += `
 
-          <div class="document-item">
+            <div class="document-item">
 
-            <div class="document-info">
+              <div class="document-info">
 
-              <strong>
-                ${escapeHtml(
-                  document.title
-                )}
-              </strong>
+                <strong>
+                  ${escapeHtml(
+                    document.title
+                  )}
+                </strong>
 
-              <span>
-                ${escapeHtml(
-                  document.type || "Document"
-                )}
-              </span>
+                <span>
+                  ${escapeHtml(
+                    document.type ||
+                    "Document"
+                  )}
+                </span>
+
+              </div>
+
+              <div
+                style="
+                  display:flex;
+                  gap:6px;
+                  flex-wrap:wrap;
+                "
+              >
+
+                <button
+                  class="btn btn-primary"
+                  onclick="openDocument('${document.id}')"
+                >
+                  Open
+                </button>
+
+                <button
+                  class="btn btn-danger"
+                  onclick="deleteDocument('${document.id}')"
+                >
+                  Delete
+                </button>
+
+              </div>
 
             </div>
 
-            <div
-              style="display:flex; gap:6px; flex-wrap:wrap;"
-            >
+          `;
 
-              <button
-                class="btn btn-primary"
-                onclick="openDocument('${document.id}')"
-              >
-                Open
-              </button>
-
-              <button
-                class="btn btn-danger"
-                onclick="deleteDocument('${document.id}')"
-              >
-                Delete
-              </button>
-
-            </div>
-
-          </div>
-
-        `;
-      });
+        }
+      );
 
 
       container.innerHTML =
@@ -4258,16 +5411,23 @@
     }
 
 
-    async function openDocument(id) {
+    async function openDocument(
+      id
+    ) {
 
       const {
         data,
         error
       } =
         await db
-          .from("documents")
+          .from(
+            "documents"
+          )
           .select("*")
-          .eq("id", id)
+          .eq(
+            "id",
+            id
+          )
           .single();
 
 
@@ -4287,7 +5447,9 @@
         error: signedError
       } =
         await db.storage
-          .from(DOCUMENT_BUCKET)
+          .from(
+            DOCUMENT_BUCKET
+          )
           .createSignedUrl(
             data.file_path,
             3600
@@ -4312,13 +5474,16 @@
     }
 
 
-    async function deleteDocument(id) {
+    async function deleteDocument(
+      id
+    ) {
 
       if (
         !confirm(
           "Delete this document?"
         )
       ) {
+
         return;
       }
 
@@ -4328,9 +5493,16 @@
         error
       } =
         await db
-          .from("documents")
-          .select("file_path")
-          .eq("id", id)
+          .from(
+            "documents"
+          )
+          .select(
+            "file_path"
+          )
+          .eq(
+            "id",
+            id
+          )
           .single();
 
 
@@ -4349,9 +5521,14 @@
         error: deleteError
       } =
         await db
-          .from("documents")
+          .from(
+            "documents"
+          )
           .delete()
-          .eq("id", id);
+          .eq(
+            "id",
+            id
+          );
 
 
       if (deleteError) {
@@ -4371,7 +5548,9 @@
       ) {
 
         await db.storage
-          .from(DOCUMENT_BUCKET)
+          .from(
+            DOCUMENT_BUCKET
+          )
           .remove([
             data.file_path
           ]);
@@ -4434,6 +5613,7 @@
             "hidden"
           );
 
+
         document
           .getElementById(
             "app"
@@ -4455,6 +5635,7 @@
             "hidden"
           );
 
+
         document
           .getElementById(
             "app"
@@ -4466,8 +5647,15 @@
     }
 
 
+    /* =========================================================
+       AUTH STATE
+       ========================================================= */
+
     db.auth.onAuthStateChange(
-      async (event, session) => {
+      async (
+        event,
+        session
+      ) => {
 
         if (session) {
 
@@ -4478,6 +5666,7 @@
             .classList.add(
               "hidden"
             );
+
 
           document
             .getElementById(
@@ -4497,6 +5686,7 @@
               "hidden"
             );
 
+
           document
             .getElementById(
               "app"
@@ -4504,7 +5694,9 @@
             .classList.add(
               "hidden"
             );
+
         }
+
       }
     );
 
