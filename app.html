@@ -131,21 +131,21 @@
 
     .dashboard {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
       margin-bottom: 25px;
     }
 
     .dashboard-card {
       background: white;
-      border-radius: 14px;
-      padding: 25px 20px;
-      min-height: 145px;
+      border-radius: 16px;
+      padding: 24px 18px;
+      min-height: 155px;
       text-align: center;
       cursor: pointer;
       border: 2px solid transparent;
       box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-      transition: 0.2s;
+      transition: 0.2s ease;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -155,25 +155,24 @@
     .dashboard-card:hover {
       border-color: #0b4f9c;
       transform: translateY(-3px);
-      box-shadow: 0 7px 18px rgba(0,0,0,0.12);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
     }
 
     .dashboard-icon {
-      width: 55px;
-      height: 55px;
+      width: 62px;
+      height: 62px;
       border-radius: 50%;
       background: #eaf2fb;
       color: #0b4f9c;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 25px;
-      font-weight: bold;
+      font-size: 30px;
       margin-bottom: 12px;
     }
 
     .dashboard-card h3 {
-      margin: 0 0 7px;
+      margin: 0 0 6px;
       color: #0b4f9c;
       font-size: 18px;
     }
@@ -181,7 +180,7 @@
     .dashboard-card p {
       margin: 0;
       color: #666;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     /* =========================================================
@@ -301,6 +300,8 @@
       border-radius: 7px;
       margin-bottom: 15px;
       display: none;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
 
     .message.success {
@@ -648,6 +649,8 @@
 
         <div class="dashboard">
 
+          <!-- MEMBERS -->
+
           <div
             class="dashboard-card"
             onclick="showSection('membersSection')"
@@ -666,13 +669,15 @@
           </div>
 
 
+          <!-- EXECUTIVE -->
+
           <div
             class="dashboard-card"
             onclick="showSection('executiveSection')"
           >
 
             <div class="dashboard-icon">
-              ★
+              👔
             </div>
 
             <h3>Executive</h3>
@@ -684,13 +689,15 @@
           </div>
 
 
+          <!-- FINANCE -->
+
           <div
             class="dashboard-card"
             onclick="showSection('financeSection')"
           >
 
             <div class="dashboard-icon">
-              Le
+              💰
             </div>
 
             <h3>Finance</h3>
@@ -701,6 +708,8 @@
 
           </div>
 
+
+          <!-- MEETINGS -->
 
           <div
             class="dashboard-card"
@@ -720,6 +729,8 @@
           </div>
 
 
+          <!-- EVENTS -->
+
           <div
             class="dashboard-card"
             onclick="showSection('eventsSection')"
@@ -737,6 +748,8 @@
 
           </div>
 
+
+          <!-- DOCUMENTS -->
 
           <div
             class="dashboard-card"
@@ -849,6 +862,8 @@
 
             </div>
 
+
+            <!-- MEMBER PROFILE PHOTO IS PRESERVED -->
 
             <div class="full-width">
 
@@ -1629,7 +1644,7 @@
         box.className =
           "message";
 
-      }, 5000);
+      }, 8000);
     }
 
 
@@ -2141,6 +2156,87 @@
 
 
     /* =========================================================
+       MEMBER DIAGNOSTIC
+       ========================================================= */
+
+    async function getMemberSaveDiagnostic() {
+
+      const result = {
+        projectUrl: SUPABASE_URL,
+        session: false,
+        userId: null,
+        userEmail: null,
+        readMembers: false,
+        readError: null
+      };
+
+
+      try {
+
+        const {
+          data: sessionData,
+          error: sessionError
+        } =
+          await db.auth.getSession();
+
+
+        if (
+          sessionError
+        ) {
+
+          result.session = false;
+
+        } else if (
+          sessionData &&
+          sessionData.session
+        ) {
+
+          result.session = true;
+
+          result.userId =
+            sessionData.session.user.id;
+
+          result.userEmail =
+            sessionData.session.user.email || null;
+
+        }
+
+
+        const {
+          data,
+          error
+        } =
+          await db
+            .from("members")
+            .select("id")
+            .limit(1);
+
+
+        if (!error) {
+
+          result.readMembers = true;
+
+        } else {
+
+          result.readMembers = false;
+
+          result.readError =
+            error.message;
+
+        }
+
+      } catch (error) {
+
+        result.readError =
+          error.message;
+      }
+
+
+      return result;
+    }
+
+
+    /* =========================================================
        MEMBERS
        ========================================================= */
 
@@ -2261,6 +2357,20 @@
 
       try {
 
+        /* -----------------------------------------------------
+           GET DIAGNOSTIC INFORMATION
+           ----------------------------------------------------- */
+
+        const diagnostic =
+          await getMemberSaveDiagnostic();
+
+
+        console.log(
+          "YONA MEMBER SAVE DIAGNOSTIC:",
+          diagnostic
+        );
+
+
         let newPhotoPath =
           editingMemberOldPhoto;
 
@@ -2292,6 +2402,10 @@
         };
 
 
+        /* -----------------------------------------------------
+           UPDATE EXISTING MEMBER
+           ----------------------------------------------------- */
+
         if (
           editingMemberId
         ) {
@@ -2309,7 +2423,25 @@
 
 
           if (error) {
-            throw error;
+
+            console.error(
+              "MEMBER UPDATE FAILED:",
+              error
+            );
+
+            throw new Error(
+              `Supabase ${error.code || ""}: ${error.message}` +
+              (
+                error.details
+                  ? ` | Details: ${error.details}`
+                  : ""
+              ) +
+              (
+                error.hint
+                  ? ` | Hint: ${error.hint}`
+                  : ""
+              )
+            );
           }
 
 
@@ -2330,19 +2462,89 @@
             "Member updated successfully."
           );
 
-        } else {
+        }
+
+        /* -----------------------------------------------------
+           INSERT NEW MEMBER
+           ----------------------------------------------------- */
+
+        else {
 
           const {
+            data: insertedMember,
             error
           } =
             await db
               .from("members")
-              .insert(
-                record
-              );
+              .insert(record)
+              .select()
+              .single();
 
 
           if (error) {
+
+            console.error(
+              "================================================"
+            );
+
+            console.error(
+              "YONA MEMBER INSERT FAILED"
+            );
+
+            console.error(
+              "Project URL:",
+              SUPABASE_URL
+            );
+
+            console.error(
+              "Logged in:",
+              diagnostic.session
+            );
+
+            console.error(
+              "User ID:",
+              diagnostic.userId
+            );
+
+            console.error(
+              "User Email:",
+              diagnostic.userEmail
+            );
+
+            console.error(
+              "Can read members:",
+              diagnostic.readMembers
+            );
+
+            console.error(
+              "Read error:",
+              diagnostic.readError
+            );
+
+            console.error(
+              "Error code:",
+              error.code
+            );
+
+            console.error(
+              "Error message:",
+              error.message
+            );
+
+            console.error(
+              "Error details:",
+              error.details
+            );
+
+            console.error(
+              "Error hint:",
+              error.hint
+            );
+
+            console.error(
+              "================================================"
+            );
+
 
             if (newPhotoPath) {
 
@@ -2352,8 +2554,27 @@
 
             }
 
-            throw error;
+
+            throw new Error(
+              `Supabase ${error.code || ""}: ${error.message}` +
+              (
+                error.details
+                  ? ` | Details: ${error.details}`
+                  : ""
+              ) +
+              (
+                error.hint
+                  ? ` | Hint: ${error.hint}`
+                  : ""
+              )
+            );
           }
+
+
+          console.log(
+            "Member inserted successfully:",
+            insertedMember
+          );
 
 
           showMessage(
@@ -2375,7 +2596,7 @@
 
 
         showMessage(
-          "Could not save member: " +
+          "Could not save member:\n" +
           error.message,
           "error"
         );
