@@ -1,671 +1,383 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YONA App</title>
-
-<style>
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f2f5f8;
-  color:#222
-}
-
-button,input,select,textarea{font-family:inherit}
-
-.hidden{display:none!important}
-
-.login-screen{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:linear-gradient(135deg,#0b4f9c,#123d70)
-}
-
-.login-box{
-  width:100%;
-  max-width:420px;
-  background:white;
-  padding:30px;
-  border-radius:14px;
-  box-shadow:0 10px 35px rgba(0,0,0,.2)
-}
-
-.login-box h1{
-  margin-top:0;
-  text-align:center;
-  color:#0b4f9c
-}
-
-.login-box p{
-  text-align:center;
-  color:#666
-}
-
-.app{min-height:100vh}
-
-.topbar{
-  background:#0b4f9c;
-  color:white;
-  padding:15px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  position:sticky;
-  top:0;
-  z-index:10;
-  box-shadow:0 2px 10px rgba(0,0,0,.15)
-}
-
-.topbar h2{
-  margin:0;
-  font-size:20px
-}
-
-.logout-btn{
-  background:white;
-  color:#0b4f9c;
-  border:none;
-  padding:9px 14px;
-  border-radius:7px;
-  cursor:pointer;
-  font-weight:bold
-}
-
-.container{
-  max-width:1200px;
-  margin:auto;
-  padding:20px
-}
-
-/* DASHBOARD */
-
-.dashboard-header{
-  background:white;
-  border-radius:14px;
-  padding:22px;
-  margin-bottom:18px;
-  box-shadow:0 3px 12px rgba(0,0,0,.08)
-}
-
-.dashboard-header h1{
-  margin:0 0 7px;
-  color:#0b4f9c;
-  font-size:25px
-}
-
-.dashboard-header p{
-  margin:0;
-  color:#666;
-  font-size:15px
-}
-
-.dashboard{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:18px;
-  margin-bottom:25px
-}
-
-.dashboard-card{
-  background:white;
-  border-radius:16px;
-  padding:24px 18px;
-  min-height:155px;
-  text-align:center;
-  cursor:pointer;
-  border:2px solid transparent;
-  box-shadow:0 4px 14px rgba(0,0,0,.08);
-  transition:.2s ease;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center
-}
-
-.dashboard-card:hover{
-  border-color:#0b4f9c;
-  transform:translateY(-3px);
-  box-shadow:0 8px 20px rgba(0,0,0,.12)
-}
-
-.dashboard-icon{
-  width:62px;
-  height:62px;
-  border-radius:50%;
-  background:#eaf2fb;
-  color:#0b4f9c;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  margin-bottom:12px
-}
-
-.dashboard-card h3{
-  margin:0 0 6px;
-  color:#0b4f9c;
-  font-size:18px
-}
-
-.dashboard-card p{
-  margin:0;
-  color:#666;
-  font-size:13px
-}
-
-/* SECTIONS */
-
-.section{
-  background:white;
-  border-radius:12px;
-  padding:20px;
-  margin-bottom:25px;
-  box-shadow:0 3px 12px rgba(0,0,0,.08)
-}
-
-.section-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:18px;
-  flex-wrap:wrap
-}
-
-.section-header h2{
-  margin:0;
-  color:#0b4f9c
-}
-
-.form-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px
-}
-
-.full-width{grid-column:1/-1}
-
-label{
-  display:block;
-  margin-bottom:6px;
-  font-weight:bold;
-  font-size:14px
-}
-
-input,select,textarea{
-  width:100%;
-  padding:11px;
-  border:1px solid #ccc;
-  border-radius:7px;
-  font-size:15px;
-  background:white
-}
-
-textarea{
-  min-height:100px;
-  resize:vertical
-}
-
-input[type=file]{padding:8px}
-
-.btn{
-  border:none;
-  border-radius:7px;
-  padding:10px 15px;
-  cursor:pointer;
-  font-weight:bold
-}
-
-.btn:disabled{
-  opacity:.6;
-  cursor:not-allowed
-}
-
-.btn-primary{
-  background:#0b4f9c;
-  color:white
-}
-
-.btn-success{
-  background:#16833b;
-  color:white
-}
-
-.btn-danger{
-  background:#c62828;
-  color:white
-}
-
-.btn-secondary{
-  background:#666;
-  color:white
-}
-
-.btn-warning{
-  background:#e69b00;
-  color:white
-}
-
-.form-actions{
-  margin-top:15px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap
-}
-
-/* MESSAGES */
-
-.message{
-  padding:12px;
-  border-radius:7px;
-  margin-bottom:15px;
-  display:none;
-  white-space:pre-wrap;
-  word-break:break-word
-}
-
-.message.success{
-  display:block;
-  background:#e7f7ec;
-  color:#176b32
-}
-
-.message.error{
-  display:block;
-  background:#fdeaea;
-  color:#a51d1d
-}
-
-/* RECORDS */
-
-.records{margin-top:25px}
-
-.record-group{margin-bottom:25px}
-
-.record-group-title{
-  background:#eaf2fb;
-  color:#0b4f9c;
-  padding:10px 12px;
-  border-radius:7px;
-  font-weight:bold;
-  margin-bottom:10px
-}
-
-.record{
-  border:1px solid #ddd;
-  border-radius:9px;
-  padding:14px;
-  margin-bottom:10px;
-  background:#fff
-}
-
-.record h4{
-  margin:0 0 8px;
-  color:#0b4f9c
-}
-
-.record p{
-  margin:5px 0;
-  font-size:14px
-}
-
-.record-actions{
-  margin-top:12px;
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap
-}
-
-.record-actions button{
-  padding:7px 11px;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  color:white
-}
-
-.edit-btn{background:#e69b00}
-.delete-btn{background:#c62828}
-.view-btn{background:#0b4f9c}
-.cancel-btn{background:#666}
-
-/* PHOTOS */
-
-.photo-preview{
-  margin-top:10px;
-  width:110px;
-  height:110px;
-  border-radius:8px;
-  object-fit:cover;
-  border:1px solid #ccc;
-  display:none
-}
-
-.person-photo{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  object-fit:cover;
-  border:2px solid #0b4f9c;
-  margin-bottom:8px
-}
-
-.no-photo{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  background:#e9eef4;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#777;
-  font-size:12px;
-  margin-bottom:8px
-}
-
-/* PERIODS */
-
-.period-box{
-  background:#f8fafc;
-  border:1px solid #ddd;
-  border-radius:8px;
-  padding:15px;
-  margin-bottom:20px
-}
-
-.period-list{margin-top:10px}
-
-.period-item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:9px;
-  background:white;
-  border:1px solid #ddd;
-  margin-bottom:7px;
-  border-radius:6px;
-  gap:10px
-}
-
-/* DOCUMENTS */
-
-.document-item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border:1px solid #ddd;
-  padding:12px;
-  border-radius:8px;
-  margin-bottom:8px;
-  gap:10px
-}
-
-.document-info{flex:1}
-
-.document-info strong{
-  display:block;
-  color:#0b4f9c
-}
-
-.empty{
-  text-align:center;
-  color:#777;
-  padding:20px
-}
-
-.loading{
-  text-align:center;
-  padding:15px;
-  color:#666
-}
-
-@media(max-width:800px){
-  .dashboard{grid-template-columns:repeat(2,1fr)}
-  .form-grid{grid-template-columns:1fr}
-  .full-width{grid-column:auto}
-}
-
-@media(max-width:500px){
-  .dashboard{grid-template-columns:1fr}
-  .dashboard-card{
-    min-height:130px;
-    padding:20px
-  }
-  .container{padding:12px}
-  .section{padding:15px}
-  .topbar{padding:12px}
-  .topbar h2{font-size:17px}
-  .dashboard-header{padding:18px}
-  .dashboard-header h1{font-size:22px}
-  .document-item{
-    flex-direction:column;
-    align-items:stretch
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>YONA App</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f5f8;
+      color: #222;
+    }
+
+    header {
+      background: #0b4f9c;
+      color: white;
+      padding: 18px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      font-size: 14px;
+    }
+
+    .container {
+      width: 95%;
+      max-width: 1200px;
+      margin: 20px auto;
+    }
+
+    .login-box {
+      max-width: 420px;
+      margin: 60px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.12);
+    }
+
+    .login-box h2 {
+      margin-top: 0;
+      color: #0b4f9c;
+      text-align: center;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 11px;
+      margin-top: 6px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    button {
+      background: #0b4f9c;
+      color: white;
+      border: none;
+      padding: 11px 16px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 3px;
+    }
+
+    button:hover {
+      opacity: .9;
+    }
+
+    button.secondary {
+      background: #777;
+    }
+
+    button.danger {
+      background: #c62828;
+    }
+
+    button.success {
+      background: #198754;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .dashboard button {
+      min-height: 80px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .section {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+      margin-bottom: 20px;
+    }
+
+    .section h2 {
+      color: #0b4f9c;
+      margin-top: 0;
+      border-bottom: 2px solid #e5e5e5;
+      padding-bottom: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px 15px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .record {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 12px;
+      background: #fafafa;
+    }
+
+    .record h3 {
+      margin-top: 0;
+      color: #0b4f9c;
+    }
+
+    .record-group {
+      margin-top: 15px;
+    }
+
+    .record-group-title {
+      background: #0b4f9c;
+      color: white;
+      padding: 9px 12px;
+      border-radius: 7px;
+      font-weight: bold;
+    }
+
+    .record-actions {
+      margin-top: 12px;
+    }
+
+    .person-photo {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #0b4f9c;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .no-photo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      color: #777;
+      font-size: 12px;
+    }
+
+    .photo-preview {
+      max-width: 150px;
+      max-height: 150px;
+      border-radius: 8px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .period-box {
+      margin-bottom: 20px;
+    }
+
+    .period-item {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 8px;
+      cursor: pointer;
+    }
+
+    .period-item:hover {
+      background: #eef5ff;
+    }
+
+    .document-item {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .message {
+      padding: 10px;
+      border-radius: 7px;
+      margin: 10px 0;
+    }
+
+    .empty {
+      text-align: center;
+      color: #777;
+      padding: 20px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+    }
+
+    @media (max-width: 800px) {
+      .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        width: 96%;
+      }
+
+      .section {
+        padding: 14px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
+<header>
+  <h1>YOUTHS OF NDASEI ASSOCIATION</h1>
+  <p>Unity and Development</p>
+</header>
 
-<div id="loginScreen" class="login-screen">
+<div class="container">
 
-  <div class="login-box">
-
-    <h1>YONA App</h1>
-
-    <p>Youths of Ndasei Association</p>
-
-    <div id="loginMessage" class="message"></div>
+  <!-- LOGIN -->
+  <div id="loginBox" class="login-box">
+    <h2>YONA Admin Login</h2>
 
     <label>Email</label>
-    <input
-      type="email"
-      id="loginEmail"
-      placeholder="Enter email"
-    >
-
-    <br><br>
+    <input type="email" id="loginEmail" placeholder="Enter email">
 
     <label>Password</label>
-    <input
-      type="password"
-      id="loginPassword"
-      placeholder="Enter password"
-    >
+    <input type="password" id="loginPassword" placeholder="Enter password">
 
-    <br><br>
-
-    <button
-      class="btn btn-primary"
-      style="width:100%;"
-      onclick="login()"
-    >
+    <button onclick="login()" style="width:100%;">
       Login
     </button>
 
-  </div>
-</div>
-
-
-<!-- APP -->
-
-<div id="app" class="app hidden">
-
-  <div class="topbar">
-
-    <h2>YONA Management App</h2>
-
-    <button
-      class="logout-btn"
-      onclick="logout()"
-    >
-      Logout
-    </button>
-
+    <div id="loginMessage"></div>
   </div>
 
-  <div class="container">
-
-    <div id="globalMessage" class="message"></div>
-
+  <!-- APP -->
+  <div id="app" class="hidden">
 
     <!-- DASHBOARD -->
+    <div class="dashboard">
 
-    <div id="dashboard">
+      <button onclick="showSection('membersSection')">
+        👥 Members
+      </button>
 
-      <div class="dashboard-header">
+      <button onclick="showSection('executiveSection')">
+        👔 Executive
+      </button>
 
-        <h1>YONA Dashboard</h1>
+      <button onclick="showSection('financeSection')">
+        💰 Finance
+      </button>
 
-        <p>
-          Youths of Ndasei Association — Management System
-        </p>
+      <button onclick="showSection('meetingsSection')">
+        📅 Meetings
+      </button>
 
-      </div>
+      <button onclick="showSection('eventsSection')">
+        🎉 Events
+      </button>
 
-      <div class="dashboard">
+      <button onclick="showSection('documentsSection')">
+        📁 Documents
+      </button>
 
-        <div
-          class="dashboard-card"
-          onclick="showSection('membersSection')"
-        >
-          <div class="dashboard-icon">👥</div>
-          <h3>Members</h3>
-          <p>Manage YONA members</p>
-        </div>
+    </div>
 
-        <div
-          class="dashboard-card"
-          onclick="showSection('executiveSection')"
-        >
-          <div class="dashboard-icon">👔</div>
-          <h3>Executive</h3>
-          <p>Manage executive leadership</p>
-        </div>
-
-        <div
-          class="dashboard-card"
-          onclick="showSection('financeSection')"
-        >
-          <div class="dashboard-icon">💰</div>
-          <h3>Finance</h3>
-          <p>Manage financial records</p>
-        </div>
-
-        <div
-          class="dashboard-card"
-          onclick="showSection('meetingsSection')"
-        >
-          <div class="dashboard-icon">📝</div>
-          <h3>Meetings</h3>
-          <p>Manage meetings and minutes</p>
-        </div>
-
-        <div
-          class="dashboard-card"
-          onclick="showSection('eventsSection')"
-        >
-          <div class="dashboard-icon">📅</div>
-          <h3>Events</h3>
-          <p>Manage YONA events</p>
-        </div>
-
-        <div
-          class="dashboard-card"
-          onclick="showSection('documentsSection')"
-        >
-          <div class="dashboard-icon">📁</div>
-          <h3>Documents</h3>
-          <p>Manage organization documents</p>
-        </div>
-
-      </div>
+    <div style="text-align:right;margin-bottom:15px;">
+      <button class="danger" onclick="logout()">Logout</button>
     </div>
 
 
     <!-- MEMBERS -->
-
     <section id="membersSection" class="section hidden">
 
-      <div class="section-header">
+      <h2>Members</h2>
 
-        <h2>Members</h2>
-
-        <button
-          class="btn btn-secondary"
-          onclick="backToDashboard()"
-        >
-          Dashboard
-        </button>
-
-      </div>
-
-      <form id="memberForm">
+      <form onsubmit="event.preventDefault(); saveMember();">
 
         <div class="form-grid">
 
           <div>
             <label>Name</label>
-            <input
-              type="text"
-              id="memberName"
-              required
-            >
+            <input type="text" id="memberName" required>
           </div>
 
           <div>
             <label>Phone</label>
-            <input
-              type="text"
-              id="memberPhone"
-            >
+            <input type="text" id="memberPhone">
           </div>
 
           <div>
             <label>Member Category</label>
 
-            <select id="memberType" required>
-
-              <option value="">
-                Select category
-              </option>
-
-              <option value="Old Member">
-                Old Member
-              </option>
-
-              <option value="Current Member">
-                Current Member
-              </option>
-
-              <option value="Probationary Member">
+            <select id="memberType">
+              <option value="Old Member">Old Member</option>
+              <option value="Current Member">Current Member</option>
+              <option value="New Registered Member">
                 New Registered Member (Probationary)
               </option>
-
             </select>
           </div>
 
           <div>
             <label>Position</label>
-
-            <input
-              type="text"
-              id="memberPosition"
-            >
+            <input type="text" id="memberPosition">
           </div>
 
-          <div class="full-width">
-
+          <div class="full">
             <label>Member Photo</label>
 
             <input
@@ -680,601 +392,345 @@ input[type=file]{padding:8px}
               class="photo-preview"
               alt="Member photo preview"
             >
-
           </div>
 
         </div>
 
-        <div class="form-actions">
+        <button type="submit">
+          Save Member
+        </button>
 
-          <button
-            type="submit"
-            class="btn btn-primary"
-            id="memberSaveButton"
-          >
-            Save Member
-          </button>
-
-          <button
-            type="button"
-            class="btn btn-secondary hidden"
-            id="memberCancelButton"
-            onclick="cancelMemberEdit()"
-          >
-            Cancel
-          </button>
-
-        </div>
+        <button
+          type="button"
+          class="secondary"
+          onclick="resetMemberForm()"
+        >
+          Cancel
+        </button>
 
       </form>
 
-      <div id="membersRecords" class="records"></div>
+      <div id="memberMessage"></div>
+
+      <div id="memberRecords">
+        <div class="loading">Loading members...</div>
+      </div>
 
     </section>
 
 
     <!-- EXECUTIVE -->
-
     <section id="executiveSection" class="section hidden">
 
-      <div class="section-header">
+      <h2>Executive Leadership</h2>
 
-        <h2>Executive Leadership</h2>
+      <div class="form-grid">
 
-        <button
-          class="btn btn-secondary"
-          onclick="backToDashboard()"
-        >
-          Dashboard
-        </button>
+        <div>
+          <label>Executive Period</label>
+          <input type="text" id="executivePeriod">
+        </div>
 
-      </div>
+        <div>
+          <label>Name</label>
+          <input type="text" id="executiveName">
+        </div>
 
-      <div class="period-box">
+        <div>
+          <label>Position</label>
+          <input type="text" id="executivePosition">
+        </div>
 
-        <h3>Executive Periods</h3>
+        <div>
+          <label>Phone</label>
+          <input type="text" id="executivePhone">
+        </div>
 
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <div class="full">
+          <label>Executive Photo</label>
 
           <input
-            type="text"
-            id="periodName"
-            placeholder="Example: 2026 - 2028"
-            style="flex:1;min-width:200px;"
+            type="file"
+            id="executivePhoto"
+            accept="image/*"
+            onchange="previewPhoto('executivePhoto','executivePhotoPreview')"
           >
 
-          <button
-            class="btn btn-primary"
-            onclick="addExecutivePeriod()"
+          <img
+            id="executivePhotoPreview"
+            class="photo-preview"
+            alt="Executive photo preview"
           >
-            Add Period
-          </button>
-
         </div>
-
-        <div
-          id="periodList"
-          class="period-list"
-        ></div>
 
       </div>
 
-      <form id="executiveForm">
+      <button onclick="saveExecutive()">
+        Save Executive
+      </button>
 
-        <div class="form-grid">
+      <button
+        class="secondary"
+        onclick="resetExecutiveForm()"
+      >
+        Cancel
+      </button>
 
-          <div>
+      <div id="executiveMessage"></div>
 
-            <label>Executive Period</label>
+      <div id="executivePeriods"></div>
 
-            <select
-              id="executivePeriod"
-              required
-            >
-
-              <option value="">
-                Select period
-              </option>
-
-            </select>
-
-          </div>
-
-          <div>
-
-            <label>Name</label>
-
-            <input
-              type="text"
-              id="executiveName"
-              required
-            >
-
-          </div>
-
-          <div>
-
-            <label>Position</label>
-
-            <input
-              type="text"
-              id="executivePosition"
-              required
-            >
-
-          </div>
-
-          <div>
-
-            <label>Phone</label>
-
-            <input
-              type="text"
-              id="executivePhone"
-            >
-
-          </div>
-
-          <div class="full-width">
-
-            <label>Executive Photo</label>
-
-            <input
-              type="file"
-              id="executivePhoto"
-              accept="image/*"
-              onchange="previewPhoto('executivePhoto','executivePhotoPreview')"
-            >
-
-            <img
-              id="executivePhotoPreview"
-              class="photo-preview"
-              alt="Executive photo preview"
-            >
-
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button
-            type="submit"
-            class="btn btn-primary"
-            id="executiveSaveButton"
-          >
-            Save Executive
-          </button>
-
-          <button
-            type="button"
-            class="btn btn-secondary hidden"
-            id="executiveCancelButton"
-            onclick="cancelExecutiveEdit()"
-          >
-            Cancel
-          </button>
-
-        </div>
-
-      </form>
-
-      <div id="executiveRecords" class="records"></div>
+      <div id="executiveRecords">
+        <div class="loading">Loading executives...</div>
+      </div>
 
     </section>
 
 
     <!-- FINANCE -->
-
     <section id="financeSection" class="section hidden">
 
-      <div class="section-header">
+      <h2>Finance</h2>
 
-        <h2>Finance</h2>
+      <div class="form-grid">
 
-        <button
-          class="btn btn-secondary"
-          onclick="backToDashboard()"
-        >
-          Dashboard
-        </button>
+        <div>
+          <label>Category</label>
+
+          <select id="financeCategory">
+            <option value="Contribution">Contribution</option>
+            <option value="Loan">Loan</option>
+            <option value="Welfare">Welfare</option>
+            <option value="Expense">Expense</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Name</label>
+          <input type="text" id="financeName">
+        </div>
+
+        <div>
+          <label>Amount</label>
+          <input type="number" id="financeAmount">
+        </div>
+
+        <div class="full">
+          <label>Description</label>
+          <textarea id="financeDescription"></textarea>
+        </div>
 
       </div>
 
-      <form id="financeForm">
+      <button onclick="saveFinance()">
+        Save Finance Record
+      </button>
 
-        <div class="form-grid">
+      <button
+        class="secondary"
+        onclick="resetFinanceForm()"
+      >
+        Cancel
+      </button>
 
-          <div>
+      <div id="financeMessage"></div>
 
-            <label>Financial Category / Group</label>
-
-            <select
-              id="financeCategory"
-              required
-            >
-
-              <option value="">
-                Select category
-              </option>
-
-              <option value="Monthly Contribution 2022">
-                Monthly Contribution 2022
-              </option>
-
-              <option value="Monthly Contribution 2023">
-                Monthly Contribution 2023
-              </option>
-
-              <option value="End of Year">
-                End of Year
-              </option>
-
-              <option value="Welfare">
-                Welfare
-              </option>
-
-              <option value="Loan Interest">
-                Loan Interest
-              </option>
-
-              <option value="Other">
-                Other
-              </option>
-
-            </select>
-
-          </div>
-
-          <div>
-
-            <label>Name</label>
-
-            <input
-              type="text"
-              id="financeName"
-              required
-            >
-
-          </div>
-
-          <div>
-
-            <label>Amount</label>
-
-            <input
-              type="number"
-              id="financeAmount"
-              step="0.01"
-              required
-            >
-
-          </div>
-
-          <div>
-
-            <label>Description / Purpose</label>
-
-            <input
-              type="text"
-              id="financeDescription"
-              placeholder="Example: Married"
-            >
-
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button
-            type="submit"
-            class="btn btn-primary"
-            id="financeSaveButton"
-          >
-            Save Finance Record
-          </button>
-
-          <button
-            type="button"
-            class="btn btn-secondary hidden"
-            id="financeCancelButton"
-            onclick="cancelFinanceEdit()"
-          >
-            Cancel
-          </button>
-
-        </div>
-
-      </form>
-
-      <div id="financeRecords" class="records"></div>
+      <div id="financeRecords">
+        <div class="loading">Loading finance records...</div>
+      </div>
 
     </section>
 
 
     <!-- MEETINGS -->
-
     <section id="meetingsSection" class="section hidden">
 
-      <div class="section-header">
+      <h2>Meetings</h2>
 
-        <h2>Meetings</h2>
+      <div class="form-grid">
 
-        <button
-          class="btn btn-secondary"
-          onclick="backToDashboard()"
-        >
-          Dashboard
-        </button>
+        <div>
+          <label>Meeting Date</label>
+          <input type="date" id="meetingDate">
+        </div>
+
+        <div>
+          <label>Meeting Title</label>
+          <input
+            type="text"
+            id="meetingTitle"
+            placeholder="Enter meeting title"
+          >
+        </div>
+
+        <div>
+          <label>Location</label>
+          <input
+            type="text"
+            id="meetingLocation"
+            placeholder="Enter meeting location"
+          >
+        </div>
+
+        <div class="full">
+          <label>Description</label>
+          <textarea
+            id="meetingDescription"
+            placeholder="Enter meeting description"
+          ></textarea>
+        </div>
+
+        <div class="full">
+          <label>Agenda</label>
+          <textarea
+            id="meetingAgenda"
+            placeholder="Enter meeting agenda"
+          ></textarea>
+        </div>
+
+        <div class="full">
+          <label>Minutes</label>
+          <textarea
+            id="meetingMinutes"
+            placeholder="Enter meeting minutes"
+          ></textarea>
+        </div>
+
+        <div class="full">
+          <label>Attending Members</label>
+          <textarea
+            id="meetingAttendingMember"
+            placeholder="Enter names of attending members"
+          ></textarea>
+        </div>
+
+        <div class="full">
+          <label>Meeting Photo</label>
+
+          <input
+            type="file"
+            id="meetingPhoto"
+            accept="image/*"
+            onchange="previewPhoto('meetingPhoto','meetingPhotoPreview')"
+          >
+
+          <img
+            id="meetingPhotoPreview"
+            class="photo-preview"
+            alt="Meeting photo preview"
+          >
+        </div>
 
       </div>
 
-      <form id="meetingForm">
+      <button onclick="saveMeeting()">
+        Save Meeting
+      </button>
 
-        <div class="form-grid">
+      <button
+        class="secondary"
+        onclick="cancelMeetingEdit()"
+      >
+        Cancel
+      </button>
 
-          <div>
+      <div id="meetingMessage"></div>
 
-            <label>Meeting Date</label>
-
-            <input
-              type="date"
-              id="meetingDate"
-              required
-            >
-
-          </div>
-
-          <div>
-
-            <label>Meeting Title</label>
-
-            <input
-              type="text"
-              id="meetingTitle"
-              required
-            >
-
-          </div>
-
-          <div>
-
-            <label>Location</label>
-
-            <input
-              type="text"
-              id="meetingLocation"
-            >
-
-          </div>
-
-          <div class="full-width">
-
-            <label>Minutes</label>
-
-            <textarea
-              id="meetingMinutes"
-              placeholder="Enter meeting minutes..."
-            ></textarea>
-
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button
-            type="submit"
-            class="btn btn-primary"
-            id="meetingSaveButton"
-          >
-            Save Meeting
-          </button>
-
-          <button
-            type="button"
-            class="btn btn-secondary hidden"
-            id="meetingCancelButton"
-            onclick="cancelMeetingEdit()"
-          >
-            Cancel
-          </button>
-
-        </div>
-
-      </form>
-
-      <div id="meetingRecords" class="records"></div>
+      <div id="meetingRecords">
+        <div class="loading">Loading meetings...</div>
+      </div>
 
     </section>
 
 
     <!-- EVENTS -->
-
     <section id="eventsSection" class="section hidden">
 
-      <div class="section-header">
+      <h2>Events</h2>
 
-        <h2>Events</h2>
+      <div class="form-grid">
 
-        <button
-          class="btn btn-secondary"
-          onclick="backToDashboard()"
-        >
-          Dashboard
-        </button>
+        <div>
+          <label>Event Title</label>
+          <input type="text" id="eventTitle">
+        </div>
+
+        <div>
+          <label>Event Date</label>
+          <input type="date" id="eventDate">
+        </div>
+
+        <div>
+          <label>Location</label>
+          <input type="text" id="eventLocation">
+        </div>
+
+        <div class="full">
+          <label>Description</label>
+          <textarea id="eventDescription"></textarea>
+        </div>
 
       </div>
 
-      <form id="eventForm">
+      <button onclick="saveEvent()">
+        Save Event
+      </button>
 
-        <div class="form-grid">
+      <button
+        class="secondary"
+        onclick="resetEventForm()"
+      >
+        Cancel
+      </button>
 
-          <div>
+      <div id="eventMessage"></div>
 
-            <label>Event Title</label>
-
-            <input
-              type="text"
-              id="eventTitle"
-              required
-            >
-
-          </div>
-
-          <div>
-
-            <label>Date</label>
-
-            <input
-              type="date"
-              id="eventDate"
-              required
-            >
-
-          </div>
-
-          <div>
-
-            <label>Location</label>
-
-            <input
-              type="text"
-              id="eventLocation"
-            >
-
-          </div>
-
-          <div class="full-width">
-
-            <label>Description</label>
-
-            <textarea
-              id="eventDescription"
-              placeholder="Enter event description..."
-            ></textarea>
-
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button
-            type="submit"
-            class="btn btn-primary"
-            id="eventSaveButton"
-          >
-            Save Event
-          </button>
-
-          <button
-            type="button"
-            class="btn btn-secondary hidden"
-            id="eventCancelButton"
-            onclick="cancelEventEdit()"
-          >
-            Cancel
-          </button>
-
-        </div>
-
-      </form>
-
-      <div id="eventRecords" class="records"></div>
+      <div id="eventRecords">
+        <div class="loading">Loading events...</div>
+      </div>
 
     </section>
 
 
     <!-- DOCUMENTS -->
-
     <section id="documentsSection" class="section hidden">
 
-      <div class="section-header">
+      <h2>Documents</h2>
 
-        <h2>Documents</h2>
+      <div class="form-grid">
 
-        <button
-          class="btn btn-secondary"
-          onclick="backToDashboard()"
-        >
-          Dashboard
-        </button>
+        <div>
+          <label>Document Title</label>
+          <input type="text" id="documentTitle">
+        </div>
+
+        <div>
+          <label>Document File</label>
+          <input type="file" id="documentFile">
+        </div>
 
       </div>
 
-      <form id="documentForm">
+      <button onclick="saveDocument()">
+        Upload Document
+      </button>
 
-        <div class="form-grid">
+      <div id="documentMessage"></div>
 
-          <div>
-
-            <label>Document Title</label>
-
-            <input
-              type="text"
-              id="documentTitle"
-              required
-            >
-
-          </div>
-
-          <div>
-
-            <label>Document Type</label>
-
-            <input
-              type="text"
-              id="documentType"
-              placeholder="Example: Meeting Minutes"
-            >
-
-          </div>
-
-          <div class="full-width">
-
-            <label>Select File</label>
-
-            <input
-              type="file"
-              id="documentFile"
-              required
-            >
-
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button
-            type="submit"
-            class="btn btn-primary"
-            id="documentSaveButton"
-          >
-            Upload Document
-          </button>
-
-        </div>
-
-      </form>
-
-      <div id="documentRecords" class="records"></div>
+      <div id="documentRecords">
+        <div class="loading">Loading documents...</div>
+      </div>
 
     </section>
 
   </div>
 </div>
 
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-
-/* =========================================================
-   SUPABASE
-   ========================================================= */
+  <script>
+/* ================================
+   SUPABASE CONFIGURATION
+================================ */
 
 const SUPABASE_URL =
   "https://atxeeymireukwbbsczbv.supabase.co";
@@ -1290,18 +746,18 @@ const db =
     SUPABASE_URL,
     SUPABASE_KEY,
     {
-      auth:{
-        persistSession:true,
-        autoRefreshToken:true,
-        detectSessionInUrl:true
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
       }
     }
   );
 
 
-/* =========================================================
-   VARIABLES
-   ========================================================= */
+/* ================================
+   EDITING VARIABLES
+================================ */
 
 let editingMemberId = null;
 let editingMemberOldPhoto = null;
@@ -1310,262 +766,260 @@ let editingExecutiveId = null;
 let editingExecutiveOldPhoto = null;
 
 let editingFinanceId = null;
+
 let editingMeetingId = null;
+let editingMeetingOldPhoto = null;
+
 let editingEventId = null;
 
 
-/* =========================================================
-   HELPERS
-   ========================================================= */
+/* ================================
+   GENERAL MESSAGE FUNCTION
+================================ */
 
-function escapeHtml(value){
+function showMessage(elementId, message, type = "success") {
 
-  if(value===null || value===undefined){
-    return "";
-  }
+  const element = document.getElementById(elementId);
 
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+  if (!element) return;
+
+  element.innerHTML =
+    `<div class="message">${message}</div>`;
+
+  setTimeout(() => {
+    element.innerHTML = "";
+  }, 5000);
 }
 
 
-function showMessage(
-  message,
-  type="success"
-){
-
-  const box =
-    document.getElementById(
-      "globalMessage"
-    );
-
-  box.textContent =
-    message;
-
-  box.className =
-    "message " + type;
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-  setTimeout(()=>{
-    box.className="message";
-  },8000);
-}
-
-
-function showLoginMessage(
-  message,
-  type="error"
-){
-
-  const box =
-    document.getElementById(
-      "loginMessage"
-    );
-
-  box.textContent =
-    message;
-
-  box.className =
-    "message " + type;
-}
-
-
-/* =========================================================
-   NAVIGATION
-   ========================================================= */
-
-function showSection(sectionId){
-
-  document
-    .querySelectorAll(".section")
-    .forEach(section=>{
-      section.classList.add("hidden");
-    });
-
-  document
-    .getElementById("dashboard")
-    .classList.add("hidden");
-
-  document
-    .getElementById(sectionId)
-    .classList.remove("hidden");
-
-  if(sectionId==="membersSection"){
-    loadMembers();
-  }
-
-  if(sectionId==="executiveSection"){
-    loadExecutivePeriods();
-    loadExecutives();
-  }
-
-  if(sectionId==="financeSection"){
-    loadFinance();
-  }
-
-  if(sectionId==="meetingsSection"){
-    loadMeetings();
-  }
-
-  if(sectionId==="eventsSection"){
-    loadEvents();
-  }
-
-  if(sectionId==="documentsSection"){
-    loadDocuments();
-  }
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-}
-
-
-function backToDashboard(){
-
-  document
-    .querySelectorAll(".section")
-    .forEach(section=>{
-      section.classList.add("hidden");
-    });
-
-  document
-    .getElementById("dashboard")
-    .classList.remove("hidden");
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-}
-
-
-/* =========================================================
+/* ================================
    LOGIN
-   ========================================================= */
+================================ */
 
-async function login(){
+async function login() {
 
   const email =
-    document
-      .getElementById("loginEmail")
-      .value
-      .trim();
+    document.getElementById("loginEmail").value.trim();
 
   const password =
-    document
-      .getElementById("loginPassword")
-      .value;
+    document.getElementById("loginPassword").value;
 
-  if(!email || !password){
+  const message =
+    document.getElementById("loginMessage");
 
-    showLoginMessage(
-      "Please enter your email and password.",
-      "error"
-    );
+  if (!email || !password) {
+
+    message.innerHTML =
+      `<div class="message">Please enter email and password.</div>`;
 
     return;
   }
 
-  showLoginMessage(
-    "Logging in...",
-    "success"
-  );
+  message.innerHTML =
+    `<div class="message">Logging in...</div>`;
 
-  try{
+  try {
 
-    const {
-      data,
-      error
-    } =
+    const { data, error } =
       await db.auth.signInWithPassword({
         email,
         password
       });
 
-    if(error){
+    if (error) {
       throw error;
     }
 
-    if(!data || !data.session){
-
-      throw new Error(
-        "Login did not create a valid session."
-      );
-    }
-
-    document
-      .getElementById("loginScreen")
+    document.getElementById("loginBox")
       .classList.add("hidden");
 
-    document
-      .getElementById("app")
+    document.getElementById("app")
       .classList.remove("hidden");
 
-    await loadAll();
+    message.innerHTML = "";
 
-  }catch(error){
+  } catch (error) {
 
-    showLoginMessage(
-      error.message ||
-      "Login failed.",
-      "error"
-    );
+    message.innerHTML =
+      `<div class="message">
+        Login failed: ${escapeHtml(error.message)}
+      </div>`;
   }
 }
 
 
-async function logout(){
+/* ================================
+   LOGOUT
+================================ */
+
+async function logout() {
 
   await db.auth.signOut();
 
-  document
-    .getElementById("app")
+  document.getElementById("app")
     .classList.add("hidden");
 
-  document
-    .getElementById("loginScreen")
+  document.getElementById("loginBox")
     .classList.remove("hidden");
 
-  document
-    .getElementById("loginPassword")
-    .value="";
+  document.getElementById("loginEmail").value = "";
+  document.getElementById("loginPassword").value = "";
 }
 
 
-/* =========================================================
-   PHOTO FUNCTIONS
-   ========================================================= */
+/* ================================
+   CHECK USER
+================================ */
 
-function validatePhoto(file){
+async function checkUser() {
 
-  if(!file){
+  const {
+    data: { session }
+  } = await db.auth.getSession();
+
+  if (session) {
+
+    document.getElementById("loginBox")
+      .classList.add("hidden");
+
+    document.getElementById("app")
+      .classList.remove("hidden");
+
+  } else {
+
+    document.getElementById("loginBox")
+      .classList.remove("hidden");
+
+    document.getElementById("app")
+      .classList.add("hidden");
+  }
+}
+
+
+/* ================================
+   AUTH STATE
+================================ */
+
+db.auth.onAuthStateChange(
+  function(event, session) {
+
+    if (session) {
+
+      document.getElementById("loginBox")
+        .classList.add("hidden");
+
+      document.getElementById("app")
+        .classList.remove("hidden");
+
+    } else {
+
+      document.getElementById("loginBox")
+        .classList.remove("hidden");
+
+      document.getElementById("app")
+        .classList.add("hidden");
+    }
+  }
+);
+
+
+/* ================================
+   NAVIGATION
+================================ */
+
+function showSection(sectionId) {
+
+  const sections =
+    document.querySelectorAll(".section");
+
+  sections.forEach(section => {
+    section.classList.add("hidden");
+  });
+
+  const dashboard =
+    document.querySelector(".dashboard");
+
+  if (dashboard) {
+    dashboard.classList.add("hidden");
+  }
+
+  const section =
+    document.getElementById(sectionId);
+
+  if (section) {
+    section.classList.remove("hidden");
+  }
+
+
+  if (sectionId === "membersSection") {
+    loadMembers();
+  }
+
+  if (sectionId === "executiveSection") {
+    loadExecutivePeriods();
+    loadExecutives();
+  }
+
+  if (sectionId === "financeSection") {
+    loadFinance();
+  }
+
+  if (sectionId === "meetingsSection") {
+    loadMeetings();
+  }
+
+  if (sectionId === "eventsSection") {
+    loadEvents();
+  }
+
+  if (sectionId === "documentsSection") {
+    loadDocuments();
+  }
+}
+
+
+/* ================================
+   ESCAPE HTML
+================================ */
+
+function escapeHtml(value) {
+
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+/* ================================
+   PHOTO VALIDATION
+================================ */
+
+function validatePhoto(file) {
+
+  if (!file) {
     return true;
   }
 
-  if(!file.type.startsWith("image/")){
+  if (!file.type.startsWith("image/")) {
 
-    alert(
-      "Please select an image file."
-    );
+    alert("Please select an image file.");
 
     return false;
   }
 
-  if(file.size > 5*1024*1024){
+  const maxSize =
+    5 * 1024 * 1024;
 
-    alert(
-      "Photo must not be larger than 5 MB."
-    );
+  if (file.size > maxSize) {
+
+    alert("Photo must not be larger than 5MB.");
 
     return false;
   }
@@ -1574,38 +1028,36 @@ function validatePhoto(file){
 }
 
 
-function previewPhoto(
-  inputId,
-  previewId
-){
+/* ================================
+   PHOTO PREVIEW
+================================ */
+
+function previewPhoto(inputId, previewId) {
 
   const input =
-    document.getElementById(
-      inputId
-    );
+    document.getElementById(inputId);
 
   const preview =
-    document.getElementById(
-      previewId
-    );
+    document.getElementById(previewId);
 
-  const file =
-    input.files &&
-    input.files[0];
+  if (!input || !preview) return;
 
-  if(!file){
+  const file = input.files[0];
 
-    preview.style.display="none";
-    preview.src="";
+  if (!file) {
+
+    preview.src = "";
+    preview.style.display = "none";
 
     return;
   }
 
-  if(!validatePhoto(file)){
+  if (!validatePhoto(file)) {
 
-    input.value="";
-    preview.style.display="none";
-    preview.src="";
+    input.value = "";
+
+    preview.src = "";
+    preview.style.display = "none";
 
     return;
   }
@@ -1613,282 +1065,211 @@ function previewPhoto(
   const reader =
     new FileReader();
 
-  reader.onload =
-    function(event){
+  reader.onload = function(e) {
 
-      preview.src =
-        event.target.result;
+    preview.src = e.target.result;
 
-      preview.style.display =
-        "block";
-    };
+    preview.style.display = "block";
+  };
 
   reader.readAsDataURL(file);
 }
 
 
+/* ================================
+   GET CURRENT ACCESS TOKEN
+================================ */
+
+async function getAccessToken() {
+
+  const {
+    data: { session },
+    error
+  } = await db.auth.getSession();
+
+  if (error) {
+    throw error;
+  }
+
+  if (!session) {
+    throw new Error("You are not logged in.");
+  }
+
+  return session.access_token;
+}
+
+
+/* ================================
+   UPLOAD PHOTO
+================================ */
+
 async function uploadPersonPhoto(
   file,
   folder,
   prefix
-){
+) {
 
-  if(!file){
+  if (!file) {
     return null;
   }
 
-  if(!validatePhoto(file)){
+  if (!validatePhoto(file)) {
+    throw new Error("Invalid photo.");
+  }
+
+  const token =
+    await getAccessToken();
+
+  const extension =
+    file.name.split(".").pop().toLowerCase();
+
+  const fileName =
+    `${prefix}-${Date.now()}-${Math.random()
+      .toString(36)
+      .substring(2, 9)}.${extension}`;
+
+  const filePath =
+    `${folder}/${fileName}`;
+
+  const response =
+    await fetch(
+      `${SUPABASE_URL}/storage/v1/object/${DOCUMENT_BUCKET}/${filePath}`,
+      {
+        method: "POST",
+
+        headers: {
+          Authorization:
+            `Bearer ${token}`,
+
+          apikey:
+            SUPABASE_KEY,
+
+          "Content-Type":
+            file.type
+        },
+
+        body: file
+      }
+    );
+
+  if (!response.ok) {
+
+    const text =
+      await response.text();
 
     throw new Error(
-      "Invalid photo."
+      `Photo upload failed: ${text}`
     );
   }
 
-  const safeName =
-    file.name.replace(
-      /[^a-zA-Z0-9._-]/g,
-      "_"
-    );
-
-  const path =
-    `${folder}/${prefix}_${Date.now()}_${Math.random()
-      .toString(36)
-      .slice(2,8)}_${safeName}`;
-
-  const {
-    error
-  } =
-    await db.storage
-      .from(DOCUMENT_BUCKET)
-      .upload(
-        path,
-        file,
-        {
-          upsert:false
-        }
-      );
-
-  if(error){
-    throw error;
-  }
-
-  return path;
+  return filePath;
 }
 
 
-async function getPhotoUrl(path){
+/* ================================
+   GET PHOTO URL
+================================ */
 
-  if(!path){
-    return null;
+function getPhotoUrl(path) {
+
+  if (!path) {
+    return "";
   }
 
-  const {
-    data,
-    error
-  } =
-    await db.storage
-      .from(DOCUMENT_BUCKET)
-      .createSignedUrl(
-        path,
-        3600
-      );
-
-  if(error){
-    console.error(
-      "Photo URL error:",
-      error
-    );
-
-    return null;
-  }
-
-  return data.signedUrl;
+  return `${SUPABASE_URL}/storage/v1/object/public/${DOCUMENT_BUCKET}/${path}`;
 }
 
 
-async function deleteStoredPhoto(path){
+/* ================================
+   DELETE STORED PHOTO
+================================ */
 
-  if(!path){
+async function deleteStoredPhoto(path) {
+
+  if (!path) {
     return;
   }
 
-  const {
-    error
-  } =
-    await db.storage
-      .from(DOCUMENT_BUCKET)
-      .remove([path]);
+  try {
 
-  if(error){
+    const token =
+      await getAccessToken();
 
-    console.warn(
-      "Could not delete old photo:",
+    await fetch(
+      `${SUPABASE_URL}/storage/v1/object/${DOCUMENT_BUCKET}`,
+      {
+        method: "DELETE",
+
+        headers: {
+          Authorization:
+            `Bearer ${token}`,
+
+          apikey:
+            SUPABASE_KEY,
+
+          "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify({
+          prefixes: [path]
+        })
+      }
+    );
+
+  } catch (error) {
+
+    console.log(
+      "Could not delete photo:",
       error
     );
   }
 }
 
 
-async function ensureStorageBucket(){
+/* ================================
+   MEMBERS
+================================ */
 
-  const {
-    data,
-    error
-  } =
-    await db.storage
-      .from(DOCUMENT_BUCKET)
-      .list("",{
-        limit:1
-      });
+async function saveMember() {
 
-  if(error){
+  const name =
+    document.getElementById("memberName")
+      .value.trim();
 
-    throw new Error(
-      `Storage bucket "${DOCUMENT_BUCKET}" is not available. Please check Supabase Storage.`
+  const phone =
+    document.getElementById("memberPhone")
+      .value.trim();
+
+  const memberType =
+    document.getElementById("memberType")
+      .value;
+
+  const position =
+    document.getElementById("memberPosition")
+      .value.trim();
+
+  const photoInput =
+    document.getElementById("memberPhoto");
+
+  const file =
+    photoInput.files[0];
+
+  if (!name) {
+
+    showMessage(
+      "memberMessage",
+      "Please enter member name."
     );
+
+    return;
   }
 
-  return true;
-}
+  let newPhotoPath = null;
 
+  try {
 
-/* =========================================================
-   MEMBERS
-   ========================================================= */
-
-document
-  .getElementById("memberForm")
-  .addEventListener(
-    "submit",
-    saveMember
-  );
-
-
-/*
- IMPORTANT MEMBER SAVE FUNCTION
-
- The member database save is done with the REST API.
-
- This uses:
- - the current Supabase project URL
- - the publishable key
- - the logged-in user's access token
-
- Therefore the request still follows Supabase RLS.
-*/
-
-async function saveMember(event){
-
-  event.preventDefault();
-
-  const button =
-    document.getElementById(
-      "memberSaveButton"
-    );
-
-  button.disabled=true;
-
-  button.textContent =
-    editingMemberId
-      ? "Updating..."
-      : "Saving...";
-
-  let newPhotoPath=null;
-
-  try{
-
-    /* CHECK LOGIN SESSION */
-
-    const {
-      data:sessionData,
-      error:sessionError
-    } =
-      await db.auth.getSession();
-
-    if(sessionError){
-
-      throw new Error(
-        "Could not check your login session: " +
-        sessionError.message
-      );
-    }
-
-    const session =
-      sessionData &&
-      sessionData.session;
-
-    if(!session){
-
-      throw new Error(
-        "Your login session has expired. Please log in again."
-      );
-    }
-
-
-    const name =
-      document
-        .getElementById("memberName")
-        .value
-        .trim();
-
-    const phone =
-      document
-        .getElementById("memberPhone")
-        .value
-        .trim();
-
-    const memberType =
-      document
-        .getElementById("memberType")
-        .value;
-
-    const position =
-      document
-        .getElementById("memberPosition")
-        .value
-        .trim();
-
-    const photoInput =
-      document.getElementById(
-        "memberPhoto"
-      );
-
-    const file =
-      photoInput.files &&
-      photoInput.files[0];
-
-
-    if(!name){
-
-      throw new Error(
-        "Member name is required."
-      );
-    }
-
-    if(!memberType){
-
-      throw new Error(
-        "Please select the member category."
-      );
-    }
-
-    if(file && !validatePhoto(file)){
-
-      throw new Error(
-        "Please select a valid member photo."
-      );
-    }
-
-
-    /* KEEP OLD PHOTO */
-
-    newPhotoPath =
-      editingMemberOldPhoto || null;
-
-
-    /* UPLOAD NEW PHOTO */
-
-    if(file){
+    if (file) {
 
       newPhotoPath =
         await uploadPersonPhoto(
@@ -1901,172 +1282,59 @@ async function saveMember(event){
 
     const record = {
 
-      name:name,
-
-      phone:phone,
-
-      position:position,
-
-      member_type:memberType,
-
-      photo_url:newPhotoPath
-
+      name,
+      phone,
+      position,
+      member_type: memberType,
+      photo_url:
+        newPhotoPath ||
+        editingMemberOldPhoto ||
+        null
     };
 
 
-    /*
-     DIRECT REST REQUEST
+    if (editingMemberId) {
 
-     This is the important change.
-    */
+      const { error } =
+        await db
+          .from("members")
+          .update(record)
+          .eq("id", editingMemberId);
 
-    const restUrl =
-      `${SUPABASE_URL}/rest/v1/members`;
-
-
-    let response;
-
-
-    if(editingMemberId){
-
-      response =
-        await fetch(
-          `${restUrl}?id=eq.${encodeURIComponent(editingMemberId)}`,
-          {
-            method:"PATCH",
-
-            headers:{
-              "apikey":SUPABASE_KEY,
-
-              "Authorization":
-                `Bearer ${session.access_token}`,
-
-              "Content-Type":
-                "application/json",
-
-              "Prefer":
-                "return=minimal"
-            },
-
-            body:
-              JSON.stringify(record)
-          }
-        );
-
-    }else{
-
-      response =
-        await fetch(
-          restUrl,
-          {
-            method:"POST",
-
-            headers:{
-              "apikey":SUPABASE_KEY,
-
-              "Authorization":
-                `Bearer ${session.access_token}`,
-
-              "Content-Type":
-                "application/json",
-
-              "Prefer":
-                "return=minimal"
-            },
-
-            body:
-              JSON.stringify(record)
-          }
-        );
-    }
-
-
-    /*
-     READ THE REAL SUPABASE RESPONSE
-    */
-
-    const responseText =
-      await response.text();
-
-
-    if(!response.ok){
-
-      let readableError =
-        responseText;
-
-      try{
-
-        const json =
-          JSON.parse(responseText);
-
-        readableError =
-          json.message ||
-          json.error_description ||
-          json.hint ||
-          responseText;
-
-        if(
-          json.code &&
-          json.code !==
-            readableError
-        ){
-
-          readableError +=
-            `\nCode: ${json.code}`;
-        }
-
-      }catch(parseError){
-
-        /* Keep original response */
+      if (error) {
+        throw error;
       }
 
 
-      if(
-        file &&
+      if (
         newPhotoPath &&
-        newPhotoPath !==
-          editingMemberOldPhoto
-      ){
+        editingMemberOldPhoto
+      ) {
 
         await deleteStoredPhoto(
-          newPhotoPath
+          editingMemberOldPhoto
         );
       }
 
 
-      throw new Error(
-        `Supabase rejected the member save.\n\n${readableError}`
-      );
-    }
-
-
-    /*
-     DELETE OLD PHOTO AFTER SUCCESSFUL UPDATE
-    */
-
-    if(
-      editingMemberId &&
-      file &&
-      editingMemberOldPhoto &&
-      editingMemberOldPhoto !==
-        newPhotoPath
-    ){
-
-      await deleteStoredPhoto(
-        editingMemberOldPhoto
-      );
-    }
-
-
-    if(editingMemberId){
-
       showMessage(
+        "memberMessage",
         "Member updated successfully."
       );
 
-    }else{
+    } else {
+
+      const { error } =
+        await db
+          .from("members")
+          .insert([record]);
+
+      if (error) {
+        throw error;
+      }
 
       showMessage(
+        "memberMessage",
         "Member saved successfully."
       );
     }
@@ -2076,74 +1344,49 @@ async function saveMember(event){
 
     await loadMembers();
 
-  }catch(error){
+  } catch (error) {
 
-    console.error(
-      "YONA MEMBER SAVE FAILED:",
-      error
-    );
-
-
-    const message =
-      error &&
-      error.message
-        ? error.message
-        : "Unknown error occurred.";
-
+    if (newPhotoPath) {
+      await deleteStoredPhoto(newPhotoPath);
+    }
 
     showMessage(
-      "Could not save member:\n\n" +
-      message,
-      "error"
+      "memberMessage",
+      `Could not save member:<br>${escapeHtml(error.message)}`
     );
-
-  }finally{
-
-    button.disabled=false;
-
-    button.textContent =
-      editingMemberId
-        ? "Update Member"
-        : "Save Member";
   }
 }
 
 
-async function loadMembers(){
+/* ================================
+   LOAD MEMBERS
+================================ */
+
+async function loadMembers() {
 
   const container =
-    document.getElementById(
-      "membersRecords"
-    );
+    document.getElementById("memberRecords");
+
+  if (!container) return;
 
   container.innerHTML =
-    `<div class="loading">
-      Loading members...
-    </div>`;
+    `<div class="loading">Loading members...</div>`;
 
+  try {
 
-  try{
-
-    const {
-      data,
-      error
-    } =
+    const { data, error } =
       await db
         .from("members")
         .select("*")
-        .order(
-          "created_at",
-          {
-            ascending:false
-          }
-        );
+        .order("created_at", {
+          ascending: false
+        });
 
-    if(error){
+    if (error) {
       throw error;
     }
 
-
-    if(!data || data.length===0){
+    if (!data || data.length === 0) {
 
       container.innerHTML =
         `<div class="empty">
@@ -2154,135 +1397,58 @@ async function loadMembers(){
     }
 
 
-    const groups={
+    container.innerHTML =
+      data.map(member => {
 
-      "Old Member":[],
-
-      "Current Member":[],
-
-      "Probationary Member":[]
-
-    };
-
-
-    data.forEach(member=>{
-
-      if(groups[member.member_type]){
-
-        groups[
-          member.member_type
-        ].push(member);
-
-      }else{
-
-        groups[
-          "Current Member"
-        ].push(member);
-      }
-
-    });
-
-
-    const displayNames={
-
-      "Old Member":
-        "Old Members",
-
-      "Current Member":
-        "Current Members",
-
-      "Probationary Member":
-        "New Registered Members (Probationary)"
-
-    };
-
-
-    let html="";
-
-
-    for(
-      const category of
-      Object.keys(groups)
-    ){
-
-      if(
-        groups[category].length===0
-      ){
-        continue;
-      }
-
-
-      html += `
-        <div class="record-group">
-
-          <div class="record-group-title">
-            ${displayNames[category]}
-            (${groups[category].length})
-          </div>
-      `;
-
-
-      for(
-        const member of
-        groups[category]
-      ){
-
-        const photoUrl =
-          await getPhotoUrl(
+        const photo =
+          getPhotoUrl(
             member.photo_url
           );
 
-
-        html += `
-
+        return `
           <div class="record">
 
             ${
-              photoUrl
-                ? `
-                  <img
-                    src="${photoUrl}"
+              photo
+                ? `<img
+                    src="${photo}"
                     class="person-photo"
                     alt="Member photo"
-                  >
-                `
-                : `
-                  <div class="no-photo">
+                   >`
+                : `<div class="no-photo">
                     No Photo
-                  </div>
-                `
+                   </div>`
             }
 
-            <h4>
+            <h3>
               ${escapeHtml(member.name)}
-            </h4>
+            </h3>
 
             <p>
               <strong>Phone:</strong>
-              ${escapeHtml(member.phone || "-")}
-            </p>
-
-            <p>
-              <strong>Position:</strong>
-              ${escapeHtml(member.position || "-")}
+              ${escapeHtml(member.phone || "")}
             </p>
 
             <p>
               <strong>Category:</strong>
-              ${escapeHtml(member.member_type || "-")}
+              ${escapeHtml(member.member_type || "")}
+            </p>
+
+            <p>
+              <strong>Position:</strong>
+              ${escapeHtml(member.position || "")}
             </p>
 
             <div class="record-actions">
 
               <button
-                class="edit-btn"
                 onclick="editMember('${member.id}')"
               >
                 Edit
               </button>
 
               <button
-                class="delete-btn"
+                class="danger"
                 onclick="deleteMember('${member.id}')"
               >
                 Delete
@@ -2292,496 +1458,299 @@ async function loadMembers(){
 
           </div>
         `;
-      }
 
+      }).join("");
 
-      html += `</div>`;
-    }
-
-
-    container.innerHTML=html;
-
-  }catch(error){
-
-    console.error(
-      "Load members error:",
-      error
-    );
+  } catch (error) {
 
     container.innerHTML =
-      `<div class="empty">
-        Could not load members:
+      `<div class="message">
+        Could not load members:<br>
         ${escapeHtml(error.message)}
       </div>`;
   }
 }
 
 
-async function editMember(id){
+/* ================================
+   EDIT MEMBER
+================================ */
 
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("members")
-      .select("*")
-      .eq("id",id)
-      .single();
+async function editMember(id) {
 
+  try {
 
-  if(error){
+    const { data, error } =
+      await db
+        .from("members")
+        .select("*")
+        .eq("id", id)
+        .single();
 
-    showMessage(
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  editingMemberId =
-    data.id;
-
-  editingMemberOldPhoto =
-    data.photo_url || null;
-
-
-  document
-    .getElementById("memberName")
-    .value =
-    data.name || "";
-
-
-  document
-    .getElementById("memberPhone")
-    .value =
-    data.phone || "";
-
-
-  document
-    .getElementById("memberType")
-    .value =
-    data.member_type || "";
-
-
-  document
-    .getElementById("memberPosition")
-    .value =
-    data.position || "";
-
-
-  const preview =
-    document.getElementById(
-      "memberPhotoPreview"
-    );
-
-
-  if(data.photo_url){
-
-    const url =
-      await getPhotoUrl(
-        data.photo_url
-      );
-
-    if(url){
-
-      preview.src=url;
-      preview.style.display="block";
+    if (error) {
+      throw error;
     }
 
-  }else{
+    editingMemberId = id;
 
-    preview.src="";
-    preview.style.display="none";
-  }
-
-
-  document
-    .getElementById("memberSaveButton")
-    .textContent =
-    "Update Member";
+    editingMemberOldPhoto =
+      data.photo_url || null;
 
 
-  document
-    .getElementById("memberCancelButton")
-    .classList.remove(
-      "hidden"
+    document.getElementById("memberName")
+      .value = data.name || "";
+
+    document.getElementById("memberPhone")
+      .value = data.phone || "";
+
+    document.getElementById("memberType")
+      .value =
+      data.member_type ||
+      "Current Member";
+
+    document.getElementById("memberPosition")
+      .value = data.position || "";
+
+
+    const preview =
+      document.getElementById(
+        "memberPhotoPreview"
+      );
+
+    if (data.photo_url) {
+
+      preview.src =
+        getPhotoUrl(data.photo_url);
+
+      preview.style.display =
+        "block";
+
+    } else {
+
+      preview.src = "";
+      preview.style.display =
+        "none";
+    }
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  } catch (error) {
+
+    showMessage(
+      "memberMessage",
+      `Could not load member:<br>${escapeHtml(error.message)}`
     );
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+  }
 }
 
 
-async function deleteMember(id){
+/* ================================
+   DELETE MEMBER
+================================ */
 
-  if(
+async function deleteMember(id) {
+
+  if (
     !confirm(
       "Are you sure you want to delete this member?"
     )
-  ){
+  ) {
     return;
   }
 
+  try {
 
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("members")
-      .select("photo_url")
-      .eq("id",id)
-      .single();
+    const { data, error } =
+      await db
+        .from("members")
+        .select("photo_url")
+        .eq("id", id)
+        .single();
 
+    if (error) {
+      throw error;
+    }
 
-  if(error){
+    const { error: deleteError } =
+      await db
+        .from("members")
+        .delete()
+        .eq("id", id);
+
+    if (deleteError) {
+      throw deleteError;
+    }
+
+    if (data && data.photo_url) {
+
+      await deleteStoredPhoto(
+        data.photo_url
+      );
+    }
+
+    await loadMembers();
+
+  } catch (error) {
 
     showMessage(
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  const {
-    error:deleteError
-  } =
-    await db
-      .from("members")
-      .delete()
-      .eq("id",id);
-
-
-  if(deleteError){
-
-    showMessage(
-      deleteError.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  if(data && data.photo_url){
-
-    await deleteStoredPhoto(
-      data.photo_url
+      "memberMessage",
+      `Could not delete member:<br>${escapeHtml(error.message)}`
     );
   }
-
-
-  showMessage(
-    "Member deleted successfully."
-  );
-
-  await loadMembers();
 }
 
 
-function cancelMemberEdit(){
-  resetMemberForm();
-}
+/* ================================
+   RESET MEMBER FORM
+================================ */
 
+function resetMemberForm() {
 
-function resetMemberForm(){
+  editingMemberId = null;
+  editingMemberOldPhoto = null;
 
-  document
-    .getElementById("memberForm")
-    .reset();
+  document.getElementById("memberName")
+    .value = "";
 
-  editingMemberId=null;
-  editingMemberOldPhoto=null;
+  document.getElementById("memberPhone")
+    .value = "";
+
+  document.getElementById("memberType")
+    .value = "Current Member";
+
+  document.getElementById("memberPosition")
+    .value = "";
+
+  document.getElementById("memberPhoto")
+    .value = "";
 
   const preview =
     document.getElementById(
       "memberPhotoPreview"
     );
 
-  preview.style.display="none";
-  preview.src="";
-
-  document
-    .getElementById("memberSaveButton")
-    .textContent =
-    "Save Member";
-
-  document
-    .getElementById("memberCancelButton")
-    .classList.add("hidden");
+  preview.src = "";
+  preview.style.display = "none";
 }
 
 
-/* =========================================================
+/* ================================
    EXECUTIVE PERIODS
-   ========================================================= */
+================================ */
 
-async function addExecutivePeriod(){
+async function loadExecutivePeriods() {
+
+  const container =
+    document.getElementById(
+      "executivePeriods"
+    );
+
+  if (!container) return;
+
+  try {
+
+    const { data, error } =
+      await db
+        .from("executive_periods")
+        .select("*")
+        .order("created_at", {
+          ascending: false
+        });
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data || data.length === 0) {
+
+      container.innerHTML = "";
+
+      return;
+    }
+
+    container.innerHTML =
+      `
+      <div class="period-box">
+
+        <div class="record-group-title">
+          Executive Periods
+        </div>
+
+        ${
+          data.map(period => `
+            <div class="period-item">
+              ${escapeHtml(
+                period.period ||
+                period.name ||
+                ""
+              )}
+            </div>
+          `).join("")
+        }
+
+      </div>
+      `;
+
+  } catch (error) {
+
+    container.innerHTML = "";
+  }
+}
+
+
+/* ================================
+   SAVE EXECUTIVE
+================================ */
+
+async function saveExecutive() {
 
   const period =
-    document
-      .getElementById("periodName")
-      .value
-      .trim();
-
-
-  if(!period){
-
-    showMessage(
-      "Enter an executive period.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  const {
-    error
-  } =
-    await db
-      .from("executive_periods")
-      .insert({
-        period
-      });
-
-
-  if(error){
-
-    showMessage(
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  document
-    .getElementById("periodName")
-    .value="";
-
-
-  showMessage(
-    "Executive period added successfully."
-  );
-
-  await loadExecutivePeriods();
-}
-
-
-async function loadExecutivePeriods(){
-
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("executive_periods")
-      .select("*")
-      .order(
-        "created_at",
-        {
-          ascending:true
-        }
-      );
-
-
-  if(error){
-
-    console.error(error);
-
-    return;
-  }
-
-
-  const select =
     document.getElementById(
       "executivePeriod"
-    );
-
-
-  select.innerHTML =
-    `<option value="">
-      Select period
-    </option>`;
-
-
-  const list =
-    document.getElementById(
-      "periodList"
-    );
-
-
-  list.innerHTML="";
-
-
-  (data || []).forEach(item=>{
-
-    const option =
-      document.createElement(
-        "option"
-      );
-
-    option.value=item.id;
-    option.textContent=item.period;
-
-    select.appendChild(option);
-
-
-    const div =
-      document.createElement(
-        "div"
-      );
-
-    div.className="period-item";
-
-    div.innerHTML=`
-
-      <span>
-        ${escapeHtml(item.period)}
-      </span>
-
-      <button
-        class="btn btn-danger"
-        onclick="deleteExecutivePeriod('${item.id}')"
-      >
-        Delete
-      </button>
-
-    `;
-
-    list.appendChild(div);
-  });
-}
-
-
-async function deleteExecutivePeriod(id){
-
-  if(
-    !confirm(
-      "Delete this executive period?"
-    )
-  ){
-    return;
-  }
-
-
-  const {
-    error
-  } =
-    await db
-      .from("executive_periods")
-      .delete()
-      .eq("id",id);
-
-
-  if(error){
-
-    showMessage(
-      "Could not delete period: " +
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  showMessage(
-    "Executive period deleted."
-  );
-
-  await loadExecutivePeriods();
-  await loadExecutives();
-}
-
-
-/* =========================================================
-   EXECUTIVE
-   ========================================================= */
-
-document
-  .getElementById("executiveForm")
-  .addEventListener(
-    "submit",
-    saveExecutive
-  );
-
-
-async function saveExecutive(event){
-
-  event.preventDefault();
-
-
-  const periodId =
-    document
-      .getElementById("executivePeriod")
-      .value;
+    ).value.trim();
 
   const name =
-    document
-      .getElementById("executiveName")
-      .value
-      .trim();
+    document.getElementById(
+      "executiveName"
+    ).value.trim();
 
   const position =
-    document
-      .getElementById("executivePosition")
-      .value
-      .trim();
+    document.getElementById(
+      "executivePosition"
+    ).value.trim();
 
   const phone =
-    document
-      .getElementById("executivePhone")
-      .value
-      .trim();
+    document.getElementById(
+      "executivePhone"
+    ).value.trim();
+
+  const input =
+    document.getElementById(
+      "executivePhoto"
+    );
 
   const file =
-    document
-      .getElementById("executivePhoto")
-      .files[0];
+    input.files[0];
 
-
-  if(
-    !periodId ||
-    !name ||
-    !position
-  ){
+  if (!name) {
 
     showMessage(
-      "Period, name and position are required.",
-      "error"
+      "executiveMessage",
+      "Please enter executive name."
     );
 
     return;
   }
 
+  let newPhotoPath = null;
 
-  const button =
-    document.getElementById(
-      "executiveSaveButton"
-    );
+  try {
 
-  button.disabled=true;
-  button.textContent="Saving...";
-
-
-  try{
-
-    let newPhotoPath =
-      editingExecutiveOldPhoto;
-
-
-    if(file){
+    if (file) {
 
       newPhotoPath =
         await uploadPersonPhoto(
@@ -2791,23 +1760,22 @@ async function saveExecutive(event){
         );
     }
 
+    const record = {
 
-    const record={
-
-      period_id:periodId,
-      name:name,
-      position:position,
-      phone:phone,
-      photo_url:newPhotoPath
-
+      period,
+      name,
+      position,
+      phone,
+      photo_url:
+        newPhotoPath ||
+        editingExecutiveOldPhoto ||
+        null
     };
 
 
-    if(editingExecutiveId){
+    if (editingExecutiveId) {
 
-      const {
-        error
-      } =
+      const { error } =
         await db
           .from("executive")
           .update(record)
@@ -2816,927 +1784,917 @@ async function saveExecutive(event){
             editingExecutiveId
           );
 
-
-      if(error){
+      if (error) {
         throw error;
       }
 
 
-      if(
-        file &&
-        editingExecutiveOldPhoto &&
-        editingExecutiveOldPhoto !==
-          newPhotoPath
-      ){
+      if (
+        newPhotoPath &&
+        editingExecutiveOldPhoto
+      ) {
 
         await deleteStoredPhoto(
           editingExecutiveOldPhoto
         );
       }
 
-
       showMessage(
+        "executiveMessage",
         "Executive updated successfully."
       );
 
-    }else{
+    } else {
 
-      const {
-        error
-      } =
+      const { error } =
         await db
           .from("executive")
-          .insert(record);
+          .insert([record]);
 
-
-      if(error){
-
-        if(newPhotoPath){
-
-          await deleteStoredPhoto(
-            newPhotoPath
-          );
-        }
-
+      if (error) {
         throw error;
       }
 
-
       showMessage(
+        "executiveMessage",
         "Executive saved successfully."
       );
     }
 
 
     resetExecutiveForm();
+
     await loadExecutives();
+    await loadExecutivePeriods();
 
-  }catch(error){
+  } catch (error) {
 
-    console.error(error);
+    if (newPhotoPath) {
+      await deleteStoredPhoto(newPhotoPath);
+    }
 
     showMessage(
-      "Could not save executive: " +
-      error.message,
-      "error"
+      "executiveMessage",
+      `Could not save executive:<br>${escapeHtml(error.message)}`
     );
-
-  }finally{
-
-    button.disabled=false;
-
-    button.textContent =
-      editingExecutiveId
-        ? "Update Executive"
-        : "Save Executive";
   }
 }
 
 
-async function loadExecutives(){
+/* ================================
+   LOAD EXECUTIVES
+================================ */
+
+async function loadExecutives() {
 
   const container =
     document.getElementById(
       "executiveRecords"
     );
 
+  if (!container) return;
 
   container.innerHTML =
     `<div class="loading">
-      Loading executive records...
+      Loading executives...
     </div>`;
 
+  try {
 
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("executive")
-      .select(`
-        *,
-        executive_periods (
-          id,
-          period
-        )
-      `)
-      .order(
-        "name",
-        {
-          ascending:true
-        }
-      );
+    const { data, error } =
+      await db
+        .from("executive")
+        .select("*")
+        .order("created_at", {
+          ascending: false
+        });
 
-
-  if(error){
-
-    container.innerHTML =
-      `<div class="empty">
-        Could not load executives:
-        ${escapeHtml(error.message)}
-      </div>`;
-
-    return;
-  }
-
-
-  if(!data || data.length===0){
-
-    container.innerHTML =
-      `<div class="empty">
-        No executive records found.
-      </div>`;
-
-    return;
-  }
-
-
-  const grouped={};
-
-
-  data.forEach(item=>{
-
-    const period =
-      item.executive_periods
-        ? item.executive_periods.period
-        : "No Period";
-
-
-    if(!grouped[period]){
-      grouped[period]=[];
+    if (error) {
+      throw error;
     }
 
-    grouped[period].push(item);
-  });
+    if (!data || data.length === 0) {
+
+      container.innerHTML =
+        `<div class="empty">
+          No executive records found.
+        </div>`;
+
+      return;
+    }
 
 
-  let html="";
+    container.innerHTML =
+      data.map(person => {
 
+        const photo =
+          getPhotoUrl(
+            person.photo_url
+          );
 
-  for(
-    const period of
-    Object.keys(grouped)
-  ){
+        return `
+          <div class="record">
 
-    html += `
-      <div class="record-group">
+            ${
+              photo
+                ? `<img
+                    src="${photo}"
+                    class="person-photo"
+                    alt="Executive photo"
+                   >`
+                : `<div class="no-photo">
+                    No Photo
+                   </div>`
+            }
 
-        <div class="record-group-title">
-          ${escapeHtml(period)}
-        </div>
-    `;
+            <h3>
+              ${escapeHtml(person.name)}
+            </h3>
 
+            <p>
+              <strong>Period:</strong>
+              ${escapeHtml(person.period || "")}
+            </p>
 
-    for(
-      const executive of
-      grouped[period]
-    ){
+            <p>
+              <strong>Position:</strong>
+              ${escapeHtml(person.position || "")}
+            </p>
 
-      const photoUrl =
-        await getPhotoUrl(
-          executive.photo_url
-        );
+            <p>
+              <strong>Phone:</strong>
+              ${escapeHtml(person.phone || "")}
+            </p>
 
+            <div class="record-actions">
 
-      html += `
+              <button
+                onclick="editExecutive('${person.id}')"
+              >
+                Edit
+              </button>
 
-        <div class="record">
+              <button
+                class="danger"
+                onclick="deleteExecutive('${person.id}')"
+              >
+                Delete
+              </button>
 
-          ${
-            photoUrl
-              ? `
-                <img
-                  src="${photoUrl}"
-                  class="person-photo"
-                  alt="Executive photo"
-                >
-              `
-              : `
-                <div class="no-photo">
-                  No Photo
-                </div>
-              `
-          }
-
-          <h4>
-            ${escapeHtml(executive.name)}
-          </h4>
-
-          <p>
-            <strong>Position:</strong>
-            ${escapeHtml(executive.position || "-")}
-          </p>
-
-          <p>
-            <strong>Phone:</strong>
-            ${escapeHtml(executive.phone || "-")}
-          </p>
-
-          <div class="record-actions">
-
-            <button
-              class="edit-btn"
-              onclick="editExecutive('${executive.id}')"
-            >
-              Edit
-            </button>
-
-            <button
-              class="delete-btn"
-              onclick="deleteExecutive('${executive.id}')"
-            >
-              Delete
-            </button>
+            </div>
 
           </div>
+        `;
 
-        </div>
-      `;
-    }
+      }).join("");
 
+  } catch (error) {
 
-    html += `</div>`;
+    container.innerHTML =
+      `<div class="message">
+        Could not load executives:<br>
+        ${escapeHtml(error.message)}
+      </div>`;
   }
-
-
-  container.innerHTML=html;
 }
 
 
-async function editExecutive(id){
+/* ================================
+   EDIT EXECUTIVE
+================================ */
 
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("executive")
-      .select("*")
-      .eq("id",id)
-      .single();
+async function editExecutive(id) {
 
+  try {
 
-  if(error){
+    const { data, error } =
+      await db
+        .from("executive")
+        .select("*")
+        .eq("id", id)
+        .single();
 
-    showMessage(
-      error.message,
-      "error"
-    );
+    if (error) {
+      throw error;
+    }
 
-    return;
-  }
+    editingExecutiveId = id;
 
-
-  editingExecutiveId=data.id;
-  editingExecutiveOldPhoto=
-    data.photo_url || null;
+    editingExecutiveOldPhoto =
+      data.photo_url || null;
 
 
-  document
-    .getElementById("executivePeriod")
-    .value =
-    data.period_id || "";
-
-
-  document
-    .getElementById("executiveName")
-    .value =
-    data.name || "";
-
-
-  document
-    .getElementById("executivePosition")
-    .value =
-    data.position || "";
-
-
-  document
-    .getElementById("executivePhone")
-    .value =
-    data.phone || "";
-
-
-  const preview =
     document.getElementById(
-      "executivePhotoPreview"
-    );
+      "executivePeriod"
+    ).value = data.period || "";
+
+    document.getElementById(
+      "executiveName"
+    ).value = data.name || "";
+
+    document.getElementById(
+      "executivePosition"
+    ).value = data.position || "";
+
+    document.getElementById(
+      "executivePhone"
+    ).value = data.phone || "";
 
 
-  if(data.photo_url){
-
-    const url =
-      await getPhotoUrl(
-        data.photo_url
+    const preview =
+      document.getElementById(
+        "executivePhotoPreview"
       );
 
-    if(url){
+    if (data.photo_url) {
 
-      preview.src=url;
-      preview.style.display="block";
+      preview.src =
+        getPhotoUrl(data.photo_url);
+
+      preview.style.display =
+        "block";
+
+    } else {
+
+      preview.src = "";
+      preview.style.display =
+        "none";
     }
 
-  }else{
 
-    preview.src="";
-    preview.style.display="none";
-  }
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
 
+  } catch (error) {
 
-  document
-    .getElementById("executiveSaveButton")
-    .textContent =
-    "Update Executive";
-
-
-  document
-    .getElementById("executiveCancelButton")
-    .classList.remove(
-      "hidden"
+    showMessage(
+      "executiveMessage",
+      `Could not load executive:<br>${escapeHtml(error.message)}`
     );
+  }
 }
 
 
-async function deleteExecutive(id){
+/* ================================
+   DELETE EXECUTIVE
+================================ */
 
-  if(
+async function deleteExecutive(id) {
+
+  if (
     !confirm(
-      "Are you sure you want to delete this executive record?"
+      "Are you sure you want to delete this executive?"
     )
-  ){
+  ) {
     return;
   }
 
+  try {
 
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("executive")
-      .select("photo_url")
-      .eq("id",id)
-      .single();
+    const { data, error } =
+      await db
+        .from("executive")
+        .select("photo_url")
+        .eq("id", id)
+        .single();
 
+    if (error) {
+      throw error;
+    }
 
-  if(error){
+    const { error: deleteError } =
+      await db
+        .from("executive")
+        .delete()
+        .eq("id", id);
+
+    if (deleteError) {
+      throw deleteError;
+    }
+
+    if (data && data.photo_url) {
+
+      await deleteStoredPhoto(
+        data.photo_url
+      );
+    }
+
+    await loadExecutives();
+
+  } catch (error) {
 
     showMessage(
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  const {
-    error:deleteError
-  } =
-    await db
-      .from("executive")
-      .delete()
-      .eq("id",id);
-
-
-  if(deleteError){
-
-    showMessage(
-      deleteError.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  if(data && data.photo_url){
-
-    await deleteStoredPhoto(
-      data.photo_url
+      "executiveMessage",
+      `Could not delete executive:<br>${escapeHtml(error.message)}`
     );
   }
-
-
-  showMessage(
-    "Executive deleted successfully."
-  );
-
-  await loadExecutives();
 }
 
 
-function cancelExecutiveEdit(){
-  resetExecutiveForm();
-}
+/* ================================
+   RESET EXECUTIVE
+================================ */
 
+function resetExecutiveForm() {
 
-function resetExecutiveForm(){
+  editingExecutiveId = null;
+  editingExecutiveOldPhoto = null;
 
-  document
-    .getElementById("executiveForm")
-    .reset();
+  document.getElementById(
+    "executivePeriod"
+  ).value = "";
 
-  editingExecutiveId=null;
-  editingExecutiveOldPhoto=null;
+  document.getElementById(
+    "executiveName"
+  ).value = "";
 
+  document.getElementById(
+    "executivePosition"
+  ).value = "";
+
+  document.getElementById(
+    "executivePhone"
+  ).value = "";
+
+  document.getElementById(
+    "executivePhoto"
+  ).value = "";
 
   const preview =
     document.getElementById(
       "executivePhotoPreview"
     );
 
-  preview.style.display="none";
-  preview.src="";
-
-
-  document
-    .getElementById("executiveSaveButton")
-    .textContent =
-    "Save Executive";
-
-
-  document
-    .getElementById("executiveCancelButton")
-    .classList.add("hidden");
+  preview.src = "";
+  preview.style.display = "none";
 }
 
 
-/* =========================================================
+/* ================================
    FINANCE
-   ========================================================= */
+================================ */
 
-document
-  .getElementById("financeForm")
-  .addEventListener(
-    "submit",
-    saveFinance
-  );
-
-
-async function saveFinance(event){
-
-  event.preventDefault();
-
+async function saveFinance() {
 
   const category =
-    document
-      .getElementById("financeCategory")
-      .value;
+    document.getElementById(
+      "financeCategory"
+    ).value;
 
   const name =
-    document
-      .getElementById("financeName")
-      .value
-      .trim();
+    document.getElementById(
+      "financeName"
+    ).value.trim();
 
   const amount =
-    document
-      .getElementById("financeAmount")
-      .value;
+    document.getElementById(
+      "financeAmount"
+    ).value;
 
   const description =
-    document
-      .getElementById("financeDescription")
-      .value
-      .trim();
+    document.getElementById(
+      "financeDescription"
+    ).value.trim();
 
 
-  if(!category || !name || !amount){
+  if (!name && !amount && !description) {
 
     showMessage(
-      "Category, name and amount are required.",
-      "error"
+      "financeMessage",
+      "Please enter finance information."
     );
 
     return;
   }
 
 
-  const record={
+  const record = {
+
     category,
     name,
-    amount:Number(amount),
+    amount:
+      amount ? Number(amount) : 0,
     description
   };
 
 
-  const {
-    error
-  } =
-    editingFinanceId
+  try {
 
-      ? await db
+    if (editingFinanceId) {
+
+      const { error } =
+        await db
           .from("finance")
           .update(record)
-          .eq("id",editingFinanceId)
+          .eq("id", editingFinanceId);
 
-      : await db
+      if (error) {
+        throw error;
+      }
+
+      showMessage(
+        "financeMessage",
+        "Finance record updated successfully."
+      );
+
+    } else {
+
+      const { error } =
+        await db
           .from("finance")
-          .insert(record);
+          .insert([record]);
 
+      if (error) {
+        throw error;
+      }
 
-  if(error){
+      showMessage(
+        "financeMessage",
+        "Finance record saved successfully."
+      );
+    }
+
+    resetFinanceForm();
+
+    await loadFinance();
+
+  } catch (error) {
 
     showMessage(
-      "Could not save finance record: " +
-      error.message,
-      "error"
+      "financeMessage",
+      `Could not save finance record:<br>${escapeHtml(error.message)}`
     );
-
-    return;
   }
-
-
-  showMessage(
-    editingFinanceId
-      ? "Finance record updated successfully."
-      : "Finance record saved successfully."
-  );
-
-
-  resetFinanceForm();
-
-  await loadFinance();
 }
 
 
-async function loadFinance(){
+/* ================================
+   LOAD FINANCE
+================================ */
+
+async function loadFinance() {
 
   const container =
     document.getElementById(
       "financeRecords"
     );
 
+  if (!container) return;
 
   container.innerHTML =
     `<div class="loading">
       Loading finance records...
     </div>`;
 
+  try {
 
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("finance")
-      .select("*")
-      .order(
-        "created_at",
-        {
-          ascending:false
-        }
-      );
+    const { data, error } =
+      await db
+        .from("finance")
+        .select("*")
+        .order("created_at", {
+          ascending: false
+        });
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data || data.length === 0) {
+
+      container.innerHTML =
+        `<div class="empty">
+          No finance records found.
+        </div>`;
+
+      return;
+    }
 
 
-  if(error){
+    const groups = {};
+
+    data.forEach(item => {
+
+      const category =
+        item.category || "Other";
+
+      if (!groups[category]) {
+        groups[category] = [];
+      }
+
+      groups[category].push(item);
+    });
+
 
     container.innerHTML =
-      `<div class="empty">
+      Object.keys(groups)
+        .map(category => {
+
+          return `
+            <div class="record-group">
+
+              <div class="record-group-title">
+                ${escapeHtml(category)}
+              </div>
+
+              ${
+                groups[category]
+                  .map(item => {
+
+                    return `
+                      <div class="record">
+
+                        <h3>
+                          ${escapeHtml(
+                            item.name || "Finance Record"
+                          )}
+                        </h3>
+
+                        <p>
+                          <strong>Amount:</strong>
+                          Le ${Number(
+                            item.amount || 0
+                          ).toLocaleString()}
+                        </p>
+
+                        <p>
+                          <strong>Description:</strong>
+                          ${escapeHtml(
+                            item.description || ""
+                          )}
+                        </p>
+
+                        <div class="record-actions">
+
+                          <button
+                            onclick="editFinance('${item.id}')"
+                          >
+                            Edit
+                          </button>
+
+                          <button
+                            class="danger"
+                            onclick="deleteFinance('${item.id}')"
+                          >
+                            Delete
+                          </button>
+
+                        </div>
+
+                      </div>
+                    `;
+
+                  }).join("")
+              }
+
+            </div>
+          `;
+
+        }).join("");
+
+  } catch (error) {
+
+    container.innerHTML =
+      `<div class="message">
+        Could not load finance records:<br>
         ${escapeHtml(error.message)}
       </div>`;
-
-    return;
   }
-
-
-  if(!data || data.length===0){
-
-    container.innerHTML =
-      `<div class="empty">
-        No finance records found.
-      </div>`;
-
-    return;
-  }
-
-
-  const grouped={};
-
-
-  data.forEach(record=>{
-
-    const category =
-      record.category || "Other";
-
-    if(!grouped[category]){
-      grouped[category]=[];
-    }
-
-    grouped[category].push(record);
-  });
-
-
-  let html="";
-
-
-  for(
-    const category of
-    Object.keys(grouped)
-  ){
-
-    html += `
-      <div class="record-group">
-
-        <div class="record-group-title">
-          ${escapeHtml(category)}
-        </div>
-    `;
-
-
-    for(
-      const record of
-      grouped[category]
-    ){
-
-      html += `
-
-        <div class="record">
-
-          <h4>
-            ${escapeHtml(record.name)}
-          </h4>
-
-          <p>
-            <strong>Amount:</strong>
-            Le ${Number(
-              record.amount || 0
-            ).toLocaleString()}
-          </p>
-
-          <p>
-            <strong>Purpose / Description:</strong>
-            ${escapeHtml(
-              record.description || "-"
-            )}
-          </p>
-
-          <div class="record-actions">
-
-            <button
-              class="edit-btn"
-              onclick="editFinance('${record.id}')"
-            >
-              Edit
-            </button>
-
-            <button
-              class="delete-btn"
-              onclick="deleteFinance('${record.id}')"
-            >
-              Delete
-            </button>
-
-          </div>
-
-        </div>
-      `;
-    }
-
-
-    html += `</div>`;
-  }
-
-
-  container.innerHTML=html;
 }
 
 
-async function editFinance(id){
+/* ================================
+   EDIT FINANCE
+================================ */
 
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("finance")
-      .select("*")
-      .eq("id",id)
-      .single();
+async function editFinance(id) {
 
+  try {
 
-  if(error){
+    const { data, error } =
+      await db
+        .from("finance")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+    if (error) {
+      throw error;
+    }
+
+    editingFinanceId = id;
+
+    document.getElementById(
+      "financeCategory"
+    ).value = data.category || "Other";
+
+    document.getElementById(
+      "financeName"
+    ).value = data.name || "";
+
+    document.getElementById(
+      "financeAmount"
+    ).value = data.amount || "";
+
+    document.getElementById(
+      "financeDescription"
+    ).value =
+      data.description || "";
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  } catch (error) {
 
     showMessage(
-      error.message,
-      "error"
+      "financeMessage",
+      `Could not load finance record:<br>${escapeHtml(error.message)}`
     );
-
-    return;
   }
-
-
-  editingFinanceId=data.id;
-
-
-  document
-    .getElementById("financeCategory")
-    .value =
-    data.category || "";
-
-
-  document
-    .getElementById("financeName")
-    .value =
-    data.name || "";
-
-
-  document
-    .getElementById("financeAmount")
-    .value =
-    data.amount || "";
-
-
-  document
-    .getElementById("financeDescription")
-    .value =
-    data.description || "";
-
-
-  document
-    .getElementById("financeSaveButton")
-    .textContent =
-    "Update Finance Record";
-
-
-  document
-    .getElementById("financeCancelButton")
-    .classList.remove(
-      "hidden"
-    );
 }
 
 
-async function deleteFinance(id){
+/* ================================
+   DELETE FINANCE
+================================ */
 
-  if(
+async function deleteFinance(id) {
+
+  if (
     !confirm(
-      "Delete this finance record?"
+      "Are you sure you want to delete this finance record?"
     )
-  ){
+  ) {
     return;
   }
 
+  try {
 
-  const {
-    error
-  } =
-    await db
-      .from("finance")
-      .delete()
-      .eq("id",id);
+    const { error } =
+      await db
+        .from("finance")
+        .delete()
+        .eq("id", id);
 
+    if (error) {
+      throw error;
+    }
 
-  if(error){
+    await loadFinance();
+
+  } catch (error) {
 
     showMessage(
-      error.message,
-      "error"
+      "financeMessage",
+      `Could not delete finance record:<br>${escapeHtml(error.message)}`
     );
-
-    return;
   }
-
-
-  showMessage(
-    "Finance record deleted."
-  );
-
-  await loadFinance();
 }
 
 
-function cancelFinanceEdit(){
-  resetFinanceForm();
+/* ================================
+   RESET FINANCE
+================================ */
+
+function resetFinanceForm() {
+
+  editingFinanceId = null;
+
+  document.getElementById(
+    "financeCategory"
+  ).value = "Contribution";
+
+  document.getElementById(
+    "financeName"
+  ).value = "";
+
+  document.getElementById(
+    "financeAmount"
+  ).value = "";
+
+  document.getElementById(
+    "financeDescription"
+  ).value = "";
 }
 
 
-function resetFinanceForm(){
-
-  document
-    .getElementById("financeForm")
-    .reset();
-
-  editingFinanceId=null;
-
-
-  document
-    .getElementById("financeSaveButton")
-    .textContent =
-    "Save Finance Record";
-
-
-  document
-    .getElementById("financeCancelButton")
-    .classList.add(
-      "hidden"
-    );
-}
-
-
-/* =========================================================
+/* ================================
    MEETINGS
-   ========================================================= */
+================================ */
 
-document
-  .getElementById("meetingForm")
-  .addEventListener(
-    "submit",
-    saveMeeting
-  );
+async function saveMeeting() {
+
+  const meetingDate =
+    document.getElementById(
+      "meetingDate"
+    ).value;
+
+  const meetingTitle =
+    document.getElementById(
+      "meetingTitle"
+    ).value.trim();
+
+  const location =
+    document.getElementById(
+      "meetingLocation"
+    ).value.trim();
+
+  const description =
+    document.getElementById(
+      "meetingDescription"
+    ).value.trim();
+
+  const agenda =
+    document.getElementById(
+      "meetingAgenda"
+    ).value.trim();
+
+  const minutes =
+    document.getElementById(
+      "meetingMinutes"
+    ).value.trim();
+
+  const attendingMember =
+    document.getElementById(
+      "meetingAttendingMember"
+    ).value.trim();
+
+  const photoInput =
+    document.getElementById(
+      "meetingPhoto"
+    );
+
+  const file =
+    photoInput.files[0];
 
 
-async function saveMeeting(event){
-
-  event.preventDefault();
-
-
-  const record={
-
-    meeting_date:
-      document
-        .getElementById("meetingDate")
-        .value,
-
-    meeting_title:
-      document
-        .getElementById("meetingTitle")
-        .value
-        .trim(),
-
-    location:
-      document
-        .getElementById("meetingLocation")
-        .value
-        .trim(),
-
-    minutes:
-      document
-        .getElementById("meetingMinutes")
-        .value
-        .trim()
-  };
-
-
-  if(
-    !record.meeting_date ||
-    !record.meeting_title
-  ){
+  if (!meetingDate) {
 
     showMessage(
-      "Meeting date and title are required.",
-      "error"
+      "meetingMessage",
+      "Please enter the meeting date."
     );
 
     return;
   }
 
 
-  const {
-    error
-  } =
-    editingMeetingId
+  if (!meetingTitle) {
 
-      ? await db
+    showMessage(
+      "meetingMessage",
+      "Please enter the meeting title."
+    );
+
+    return;
+  }
+
+
+  let newPhotoPath = null;
+
+
+  try {
+
+    /* Upload meeting photo if selected */
+
+    if (file) {
+
+      newPhotoPath =
+        await uploadPersonPhoto(
+          file,
+          "meeting-photos",
+          "meeting"
+        );
+    }
+
+
+    const record = {
+
+      meeting_date:
+        meetingDate,
+
+      meeting_title:
+        meetingTitle,
+
+      location:
+        location,
+
+      description:
+        description,
+
+      minutes:
+        minutes,
+
+      agenda:
+        agenda,
+
+      photo:
+        newPhotoPath ||
+        editingMeetingOldPhoto ||
+        null,
+
+      attending_member:
+        attendingMember
+    };
+
+
+    /* UPDATE */
+
+    if (editingMeetingId) {
+
+      const { error } =
+        await db
           .from("meetings")
           .update(record)
-          .eq("id",editingMeetingId)
+          .eq(
+            "id",
+            editingMeetingId
+          );
 
-      : await db
+      if (error) {
+        throw error;
+      }
+
+
+      if (
+        newPhotoPath &&
+        editingMeetingOldPhoto
+      ) {
+
+        await deleteStoredPhoto(
+          editingMeetingOldPhoto
+        );
+      }
+
+
+      showMessage(
+        "meetingMessage",
+        "Meeting updated successfully."
+      );
+
+    }
+
+
+    /* INSERT */
+
+    else {
+
+      const { error } =
+        await db
           .from("meetings")
-          .insert(record);
+          .insert([record]);
+
+      if (error) {
+        throw error;
+      }
 
 
-  if(error){
+      showMessage(
+        "meetingMessage",
+        "Meeting saved successfully."
+      );
+    }
+
+
+    resetMeetingForm();
+
+    await loadMeetings();
+
+
+  } catch (error) {
+
+    if (newPhotoPath) {
+
+      await deleteStoredPhoto(
+        newPhotoPath
+      );
+    }
+
 
     showMessage(
-      error.message,
-      "error"
+      "meetingMessage",
+      `Could not save meeting:<br>${escapeHtml(error.message)}`
     );
-
-    return;
   }
-
-
-  showMessage(
-    editingMeetingId
-      ? "Meeting updated successfully."
-      : "Meeting saved successfully."
-  );
-
-
-  resetMeetingForm();
-
-  await loadMeetings();
 }
 
 
-async function loadMeetings(){
+/* ================================
+   LOAD MEETINGS
+================================ */
+
+async function loadMeetings() {
 
   const container =
     document.getElementById(
       "meetingRecords"
     );
+
+  if (!container) return;
 
 
   container.innerHTML =
@@ -3745,337 +2703,540 @@ async function loadMeetings(){
     </div>`;
 
 
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("meetings")
-      .select("*")
-      .order(
-        "meeting_date",
-        {
-          ascending:false
-        }
+  try {
+
+    const { data, error } =
+      await db
+        .from("meetings")
+        .select("*")
+        .order(
+          "meeting_date",
+          {
+            ascending: false
+          }
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      container.innerHTML =
+        `<div class="empty">
+          No meetings found.
+        </div>`;
+
+      return;
+    }
+
+
+    container.innerHTML =
+      data.map(meeting => {
+
+        const photo =
+          getPhotoUrl(
+            meeting.photo
+          );
+
+
+        return `
+          <div class="record">
+
+            ${
+              photo
+                ? `
+                  <img
+                    src="${photo}"
+                    class="person-photo"
+                    alt="Meeting photo"
+                  >
+                `
+                : `
+                  <div class="no-photo">
+                    No Photo
+                  </div>
+                `
+            }
+
+
+            <h3>
+              ${escapeHtml(
+                meeting.meeting_title || ""
+              )}
+            </h3>
+
+
+            <p>
+              <strong>Date:</strong>
+              ${escapeHtml(
+                meeting.meeting_date || ""
+              )}
+            </p>
+
+
+            <p>
+              <strong>Location:</strong>
+              ${escapeHtml(
+                meeting.location || ""
+              )}
+            </p>
+
+
+            ${
+              meeting.description
+                ? `
+                  <p>
+                    <strong>Description:</strong><br>
+                    ${escapeHtml(
+                      meeting.description
+                    )}
+                  </p>
+                `
+                : ""
+            }
+
+
+            ${
+              meeting.agenda
+                ? `
+                  <p>
+                    <strong>Agenda:</strong><br>
+                    ${escapeHtml(
+                      meeting.agenda
+                    )}
+                  </p>
+                `
+                : ""
+            }
+
+
+            ${
+              meeting.minutes
+                ? `
+                  <p>
+                    <strong>Minutes:</strong><br>
+                    ${escapeHtml(
+                      meeting.minutes
+                    )}
+                  </p>
+                `
+                : ""
+            }
+
+
+            ${
+              meeting.attending_member
+                ? `
+                  <p>
+                    <strong>Attending Members:</strong><br>
+                    ${escapeHtml(
+                      meeting.attending_member
+                    )}
+                  </p>
+                `
+                : ""
+            }
+
+
+            <div class="record-actions">
+
+              <button
+                onclick="editMeeting('${meeting.id}')"
+              >
+                Edit
+              </button>
+
+              <button
+                class="danger"
+                onclick="deleteMeeting('${meeting.id}')"
+              >
+                Delete
+              </button>
+
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
+
+
+  } catch (error) {
+
+    container.innerHTML =
+      `<div class="message">
+        Could not load meetings:<br>
+        ${escapeHtml(error.message)}
+      </div>`;
+  }
+}
+
+
+/* ================================
+   EDIT MEETING
+================================ */
+
+async function editMeeting(id) {
+
+  try {
+
+    const { data, error } =
+      await db
+        .from("meetings")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    editingMeetingId = id;
+
+    editingMeetingOldPhoto =
+      data.photo || null;
+
+
+    document.getElementById(
+      "meetingDate"
+    ).value =
+      data.meeting_date || "";
+
+
+    document.getElementById(
+      "meetingTitle"
+    ).value =
+      data.meeting_title || "";
+
+
+    document.getElementById(
+      "meetingLocation"
+    ).value =
+      data.location || "";
+
+
+    document.getElementById(
+      "meetingDescription"
+    ).value =
+      data.description || "";
+
+
+    document.getElementById(
+      "meetingAgenda"
+    ).value =
+      data.agenda || "";
+
+
+    document.getElementById(
+      "meetingMinutes"
+    ).value =
+      data.minutes || "";
+
+
+    document.getElementById(
+      "meetingAttendingMember"
+    ).value =
+      data.attending_member || "";
+
+
+    const preview =
+      document.getElementById(
+        "meetingPhotoPreview"
       );
 
 
-  if(error){
+    if (data.photo) {
 
-    container.innerHTML =
-      `<div class="empty">
-        ${escapeHtml(error.message)}
-      </div>`;
+      preview.src =
+        getPhotoUrl(data.photo);
 
-    return;
-  }
+      preview.style.display =
+        "block";
 
+    } else {
 
-  if(!data || data.length===0){
+      preview.src = "";
 
-    container.innerHTML =
-      `<div class="empty">
-        No meetings found.
-      </div>`;
-
-    return;
-  }
+      preview.style.display =
+        "none";
+    }
 
 
-  let html="";
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
 
 
-  data.forEach(meeting=>{
-
-    html += `
-
-      <div class="record">
-
-        <h4>
-          ${escapeHtml(meeting.meeting_title)}
-        </h4>
-
-        <p>
-          <strong>Date:</strong>
-          ${escapeHtml(meeting.meeting_date || "-")}
-        </p>
-
-        <p>
-          <strong>Location:</strong>
-          ${escapeHtml(meeting.location || "-")}
-        </p>
-
-        <p>
-          <strong>Minutes:</strong>
-        </p>
-
-        <p style="white-space:pre-wrap;">
-          ${escapeHtml(meeting.minutes || "-")}
-        </p>
-
-        <div class="record-actions">
-
-          <button
-            class="edit-btn"
-            onclick="editMeeting('${meeting.id}')"
-          >
-            Edit
-          </button>
-
-          <button
-            class="delete-btn"
-            onclick="deleteMeeting('${meeting.id}')"
-          >
-            Delete
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-  });
-
-
-  container.innerHTML=html;
-}
-
-
-async function editMeeting(id){
-
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("meetings")
-      .select("*")
-      .eq("id",id)
-      .single();
-
-
-  if(error){
+  } catch (error) {
 
     showMessage(
-      error.message,
-      "error"
+      "meetingMessage",
+      `Could not load meeting:<br>${escapeHtml(error.message)}`
     );
-
-    return;
   }
-
-
-  editingMeetingId=data.id;
-
-
-  document
-    .getElementById("meetingDate")
-    .value =
-    data.meeting_date || "";
-
-
-  document
-    .getElementById("meetingTitle")
-    .value =
-    data.meeting_title || "";
-
-
-  document
-    .getElementById("meetingLocation")
-    .value =
-    data.location || "";
-
-
-  document
-    .getElementById("meetingMinutes")
-    .value =
-    data.minutes || "";
-
-
-  document
-    .getElementById("meetingSaveButton")
-    .textContent =
-    "Update Meeting";
-
-
-  document
-    .getElementById("meetingCancelButton")
-    .classList.remove(
-      "hidden"
-    );
 }
 
 
-async function deleteMeeting(id){
+/* ================================
+   DELETE MEETING
+================================ */
 
-  if(
+async function deleteMeeting(id) {
+
+  if (
     !confirm(
-      "Delete this meeting?"
+      "Are you sure you want to delete this meeting?"
     )
-  ){
+  ) {
     return;
   }
 
 
-  const {
-    error
-  } =
-    await db
-      .from("meetings")
-      .delete()
-      .eq("id",id);
+  try {
+
+    const { data, error } =
+      await db
+        .from("meetings")
+        .select("photo")
+        .eq("id", id)
+        .single();
 
 
-  if(error){
+    if (error) {
+      throw error;
+    }
+
+
+    const { error: deleteError } =
+      await db
+        .from("meetings")
+        .delete()
+        .eq("id", id);
+
+
+    if (deleteError) {
+      throw deleteError;
+    }
+
+
+    if (
+      data &&
+      data.photo
+    ) {
+
+      await deleteStoredPhoto(
+        data.photo
+      );
+    }
+
+
+    await loadMeetings();
+
+
+  } catch (error) {
 
     showMessage(
-      error.message,
-      "error"
+      "meetingMessage",
+      `Could not delete meeting:<br>${escapeHtml(error.message)}`
     );
-
-    return;
   }
-
-
-  showMessage(
-    "Meeting deleted."
-  );
-
-  await loadMeetings();
 }
 
 
-function cancelMeetingEdit(){
+/* ================================
+   CANCEL MEETING EDIT
+================================ */
+
+function cancelMeetingEdit() {
+
   resetMeetingForm();
 }
 
 
-function resetMeetingForm(){
+/* ================================
+   RESET MEETING FORM
+================================ */
 
-  document
-    .getElementById("meetingForm")
-    .reset();
+function resetMeetingForm() {
 
-  editingMeetingId=null;
+  editingMeetingId = null;
 
-
-  document
-    .getElementById("meetingSaveButton")
-    .textContent =
-    "Save Meeting";
+  editingMeetingOldPhoto = null;
 
 
-  document
-    .getElementById("meetingCancelButton")
-    .classList.add(
-      "hidden"
+  document.getElementById(
+    "meetingDate"
+  ).value = "";
+
+
+  document.getElementById(
+    "meetingTitle"
+  ).value = "";
+
+
+  document.getElementById(
+    "meetingLocation"
+  ).value = "";
+
+
+  document.getElementById(
+    "meetingDescription"
+  ).value = "";
+
+
+  document.getElementById(
+    "meetingAgenda"
+  ).value = "";
+
+
+  document.getElementById(
+    "meetingMinutes"
+  ).value = "";
+
+
+  document.getElementById(
+    "meetingAttendingMember"
+  ).value = "";
+
+
+  document.getElementById(
+    "meetingPhoto"
+  ).value = "";
+
+
+  const preview =
+    document.getElementById(
+      "meetingPhotoPreview"
     );
+
+
+  preview.src = "";
+
+  preview.style.display =
+    "none";
 }
 
 
-/* =========================================================
+/* ================================
    EVENTS
-   ========================================================= */
+================================ */
 
-document
-  .getElementById("eventForm")
-  .addEventListener(
-    "submit",
-    saveEvent
-  );
+async function saveEvent() {
+
+  const title =
+    document.getElementById(
+      "eventTitle"
+    ).value.trim();
+
+  const date =
+    document.getElementById(
+      "eventDate"
+    ).value;
+
+  const location =
+    document.getElementById(
+      "eventLocation"
+    ).value.trim();
+
+  const description =
+    document.getElementById(
+      "eventDescription"
+    ).value.trim();
 
 
-async function saveEvent(event){
+  if (!title) {
 
-  event.preventDefault();
+    showMessage(
+      "eventMessage",
+      "Please enter event title."
+    );
+
+    return;
+  }
 
 
-  const record={
+  const record = {
 
-    title:
-      document
-        .getElementById("eventTitle")
-        .value
-        .trim(),
-
-    date:
-      document
-        .getElementById("eventDate")
-        .value,
-
-    location:
-      document
-        .getElementById("eventLocation")
-        .value
-        .trim(),
-
-    description:
-      document
-        .getElementById("eventDescription")
-        .value
-        .trim()
+    title,
+    date,
+    location,
+    description
   };
 
 
-  if(
-    !record.title ||
-    !record.date
-  ){
+  try {
 
-    showMessage(
-      "Event title and date are required.",
-      "error"
-    );
+    if (editingEventId) {
 
-    return;
-  }
-
-
-  const {
-    error
-  } =
-    editingEventId
-
-      ? await db
+      const { error } =
+        await db
           .from("events")
           .update(record)
-          .eq("id",editingEventId)
+          .eq(
+            "id",
+            editingEventId
+          );
 
-      : await db
+      if (error) {
+        throw error;
+      }
+
+      showMessage(
+        "eventMessage",
+        "Event updated successfully."
+      );
+
+    } else {
+
+      const { error } =
+        await db
           .from("events")
-          .insert(record);
+          .insert([record]);
+
+      if (error) {
+        throw error;
+      }
+
+      showMessage(
+        "eventMessage",
+        "Event saved successfully."
+      );
+    }
 
 
-  if(error){
+    resetEventForm();
+
+    await loadEvents();
+
+
+  } catch (error) {
 
     showMessage(
-      error.message,
-      "error"
+      "eventMessage",
+      `Could not save event:<br>${escapeHtml(error.message)}`
     );
-
-    return;
   }
-
-
-  showMessage(
-    editingEventId
-      ? "Event updated successfully."
-      : "Event saved successfully."
-  );
-
-
-  resetEventForm();
-
-  await loadEvents();
 }
 
 
-async function loadEvents(){
+/* ================================
+   LOAD EVENTS
+================================ */
+
+async function loadEvents() {
 
   const container =
     document.getElementById(
       "eventRecords"
     );
+
+  if (!container) return;
 
 
   container.innerHTML =
@@ -4084,382 +3245,387 @@ async function loadEvents(){
     </div>`;
 
 
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("events")
-      .select("*")
-      .order(
-        "date",
-        {
-          ascending:false
-        }
-      );
-
-
-  if(error){
-
-    container.innerHTML =
-      `<div class="empty">
-        ${escapeHtml(error.message)}
-      </div>`;
-
-    return;
-  }
-
-
-  if(!data || data.length===0){
-
-    container.innerHTML =
-      `<div class="empty">
-        No events found.
-      </div>`;
-
-    return;
-  }
-
-
-  let html="";
-
-
-  data.forEach(event=>{
-
-    html += `
-
-      <div class="record">
-
-        <h4>
-          ${escapeHtml(event.title)}
-        </h4>
-
-        <p>
-          <strong>Date:</strong>
-          ${escapeHtml(event.date || "-")}
-        </p>
-
-        <p>
-          <strong>Location:</strong>
-          ${escapeHtml(event.location || "-")}
-        </p>
-
-        <p>
-          <strong>Description:</strong>
-        </p>
-
-        <p style="white-space:pre-wrap;">
-          ${escapeHtml(event.description || "-")}
-        </p>
-
-        <div class="record-actions">
-
-          <button
-            class="edit-btn"
-            onclick="editEvent('${event.id}')"
-          >
-            Edit
-          </button>
-
-          <button
-            class="delete-btn"
-            onclick="deleteEvent('${event.id}')"
-          >
-            Delete
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-  });
-
-
-  container.innerHTML=html;
-}
-
-
-async function editEvent(id){
-
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("events")
-      .select("*")
-      .eq("id",id)
-      .single();
-
-
-  if(error){
-
-    showMessage(
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  editingEventId=data.id;
-
-
-  document
-    .getElementById("eventTitle")
-    .value =
-    data.title || "";
-
-
-  document
-    .getElementById("eventDate")
-    .value =
-    data.date || "";
-
-
-  document
-    .getElementById("eventLocation")
-    .value =
-    data.location || "";
-
-
-  document
-    .getElementById("eventDescription")
-    .value =
-    data.description || "";
-
-
-  document
-    .getElementById("eventSaveButton")
-    .textContent =
-    "Update Event";
-
-
-  document
-    .getElementById("eventCancelButton")
-    .classList.remove(
-      "hidden"
-    );
-}
-
-
-async function deleteEvent(id){
-
-  if(
-    !confirm(
-      "Delete this event?"
-    )
-  ){
-    return;
-  }
-
-
-  const {
-    error
-  } =
-    await db
-      .from("events")
-      .delete()
-      .eq("id",id);
-
-
-  if(error){
-
-    showMessage(
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  showMessage(
-    "Event deleted."
-  );
-
-  await loadEvents();
-}
-
-
-function cancelEventEdit(){
-  resetEventForm();
-}
-
-
-function resetEventForm(){
-
-  document
-    .getElementById("eventForm")
-    .reset();
-
-  editingEventId=null;
-
-
-  document
-    .getElementById("eventSaveButton")
-    .textContent =
-    "Save Event";
-
-
-  document
-    .getElementById("eventCancelButton")
-    .classList.add(
-      "hidden"
-    );
-}
-
-
-/* =========================================================
-   DOCUMENTS
-   ========================================================= */
-
-document
-  .getElementById("documentForm")
-  .addEventListener(
-    "submit",
-    uploadDocument
-  );
-
-
-async function uploadDocument(event){
-
-  event.preventDefault();
-
-
-  const title =
-    document
-      .getElementById("documentTitle")
-      .value
-      .trim();
-
-  const type =
-    document
-      .getElementById("documentType")
-      .value
-      .trim();
-
-  const file =
-    document
-      .getElementById("documentFile")
-      .files[0];
-
-
-  if(!title || !file){
-
-    showMessage(
-      "Document title and file are required.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  const button =
-    document.getElementById(
-      "documentSaveButton"
-    );
-
-  button.disabled=true;
-  button.textContent="Uploading...";
-
-
-  try{
-
-    await ensureStorageBucket();
-
-
-    const safeName =
-      file.name.replace(
-        /[^a-zA-Z0-9._-]/g,
-        "_"
-      );
-
-
-    const path =
-      `${Date.now()}_${safeName}`;
-
-
-    const {
-      error:uploadError
-    } =
-      await db.storage
-        .from(DOCUMENT_BUCKET)
-        .upload(
-          path,
-          file,
+  try {
+
+    const { data, error } =
+      await db
+        .from("events")
+        .select("*")
+        .order(
+          "date",
           {
-            upsert:false
+            ascending: false
           }
         );
 
 
-    if(uploadError){
-      throw uploadError;
+    if (error) {
+      throw error;
     }
 
 
-    const {
-      error:databaseError
-    } =
-      await db
-        .from("documents")
-        .insert({
-          title,
-          type,
-          file_path:path
-        });
+    if (!data || data.length === 0) {
 
+      container.innerHTML =
+        `<div class="empty">
+          No events found.
+        </div>`;
 
-    if(databaseError){
-
-      await db.storage
-        .from(DOCUMENT_BUCKET)
-        .remove([path]);
-
-      throw databaseError;
+      return;
     }
 
 
-    showMessage(
-      "Document uploaded successfully."
-    );
+    container.innerHTML =
+      data.map(event => {
+
+        return `
+          <div class="record">
+
+            <h3>
+              ${escapeHtml(
+                event.title || ""
+              )}
+            </h3>
+
+            <p>
+              <strong>Date:</strong>
+              ${escapeHtml(
+                event.date || ""
+              )}
+            </p>
+
+            <p>
+              <strong>Location:</strong>
+              ${escapeHtml(
+                event.location || ""
+              )}
+            </p>
+
+            <p>
+              <strong>Description:</strong><br>
+              ${escapeHtml(
+                event.description || ""
+              )}
+            </p>
+
+            <div class="record-actions">
+
+              <button
+                onclick="editEvent('${event.id}')"
+              >
+                Edit
+              </button>
+
+              <button
+                class="danger"
+                onclick="deleteEvent('${event.id}')"
+              >
+                Delete
+              </button>
+
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
 
 
-    document
-      .getElementById("documentForm")
-      .reset();
+  } catch (error) {
 
-
-    await loadDocuments();
-
-  }catch(error){
-
-    console.error(error);
-
-    showMessage(
-      "Could not upload document: " +
-      error.message,
-      "error"
-    );
-
-  }finally{
-
-    button.disabled=false;
-    button.textContent="Upload Document";
+    container.innerHTML =
+      `<div class="message">
+        Could not load events:<br>
+        ${escapeHtml(error.message)}
+      </div>`;
   }
 }
 
 
-async function loadDocuments(){
+/* ================================
+   EDIT EVENT
+================================ */
+
+async function editEvent(id) {
+
+  try {
+
+    const { data, error } =
+      await db
+        .from("events")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    editingEventId = id;
+
+
+    document.getElementById(
+      "eventTitle"
+    ).value =
+      data.title || "";
+
+
+    document.getElementById(
+      "eventDate"
+    ).value =
+      data.date || "";
+
+
+    document.getElementById(
+      "eventLocation"
+    ).value =
+      data.location || "";
+
+
+    document.getElementById(
+      "eventDescription"
+    ).value =
+      data.description || "";
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+
+  } catch (error) {
+
+    showMessage(
+      "eventMessage",
+      `Could not load event:<br>${escapeHtml(error.message)}`
+    );
+  }
+}
+
+
+/* ================================
+   DELETE EVENT
+================================ */
+
+async function deleteEvent(id) {
+
+  if (
+    !confirm(
+      "Are you sure you want to delete this event?"
+    )
+  ) {
+    return;
+  }
+
+
+  try {
+
+    const { error } =
+      await db
+        .from("events")
+        .delete()
+        .eq("id", id);
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    await loadEvents();
+
+
+  } catch (error) {
+
+    showMessage(
+      "eventMessage",
+      `Could not delete event:<br>${escapeHtml(error.message)}`
+    );
+  }
+}
+
+
+/* ================================
+   RESET EVENT
+================================ */
+
+function resetEventForm() {
+
+  editingEventId = null;
+
+
+  document.getElementById(
+    "eventTitle"
+  ).value = "";
+
+
+  document.getElementById(
+    "eventDate"
+  ).value = "";
+
+
+  document.getElementById(
+    "eventLocation"
+  ).value = "";
+
+
+  document.getElementById(
+    "eventDescription"
+  ).value = "";
+}
+
+
+/* ================================
+   DOCUMENTS
+================================ */
+
+async function saveDocument() {
+
+  const title =
+    document.getElementById(
+      "documentTitle"
+    ).value.trim();
+
+  const fileInput =
+    document.getElementById(
+      "documentFile"
+    );
+
+  const file =
+    fileInput.files[0];
+
+
+  if (!title) {
+
+    showMessage(
+      "documentMessage",
+      "Please enter document title."
+    );
+
+    return;
+  }
+
+
+  if (!file) {
+
+    showMessage(
+      "documentMessage",
+      "Please select a document."
+    );
+
+    return;
+  }
+
+
+  try {
+
+    const token =
+      await getAccessToken();
+
+
+    const extension =
+      file.name
+        .split(".")
+        .pop()
+        .toLowerCase();
+
+
+    const fileName =
+      `document-${Date.now()}.${extension}`;
+
+
+    const filePath =
+      `documents/${fileName}`;
+
+
+    const response =
+      await fetch(
+        `${SUPABASE_URL}/storage/v1/object/${DOCUMENT_BUCKET}/${filePath}`,
+        {
+          method: "POST",
+
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+
+            apikey:
+              SUPABASE_KEY,
+
+            "Content-Type":
+              file.type
+          },
+
+          body: file
+        }
+      );
+
+
+    if (!response.ok) {
+
+      const text =
+        await response.text();
+
+      throw new Error(
+        `Upload failed: ${text}`
+      );
+    }
+
+
+    const { error } =
+      await db
+        .from("documents")
+        .insert([{
+          title,
+          file_path: filePath
+        }]);
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    showMessage(
+      "documentMessage",
+      "Document uploaded successfully."
+    );
+
+
+    document.getElementById(
+      "documentTitle"
+    ).value = "";
+
+    fileInput.value = "";
+
+
+    await loadDocuments();
+
+
+  } catch (error) {
+
+    showMessage(
+      "documentMessage",
+      `Could not upload document:<br>${escapeHtml(error.message)}`
+    );
+  }
+}
+
+
+/* ================================
+   LOAD DOCUMENTS
+================================ */
+
+async function loadDocuments() {
 
   const container =
     document.getElementById(
       "documentRecords"
     );
+
+  if (!container) return;
 
 
   container.innerHTML =
@@ -4468,352 +3634,158 @@ async function loadDocuments(){
     </div>`;
 
 
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("documents")
-      .select("*")
-      .order(
-        "created_at",
-        {
-          ascending:false
-        }
-      );
-
-
-  if(error){
-
-    container.innerHTML =
-      `<div class="empty">
-        Could not load documents:
-        ${escapeHtml(error.message)}
-      </div>`;
-
-    return;
-  }
-
-
-  if(!data || data.length===0){
-
-    container.innerHTML =
-      `<div class="empty">
-        No documents found.
-      </div>`;
-
-    return;
-  }
-
-
-  let html="";
-
-
-  data.forEach(document=>{
-
-    html += `
-
-      <div class="document-item">
-
-        <div class="document-info">
-
-          <strong>
-            ${escapeHtml(document.title)}
-          </strong>
-
-          <span>
-            ${escapeHtml(
-              document.type || "Document"
-            )}
-          </span>
-
-        </div>
-
-        <div
-          style="
-            display:flex;
-            gap:6px;
-            flex-wrap:wrap;
-          "
-        >
-
-          <button
-            class="btn btn-primary"
-            onclick="openDocument('${document.id}')"
-          >
-            Open
-          </button>
-
-          <button
-            class="btn btn-danger"
-            onclick="deleteDocument('${document.id}')"
-          >
-            Delete
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-  });
-
-
-  container.innerHTML=html;
-}
-
-
-async function openDocument(id){
-
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("documents")
-      .select("*")
-      .eq("id",id)
-      .single();
-
-
-  if(error){
-
-    showMessage(
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  const {
-    data:signedData,
-    error:signedError
-  } =
-    await db.storage
-      .from(DOCUMENT_BUCKET)
-      .createSignedUrl(
-        data.file_path,
-        3600
-      );
-
-
-  if(signedError){
-
-    showMessage(
-      signedError.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  window.open(
-    signedData.signedUrl,
-    "_blank"
-  );
-}
-
-
-async function deleteDocument(id){
-
-  if(
-    !confirm(
-      "Delete this document?"
-    )
-  ){
-    return;
-  }
-
-
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("documents")
-      .select("file_path")
-      .eq("id",id)
-      .single();
-
-
-  if(error){
-
-    showMessage(
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  const {
-    error:deleteError
-  } =
-    await db
-      .from("documents")
-      .delete()
-      .eq("id",id);
-
-
-  if(deleteError){
-
-    showMessage(
-      deleteError.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  if(
-    data &&
-    data.file_path
-  ){
-
-    await db.storage
-      .from(DOCUMENT_BUCKET)
-      .remove([
-        data.file_path
-      ]);
-  }
-
-
-  showMessage(
-    "Document deleted successfully."
-  );
-
-  await loadDocuments();
-}
-
-
-/* =========================================================
-   LOAD EVERYTHING
-   ========================================================= */
-
-async function loadAll(){
-
-  await loadMembers();
-
-  await loadExecutivePeriods();
-
-  await loadExecutives();
-
-  await loadFinance();
-
-  await loadMeetings();
-
-  await loadEvents();
-
-  await loadDocuments();
-}
-
-
-/* =========================================================
-   CHECK LOGIN
-   ========================================================= */
-
-async function checkUser(){
-
-  try{
-
-    const {
-      data,
-      error
-    } =
-      await db.auth.getSession();
-
-
-    if(error){
+  try {
+
+    const { data, error } =
+      await db
+        .from("documents")
+        .select("*")
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
+
+
+    if (error) {
       throw error;
     }
 
 
-    if(
-      data &&
-      data.session
-    ){
+    if (!data || data.length === 0) {
 
-      document
-        .getElementById("loginScreen")
-        .classList.add("hidden");
+      container.innerHTML =
+        `<div class="empty">
+          No documents found.
+        </div>`;
 
-      document
-        .getElementById("app")
-        .classList.remove("hidden");
-
-      await loadAll();
-
-    }else{
-
-      document
-        .getElementById("loginScreen")
-        .classList.remove("hidden");
-
-      document
-        .getElementById("app")
-        .classList.add("hidden");
+      return;
     }
 
-  }catch(error){
 
-    console.error(
-      "Session check error:",
-      error
-    );
+    container.innerHTML =
+      data.map(document => {
 
-    document
-      .getElementById("loginScreen")
-      .classList.remove("hidden");
+        const url =
+          getPhotoUrl(
+            document.file_path
+          );
 
-    document
-      .getElementById("app")
-      .classList.add("hidden");
+
+        return `
+          <div class="document-item">
+
+            <strong>
+              ${escapeHtml(
+                document.title || "Document"
+              )}
+            </strong>
+
+            <br><br>
+
+            <button
+              onclick="window.open(
+                '${url}',
+                '_blank'
+              )"
+            >
+              Open
+            </button>
+
+            <button
+              class="danger"
+              onclick="deleteDocument('${document.id}')"
+            >
+              Delete
+            </button>
+
+          </div>
+        `;
+
+      }).join("");
+
+
+  } catch (error) {
+
+    container.innerHTML =
+      `<div class="message">
+        Could not load documents:<br>
+        ${escapeHtml(error.message)}
+      </div>`;
   }
 }
 
 
-/* =========================================================
-   AUTH STATE
-   ========================================================= */
+/* ================================
+   DELETE DOCUMENT
+================================ */
 
-db.auth.onAuthStateChange(
-  (
-    event,
-    session
-  )=>{
+async function deleteDocument(id) {
 
-    if(session){
-
-      document
-        .getElementById("loginScreen")
-        .classList.add("hidden");
-
-      document
-        .getElementById("app")
-        .classList.remove("hidden");
-
-    }else{
-
-      document
-        .getElementById("loginScreen")
-        .classList.remove("hidden");
-
-      document
-        .getElementById("app")
-        .classList.add("hidden");
-    }
+  if (
+    !confirm(
+      "Are you sure you want to delete this document?"
+    )
+  ) {
+    return;
   }
-);
 
 
-/* =========================================================
-   START
-   ========================================================= */
+  try {
+
+    const { data, error } =
+      await db
+        .from("documents")
+        .select("file_path")
+        .eq("id", id)
+        .single();
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    const { error: deleteError } =
+      await db
+        .from("documents")
+        .delete()
+        .eq("id", id);
+
+
+    if (deleteError) {
+      throw deleteError;
+    }
+
+
+    if (
+      data &&
+      data.file_path
+    ) {
+
+      await deleteStoredPhoto(
+        data.file_path
+      );
+    }
+
+
+    await loadDocuments();
+
+
+  } catch (error) {
+
+    showMessage(
+      "documentMessage",
+      `Could not delete document:<br>${escapeHtml(error.message)}`
+    );
+  }
+}
+
+
+/* ================================
+   START APP
+================================ */
 
 checkUser();
 
