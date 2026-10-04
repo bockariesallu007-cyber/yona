@@ -6,7 +6,9 @@
 <title>YONA App</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+box-sizing:border-box
+}
 
 body{
 margin:0;
@@ -257,7 +259,15 @@ overflow:auto;
 margin-bottom:12px
 }
 
+.login-status{
+text-align:center;
+margin-top:10px;
+font-size:13px;
+color:#666
+}
+
 @media(max-width:800px){
+
 .dashboard{
 grid-template-columns:repeat(2,minmax(0,1fr))
 }
@@ -269,9 +279,11 @@ grid-template-columns:1fr
 .member-form-grid{
 grid-template-columns:1fr
 }
+
 }
 
 @media(max-width:500px){
+
 .container{
 padding:12px
 }
@@ -292,6 +304,7 @@ margin:4px 0
 .logout{
 float:none
 }
+
 }
 </style>
 </head>
@@ -306,7 +319,10 @@ float:none
 
 <div class="container">
 
-<!-- LOGIN -->
+<!-- =========================
+     LOGIN
+========================= -->
+
 <section id="loginSection" class="card auth-box">
 
 <h2 class="section-title">YONA Login</h2>
@@ -315,126 +331,256 @@ float:none
 Sign in with the YONA Supabase account.
 </p>
 
-<input id="loginEmail" type="email" placeholder="Email">
+<form id="loginForm">
 
-<input id="loginPassword" type="password" placeholder="Password">
+<input
+id="loginEmail"
+type="email"
+placeholder="Email"
+autocomplete="email"
+required
+>
 
-<button id="loginButton" onclick="login()">Login</button>
+<input
+id="loginPassword"
+type="password"
+placeholder="Password"
+autocomplete="current-password"
+required
+>
+
+<button
+id="loginButton"
+type="submit">
+Login
+</button>
+
+</form>
 
 <div id="loginMessage"></div>
+
+<div id="loginStatus" class="login-status"></div>
 
 </section>
 
 
-<!-- APPLICATION -->
+<!-- =========================
+     APPLICATION
+========================= -->
+
 <section id="appSection" class="hidden">
 
 <div class="topbar">
-<button class="logout" onclick="logout()">Logout</button>
+
+<button
+id="logoutButton"
+class="logout"
+type="button">
+Logout
+</button>
+
 </div>
 
 
 <!-- DASHBOARD -->
+
 <div id="dashboardSection">
 
 <div class="dashboard">
 
 <div class="dashboard-card">
+
 <div class="dashboard-icon">👥</div>
+
 <h3>Members</h3>
-<p>Manage YONA members and membership records.</p>
-<button onclick="showSection('membersSection');loadMembers()">Members</button>
+
+<p>
+Manage YONA members and membership records.
+</p>
+
+<button
+type="button"
+onclick="showSection('membersSection');loadMembers()">
+Members
+</button>
+
 </div>
 
 
 <div class="dashboard-card">
+
 <div class="dashboard-icon">👔</div>
+
 <h3>Executive</h3>
-<p>Manage executive leadership and periods.</p>
-<button onclick="showSection('executiveSection');loadExecutive()">Executive</button>
+
+<p>
+Manage executive leadership and periods.
+</p>
+
+<button
+type="button"
+onclick="showSection('executiveSection');loadExecutive()">
+Executive
+</button>
+
 </div>
 
 
 <div class="dashboard-card">
+
 <div class="dashboard-icon">💰</div>
+
 <h3>Finance</h3>
-<p>Manage contributions and financial records.</p>
-<button onclick="showSection('financeSection');loadFinance()">Finance</button>
+
+<p>
+Manage contributions and financial records.
+</p>
+
+<button
+type="button"
+onclick="showSection('financeSection');loadFinance()">
+Finance
+</button>
+
 </div>
 
 
 <div class="dashboard-card">
+
 <div class="dashboard-icon">📝</div>
+
 <h3>Meetings</h3>
-<p>Store meetings and minutes.</p>
-<button onclick="showSection('meetingsSection');loadMeetings()">Meetings</button>
+
+<p>
+Store meetings and minutes.
+</p>
+
+<button
+type="button"
+onclick="showSection('meetingsSection');loadMeetings()">
+Meetings
+</button>
+
 </div>
 
 
 <div class="dashboard-card">
+
 <div class="dashboard-icon">📅</div>
+
 <h3>Events</h3>
-<p>Manage YONA events and activities.</p>
-<button onclick="showSection('eventsSection');loadEvents()">Events</button>
+
+<p>
+Manage YONA events and activities.
+</p>
+
+<button
+type="button"
+onclick="showSection('eventsSection');loadEvents()">
+Events
+</button>
+
 </div>
 
 
 <div class="dashboard-card">
+
 <div class="dashboard-icon">📁</div>
+
 <h3>Documents</h3>
-<p>Store important YONA documents.</p>
-<button onclick="showSection('documentsSection');loadDocuments()">Documents</button>
+
+<p>
+Store important YONA documents.
+</p>
+
+<button
+type="button"
+onclick="showSection('documentsSection');loadDocuments()">
+Documents
+</button>
+
 </div>
 
 </div>
 </div>
 
 
-<!-- MEMBERS -->
+<!-- =========================
+     MEMBERS
+========================= -->
+
 <section id="membersSection" class="hidden card">
 
 <h2 class="section-title">Members</h2>
 
-<form onsubmit="saveMember(event)">
+<form id="memberForm">
 
 <div class="member-form-grid">
 
 <div>
 <label>Name</label>
-<input id="memberName" required>
+
+<input
+id="memberName"
+required
+>
 </div>
+
 
 <div>
 <label>Phone</label>
-<input id="memberPhone">
+
+<input
+id="memberPhone"
+>
 </div>
 
+
 <div>
+
 <label>Member Category</label>
 
-<select id="memberType" required>
+<select
+id="memberType"
+required>
 
-<option value="">Select category</option>
+<option value="">
+Select category
+</option>
 
-<option>Old Member</option>
+<option>
+Old Member
+</option>
 
-<option>Current Member</option>
+<option>
+Current Member
+</option>
 
-<option>Probationary Member</option>
+<option>
+Probationary Member
+</option>
 
 </select>
 
 </div>
 
+
 <div>
+
 <label>Position</label>
-<input id="memberPosition">
+
+<input
+id="memberPosition"
+>
+
 </div>
 
 
 <div class="full member-photo-wrap">
 
-<div id="memberPhotoPreview" class="member-photo-preview">
+<div
+id="memberPhotoPreview"
+class="member-photo-preview">
 
 <span class="photo-placeholder">
 Profile Photo
@@ -448,7 +594,6 @@ Profile Photo
 id="memberPhoto"
 type="file"
 accept="image/*"
-onchange="previewMemberPhoto(event)"
 >
 
 </div>
@@ -456,15 +601,22 @@ onchange="previewMemberPhoto(event)"
 </div>
 
 
-<button id="memberSaveButton" type="submit">
+<button
+id="memberSaveButton"
+type="submit">
+
 Save Member
+
 </button>
+
 
 <button
 type="button"
 class="cancel-button"
-onclick="resetMemberForm()">
+id="memberCancelButton">
+
 Cancel
+
 </button>
 
 </form>
@@ -474,86 +626,138 @@ Cancel
 <div id="membersList"></div>
 
 <button
+type="button"
 class="back-button"
 onclick="backToDashboard()">
+
 Back to Dashboard
+
 </button>
 
 </section>
 
 
-<!-- EXECUTIVE -->
+<!-- =========================
+     EXECUTIVE
+========================= -->
+
 <section id="executiveSection" class="hidden card">
 
-<h2 class="section-title">Executive</h2>
+<h2 class="section-title">
+Executive
+</h2>
 
 <div class="member-form-grid">
 
 <div>
+
 <label>Period</label>
+
 <input
 id="executivePeriod"
-placeholder="e.g. 2026-2029">
+placeholder="e.g. 2026-2029"
+>
+
 </div>
 
+
 <div>
+
 <label>Name</label>
-<input id="executiveName">
+
+<input
+id="executiveName"
+>
+
 </div>
 
+
 <div>
+
 <label>Position</label>
-<input id="executivePosition">
+
+<input
+id="executivePosition"
+>
+
 </div>
 
+
 <div>
+
 <label>Phone</label>
-<input id="executivePhone">
+
+<input
+id="executivePhone"
+>
+
 </div>
+
 
 <div class="full">
+
 <label>Photo</label>
+
 <input
 id="executivePhoto"
 type="file"
-accept="image/*">
+accept="image/*"
+>
+
 </div>
 
 </div>
+
 
 <button
 id="executiveSaveButton"
-onclick="saveExecutive(event)">
+type="button">
+
 Save Executive
+
 </button>
 
+
 <button
+type="button"
 class="cancel-button"
 onclick="resetExecutiveForm()">
+
 Cancel
+
 </button>
+
 
 <div id="executiveMessage"></div>
 
 <div id="executiveList"></div>
 
 <button
+type="button"
 class="back-button"
 onclick="backToDashboard()">
+
 Back to Dashboard
+
 </button>
 
 </section>
 
 
-<!-- FINANCE -->
+<!-- =========================
+     FINANCE
+========================= -->
+
 <section id="financeSection" class="hidden card">
 
-<h2 class="section-title">Finance</h2>
+<h2 class="section-title">
+Finance
+</h2>
 
 <input
 id="financeName"
-placeholder="Name">
+placeholder="Name"
+>
 
 <select id="financeType">
 
@@ -561,163 +765,264 @@ placeholder="Name">
 Select transaction type
 </option>
 
-<option>Registration</option>
-<option>Annual Contribution</option>
-<option>End of year Contribution</option>
-<option>Loan</option>
-<option>Loan Repayment</option>
-<option>Loan Interest</option>
-<option>Welfare</option>
-<option>Other</option>
+<option>
+Registration
+</option>
+
+<option>
+Annual Contribution
+</option>
+
+<option>
+End of year Contribution
+</option>
+
+<option>
+Loan
+</option>
+
+<option>
+Loan Repayment
+</option>
+
+<option>
+Loan Interest
+</option>
+
+<option>
+Welfare
+</option>
+
+<option>
+Other
+</option>
 
 </select>
+
 
 <input
 id="financeAmount"
 type="number"
 step="0.01"
-placeholder="Amount">
+placeholder="Amount"
+>
+
 
 <textarea
 id="financeDescription"
-placeholder="Description">
-</textarea>
+placeholder="Description"></textarea>
 
-<button onclick="saveFinance(event)">
-Save Transaction
-</button>
 
 <button
+type="button"
+onclick="saveFinance()">
+
+Save Transaction
+
+</button>
+
+
+<button
+type="button"
 class="cancel-button"
 onclick="resetFinanceForm()">
+
 Cancel
+
 </button>
+
 
 <div id="financeMessage"></div>
 
 <div id="financeList"></div>
 
 <button
+type="button"
 class="back-button"
 onclick="backToDashboard()">
+
 Back to Dashboard
+
 </button>
 
 </section>
 
 
-<!-- MEETINGS -->
+<!-- =========================
+     MEETINGS
+========================= -->
+
 <section id="meetingsSection" class="hidden card">
 
-<h2 class="section-title">Meetings</h2>
+<h2 class="section-title">
+Meetings
+</h2>
+
 
 <input
 id="meetingDate"
-type="date">
+type="date"
+>
+
 
 <input
 id="meetingTitle"
-placeholder="Meeting Title">
+placeholder="Meeting Title"
+>
+
 
 <input
 id="meetingLocation"
-placeholder="Location">
+placeholder="Location"
+>
+
 
 <textarea
 id="meetingDescription"
-placeholder="Minutes / Description">
-</textarea>
+placeholder="Minutes / Description"></textarea>
 
-<button onclick="saveMeeting(event)">
-Save Meeting
-</button>
 
 <button
+type="button"
+onclick="saveMeeting()">
+
+Save Meeting
+
+</button>
+
+
+<button
+type="button"
 class="cancel-button"
 onclick="resetMeetingForm()">
+
 Cancel
+
 </button>
+
 
 <div id="meetingMessage"></div>
 
 <div id="meetingsList"></div>
 
 <button
+type="button"
 class="back-button"
 onclick="backToDashboard()">
+
 Back to Dashboard
+
 </button>
 
 </section>
 
 
-<!-- EVENTS -->
+<!-- =========================
+     EVENTS
+========================= -->
+
 <section id="eventsSection" class="hidden card">
 
-<h2 class="section-title">Events</h2>
+<h2 class="section-title">
+Events
+</h2>
+
 
 <input
 id="eventTitle"
-placeholder="Event Title">
+placeholder="Event Title"
+>
+
 
 <input
 id="eventDate"
-type="date">
+type="date"
+>
+
 
 <input
 id="eventLocation"
-placeholder="Location">
+placeholder="Location"
+>
+
 
 <textarea
 id="eventDescription"
-placeholder="Description">
-</textarea>
+placeholder="Description"></textarea>
 
-<button onclick="saveEvent(event)">
-Save Event
-</button>
 
 <button
+type="button"
+onclick="saveEvent()">
+
+Save Event
+
+</button>
+
+
+<button
+type="button"
 class="cancel-button"
 onclick="resetEventForm()">
+
 Cancel
+
 </button>
+
 
 <div id="eventMessage"></div>
 
 <div id="eventsList"></div>
 
 <button
+type="button"
 class="back-button"
 onclick="backToDashboard()">
+
 Back to Dashboard
+
 </button>
 
 </section>
 
 
-<!-- DOCUMENTS -->
+<!-- =========================
+     DOCUMENTS
+========================= -->
+
 <section id="documentsSection" class="hidden card">
 
-<h2 class="section-title">Documents</h2>
+<h2 class="section-title">
+Documents
+</h2>
 
 
 <div class="document-upload-box">
 
-<h3>Create Document</h3>
+<h3>
+Create Document
+</h3>
+
 
 <input
 id="typedDocumentTitle"
-placeholder="Document Title">
+placeholder="Document Title"
+>
+
 
 <textarea
 id="typedDocumentContent"
-placeholder="Type document content...">
-</textarea>
+placeholder="Type document content..."></textarea>
 
-<button onclick="saveTypedDocument()">
+
+<button
+type="button"
+onclick="saveTypedDocument()">
+
 Save Document
+
 </button>
+
 
 <div id="typedDocumentMessage"></div>
 
@@ -726,15 +1031,25 @@ Save Document
 
 <div class="document-upload-box">
 
-<h3>Upload Document</h3>
+<h3>
+Upload Document
+</h3>
+
 
 <input
 id="documentFile"
-type="file">
+type="file"
+>
 
-<button onclick="uploadDocument()">
+
+<button
+type="button"
+onclick="uploadDocument()">
+
 Upload Document
+
 </button>
+
 
 <div id="documentMessage"></div>
 
@@ -743,21 +1058,30 @@ Upload Document
 
 <div id="documentsList"></div>
 
+
 <button
+type="button"
 class="back-button"
 onclick="backToDashboard()">
+
 Back to Dashboard
+
 </button>
 
 </section>
 
 </section>
+
 </div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+
+/* =========================
+   SUPABASE
+========================= */
 
 const SUPABASE_URL =
 "https://atxeeymireukwbbsczbv.supabase.co";
@@ -782,6 +1106,10 @@ detectSessionInUrl:true
 }
 );
 
+
+/* =========================
+   EDITING VARIABLES
+========================= */
 
 let editingMemberId=null;
 let editingMemberOldPhoto=null;
@@ -829,7 +1157,7 @@ const e=document.getElementById(id);
 
 if(e){
 
-e.innerHTML =
+e.innerHTML=
 '<div class="message '+type+'">'+
 escapeHtml(msg)+
 '</div>';
@@ -847,11 +1175,18 @@ document
 
 document
 .querySelectorAll('#appSection>section')
-.forEach(s=>s.classList.add('hidden'));
+.forEach(
+s=>s.classList.add('hidden')
+);
 
-document
-.getElementById(id)
-.classList.remove('hidden');
+const section=
+document.getElementById(id);
+
+if(section){
+
+section.classList.remove('hidden');
+
+}
 
 }
 
@@ -860,7 +1195,9 @@ function backToDashboard(){
 
 document
 .querySelectorAll('#appSection>section')
-.forEach(s=>s.classList.add('hidden'));
+.forEach(
+s=>s.classList.add('hidden')
+);
 
 document
 .getElementById('dashboardSection')
@@ -882,69 +1219,254 @@ return v==null ? '' : String(v);
 
 async function login(){
 
-const email =
+const email=
 document
 .getElementById('loginEmail')
 .value
 .trim();
 
-const password =
+const password=
 document
 .getElementById('loginPassword')
 .value;
 
-const b =
-document.getElementById('loginButton');
+const button=
+document
+.getElementById('loginButton');
 
-b.disabled=true;
-b.textContent='Logging in...';
+const message=
+document
+.getElementById('loginMessage');
+
+const status=
+document
+.getElementById('loginStatus');
+
+
+if(!email){
+
+showMessage(
+'loginMessage',
+'Please enter your email address.',
+'error'
+);
+
+return;
+
+}
+
+
+if(!password){
+
+showMessage(
+'loginMessage',
+'Please enter your password.',
+'error'
+);
+
+return;
+
+}
+
+
+button.disabled=true;
+
+button.textContent=
+'Logging in...';
+
+message.innerHTML='';
+
+status.textContent='';
+
 
 try{
 
-const {error} =
+console.log(
+'YONA Login: starting...'
+);
+
+
+const {data,error}=
 await supabaseClient.auth.signInWithPassword({
-email,
-password
+
+email:email,
+
+password:password
+
 });
 
-if(error) throw error;
+
+console.log(
+'YONA Login result:',
+data,
+error
+);
+
+
+if(error){
+
+throw error;
+
+}
+
+
+if(!data?.session){
+
+throw new Error(
+'Login completed but no session was created.'
+);
+
+}
+
+
+showMessage(
+'loginMessage',
+'Login successful.',
+'success'
+);
+
 
 showApp();
 
 }
-catch(e){
+catch(error){
+
+console.error(
+'YONA LOGIN ERROR:',
+error
+);
+
+
+let msg=
+error?.message ||
+'Login failed.';
+
+
+if(error?.code){
+
+msg +=
+'\n\nCode: '+
+error.code;
+
+}
+
+
+if(error?.status){
+
+msg +=
+'\nStatus: '+
+error.status;
+
+}
+
 
 showMessage(
 'loginMessage',
-'Login failed: '+(e.message||'Unknown error'),
+msg,
 'error'
 );
 
 }
 finally{
 
-b.disabled=false;
-b.textContent='Login';
+button.disabled=false;
+
+button.textContent='Login';
 
 }
 
 }
 
+
+/* =========================
+   LOGOUT
+========================= */
 
 async function logout(){
 
+const button=
+document.getElementById(
+'logoutButton'
+);
+
+button.disabled=true;
+
+button.textContent=
+'Logging out...';
+
+
+try{
+
+const {error}=
 await supabaseClient.auth.signOut();
+
+if(error){
+
+throw error;
+
+}
+
 
 document
 .getElementById('appSection')
 .classList.add('hidden');
 
+
 document
 .getElementById('loginSection')
 .classList.remove('hidden');
 
+
+document
+.getElementById('loginEmail')
+.value='';
+
+
+document
+.getElementById('loginPassword')
+.value='';
+
+
+document
+.getElementById('loginMessage')
+.innerHTML='';
+
+
+document
+.getElementById('loginStatus')
+.textContent='';
+
+
+backToDashboard();
+
+}
+catch(error){
+
+console.error(
+'YONA LOGOUT ERROR:',
+error
+);
+
+alert(
+'Logout failed: '+
+(error?.message || 'Unknown error')
+);
+
+}
+finally{
+
+button.disabled=false;
+
+button.textContent='Logout';
+
 }
 
+}
+
+
+/* =========================
+   SHOW APP
+========================= */
 
 function showApp(){
 
@@ -952,21 +1474,43 @@ document
 .getElementById('loginSection')
 .classList.add('hidden');
 
+
 document
 .getElementById('appSection')
 .classList.remove('hidden');
+
+
+document
+.getElementById('loginMessage')
+.innerHTML='';
+
+
+document
+.getElementById('loginStatus')
+.textContent='';
+
 
 backToDashboard();
 
 }
 
 
+/* =========================
+   SESSION
+========================= */
+
 async function requireSession(){
 
-const {data,error} =
+const {data,error}=
 await supabaseClient.auth.getSession();
 
-if(error) throw error;
+
+if(error){
+
+throw error;
+
+}
+
 
 if(!data.session){
 
@@ -975,6 +1519,7 @@ throw new Error(
 );
 
 }
+
 
 return data.session;
 
@@ -987,17 +1532,25 @@ return data.session;
 
 function validatePhoto(file){
 
-if(!file) return true;
+if(!file){
+
+return true;
+
+}
+
 
 if(!file.type.startsWith('image/')){
 
-alert('Please select an image file.');
+alert(
+'Please select an image file.'
+);
 
 return false;
 
 }
 
-if(file.size > 5*1024*1024){
+
+if(file.size>5*1024*1024){
 
 alert(
 'Profile photo must be 5 MB or smaller.'
@@ -1006,6 +1559,7 @@ alert(
 return false;
 
 }
+
 
 return true;
 
@@ -1018,21 +1572,30 @@ folder,
 prefix
 ){
 
-if(!file) return null;
+if(!file){
 
-if(!validatePhoto(file)){
-
-throw new Error('Invalid photo.');
+return null;
 
 }
 
-const safe =
+
+if(!validatePhoto(file)){
+
+throw new Error(
+'Invalid photo.'
+);
+
+}
+
+
+const safe=
 file.name.replace(
 /[^a-zA-Z0-9._-]/g,
 '_'
 );
 
-const path =
+
+const path=
 folder+
 '/'+
 prefix+
@@ -1046,7 +1609,7 @@ Math.random()
 safe;
 
 
-const {error} =
+const {error}=
 await supabaseClient
 .storage
 .from(DOCUMENT_BUCKET)
@@ -1059,7 +1622,13 @@ cacheControl:'3600'
 }
 );
 
-if(error) throw error;
+
+if(error){
+
+throw error;
+
+}
+
 
 return path;
 
@@ -1068,9 +1637,19 @@ return path;
 
 async function deleteStoredPhoto(path){
 
-if(!path) return;
+if(!path){
 
-if(path.startsWith('http')) return;
+return;
+
+}
+
+
+if(path.startsWith('http')){
+
+return;
+
+}
+
 
 await supabaseClient
 .storage
@@ -1082,9 +1661,14 @@ await supabaseClient
 
 async function getPhotoUrl(path){
 
-if(!path) return null;
+if(!path){
 
-const {data,error} =
+return null;
+
+}
+
+
+const {data,error}=
 await supabaseClient
 .storage
 .from(DOCUMENT_BUCKET)
@@ -1093,7 +1677,18 @@ path,
 3600
 );
 
-if(error) return null;
+
+if(error){
+
+console.error(
+'Photo URL error:',
+error
+);
+
+return null;
+
+}
+
 
 return data?.signedUrl || null;
 
@@ -1106,47 +1701,52 @@ return data?.signedUrl || null;
 
 function previewMemberPhoto(event){
 
-const f =
+const file=
 event.target.files?.[0];
 
-const p =
+const preview=
 document.getElementById(
 'memberPhotoPreview'
 );
 
-if(!f){
 
-p.innerHTML =
+if(!file){
+
+preview.innerHTML=
 '<span class="photo-placeholder">Profile Photo</span>';
 
 return;
 
 }
 
-if(!validatePhoto(f)){
+
+if(!validatePhoto(file)){
 
 event.target.value='';
 
-p.innerHTML =
+preview.innerHTML=
 '<span class="photo-placeholder">Profile Photo</span>';
 
 return;
 
 }
 
-const r =
+
+const reader=
 new FileReader();
 
-r.onload=()=>{
 
-p.innerHTML =
+reader.onload=()=>{
+
+preview.innerHTML=
 '<img class="member-photo-preview" src="'+
-r.result+
+reader.result+
 '" alt="Preview">';
 
 };
 
-r.readAsDataURL(f);
+
+reader.readAsDataURL(file);
 
 }
 
@@ -1157,19 +1757,27 @@ r.readAsDataURL(f);
 
 async function saveMember(event){
 
+if(event){
+
 event.preventDefault();
 
-const button =
+}
+
+
+const button=
 document.getElementById(
 'memberSaveButton'
 );
 
+
 button.disabled=true;
 
-button.textContent =
+button.textContent=
 editingMemberId
-? 'Updating...'
-: 'Saving...';
+?
+'Updating...'
+:
+'Saving...';
 
 
 try{
@@ -1177,34 +1785,34 @@ try{
 await requireSession();
 
 
-const name =
+const name=
 document
 .getElementById('memberName')
 .value
 .trim();
 
 
-const phone =
+const phone=
 document
 .getElementById('memberPhone')
 .value
 .trim();
 
 
-const memberType =
+const memberType=
 document
 .getElementById('memberType')
 .value;
 
 
-const position =
+const position=
 document
 .getElementById('memberPosition')
 .value
 .trim();
 
 
-const file =
+const file=
 document
 .getElementById('memberPhoto')
 .files?.[0];
@@ -1228,7 +1836,7 @@ throw new Error(
 }
 
 
-if(file && !validatePhoto(file)){
+if(file&&!validatePhoto(file)){
 
 throw new Error(
 'Invalid profile photo.'
@@ -1237,13 +1845,13 @@ throw new Error(
 }
 
 
-let newPhotoPath =
+let newPhotoPath=
 editingMemberOldPhoto || null;
 
 
 if(file){
 
-newPhotoPath =
+newPhotoPath=
 await uploadPersonPhoto(
 file,
 'member-photos',
@@ -1253,7 +1861,7 @@ file,
 }
 
 
-const record = {
+const record={
 
 name:name,
 
@@ -1274,11 +1882,9 @@ record
 );
 
 
-/* UPDATE */
-
 if(editingMemberId){
 
-const {data,error} =
+const {data,error}=
 await supabaseClient
 .from('members')
 .update(record)
@@ -1298,7 +1904,7 @@ error
 if(
 file &&
 newPhotoPath &&
-newPhotoPath !== editingMemberOldPhoto
+newPhotoPath!==editingMemberOldPhoto
 ){
 
 await deleteStoredPhoto(
@@ -1322,7 +1928,7 @@ data
 if(
 file &&
 editingMemberOldPhoto &&
-editingMemberOldPhoto !== newPhotoPath
+editingMemberOldPhoto!==newPhotoPath
 ){
 
 await deleteStoredPhoto(
@@ -1339,13 +1945,9 @@ showMessage(
 );
 
 }
-
-
-/* INSERT */
-
 else{
 
-const {data,error} =
+const {data,error}=
 await supabaseClient
 .from('members')
 .insert([record])
@@ -1395,8 +1997,6 @@ resetMemberForm();
 await loadMembers();
 
 }
-
-
 catch(error){
 
 console.error(
@@ -1405,14 +2005,14 @@ error
 );
 
 
-let message =
+let message=
 error?.message ||
 'Unknown error occurred.';
 
 
 if(error?.code){
 
-message +=
+message+=
 '\n\nCode: '+
 error.code;
 
@@ -1421,7 +2021,7 @@ error.code;
 
 if(error?.details){
 
-message +=
+message+=
 '\nDetails: '+
 error.details;
 
@@ -1430,7 +2030,7 @@ error.details;
 
 if(error?.hint){
 
-message +=
+message+=
 '\nHint: '+
 error.hint;
 
@@ -1439,21 +2039,22 @@ error.hint;
 
 showMessage(
 'memberMessage',
-'Could not save member:\n\n'+message,
+'Could not save member:\n\n'+
+message,
 'error'
 );
 
 }
-
-
 finally{
 
 button.disabled=false;
 
-button.textContent =
+button.textContent=
 editingMemberId
-? 'Update Member'
-: 'Save Member';
+?
+'Update Member'
+:
+'Save Member';
 
 }
 
@@ -1462,16 +2063,17 @@ editingMemberId
 
 async function loadMembers(){
 
-const list =
+const list=
 document.getElementById(
 'membersList'
 );
 
-list.innerHTML =
+
+list.innerHTML=
 '<p>Loading members...</p>';
 
 
-const {data,error} =
+const {data,error}=
 await supabaseClient
 .from('members')
 .select(
@@ -1479,13 +2081,15 @@ await supabaseClient
 )
 .order(
 'id',
-{ascending:false}
+{
+ascending:false
+}
 );
 
 
 if(error){
 
-list.innerHTML =
+list.innerHTML=
 '<div class="message error">'+
 'Error loading members: '+
 escapeHtml(error.message)+
@@ -1498,7 +2102,7 @@ return;
 
 if(!data?.length){
 
-list.innerHTML =
+list.innerHTML=
 '<p>No members found.</p>';
 
 return;
@@ -1506,13 +2110,13 @@ return;
 }
 
 
-const cards =
+const cards=
 await Promise.all(
 
 data.map(
 async m=>{
 
-const url =
+const url=
 await getPhotoUrl(
 m.photo_url
 );
@@ -1526,20 +2130,12 @@ return `
 
 ${
 url
-
 ?
-
 '<img class="person-photo" src="'+
 escapeHtml(url)+
 '" alt="Member photo">'
-
 :
-
-'<div class="person-photo">
-<span class="photo-placeholder">
-No Photo
-</span>
-</div>'
+'<div class="person-photo"><span class="photo-placeholder">No Photo</span></div>'
 }
 
 </div>
@@ -1564,12 +2160,14 @@ ${escapeHtml(read(m.position))}
 </p>
 
 <button
+type="button"
 class="edit-button"
 onclick="editMember(${JSON.stringify(m.id)})">
 Edit
 </button>
 
 <button
+type="button"
 class="delete-button"
 onclick="deleteMember(${JSON.stringify(m.id)})">
 Delete
@@ -1585,7 +2183,7 @@ Delete
 );
 
 
-list.innerHTML =
+list.innerHTML=
 '<div class="item-grid">'+
 cards.join('')+
 '</div>';
@@ -1595,7 +2193,7 @@ cards.join('')+
 
 async function editMember(id){
 
-const {data,error} =
+const {data,error}=
 await supabaseClient
 .from('members')
 .select('*')
@@ -1619,28 +2217,32 @@ return;
 
 editingMemberId=id;
 
-editingMemberOldPhoto =
+editingMemberOldPhoto=
 data.photo_url || null;
 
 
 document
 .getElementById('memberName')
-.value=read(data.name);
+.value=
+read(data.name);
 
 
 document
 .getElementById('memberPhone')
-.value=read(data.phone);
+.value=
+read(data.phone);
 
 
 document
 .getElementById('memberType')
-.value=read(data.member_type);
+.value=
+read(data.member_type);
 
 
 document
 .getElementById('memberPosition')
-.value=read(data.position);
+.value=
+read(data.position);
 
 
 document
@@ -1648,43 +2250,32 @@ document
 .value='';
 
 
-const url =
+const url=
 await getPhotoUrl(
 data.photo_url
 );
 
 
 document
-.getElementById(
-'memberPhotoPreview'
-)
-.innerHTML =
+.getElementById('memberPhotoPreview')
+.innerHTML=
 url
-
 ?
-
 '<img class="member-photo-preview" src="'+
 escapeHtml(url)+
 '" alt="Profile photo">'
-
 :
-
-'<span class="photo-placeholder">
-Profile Photo
-</span>';
+'<span class="photo-placeholder">Profile Photo</span>';
 
 
 document
-.getElementById(
-'memberSaveButton'
-)
-.textContent='Update Member';
+.getElementById('memberSaveButton')
+.textContent=
+'Update Member';
 
 
 document
-.getElementById(
-'membersSection'
-)
+.getElementById('membersSection')
 .scrollIntoView({
 behavior:'smooth'
 });
@@ -1724,21 +2315,23 @@ document
 .value='';
 
 
+/*
+IMPORTANT:
+The old version had an invalid multi-line
+single-quoted JavaScript string here.
+That stopped the entire script from loading.
+*/
+
 document
-.getElementById(
-'memberPhotoPreview'
-)
-.innerHTML =
-'<span class="photo-placeholder">
-Profile Photo
-</span>';
+.getElementById('memberPhotoPreview')
+.innerHTML=
+'<span class="photo-placeholder">Profile Photo</span>';
 
 
 document
-.getElementById(
-'memberSaveButton'
-)
-.textContent='Save Member';
+.getElementById('memberSaveButton')
+.textContent=
+'Save Member';
 
 }
 
@@ -1747,10 +2340,14 @@ async function deleteMember(id){
 
 if(!confirm(
 'Are you sure you want to delete this member?'
-)) return;
+)){
+
+return;
+
+}
 
 
-const {data} =
+const {data}=
 await supabaseClient
 .from('members')
 .select('photo_url')
@@ -1758,7 +2355,7 @@ await supabaseClient
 .single();
 
 
-const {error} =
+const {error}=
 await supabaseClient
 .from('members')
 .delete()
@@ -1797,40 +2394,37 @@ await loadMembers();
    EXECUTIVE
 ========================= */
 
-async function saveExecutive(event){
+async function saveExecutive(){
 
-event.preventDefault();
-
-
-const period =
+const period=
 document
 .getElementById('executivePeriod')
 .value
 .trim();
 
 
-const name =
+const name=
 document
 .getElementById('executiveName')
 .value
 .trim();
 
 
-const position =
+const position=
 document
 .getElementById('executivePosition')
 .value
 .trim();
 
 
-const phone =
+const phone=
 document
 .getElementById('executivePhone')
 .value
 .trim();
 
 
-const file =
+const file=
 document
 .getElementById('executivePhoto')
 .files?.[0];
@@ -1851,13 +2445,13 @@ return;
 
 try{
 
-let photo =
+let photo=
 editingExecutiveOldPhoto || null;
 
 
 if(file){
 
-photo =
+photo=
 await uploadPersonPhoto(
 file,
 'executive-photos',
@@ -1881,7 +2475,7 @@ let result;
 
 if(editingExecutiveId){
 
-result =
+result=
 await supabaseClient
 .from('executive')
 .update(record)
@@ -1890,7 +2484,7 @@ await supabaseClient
 }
 else{
 
-result =
+result=
 await supabaseClient
 .from('executive')
 .insert([record]);
@@ -1937,13 +2531,12 @@ resetExecutiveForm();
 await loadExecutive();
 
 }
-
-catch(e){
+catch(error){
 
 showMessage(
 'executiveMessage',
 'Could not save executive: '+
-e.message,
+error.message,
 'error'
 );
 
@@ -1954,16 +2547,17 @@ e.message,
 
 async function loadExecutive(){
 
-const list =
+const list=
 document.getElementById(
 'executiveList'
 );
 
-list.innerHTML =
+
+list.innerHTML=
 'Loading executive...';
 
 
-const {data,error} =
+const {data,error}=
 await supabaseClient
 .from('executive')
 .select(
@@ -1971,13 +2565,15 @@ await supabaseClient
 )
 .order(
 'id',
-{ascending:false}
+{
+ascending:false
+}
 );
 
 
 if(error){
 
-list.innerHTML =
+list.innerHTML=
 '<div class="message error">'+
 'Error loading executive: '+
 escapeHtml(error.message)+
@@ -1990,7 +2586,7 @@ return;
 
 if(!data?.length){
 
-list.innerHTML =
+list.innerHTML=
 '<p>No executive records found.</p>';
 
 return;
@@ -1998,13 +2594,13 @@ return;
 }
 
 
-const cards =
+const cards=
 await Promise.all(
 
 data.map(
 async x=>{
 
-const url =
+const url=
 await getPhotoUrl(
 x.photo
 );
@@ -2018,20 +2614,12 @@ return `
 
 ${
 url
-
 ?
-
 '<img class="person-photo" src="'+
 escapeHtml(url)+
 '" alt="Executive photo">'
-
 :
-
-'<div class="person-photo">
-<span class="photo-placeholder">
-No Photo
-</span>
-</div>'
+'<div class="person-photo"><span class="photo-placeholder">No Photo</span></div>'
 }
 
 </div>
@@ -2056,12 +2644,14 @@ ${escapeHtml(read(x.phone))}
 </p>
 
 <button
+type="button"
 class="edit-button"
 onclick="editExecutive(${JSON.stringify(x.id)})">
 Edit
 </button>
 
 <button
+type="button"
 class="delete-button"
 onclick="deleteExecutive(${JSON.stringify(x.id)})">
 Delete
@@ -2077,7 +2667,7 @@ Delete
 );
 
 
-list.innerHTML =
+list.innerHTML=
 '<div class="item-grid">'+
 cards.join('')+
 '</div>';
@@ -2087,7 +2677,7 @@ cards.join('')+
 
 async function editExecutive(id){
 
-const {data,error} =
+const {data,error}=
 await supabaseClient
 .from('executive')
 .select('*')
@@ -2110,35 +2700,38 @@ return;
 
 editingExecutiveId=id;
 
-editingExecutiveOldPhoto =
+editingExecutiveOldPhoto=
 data.photo || null;
 
 
 document
 .getElementById('executivePeriod')
-.value=read(data.period);
+.value=
+read(data.period);
 
 
 document
 .getElementById('executiveName')
-.value=read(data.name);
+.value=
+read(data.name);
 
 
 document
 .getElementById('executivePosition')
-.value=read(data.position);
+.value=
+read(data.position);
 
 
 document
 .getElementById('executivePhone')
-.value=read(data.phone);
+.value=
+read(data.phone);
 
 
 document
-.getElementById(
-'executiveSaveButton'
-)
-.textContent='Update Executive';
+.getElementById('executiveSaveButton')
+.textContent=
+'Update Executive';
 
 }
 
@@ -2157,7 +2750,9 @@ editingExecutiveOldPhoto=null;
 'executivePhone'
 ]
 .forEach(
-id=>document.getElementById(id).value=''
+id=>{
+document.getElementById(id).value='';
+}
 );
 
 
@@ -2167,10 +2762,9 @@ document
 
 
 document
-.getElementById(
-'executiveSaveButton'
-)
-.textContent='Save Executive';
+.getElementById('executiveSaveButton')
+.textContent=
+'Save Executive';
 
 }
 
@@ -2179,10 +2773,14 @@ async function deleteExecutive(id){
 
 if(!confirm(
 'Delete this executive record?'
-)) return;
+)){
+
+return;
+
+}
 
 
-const {data} =
+const {data}=
 await supabaseClient
 .from('executive')
 .select('photo')
@@ -2190,7 +2788,7 @@ await supabaseClient
 .single();
 
 
-const {error} =
+const {error}=
 await supabaseClient
 .from('executive')
 .delete()
@@ -2230,26 +2828,26 @@ await loadExecutive();
 
 async function saveFinance(){
 
-const name =
+const name=
 document
 .getElementById('financeName')
 .value
 .trim();
 
 
-const type =
+const type=
 document
 .getElementById('financeType')
 .value;
 
 
-const amount =
+const amount=
 document
 .getElementById('financeAmount')
 .value;
 
 
-const description =
+const description=
 document
 .getElementById('financeDescription')
 .value
@@ -2277,18 +2875,14 @@ description
 };
 
 
-const result =
+const result=
 editingFinanceId
-
 ?
-
 await supabaseClient
 .from('finance')
 .update(record)
 .eq('id',editingFinanceId)
-
 :
-
 await supabaseClient
 .from('finance')
 .insert([record]);
@@ -2324,28 +2918,31 @@ loadFinance();
 
 async function loadFinance(){
 
-const list =
+const list=
 document.getElementById(
 'financeList'
 );
 
-list.innerHTML =
+
+list.innerHTML=
 'Loading finance records...';
 
 
-const {data,error} =
+const {data,error}=
 await supabaseClient
 .from('finance')
 .select('*')
 .order(
 'id',
-{ascending:false}
+{
+ascending:false
+}
 );
 
 
 if(error){
 
-list.innerHTML =
+list.innerHTML=
 '<div class="message error">'+
 escapeHtml(error.message)+
 '</div>';
@@ -2357,7 +2954,7 @@ return;
 
 if(!data?.length){
 
-list.innerHTML =
+list.innerHTML=
 '<p>No finance records found.</p>';
 
 return;
@@ -2365,7 +2962,7 @@ return;
 }
 
 
-list.innerHTML =
+list.innerHTML=
 '<div class="item-grid">'+
 
 data.map(x=>`
@@ -2394,12 +2991,14 @@ ${escapeHtml(read(x.description))}
 </p>
 
 <button
+type="button"
 class="edit-button"
 onclick="editFinance(${JSON.stringify(x.id)})">
 Edit
 </button>
 
 <button
+type="button"
 class="delete-button"
 onclick="deleteFinance(${JSON.stringify(x.id)})">
 Delete
@@ -2416,7 +3015,7 @@ Delete
 
 async function editFinance(id){
 
-const {data,error} =
+const {data,error}=
 await supabaseClient
 .from('finance')
 .select('*')
@@ -2442,7 +3041,8 @@ editingFinanceId=id;
 
 document
 .getElementById('financeName')
-.value=read(data.name);
+.value=
+read(data.name);
 
 
 document
@@ -2453,7 +3053,8 @@ read(data.type || data.category);
 
 document
 .getElementById('financeAmount')
-.value=read(data.amount);
+.value=
+read(data.amount);
 
 
 document
@@ -2468,6 +3069,7 @@ function resetFinanceForm(){
 
 editingFinanceId=null;
 
+
 [
 'financeName',
 'financeType',
@@ -2475,7 +3077,9 @@ editingFinanceId=null;
 'financeDescription'
 ]
 .forEach(
-id=>document.getElementById(id).value=''
+id=>{
+document.getElementById(id).value='';
+}
 );
 
 }
@@ -2485,10 +3089,14 @@ async function deleteFinance(id){
 
 if(!confirm(
 'Delete this finance record?'
-)) return;
+)){
+
+return;
+
+}
 
 
-const {error} =
+const {error}=
 await supabaseClient
 .from('finance')
 .delete()
@@ -2563,18 +3171,14 @@ return;
 }
 
 
-const result =
+const result=
 editingMeetingId
-
 ?
-
 await supabaseClient
 .from('meetings')
 .update(record)
 .eq('id',editingMeetingId)
-
 :
-
 await supabaseClient
 .from('meetings')
 .insert([record]);
@@ -2609,28 +3213,31 @@ loadMeetings();
 
 async function loadMeetings(){
 
-const list =
+const list=
 document.getElementById(
 'meetingsList'
 );
 
-list.innerHTML =
+
+list.innerHTML=
 'Loading meetings...';
 
 
-const {data,error} =
+const {data,error}=
 await supabaseClient
 .from('meetings')
 .select('*')
 .order(
 'meeting_date',
-{ascending:false}
+{
+ascending:false
+}
 );
 
 
 if(error){
 
-list.innerHTML =
+list.innerHTML=
 '<div class="message error">'+
 escapeHtml(error.message)+
 '</div>';
@@ -2642,7 +3249,7 @@ return;
 
 if(!data?.length){
 
-list.innerHTML =
+list.innerHTML=
 '<p>No meetings found.</p>';
 
 return;
@@ -2650,7 +3257,7 @@ return;
 }
 
 
-list.innerHTML =
+list.innerHTML=
 data.map(x=>`
 
 <div class="meeting-card">
@@ -2683,12 +3290,14 @@ read(x.description || x.minutes)
 </p>
 
 <button
+type="button"
 class="edit-button"
 onclick="editMeeting(${JSON.stringify(x.id)})">
 Edit
 </button>
 
 <button
+type="button"
 class="delete-button"
 onclick="deleteMeeting(${JSON.stringify(x.id)})">
 Delete
@@ -2703,7 +3312,7 @@ Delete
 
 async function editMeeting(id){
 
-const {data,error} =
+const {data,error}=
 await supabaseClient
 .from('meetings')
 .select('*')
@@ -2760,6 +3369,7 @@ function resetMeetingForm(){
 
 editingMeetingId=null;
 
+
 [
 'meetingDate',
 'meetingTitle',
@@ -2767,7 +3377,9 @@ editingMeetingId=null;
 'meetingDescription'
 ]
 .forEach(
-id=>document.getElementById(id).value=''
+id=>{
+document.getElementById(id).value='';
+}
 );
 
 }
@@ -2777,10 +3389,14 @@ async function deleteMeeting(id){
 
 if(!confirm(
 'Delete this meeting?'
-)) return;
+)){
+
+return;
+
+}
 
 
-const {error} =
+const {error}=
 await supabaseClient
 .from('meetings')
 .delete()
@@ -2855,18 +3471,14 @@ return;
 }
 
 
-const result =
+const result=
 editingEventId
-
 ?
-
 await supabaseClient
 .from('events')
 .update(record)
 .eq('id',editingEventId)
-
 :
-
 await supabaseClient
 .from('events')
 .insert([record]);
@@ -2901,28 +3513,31 @@ loadEvents();
 
 async function loadEvents(){
 
-const list =
+const list=
 document.getElementById(
 'eventsList'
 );
 
-list.innerHTML =
+
+list.innerHTML=
 'Loading events...';
 
 
-const {data,error} =
+const {data,error}=
 await supabaseClient
 .from('events')
 .select('*')
 .order(
 'date',
-{ascending:false}
+{
+ascending:false
+}
 );
 
 
 if(error){
 
-list.innerHTML =
+list.innerHTML=
 '<div class="message error">'+
 escapeHtml(error.message)+
 '</div>';
@@ -2934,7 +3549,7 @@ return;
 
 if(!data?.length){
 
-list.innerHTML =
+list.innerHTML=
 '<p>No events found.</p>';
 
 return;
@@ -2942,7 +3557,7 @@ return;
 }
 
 
-list.innerHTML =
+list.innerHTML=
 data.map(x=>`
 
 <div class="event-card">
@@ -2975,12 +3590,14 @@ read(x.description)
 </p>
 
 <button
+type="button"
 class="edit-button"
 onclick="editEvent(${JSON.stringify(x.id)})">
 Edit
 </button>
 
 <button
+type="button"
 class="delete-button"
 onclick="deleteEvent(${JSON.stringify(x.id)})">
 Delete
@@ -2995,7 +3612,7 @@ Delete
 
 async function editEvent(id){
 
-const {data,error} =
+const {data,error}=
 await supabaseClient
 .from('events')
 .select('*')
@@ -3021,12 +3638,14 @@ editingEventId=id;
 
 document
 .getElementById('eventTitle')
-.value=read(data.title);
+.value=
+read(data.title);
 
 
 document
 .getElementById('eventDate')
-.value=read(data.date);
+.value=
+read(data.date);
 
 
 document
@@ -3047,6 +3666,7 @@ function resetEventForm(){
 
 editingEventId=null;
 
+
 [
 'eventTitle',
 'eventDate',
@@ -3054,7 +3674,9 @@ editingEventId=null;
 'eventDescription'
 ]
 .forEach(
-id=>document.getElementById(id).value=''
+id=>{
+document.getElementById(id).value='';
+}
 );
 
 }
@@ -3064,10 +3686,14 @@ async function deleteEvent(id){
 
 if(!confirm(
 'Delete this event?'
-)) return;
+)){
+
+return;
+
+}
 
 
-const {error} =
+const {error}=
 await supabaseClient
 .from('events')
 .delete()
@@ -3098,16 +3724,17 @@ loadEvents();
 
 async function loadDocuments(){
 
-const list =
+const list=
 document.getElementById(
 'documentsList'
 );
 
-list.innerHTML =
+
+list.innerHTML=
 'Loading documents...';
 
 
-const {data,error} =
+const {data,error}=
 await supabaseClient
 .storage
 .from(DOCUMENT_BUCKET)
@@ -3125,7 +3752,7 @@ order:'desc'
 
 if(error){
 
-list.innerHTML =
+list.innerHTML=
 '<div class="message error">'+
 'Error loading documents: '+
 escapeHtml(error.message)+
@@ -3138,7 +3765,7 @@ return;
 
 if(!data?.length){
 
-list.innerHTML =
+list.innerHTML=
 '<p>No documents uploaded yet.</p>';
 
 return;
@@ -3146,7 +3773,7 @@ return;
 }
 
 
-list.innerHTML =
+list.innerHTML=
 data.map(f=>`
 
 <div class="document-card">
@@ -3163,11 +3790,13 @@ f.metadata?.mimetype ||
 </p>
 
 <button
+type="button"
 onclick="openDocument(${JSON.stringify(f.name)})">
 Open / Download
 </button>
 
 <button
+type="button"
 class="delete-button"
 onclick="deleteDocument(${JSON.stringify(f.name)})">
 Delete
@@ -3182,12 +3811,13 @@ Delete
 
 async function uploadDocument(){
 
-const input =
+const input=
 document.getElementById(
 'documentFile'
 );
 
-const file =
+
+const file=
 input.files?.[0];
 
 
@@ -3204,8 +3834,7 @@ return;
 }
 
 
-if(file.size >
-50*1024*1024){
+if(file.size>50*1024*1024){
 
 showMessage(
 'documentMessage',
@@ -3218,7 +3847,7 @@ return;
 }
 
 
-const name =
+const name=
 Date.now()+
 '_'+
 file.name.replace(
@@ -3227,7 +3856,7 @@ file.name.replace(
 );
 
 
-const {error} =
+const {error}=
 await supabaseClient
 .storage
 .from(DOCUMENT_BUCKET)
@@ -3272,7 +3901,7 @@ loadDocuments();
 
 async function saveTypedDocument(){
 
-const title =
+const title=
 document
 .getElementById(
 'typedDocumentTitle'
@@ -3281,7 +3910,7 @@ document
 .trim();
 
 
-const content =
+const content=
 document
 .getElementById(
 'typedDocumentContent'
@@ -3303,7 +3932,7 @@ return;
 }
 
 
-const name =
+const name=
 Date.now()+
 '_'+
 title.replace(
@@ -3313,7 +3942,7 @@ title.replace(
 '.txt';
 
 
-const blob =
+const blob=
 new Blob(
 [
 'YOUTHS OF NDASEI ASSOCIATION (YONA)\n'+
@@ -3329,7 +3958,7 @@ type:'text/plain'
 );
 
 
-const {error} =
+const {error}=
 await supabaseClient
 .storage
 .from(DOCUMENT_BUCKET)
@@ -3385,7 +4014,7 @@ loadDocuments();
 
 async function openDocument(name){
 
-const {data,error} =
+const {data,error}=
 await supabaseClient
 .storage
 .from(DOCUMENT_BUCKET)
@@ -3419,10 +4048,14 @@ async function deleteDocument(name){
 
 if(!confirm(
 'Delete this document?'
-)) return;
+)){
+
+return;
+
+}
 
 
-const {error} =
+const {error}=
 await supabaseClient
 .storage
 .from(DOCUMENT_BUCKET)
@@ -3457,6 +4090,13 @@ supabaseClient
 .onAuthStateChange(
 (event,session)=>{
 
+console.log(
+'Auth state:',
+event,
+session ? 'SESSION ACTIVE' : 'NO SESSION'
+);
+
+
 if(session){
 
 showApp();
@@ -3467,6 +4107,7 @@ else{
 document
 .getElementById('appSection')
 .classList.add('hidden');
+
 
 document
 .getElementById('loginSection')
@@ -3479,28 +4120,147 @@ document
 
 
 /* =========================
+   BUTTON EVENTS
+========================= */
+
+document
+.getElementById('loginForm')
+.addEventListener(
+'submit',
+function(event){
+
+event.preventDefault();
+
+login();
+
+}
+);
+
+
+document
+.getElementById('logoutButton')
+.addEventListener(
+'click',
+function(){
+
+logout();
+
+}
+);
+
+
+document
+.getElementById('memberForm')
+.addEventListener(
+'submit',
+function(event){
+
+saveMember(event);
+
+}
+);
+
+
+document
+.getElementById('memberCancelButton')
+.addEventListener(
+'click',
+function(){
+
+resetMemberForm();
+
+}
+);
+
+
+document
+.getElementById('memberPhoto')
+.addEventListener(
+'change',
+function(event){
+
+previewMemberPhoto(event);
+
+}
+);
+
+
+document
+.getElementById('executiveSaveButton')
+.addEventListener(
+'click',
+function(){
+
+saveExecutive();
+
+}
+);
+
+
+/* =========================
    CHECK EXISTING SESSION
 ========================= */
 
-(async()=>{
+(async function(){
 
 try{
 
-const {data} =
+console.log(
+'Checking existing YONA session...'
+);
+
+
+const {data,error}=
 await supabaseClient
 .auth
 .getSession();
 
-if(data.session){
+
+if(error){
+
+console.error(
+'Session check error:',
+error
+);
+
+return;
+
+}
+
+
+if(data?.session){
+
+console.log(
+'Existing session found.'
+);
 
 showApp();
 
 }
+else{
+
+console.log(
+'No existing session. Login required.'
+);
+
+document
+.getElementById('appSection')
+.classList.add('hidden');
+
+
+document
+.getElementById('loginSection')
+.classList.remove('hidden');
 
 }
-catch(e){
 
-console.error(e);
+}
+catch(error){
+
+console.error(
+'Initial session error:',
+error
+);
 
 }
 
