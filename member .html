@@ -21,43 +21,45 @@
     .header {
       background: #075eaa;
       color: white;
-      padding: 20px;
+      padding: 20px 15px;
       text-align: center;
     }
 
     .header h1 {
       margin: 0;
-      font-size: 24px;
+      font-size: 28px;
     }
 
     .header p {
-      margin: 6px 0 0;
+      margin: 5px 0 0;
+      font-size: 14px;
     }
 
     .container {
+      width: 100%;
       max-width: 500px;
-      margin: 30px auto;
+      margin: 25px auto;
       padding: 15px;
     }
 
     .card {
       background: white;
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.10);
+      border-radius: 14px;
+      padding: 25px 20px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10);
       text-align: center;
     }
 
     .logo {
-      width: 90px;
-      height: 90px;
+      width: 85px;
+      height: 85px;
       object-fit: contain;
       margin-bottom: 10px;
     }
 
     .photo {
-      width: 130px;
-      height: 130px;
+      width: 135px;
+      height: 135px;
       object-fit: cover;
       border-radius: 50%;
       border: 4px solid #075eaa;
@@ -66,13 +68,14 @@
     }
 
     .member-name {
-      font-size: 24px;
+      font-size: 25px;
       font-weight: bold;
-      margin: 10px 0;
+      margin: 12px 0 5px;
     }
 
     .position {
       color: #075eaa;
+      font-size: 17px;
       font-weight: bold;
       margin-bottom: 20px;
     }
@@ -85,7 +88,8 @@
     }
 
     .info p {
-      margin: 12px 0;
+      margin: 13px 0;
+      line-height: 1.4;
     }
 
     .label {
@@ -93,23 +97,39 @@
     }
 
     .verified {
-      margin-top: 20px;
-      padding: 12px;
+      margin-top: 22px;
+      padding: 13px;
       background: #e8f7ed;
       color: #187a3d;
       border-radius: 8px;
       font-weight: bold;
     }
 
-    .error {
-      color: #b00020;
-      font-weight: bold;
-      padding: 20px;
-    }
-
     .loading {
       color: #555;
-      padding: 20px;
+      padding: 25px 10px;
+      font-size: 16px;
+    }
+
+    .error {
+      color: #b00020;
+      background: #fff0f0;
+      border-radius: 8px;
+      padding: 18px;
+      margin-top: 15px;
+      font-weight: bold;
+      line-height: 1.5;
+    }
+
+    .footer {
+      text-align: center;
+      color: #777;
+      font-size: 13px;
+      margin-top: 20px;
+    }
+
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
@@ -122,10 +142,12 @@
     <p>Unity and Development</p>
   </div>
 
+
   <div class="container">
 
     <div class="card">
 
+      <!-- YONA LOGO -->
       <img
         src="LOGO"
         class="logo"
@@ -133,11 +155,15 @@
         onerror="this.style.display='none'"
       >
 
+
+      <!-- LOADING -->
       <div id="loading" class="loading">
-        Verifying member...
+        Verifying YONA member...
       </div>
 
-      <div id="memberContent" style="display:none;">
+
+      <!-- MEMBER DETAILS -->
+      <div id="memberContent" class="hidden">
 
         <img
           id="memberPhoto"
@@ -145,33 +171,62 @@
           alt="Member Photo"
         >
 
-        <div id="memberName" class="member-name"></div>
 
-        <div id="memberPosition" class="position"></div>
+        <div
+          id="memberName"
+          class="member-name">
+        </div>
+
+
+        <div
+          id="memberPosition"
+          class="position">
+        </div>
+
 
         <div class="info">
 
           <p>
-            <span class="label">Member Number:</span>
-            <span id="memberNumber"></span>
+            <span class="label">
+              Member Number:
+            </span>
+            <span id="memberNumber">
+              N/A
+            </span>
           </p>
 
-          <p>
-            <span class="label">Phone:</span>
-            <span id="memberPhone"></span>
-          </p>
 
           <p>
-            <span class="label">Member Type:</span>
-            <span id="memberType"></span>
+            <span class="label">
+              Phone:
+            </span>
+            <span id="memberPhone">
+              N/A
+            </span>
           </p>
 
+
           <p>
-            <span class="label">Expiry Date:</span>
-            <span id="expiryDate"></span>
+            <span class="label">
+              Member Type:
+            </span>
+            <span id="memberType">
+              N/A
+            </span>
+          </p>
+
+
+          <p>
+            <span class="label">
+              Expiry Date:
+            </span>
+            <span id="expiryDate">
+              N/A
+            </span>
           </p>
 
         </div>
+
 
         <div class="verified">
           ✓ YONA MEMBER VERIFIED
@@ -179,21 +234,40 @@
 
       </div>
 
-      <div id="error" class="error" style="display:none;"></div>
 
+      <!-- ERROR -->
+      <div
+        id="error"
+        class="error hidden">
+      </div>
+
+    </div>
+
+
+    <div class="footer">
+      YOUTHS OF NDASEI ASSOCIATION<br>
+      Unity and Development
     </div>
 
   </div>
 
+
+  <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
   <script>
+
+    /* =========================
+       SUPABASE CONFIGURATION
+    ========================= */
 
     const SUPABASE_URL =
       'https://atxeeymireukwbbsczbv.supabase.co';
 
     const SUPABASE_KEY =
       'sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc';
+
 
     const supabaseClient =
       supabase.createClient(
@@ -202,52 +276,108 @@
       );
 
 
+    /* =========================
+       SHOW ERROR
+    ========================= */
+
+    function showError(message) {
+
+      const loading =
+        document.getElementById(
+          'loading'
+        );
+
+      const error =
+        document.getElementById(
+          'error'
+        );
+
+      loading.classList.add(
+        'hidden'
+      );
+
+      error.textContent =
+        message;
+
+      error.classList.remove(
+        'hidden'
+      );
+
+    }
+
+
+    /* =========================
+       VERIFY MEMBER
+    ========================= */
+
     async function verifyMember() {
-
-      const params =
-        new URLSearchParams(
-          window.location.search
-        );
-
-      const memberId =
-        params.get('id');
-
-
-      if (!memberId) {
-
-        showError(
-          'No member ID was provided.'
-        );
-
-        return;
-
-      }
-
 
       try {
 
-        const { data, error } =
-          await supabaseClient
-            .from('members')
-            .select(
-              'id,name,phone,position,member_type,member_number,expiry_date,photo_url'
-            )
-            .eq('id', memberId)
-            .single();
+        const params =
+          new URLSearchParams(
+            window.location.search
+          );
 
 
-        if (error) {
+        const memberId =
+          params.get('id');
 
-          console.error(error);
+
+        /* No ID in QR link */
+
+        if (!memberId) {
 
           showError(
-            'Member could not be verified.'
+            'No member ID was provided. Please scan a valid YONA member QR code.'
           );
 
           return;
 
         }
 
+
+        /* Get member from Supabase */
+
+        const result =
+          await supabaseClient
+            .from('members')
+            .select(
+              'id,name,phone,position,member_type,member_number,expiry_date,photo_url'
+            )
+            .eq(
+              'id',
+              memberId
+            )
+            .single();
+
+
+        const data =
+          result.data;
+
+        const error =
+          result.error;
+
+
+        /* Supabase error */
+
+        if (error) {
+
+          console.error(
+            'Supabase error:',
+            error
+          );
+
+          showError(
+            'Member could not be verified. The member record may not exist or cannot be accessed.'
+          );
+
+          return;
+
+        }
+
+
+        /* No member */
 
         if (!data) {
 
@@ -260,53 +390,100 @@
         }
 
 
-        document.getElementById(
-          'loading'
-        ).style.display = 'none';
+        /* Hide loading */
+
+        document
+          .getElementById(
+            'loading'
+          )
+          .classList.add(
+            'hidden'
+          );
 
 
-        document.getElementById(
-          'memberContent'
-        ).style.display = 'block';
+        /* Show member */
+
+        document
+          .getElementById(
+            'memberContent'
+          )
+          .classList.remove(
+            'hidden'
+          );
 
 
-        document.getElementById(
-          'memberName'
-        ).textContent =
-          data.name || 'N/A';
+        /* Name */
+
+        document
+          .getElementById(
+            'memberName'
+          )
+          .textContent =
+            data.name ||
+            'N/A';
 
 
-        document.getElementById(
-          'memberPosition'
-        ).textContent =
-          data.position || 'Member';
+        /* Position */
+
+        document
+          .getElementById(
+            'memberPosition'
+          )
+          .textContent =
+            data.position ||
+            'Member';
 
 
-        document.getElementById(
-          'memberNumber'
-        ).textContent =
-          data.member_number || 'N/A';
+        /* Member number */
+
+        document
+          .getElementById(
+            'memberNumber'
+          )
+          .textContent =
+            data.member_number ||
+            'N/A';
 
 
-        document.getElementById(
-          'memberPhone'
-        ).textContent =
-          data.phone || 'N/A';
+        /* Phone */
+
+        document
+          .getElementById(
+            'memberPhone'
+          )
+          .textContent =
+            data.phone ||
+            'N/A';
 
 
-        document.getElementById(
-          'memberType'
-        ).textContent =
-          data.member_type || 'Member';
+        /* Member type */
+
+        document
+          .getElementById(
+            'memberType'
+          )
+          .textContent =
+            data.member_type ||
+            'Member';
 
 
-        document.getElementById(
-          'expiryDate'
-        ).textContent =
-          data.expiry_date || 'N/A';
+        /* Expiry */
+
+        document
+          .getElementById(
+            'expiryDate'
+          )
+          .textContent =
+            data.expiry_date ||
+            'N/A';
 
 
-        if (data.photo_url) {
+        /* Member photo */
+
+        if (
+          data.photo_url &&
+          data.photo_url.trim() !== ''
+        ) {
 
           const photo =
             document.getElementById(
@@ -321,12 +498,16 @@
 
         }
 
-      } catch (err) {
 
-        console.error(err);
+      } catch (error) {
+
+        console.error(
+          'Verification error:',
+          error
+        );
 
         showError(
-          'Unable to connect to the verification system.'
+          'Unable to connect to the YONA verification system.'
         );
 
       }
@@ -334,26 +515,9 @@
     }
 
 
-    function showError(message) {
-
-      document.getElementById(
-        'loading'
-      ).style.display = 'none';
-
-
-      const error =
-        document.getElementById(
-          'error'
-        );
-
-      error.textContent =
-        message;
-
-      error.style.display =
-        'block';
-
-    }
-
+    /* =========================
+       START VERIFICATION
+    ========================= */
 
     verifyMember();
 
