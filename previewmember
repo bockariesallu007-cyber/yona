@@ -877,30 +877,75 @@ Probationary Member
 
 <div class="full member-photo-wrap">
 
-<div
-  id="memberPhotoPreview"
-  class="member-photo-preview"
->
+  <label>Profile Photo</label>
 
-<span class="photo-placeholder">
-Profile Photo
-</span>
+  <div
+    id="memberPhotoPreview"
+    class="member-photo-preview"
+  >
+    <span class="photo-placeholder">
+      Profile Photo
+    </span>
+  </div>
+
+  <br>
+
+  <button
+    type="button"
+    onclick="openMemberCamera()"
+  >
+    📷 Take Photo
+  </button>
+
+  <button
+    type="button"
+    onclick="document.getElementById('memberPhoto').click()"
+  >
+    🖼️ Add Photo
+  </button>
+
+  <input
+    id="memberPhoto"
+    type="file"
+    accept="image/*"
+    onchange="previewMemberPhoto(event)"
+    style="display:none;"
+  >
+
+  <div
+    id="memberCameraBox"
+    style="display:none;"
+  >
+    <video
+      id="memberCamera"
+      autoplay
+      playsinline
+      style="width:100%;max-width:400px;"
+    ></video>
+
+    <br>
+
+    <button
+      type="button"
+      onclick="takeMemberPhoto()"
+    >
+      📸 Capture Photo
+    </button>
+
+    <button
+      type="button"
+      onclick="closeMemberCamera()"
+    >
+      Cancel
+    </button>
+
+    <canvas
+      id="memberCameraCanvas"
+      style="display:none;"
+    ></canvas>
+  </div>
 
 </div>
-
-<br>
-
-<button type="button" onclick="openMemberCamera()">
-  📷 Take Photo
-</button>
-
-<input
-  id="memberPhoto"
-  type="file"
-  accept="image/*"
-  onchange="previewMemberPhoto(event)"
-  style="display:none;"
->
 
 <div id="memberCameraBox" style="display:none; margin-top:10px;">
   <video
