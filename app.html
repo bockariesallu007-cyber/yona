@@ -2947,19 +2947,10 @@ async function deleteMember(id){
 
 function getVerificationUrl(memberId){
 
-  if(!memberId)return '';
+  if(!memberId) return '';
 
-  const url=
-    new URL(
-      'member.html',
-      window.location.href
-    );
-
-
-  url.searchParams.set(
-    'id',
-    memberId
-  );
+  return 'https://bockariesallu007-cyber.github.io/yona/member.html?id='
+    + encodeURIComponent(memberId);
 
 
   return url.href;
