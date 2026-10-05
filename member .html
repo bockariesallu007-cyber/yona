@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>YONA Member Verification</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f5f8;
+      color: #222;
+    }
+
+    .header {
+      background: #075eaa;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .header p {
+      margin: 6px 0 0;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 30px auto;
+      padding: 15px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.10);
+      text-align: center;
+    }
+
+    .logo {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+
+    .photo {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #075eaa;
+      margin: 15px auto;
+      display: none;
+    }
+
+    .member-name {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .position {
+      color: #075eaa;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .info {
+      text-align: left;
+      border-top: 1px solid #ddd;
+      margin-top: 15px;
+      padding-top: 10px;
+    }
+
+    .info p {
+      margin: 12px 0;
+    }
+
+    .label {
+      font-weight: bold;
+    }
+
+    .verified {
+      margin-top: 20px;
+      padding: 12px;
+      background: #e8f7ed;
+      color: #187a3d;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .error {
+      color: #b00020;
+      font-weight: bold;
+      padding: 20px;
+    }
+
+    .loading {
+      color: #555;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <h1>YONA</h1>
+    <p>Youths of Ndasei Association</p>
+    <p>Unity and Development</p>
+  </div>
+
+  <div class="container">
+
+    <div class="card">
+
+      <img
+        src="LOGO"
+        class="logo"
+        alt="YONA Logo"
+        onerror="this.style.display='none'"
+      >
+
+      <div id="loading" class="loading">
+        Verifying member...
+      </div>
+
+      <div id="memberContent" style="display:none;">
+
+        <img
+          id="memberPhoto"
+          class="photo"
+          alt="Member Photo"
+        >
+
+        <div id="memberName" class="member-name"></div>
+
+        <div id="memberPosition" class="position"></div>
+
+        <div class="info">
+
+          <p>
+            <span class="label">Member Number:</span>
+            <span id="memberNumber"></span>
+          </p>
+
+          <p>
+            <span class="label">Phone:</span>
+            <span id="memberPhone"></span>
+          </p>
+
+          <p>
+            <span class="label">Member Type:</span>
+            <span id="memberType"></span>
+          </p>
+
+          <p>
+            <span class="label">Expiry Date:</span>
+            <span id="expiryDate"></span>
+          </p>
+
+        </div>
+
+        <div class="verified">
+          ✓ YONA MEMBER VERIFIED
+        </div>
+
+      </div>
+
+      <div id="error" class="error" style="display:none;"></div>
+
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+
+    const SUPABASE_URL =
+      'https://atxeeymireukwbbsczbv.supabase.co';
+
+    const SUPABASE_KEY =
+      'sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc';
+
+    const supabaseClient =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    async function verifyMember() {
+
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
+
+      const memberId =
+        params.get('id');
+
+
+      if (!memberId) {
+
+        showError(
+          'No member ID was provided.'
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        const { data, error } =
+          await supabaseClient
+            .from('members')
+            .select(
+              'id,name,phone,position,member_type,member_number,expiry_date,photo_url'
+            )
+            .eq('id', memberId)
+            .single();
+
+
+        if (error) {
+
+          console.error(error);
+
+          showError(
+            'Member could not be verified.'
+          );
+
+          return;
+
+        }
+
+
+        if (!data) {
+
+          showError(
+            'Member record was not found.'
+          );
+
+          return;
+
+        }
+
+
+        document.getElementById(
+          'loading'
+        ).style.display = 'none';
+
+
+        document.getElementById(
+          'memberContent'
+        ).style.display = 'block';
+
+
+        document.getElementById(
+          'memberName'
+        ).textContent =
+          data.name || 'N/A';
+
+
+        document.getElementById(
+          'memberPosition'
+        ).textContent =
+          data.position || 'Member';
+
+
+        document.getElementById(
+          'memberNumber'
+        ).textContent =
+          data.member_number || 'N/A';
+
+
+        document.getElementById(
+          'memberPhone'
+        ).textContent =
+          data.phone || 'N/A';
+
+
+        document.getElementById(
+          'memberType'
+        ).textContent =
+          data.member_type || 'Member';
+
+
+        document.getElementById(
+          'expiryDate'
+        ).textContent =
+          data.expiry_date || 'N/A';
+
+
+        if (data.photo_url) {
+
+          const photo =
+            document.getElementById(
+              'memberPhoto'
+            );
+
+          photo.src =
+            data.photo_url;
+
+          photo.style.display =
+            'block';
+
+        }
+
+      } catch (err) {
+
+        console.error(err);
+
+        showError(
+          'Unable to connect to the verification system.'
+        );
+
+      }
+
+    }
+
+
+    function showError(message) {
+
+      document.getElementById(
+        'loading'
+      ).style.display = 'none';
+
+
+      const error =
+        document.getElementById(
+          'error'
+        );
+
+      error.textContent =
+        message;
+
+      error.style.display =
+        'block';
+
+    }
+
+
+    verifyMember();
+
+  </script>
+
+</body>
+</html>
