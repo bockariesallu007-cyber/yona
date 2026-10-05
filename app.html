@@ -890,12 +890,16 @@ Profile Photo
 
 <br>
 
+<button type="button" onclick="openMemberCamera()">
+  📷 Take Photo
+</button>
+
 <input
   id="memberPhoto"
   type="file"
   accept="image/*"
-  capture="environment"
   onchange="previewMemberPhoto(event)"
+  style="display:none;"
 >
 
 </div>
