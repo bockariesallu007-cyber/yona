@@ -127,6 +127,11 @@ font-size:13px;
 color:#666
 }
 
+
+/* =========================
+   DASHBOARD
+========================= */
+
 .dashboard{
 display:grid;
 grid-template-columns:repeat(3,minmax(0,1fr));
@@ -168,6 +173,37 @@ width:100%;
 margin:0
 }
 
+
+/* =========================
+   DASHBOARD COUNTS
+========================= */
+
+.dashboard-count{
+font-size:34px!important;
+font-weight:bold;
+color:#075aaa!important;
+margin:0 0 8px!important
+}
+
+.dashboard-loading{
+font-size:13px!important;
+color:#777!important
+}
+
+.dashboard-refresh{
+text-align:center;
+margin-bottom:18px
+}
+
+.dashboard-refresh button{
+background:#198754
+}
+
+
+/* =========================
+   LISTS
+========================= */
+
 .item-grid{
 display:grid;
 grid-template-columns:repeat(2,minmax(0,1fr));
@@ -191,6 +227,11 @@ padding:15px
 margin-top:0;
 color:#075aaa
 }
+
+
+/* =========================
+   PHOTOS
+========================= */
 
 .member-photo-wrap,
 .record-photo-wrap{
@@ -238,6 +279,11 @@ gap:10px
 grid-column:1/-1
 }
 
+
+/* =========================
+   DOCUMENTS
+========================= */
+
 .document-upload-box{
 background:#f8fafc;
 border:1px solid #ddd;
@@ -251,6 +297,11 @@ font-weight:bold;
 color:#075aaa;
 word-break:break-word
 }
+
+
+/* =========================
+   LOGIN
+========================= */
 
 .auth-box{
 max-width:430px;
@@ -283,6 +334,11 @@ border-radius:10px;
 border:2px solid #075aaa;
 margin-bottom:12px
 }
+
+
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:800px){
 
@@ -337,7 +393,10 @@ float:none
 
 <div class="container">
 
-<!-- LOGIN -->
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
 <section id="loginSection" class="card auth-box">
 
@@ -380,7 +439,9 @@ Login
 </section>
 
 
-<!-- APPLICATION -->
+<!-- =====================================================
+     APPLICATION
+===================================================== -->
 
 <section id="appSection" class="hidden">
 
@@ -396,82 +457,194 @@ Logout
 </div>
 
 
-<!-- DASHBOARD -->
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
 
 <div id="dashboardSection">
 
+<div class="dashboard-refresh">
+
+<button
+type="button"
+onclick="loadDashboardStats()">
+🔄 Refresh Dashboard
+</button>
+
+</div>
+
 <div class="dashboard">
-
-<div class="dashboard-card">
-<div class="dashboard-icon">👥</div>
-<h3>Members</h3>
-<p>Manage YONA members and membership records.</p>
-<button type="button"
-onclick="showSection('membersSection');loadMembers()">
-Members
-</button>
-</div>
-
-
-<div class="dashboard-card">
-<div class="dashboard-icon">👔</div>
-<h3>Executive</h3>
-<p>Manage executive leadership and periods.</p>
-<button type="button"
-onclick="showSection('executiveSection');loadExecutive()">
-Executive
-</button>
-</div>
-
-
-<div class="dashboard-card">
-<div class="dashboard-icon">💰</div>
-<h3>Finance</h3>
-<p>Manage contributions and financial records.</p>
-<button type="button"
-onclick="showSection('financeSection');loadFinance()">
-Finance
-</button>
-</div>
-
-
-<div class="dashboard-card">
-<div class="dashboard-icon">📝</div>
-<h3>Meetings</h3>
-<p>Store meetings and minutes.</p>
-<button type="button"
-onclick="showSection('meetingsSection');loadMeetings()">
-Meetings
-</button>
-</div>
-
-
-<div class="dashboard-card">
-<div class="dashboard-icon">📅</div>
-<h3>Events</h3>
-<p>Manage YONA events and activities.</p>
-<button type="button"
-onclick="showSection('eventsSection');loadEvents()">
-Events
-</button>
-</div>
-
-
-<div class="dashboard-card">
-<div class="dashboard-icon">📁</div>
-<h3>Documents</h3>
-<p>Store important YONA documents.</p>
-<button type="button"
-onclick="showSection('documentsSection');loadDocuments()">
-Documents
-</button>
-</div>
-
-</div>
-</div>
 
 
 <!-- MEMBERS -->
+
+<div class="dashboard-card">
+
+<div class="dashboard-icon">👥</div>
+
+<h3>Members</h3>
+
+<p
+id="membersCount"
+class="dashboard-count">
+...
+</p>
+
+<p>
+Total registered members
+</p>
+
+<button
+type="button"
+onclick="showSection('membersSection');loadMembers()">
+Manage Members
+</button>
+
+</div>
+
+
+<!-- EXECUTIVE -->
+
+<div class="dashboard-card">
+
+<div class="dashboard-icon">👔</div>
+
+<h3>Executive</h3>
+
+<p
+id="executiveCount"
+class="dashboard-count">
+...
+</p>
+
+<p>
+Executive records
+</p>
+
+<button
+type="button"
+onclick="showSection('executiveSection');loadExecutive()">
+Manage Executive
+</button>
+
+</div>
+
+
+<!-- FINANCE -->
+
+<div class="dashboard-card">
+
+<div class="dashboard-icon">💰</div>
+
+<h3>Finance</h3>
+
+<p
+id="financeCount"
+class="dashboard-count">
+...
+</p>
+
+<p>
+Financial records
+</p>
+
+<button
+type="button"
+onclick="showSection('financeSection');loadFinance()">
+Manage Finance
+</button>
+
+</div>
+
+
+<!-- MEETINGS -->
+
+<div class="dashboard-card">
+
+<div class="dashboard-icon">📝</div>
+
+<h3>Meetings</h3>
+
+<p
+id="meetingsCount"
+class="dashboard-count">
+...
+</p>
+
+<p>
+Recorded meetings
+</p>
+
+<button
+type="button"
+onclick="showSection('meetingsSection');loadMeetings()">
+Manage Meetings
+</button>
+
+</div>
+
+
+<!-- EVENTS -->
+
+<div class="dashboard-card">
+
+<div class="dashboard-icon">📅</div>
+
+<h3>Events</h3>
+
+<p
+id="eventsCount"
+class="dashboard-count">
+...
+</p>
+
+<p>
+YONA activities
+</p>
+
+<button
+type="button"
+onclick="showSection('eventsSection');loadEvents()">
+Manage Events
+</button>
+
+</div>
+
+
+<!-- DOCUMENTS -->
+
+<div class="dashboard-card">
+
+<div class="dashboard-icon">📁</div>
+
+<h3>Documents</h3>
+
+<p
+id="documentsCount"
+class="dashboard-count">
+...
+</p>
+
+<p>
+Stored documents
+</p>
+
+<button
+type="button"
+onclick="showSection('documentsSection');loadDocuments()">
+Manage Documents
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     MEMBERS
+===================================================== -->
 
 <section id="membersSection" class="hidden card">
 
@@ -492,6 +665,7 @@ Documents
 </div>
 
 <div>
+
 <label>Member Category</label>
 
 <select id="memberType" required>
@@ -506,14 +680,18 @@ Documents
 </div>
 
 <div>
+
 <label>Position</label>
+
 <input id="memberPosition">
+
 </div>
 
 
 <div class="full member-photo-wrap">
 
-<div id="memberPhotoPreview"
+<div
+id="memberPhotoPreview"
 class="member-photo-preview">
 
 <span class="photo-placeholder">
@@ -563,7 +741,9 @@ Back to Dashboard
 </section>
 
 
-<!-- EXECUTIVE -->
+<!-- =====================================================
+     EXECUTIVE
+===================================================== -->
 
 <section id="executiveSection" class="hidden card">
 
@@ -573,7 +753,9 @@ Back to Dashboard
 
 <div>
 <label>Period</label>
-<input id="executivePeriod" placeholder="e.g. 2026-2029">
+<input
+id="executivePeriod"
+placeholder="e.g. 2026-2029">
 </div>
 
 <div>
@@ -592,11 +774,14 @@ Back to Dashboard
 </div>
 
 <div class="full">
+
 <label>Photo</label>
+
 <input
 id="executivePhoto"
 type="file"
 accept="image/*">
+
 </div>
 
 </div>
@@ -628,17 +813,24 @@ Back to Dashboard
 </section>
 
 
-<!-- FINANCE -->
+<!-- =====================================================
+     FINANCE
+===================================================== -->
 
 <section id="financeSection" class="hidden card">
 
 <h2 class="section-title">Finance</h2>
 
-<input id="financeName" placeholder="Name">
+<input
+id="financeName"
+placeholder="Name">
 
 <select id="financeType">
 
-<option value="">Select transaction type</option>
+<option value="">
+Select transaction type
+</option>
+
 <option>Registration</option>
 <option>Annual Contribution</option>
 <option>End of year Contribution</option>
@@ -687,7 +879,9 @@ Back to Dashboard
 </section>
 
 
-<!-- MEETINGS -->
+<!-- =====================================================
+     MEETINGS
+===================================================== -->
 
 <section id="meetingsSection" class="hidden card">
 
@@ -708,7 +902,9 @@ placeholder="Location">
 
 <div class="record-photo-wrap">
 
-<label><strong>Meeting Photo</strong></label>
+<label>
+<strong>Meeting Photo</strong>
+</label>
 
 <div
 id="meetingPhotoPreview"
@@ -734,7 +930,8 @@ Optional. Maximum 5 MB.
 
 <textarea
 id="meetingDescription"
-placeholder="Minutes / Description"></textarea>
+placeholder="Minutes / Description">
+</textarea>
 
 <button
 type="button"
@@ -763,7 +960,9 @@ Back to Dashboard
 </section>
 
 
-<!-- EVENTS -->
+<!-- =====================================================
+     EVENTS
+===================================================== -->
 
 <section id="eventsSection" class="hidden card">
 
@@ -784,7 +983,9 @@ placeholder="Location">
 
 <div class="record-photo-wrap">
 
-<label><strong>Event Photo</strong></label>
+<label>
+<strong>Event Photo</strong>
+</label>
 
 <div
 id="eventPhotoPreview"
@@ -810,7 +1011,8 @@ Optional. Maximum 5 MB.
 
 <textarea
 id="eventDescription"
-placeholder="Description"></textarea>
+placeholder="Description">
+</textarea>
 
 <button
 type="button"
@@ -839,7 +1041,9 @@ Back to Dashboard
 </section>
 
 
-<!-- DOCUMENTS -->
+<!-- =====================================================
+     DOCUMENTS
+===================================================== -->
 
 <section id="documentsSection" class="hidden card">
 
@@ -855,7 +1059,8 @@ placeholder="Document Title">
 
 <textarea
 id="typedDocumentContent"
-placeholder="Type document content..."></textarea>
+placeholder="Type document content...">
+</textarea>
 
 <button
 type="button"
@@ -906,9 +1111,9 @@ Back to Dashboard
 
 <script>
 
-/* =========================
+/* =====================================================
    SUPABASE
-========================= */
+===================================================== */
 
 const SUPABASE_URL =
 "https://atxeeymireukwbbsczbv.supabase.co";
@@ -933,9 +1138,9 @@ detectSessionInUrl:true
 );
 
 
-/* =========================
+/* =====================================================
    EDITING VARIABLES
-========================= */
+===================================================== */
 
 let editingMemberId=null;
 let editingMemberOldPhoto=null;
@@ -952,9 +1157,9 @@ let editingEventId=null;
 let editingEventOldPhoto=null;
 
 
-/* =========================
+/* =====================================================
    GENERAL
-========================= */
+===================================================== */
 
 function escapeHtml(v){
 
@@ -996,7 +1201,8 @@ document
 s=>s.classList.add('hidden')
 );
 
-const section=document.getElementById(id);
+const section=
+document.getElementById(id);
 
 if(section){
 
@@ -1019,6 +1225,8 @@ document
 .getElementById('dashboardSection')
 .classList.remove('hidden');
 
+loadDashboardStats();
+
 }
 
 
@@ -1029,9 +1237,234 @@ return v==null ? '' : String(v);
 }
 
 
-/* =========================
+/* =====================================================
+   DASHBOARD STATISTICS
+===================================================== */
+
+async function getTableCount(table){
+
+try{
+
+const {count,error}=
+await supabaseClient
+.from(table)
+.select('*',{
+count:'exact',
+head:true
+});
+
+if(error){
+
+console.error(
+'Dashboard count error for '+
+table+':',
+error
+);
+
+return null;
+
+}
+
+return count ?? 0;
+
+}
+catch(error){
+
+console.error(
+'Dashboard count exception for '+
+table+':',
+error
+);
+
+return null;
+
+}
+
+}
+
+
+async function getDocumentCount(){
+
+try{
+
+const {data,error}=
+await supabaseClient
+.storage
+.from(DOCUMENT_BUCKET)
+.list(
+'',
+{
+limit:1000,
+sortBy:{
+column:'created_at',
+order:'desc'
+}
+}
+);
+
+if(error){
+
+console.error(
+'Document count error:',
+error
+);
+
+return null;
+
+}
+
+if(!data){
+
+return 0;
+
+}
+
+
+/*
+Only count actual files in the
+main document folder.
+*/
+
+return data.filter(
+item=>item.id
+).length;
+
+}
+catch(error){
+
+console.error(
+'Document count exception:',
+error
+);
+
+return null;
+
+}
+
+}
+
+
+function displayDashboardCount(
+id,
+count
+){
+
+const element=
+document.getElementById(id);
+
+if(!element){
+
+return;
+
+}
+
+if(count===null){
+
+element.textContent='—';
+
+element.classList.add(
+'dashboard-loading'
+);
+
+return;
+
+}
+
+element.textContent=
+count.toLocaleString();
+
+element.classList.remove(
+'dashboard-loading'
+);
+
+}
+
+
+async function loadDashboardStats(){
+
+displayDashboardCount(
+'membersCount',
+'...'
+);
+
+displayDashboardCount(
+'executiveCount',
+'...'
+);
+
+displayDashboardCount(
+'financeCount',
+'...'
+);
+
+displayDashboardCount(
+'meetingsCount',
+'...'
+);
+
+displayDashboardCount(
+'eventsCount',
+'...'
+);
+
+displayDashboardCount(
+'documentsCount',
+'...'
+);
+
+const results=
+await Promise.all([
+
+getTableCount('members'),
+
+getTableCount('executive'),
+
+getTableCount('finance'),
+
+getTableCount('meetings'),
+
+getTableCount('events'),
+
+getDocumentCount()
+
+]);
+
+displayDashboardCount(
+'membersCount',
+results[0]
+);
+
+displayDashboardCount(
+'executiveCount',
+results[1]
+);
+
+displayDashboardCount(
+'financeCount',
+results[2]
+);
+
+displayDashboardCount(
+'meetingsCount',
+results[3]
+);
+
+displayDashboardCount(
+'eventsCount',
+results[4]
+);
+
+displayDashboardCount(
+'documentsCount',
+results[5]
+);
+
+}
+
+
+/* =====================================================
    LOGIN
-========================= */
+===================================================== */
 
 async function login(){
 
@@ -1144,9 +1577,9 @@ button.textContent='Login';
 }
 
 
-/* =========================
+/* =====================================================
    LOGOUT
-========================= */
+===================================================== */
 
 async function logout(){
 
@@ -1209,9 +1642,9 @@ button.textContent='Logout';
 }
 
 
-/* =========================
+/* =====================================================
    SHOW APP
-========================= */
+===================================================== */
 
 function showApp(){
 
@@ -1225,12 +1658,14 @@ document
 
 backToDashboard();
 
+loadDashboardStats();
+
 }
 
 
-/* =========================
+/* =====================================================
    SESSION
-========================= */
+===================================================== */
 
 async function requireSession(){
 
@@ -1256,9 +1691,9 @@ return data.session;
 }
 
 
-/* =========================
+/* =====================================================
    PHOTO
-========================= */
+===================================================== */
 
 function validatePhoto(file){
 
@@ -1270,7 +1705,9 @@ return true;
 
 if(!file.type.startsWith('image/')){
 
-alert('Please select an image file.');
+alert(
+'Please select an image file.'
+);
 
 return false;
 
@@ -1278,7 +1715,9 @@ return false;
 
 if(file.size>5*1024*1024){
 
-alert('Photo must be 5 MB or smaller.');
+alert(
+'Photo must be 5 MB or smaller.'
+);
 
 return false;
 
@@ -1303,7 +1742,9 @@ return null;
 
 if(!validatePhoto(file)){
 
-throw new Error('Invalid photo.');
+throw new Error(
+'Invalid photo.'
+);
 
 }
 
@@ -1325,11 +1766,6 @@ Math.random()
 .slice(2,8)+
 '_'+
 safe;
-
-console.log(
-'Uploading photo:',
-path
-);
 
 const {data,error}=
 await supabaseClient
@@ -1357,11 +1793,6 @@ error.message
 );
 
 }
-
-console.log(
-'Photo uploaded:',
-data
-);
 
 return path;
 
@@ -1433,9 +1864,9 @@ return data?.signedUrl || null;
 }
 
 
-/* =========================
+/* =====================================================
    MEMBER PHOTO PREVIEW
-========================= */
+===================================================== */
 
 function previewMemberPhoto(event){
 
@@ -1484,9 +1915,9 @@ reader.readAsDataURL(file);
 }
 
 
-/* =========================
+/* =====================================================
    MEMBER SAVE
-========================= */
+===================================================== */
 
 async function saveMember(event){
 
@@ -1563,9 +1994,6 @@ throw new Error(
 
 }
 
-
-/* PHOTO */
-
 if(file){
 
 newPhotoPath=
@@ -1576,9 +2004,6 @@ file,
 );
 
 }
-
-
-/* RECORD */
 
 const record={
 
@@ -1593,14 +2018,6 @@ null
 
 };
 
-console.log(
-'MEMBER RECORD:',
-record
-);
-
-
-/* UPDATE */
-
 if(editingMemberId){
 
 const {error}=
@@ -1610,11 +2027,6 @@ await supabaseClient
 .eq('id',editingMemberId);
 
 if(error){
-
-console.error(
-'MEMBER UPDATE ERROR:',
-error
-);
 
 throw error;
 
@@ -1639,10 +2051,6 @@ showMessage(
 );
 
 }
-
-
-/* INSERT */
-
 else{
 
 const {error}=
@@ -1651,11 +2059,6 @@ await supabaseClient
 .insert(record);
 
 if(error){
-
-console.error(
-'MEMBER INSERT ERROR:',
-error
-);
 
 throw error;
 
@@ -1669,12 +2072,11 @@ showMessage(
 
 }
 
-
-/* RESET + LOAD */
-
 resetMemberForm();
 
 await loadMembers();
+
+await loadDashboardStats();
 
 }
 catch(error){
@@ -1683,10 +2085,6 @@ console.error(
 'SAVE MEMBER ERROR:',
 error
 );
-
-
-/* Remove newly uploaded photo
-   only when database save failed */
 
 if(
 newPhotoPath &&
@@ -1751,9 +2149,9 @@ wasEditing
 }
 
 
-/* =========================
+/* =====================================================
    LOAD MEMBERS
-========================= */
+===================================================== */
 
 async function loadMembers(){
 
@@ -2012,12 +2410,14 @@ data.photo_url
 
 await loadMembers();
 
+await loadDashboardStats();
+
 }
 
 
-/* =========================
+/* =====================================================
    EXECUTIVE
-========================= */
+===================================================== */
 
 async function saveExecutive(){
 
@@ -2123,6 +2523,8 @@ showMessage(
 resetExecutiveForm();
 
 await loadExecutive();
+
+await loadDashboardStats();
 
 }
 catch(error){
@@ -2381,12 +2783,14 @@ data.photo
 
 await loadExecutive();
 
+await loadDashboardStats();
+
 }
 
 
-/* =========================
+/* =====================================================
    FINANCE
-========================= */
+===================================================== */
 
 async function saveFinance(){
 
@@ -2458,7 +2862,9 @@ showMessage(
 
 resetFinanceForm();
 
-loadFinance();
+await loadFinance();
+
+await loadDashboardStats();
 
 }
 
@@ -2638,14 +3044,16 @@ return;
 
 }
 
-loadFinance();
+await loadFinance();
+
+await loadDashboardStats();
 
 }
 
 
-/* =========================
+/* =====================================================
    MEETING PHOTO
-========================= */
+===================================================== */
 
 function previewMeetingPhoto(event){
 
@@ -2694,9 +3102,9 @@ reader.readAsDataURL(file);
 }
 
 
-/* =========================
+/* =====================================================
    MEETINGS
-========================= */
+===================================================== */
 
 async function saveMeeting(){
 
@@ -2801,6 +3209,8 @@ showMessage(
 resetMeetingForm();
 
 await loadMeetings();
+
+await loadDashboardStats();
 
 }
 catch(error){
@@ -3080,14 +3490,16 @@ data.photo_url
 
 }
 
-loadMeetings();
+await loadMeetings();
+
+await loadDashboardStats();
 
 }
 
 
-/* =========================
+/* =====================================================
    EVENT PHOTO
-========================= */
+===================================================== */
 
 function previewEventPhoto(event){
 
@@ -3136,9 +3548,9 @@ reader.readAsDataURL(file);
 }
 
 
-/* =========================
+/* =====================================================
    EVENTS
-========================= */
+===================================================== */
 
 async function saveEvent(){
 
@@ -3243,6 +3655,8 @@ showMessage(
 resetEventForm();
 
 await loadEvents();
+
+await loadDashboardStats();
 
 }
 catch(error){
@@ -3519,14 +3933,16 @@ data.photo_url
 
 }
 
-loadEvents();
+await loadEvents();
+
+await loadDashboardStats();
 
 }
 
 
-/* =========================
+/* =====================================================
    DOCUMENTS
-========================= */
+===================================================== */
 
 async function loadDocuments(){
 
@@ -3686,7 +4102,9 @@ showMessage(
 'success'
 );
 
-loadDocuments();
+await loadDocuments();
+
+await loadDashboardStats();
 
 }
 
@@ -3781,7 +4199,9 @@ showMessage(
 'success'
 );
 
-loadDocuments();
+await loadDocuments();
+
+await loadDashboardStats();
 
 }
 
@@ -3845,14 +4265,16 @@ return;
 
 }
 
-loadDocuments();
+await loadDocuments();
+
+await loadDashboardStats();
 
 }
 
 
-/* =========================
+/* =====================================================
    AUTH STATE
-========================= */
+===================================================== */
 
 supabaseClient
 .auth
@@ -3890,9 +4312,9 @@ document
 );
 
 
-/* =========================
+/* =====================================================
    BUTTON EVENTS
-========================= */
+===================================================== */
 
 document
 .getElementById('loginForm')
@@ -3992,9 +4414,9 @@ saveExecutive();
 );
 
 
-/* =========================
+/* =====================================================
    EXISTING SESSION
-========================= */
+===================================================== */
 
 (async function(){
 
