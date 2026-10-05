@@ -902,6 +902,27 @@ Profile Photo
   style="display:none;"
 >
 
+<div id="memberCameraBox" style="display:none; margin-top:10px;">
+  <video
+    id="memberCamera"
+    autoplay
+    playsinline
+    style="width:100%; max-width:400px; border-radius:10px;"
+  ></video>
+
+  <br>
+
+  <button type="button" onclick="takeMemberPhoto()">
+    📸 Capture Photo
+  </button>
+
+  <button type="button" onclick="closeMemberCamera()">
+    Cancel
+  </button>
+
+  <canvas id="memberCameraCanvas" style="display:none;"></canvas>
+</div>
+
 </div>
 
 </div>
