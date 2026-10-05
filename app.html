@@ -7,12 +7,35 @@
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f2f5f8;color:#222}
-header{background:#075aaa;color:#fff;padding:20px;text-align:center}
-header h1{margin:0;font-size:25px}
-header p{margin:6px 0 0}
 
-.container{max-width:1100px;margin:auto;padding:20px}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f2f5f8;
+  color:#222
+}
+
+header{
+  background:#075aaa;
+  color:#fff;
+  padding:20px;
+  text-align:center
+}
+
+header h1{
+  margin:0;
+  font-size:25px
+}
+
+header p{
+  margin:6px 0 0
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px
+}
 
 .card{
   background:#fff;
@@ -22,9 +45,14 @@ header p{margin:6px 0 0}
   box-shadow:0 2px 10px rgba(0,0,0,.08)
 }
 
-.hidden{display:none!important}
+.hidden{
+  display:none!important
+}
 
-.section-title{color:#075aaa;margin-top:0}
+.section-title{
+  color:#075aaa;
+  margin-top:0
+}
 
 input,select,textarea{
   width:100%;
@@ -51,13 +79,30 @@ button{
   font-size:15px
 }
 
-button:hover{background:#064a8d}
-button:disabled{opacity:.65;cursor:not-allowed}
+button:hover{
+  background:#064a8d
+}
 
-.delete-button{background:#d93025}
-.cancel-button{background:#777}
-.back-button{background:#444}
-.edit-button{background:#198754}
+button:disabled{
+  opacity:.65;
+  cursor:not-allowed
+}
+
+.delete-button{
+  background:#d93025
+}
+
+.cancel-button{
+  background:#777
+}
+
+.back-button{
+  background:#444
+}
+
+.edit-button{
+  background:#198754
+}
 
 .message{
   padding:12px;
@@ -67,13 +112,23 @@ button:disabled{opacity:.65;cursor:not-allowed}
   white-space:pre-wrap
 }
 
-.success{color:#087f23}
-.error{color:#c62828}
+.success{
+  color:#087f23
+}
+
+.error{
+  color:#c62828
+}
 
 .small-text{
   font-size:13px;
-  color:#666
+  color:#666;
+  word-break:break-word
 }
+
+/* =========================
+   MAIN DASHBOARD
+========================= */
 
 .dashboard{
   display:grid;
@@ -85,8 +140,8 @@ button:disabled{opacity:.65;cursor:not-allowed}
 .dashboard-card{
   background:#fff;
   border-radius:16px;
-  padding:24px 18px;
-  min-height:155px;
+  padding:22px 18px;
+  min-height:205px;
   box-shadow:0 2px 10px rgba(0,0,0,.08);
   display:flex;
   flex-direction:column;
@@ -95,26 +150,51 @@ button:disabled{opacity:.65;cursor:not-allowed}
   text-align:center
 }
 
+.dashboard-card:hover{
+  box-shadow:0 5px 18px rgba(0,0,0,.12);
+  transform:translateY(-2px);
+  transition:.2s
+}
+
 .dashboard-icon{
-  font-size:38px;
-  margin-bottom:8px
+  font-size:40px;
+  margin-bottom:5px
+}
+
+.dashboard-count{
+  font-size:36px;
+  font-weight:700;
+  line-height:1;
+  color:#075aaa;
+  margin:3px 0 8px
 }
 
 .dashboard-card h3{
-  margin:4px 0 8px;
-  color:#075aaa
+  margin:3px 0 8px;
+  color:#075aaa;
+  font-size:20px
 }
 
 .dashboard-card p{
   font-size:14px;
   color:#666;
-  margin:0 0 14px
+  margin:0 0 15px
 }
 
 .dashboard-card button{
   width:100%;
   margin:0
 }
+
+.dashboard-loading{
+  font-size:12px;
+  color:#888;
+  margin-bottom:10px
+}
+
+/* =========================
+   CONTENT
+========================= */
 
 .item-grid{
   display:grid;
@@ -174,7 +254,9 @@ button:disabled{opacity:.65;cursor:not-allowed}
   gap:10px
 }
 
-.full{grid-column:1/-1}
+.full{
+  grid-column:1/-1
+}
 
 .document-upload-box{
   background:#f8fafc;
@@ -227,17 +309,6 @@ button:disabled{opacity:.65;cursor:not-allowed}
   margin-bottom:12px
 }
 
-.stats-dashboard .stat-card{
-  min-height:125px
-}
-
-.stat-number{
-  font-size:34px;
-  font-weight:700;
-  color:#075aaa;
-  line-height:1
-}
-
 .member-search-box{
   background:#f8fafc;
   border:1px solid #ddd;
@@ -259,9 +330,9 @@ button:disabled{opacity:.65;cursor:not-allowed}
   padding:9px 11px
 }
 
-.small-text{
-  word-break:break-word
-}
+/* =========================
+   ID CARD
+========================= */
 
 .id-modal{
   position:fixed;
@@ -365,7 +436,12 @@ button:disabled{opacity:.65;cursor:not-allowed}
   margin:3px
 }
 
+/* =========================
+   MOBILE
+========================= */
+
 @media(max-width:800px){
+
   .dashboard{
     grid-template-columns:repeat(2,minmax(0,1fr))
   }
@@ -380,6 +456,7 @@ button:disabled{opacity:.65;cursor:not-allowed}
 }
 
 @media(max-width:500px){
+
   .container{
     padding:12px
   }
@@ -389,7 +466,7 @@ button:disabled{opacity:.65;cursor:not-allowed}
   }
 
   .dashboard-card{
-    min-height:135px
+    min-height:190px
   }
 
   .topbar button{
@@ -403,6 +480,7 @@ button:disabled{opacity:.65;cursor:not-allowed}
 }
 
 @media print{
+
   body>*:not(#idCardModal){
     display:none!important
   }
@@ -438,121 +516,267 @@ button:disabled{opacity:.65;cursor:not-allowed}
 
 <div class="container">
 
-<!-- LOGIN -->
+<!-- =========================
+     LOGIN
+========================= -->
+
 <section id="loginSection" class="card auth-box">
+
   <h2 class="section-title">YONA Login</h2>
-  <p class="small-text">Sign in with the YONA Supabase account.</p>
 
-  <input id="loginEmail" type="email" placeholder="Email">
-  <input id="loginPassword" type="password" placeholder="Password">
+  <p class="small-text">
+    Sign in with the YONA Supabase account.
+  </p>
 
-  <button id="loginButton" onclick="login()">Login</button>
+  <input
+    id="loginEmail"
+    type="email"
+    placeholder="Email"
+  >
+
+  <input
+    id="loginPassword"
+    type="password"
+    placeholder="Password"
+  >
+
+  <button
+    id="loginButton"
+    onclick="login()"
+  >
+    Login
+  </button>
 
   <div id="loginMessage"></div>
+
 </section>
 
 
-<!-- APP -->
+<!-- =========================
+     APP
+========================= -->
+
 <section id="appSection" class="hidden">
 
 <div class="topbar">
-  <button class="logout" onclick="logout()">Logout</button>
+
+  <button
+    class="logout"
+    onclick="logout()"
+  >
+    Logout
+  </button>
+
 </div>
 
 
-<!-- DASHBOARD -->
+<!-- =========================
+     DASHBOARD
+========================= -->
+
 <div id="dashboardSection">
-
-<div class="dashboard stats-dashboard">
-
-<div class="dashboard-card stat-card">
-  <div id="totalMembers" class="stat-number">0</div>
-  <h3>Total Members</h3>
-  <p>All registered YONA members.</p>
-</div>
-
-<div class="dashboard-card stat-card">
-  <div id="activeMembers" class="stat-number">0</div>
-  <h3>Active Members</h3>
-  <p>Members with valid cards.</p>
-</div>
-
-<div class="dashboard-card stat-card">
-  <div id="expiredMembers" class="stat-number">0</div>
-  <h3>Expired Cards</h3>
-  <p>Cards past their expiry date.</p>
-</div>
-
-<div class="dashboard-card stat-card">
-  <div id="executiveMembers" class="stat-number">0</div>
-  <h3>Executives</h3>
-  <p>Executive leadership records.</p>
-</div>
-
-</div>
-
 
 <div class="dashboard">
 
-<div class="dashboard-card">
-  <div class="dashboard-icon">👥</div>
-  <h3>Members</h3>
-  <p>Manage YONA members and membership records.</p>
-  <button onclick="showSection('membersSection');loadMembers()">Members</button>
-</div>
-
-<div class="dashboard-card">
-  <div class="dashboard-icon">👔</div>
-  <h3>Executive</h3>
-  <p>Manage executive leadership and periods.</p>
-  <button onclick="showSection('executiveSection');loadExecutive()">Executive</button>
-</div>
-
-<div class="dashboard-card">
-  <div class="dashboard-icon">💰</div>
-  <h3>Finance</h3>
-  <p>Manage contributions and financial records.</p>
-  <button onclick="showSection('financeSection');loadFinance()">Finance</button>
-</div>
-
-<div class="dashboard-card">
-  <div class="dashboard-icon">📝</div>
-  <h3>Meetings</h3>
-  <p>Store meetings and minutes.</p>
-  <button onclick="showSection('meetingsSection');loadMeetings()">Meetings</button>
-</div>
-
-<div class="dashboard-card">
-  <div class="dashboard-icon">📅</div>
-  <h3>Events</h3>
-  <p>Manage YONA events and activities.</p>
-  <button onclick="showSection('eventsSection');loadEvents()">Events</button>
-</div>
-
-<div class="dashboard-card">
-  <div class="dashboard-icon">📁</div>
-  <h3>Documents</h3>
-  <p>Store important YONA documents.</p>
-  <button onclick="showSection('documentsSection');loadDocuments()">Documents</button>
-</div>
-
-</div>
-</div>
-
-
 <!-- MEMBERS -->
-<section id="membersSection" class="hidden card">
 
-<h2 class="section-title">Members</h2>
+<div class="dashboard-card">
+
+  <div class="dashboard-icon">👥</div>
+
+  <div
+    id="dashboardMembersCount"
+    class="dashboard-count"
+  >
+    0
+  </div>
+
+  <h3>Members</h3>
+
+  <p>
+    All registered YONA members.
+  </p>
+
+  <button
+    onclick="showSection('membersSection');loadMembers()"
+  >
+    Manage Members
+  </button>
+
+</div>
+
+
+<!-- EXECUTIVE -->
+
+<div class="dashboard-card">
+
+  <div class="dashboard-icon">👔</div>
+
+  <div
+    id="dashboardExecutiveCount"
+    class="dashboard-count"
+  >
+    0
+  </div>
+
+  <h3>Executive</h3>
+
+  <p>
+    Executive leadership records.
+  </p>
+
+  <button
+    onclick="showSection('executiveSection');loadExecutive()"
+  >
+    Manage Executive
+  </button>
+
+</div>
+
+
+<!-- FINANCE -->
+
+<div class="dashboard-card">
+
+  <div class="dashboard-icon">💰</div>
+
+  <div
+    id="dashboardFinanceCount"
+    class="dashboard-count"
+  >
+    0
+  </div>
+
+  <h3>Finance</h3>
+
+  <p>
+    Contributions and financial records.
+  </p>
+
+  <button
+    onclick="showSection('financeSection');loadFinance()"
+  >
+    Manage Finance
+  </button>
+
+</div>
+
+
+<!-- MEETINGS -->
+
+<div class="dashboard-card">
+
+  <div class="dashboard-icon">📝</div>
+
+  <div
+    id="dashboardMeetingsCount"
+    class="dashboard-count"
+  >
+    0
+  </div>
+
+  <h3>Meetings</h3>
+
+  <p>
+    Meetings and stored minutes.
+  </p>
+
+  <button
+    onclick="showSection('meetingsSection');loadMeetings()"
+  >
+    Manage Meetings
+  </button>
+
+</div>
+
+
+<!-- EVENTS -->
+
+<div class="dashboard-card">
+
+  <div class="dashboard-icon">📅</div>
+
+  <div
+    id="dashboardEventsCount"
+    class="dashboard-count"
+  >
+    0
+  </div>
+
+  <h3>Events</h3>
+
+  <p>
+    YONA events and activities.
+  </p>
+
+  <button
+    onclick="showSection('eventsSection');loadEvents()"
+  >
+    Manage Events
+  </button>
+
+</div>
+
+
+<!-- DOCUMENTS -->
+
+<div class="dashboard-card">
+
+  <div class="dashboard-icon">📁</div>
+
+  <div
+    id="dashboardDocumentsCount"
+    class="dashboard-count"
+  >
+    0
+  </div>
+
+  <h3>Documents</h3>
+
+  <p>
+    Important YONA documents.
+  </p>
+
+  <button
+    onclick="showSection('documentsSection');loadDocuments()"
+  >
+    Manage Documents
+  </button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     MEMBERS
+========================= -->
+
+<section
+  id="membersSection"
+  class="hidden card"
+>
+
+<h2 class="section-title">
+  Members
+</h2>
 
 <div class="member-search-box">
+
   <input
     id="memberSearch"
     type="search"
     placeholder="🔎 Search members by name, phone, position, category or member number"
     oninput="renderMembers()"
   >
-  <div id="memberSearchStatus" class="small-text"></div>
+
+  <div
+    id="memberSearchStatus"
+    class="small-text"
+  ></div>
+
 </div>
 
 
@@ -561,32 +785,73 @@ button:disabled{opacity:.65;cursor:not-allowed}
 <div class="member-form-grid">
 
 <div>
+
 <label>Name</label>
-<input id="memberName" required>
+
+<input
+  id="memberName"
+  required
+>
+
 </div>
 
+
 <div>
+
 <label>Phone</label>
-<input id="memberPhone">
+
+<input
+  id="memberPhone"
+>
+
 </div>
 
+
 <div>
+
 <label>Member Category</label>
-<select id="memberType" required>
-<option value="">Select category</option>
-<option>Old Member</option>
-<option>Current Member</option>
-<option>Probationary Member</option>
+
+<select
+  id="memberType"
+  required
+>
+
+<option value="">
+Select category
+</option>
+
+<option>
+Old Member
+</option>
+
+<option>
+Current Member
+</option>
+
+<option>
+Probationary Member
+</option>
+
 </select>
+
 </div>
 
+
 <div>
+
 <label>Position</label>
-<input id="memberPosition">
+
+<input
+  id="memberPosition"
+>
+
 </div>
 
+
 <div>
+
 <label>Member Number</label>
+
 <input
   id="memberNumber"
   type="number"
@@ -594,17 +859,33 @@ button:disabled{opacity:.65;cursor:not-allowed}
   max="999"
   placeholder="Example: 001"
 >
+
 </div>
 
+
 <div>
+
 <label>Card Expiry Date</label>
-<input id="expiryDate" type="date">
+
+<input
+  id="expiryDate"
+  type="date"
+>
+
 </div>
+
 
 <div class="full member-photo-wrap">
 
-<div id="memberPhotoPreview" class="member-photo-preview">
-<span class="photo-placeholder">Profile Photo</span>
+<div
+  id="memberPhotoPreview"
+  class="member-photo-preview"
+>
+
+<span class="photo-placeholder">
+Profile Photo
+</span>
+
 </div>
 
 <br>
@@ -620,9 +901,14 @@ button:disabled{opacity:.65;cursor:not-allowed}
 
 </div>
 
-<button id="memberSaveButton" type="submit">
+
+<button
+  id="memberSaveButton"
+  type="submit"
+>
 Save Member
 </button>
+
 
 <button
   type="button"
@@ -634,23 +920,29 @@ Cancel
 
 </form>
 
+
 <div id="memberMessage"></div>
 
 
-<!-- QR CARD -->
+<!-- QR -->
+
 <div
   id="qrCard"
   class="card hidden"
   style="margin-top:15px;"
 >
 
-<h3 class="section-title">Member QR Code</h3>
+<h3 class="section-title">
+Member QR Code
+</h3>
 
 <p class="small-text">
 Scan this QR code to open the public YONA member verification page.
 </p>
 
-<div style="text-align:center;padding:15px;">
+<div
+  style="text-align:center;padding:15px;"
+>
 
 <div id="qrcode"></div>
 
@@ -662,7 +954,10 @@ Scan this QR code to open the public YONA member verification page.
 
 </div>
 
-<button type="button" onclick="openQrLink()">
+<button
+  type="button"
+  onclick="openQrLink()"
+>
 Open Verification
 </button>
 
@@ -671,6 +966,7 @@ Open Verification
 
 <div id="membersList"></div>
 
+
 <button
   class="back-button"
   onclick="backToDashboard()"
@@ -681,39 +977,80 @@ Back to Dashboard
 </section>
 
 
-<!-- EXECUTIVE -->
-<section id="executiveSection" class="hidden card">
+<!-- =========================
+     EXECUTIVE
+========================= -->
 
-<h2 class="section-title">Executive</h2>
+<section
+  id="executiveSection"
+  class="hidden card"
+>
+
+<h2 class="section-title">
+Executive
+</h2>
 
 <div class="member-form-grid">
 
 <div>
+
 <label>Period</label>
-<input id="executivePeriod" placeholder="e.g. 2026-2029">
+
+<input
+  id="executivePeriod"
+  placeholder="e.g. 2026-2029"
+>
+
 </div>
 
+
 <div>
+
 <label>Name</label>
-<input id="executiveName">
+
+<input
+  id="executiveName"
+>
+
 </div>
 
+
 <div>
+
 <label>Position</label>
-<input id="executivePosition">
+
+<input
+  id="executivePosition"
+>
+
 </div>
 
+
 <div>
+
 <label>Phone</label>
-<input id="executivePhone">
+
+<input
+  id="executivePhone"
+>
+
 </div>
+
 
 <div class="full">
+
 <label>Photo</label>
-<input id="executivePhoto" type="file" accept="image/*">
+
+<input
+  id="executivePhoto"
+  type="file"
+  accept="image/*"
+>
+
 </div>
 
 </div>
+
 
 <button
   id="executiveSaveButton"
@@ -722,6 +1059,7 @@ Back to Dashboard
 Save Executive
 </button>
 
+
 <button
   class="cancel-button"
   onclick="resetExecutiveForm()"
@@ -729,8 +1067,11 @@ Save Executive
 Cancel
 </button>
 
+
 <div id="executiveMessage"></div>
+
 <div id="executiveList"></div>
+
 
 <button
   class="back-button"
@@ -742,24 +1083,64 @@ Back to Dashboard
 </section>
 
 
-<!-- FINANCE -->
-<section id="financeSection" class="hidden card">
+<!-- =========================
+     FINANCE
+========================= -->
 
-<h2 class="section-title">Finance</h2>
+<section
+  id="financeSection"
+  class="hidden card"
+>
 
-<input id="financeName" placeholder="Name">
+<h2 class="section-title">
+Finance
+</h2>
+
+<input
+  id="financeName"
+  placeholder="Name"
+>
 
 <select id="financeType">
-<option value="">Select transaction type</option>
-<option>Registration</option>
-<option>Annual Contribution</option>
-<option>End of year Contribution</option>
-<option>Loan</option>
-<option>Loan Repayment</option>
-<option>Loan Interest</option>
-<option>Welfare</option>
-<option>Other</option>
+
+<option value="">
+Select transaction type
+</option>
+
+<option>
+Registration
+</option>
+
+<option>
+Annual Contribution
+</option>
+
+<option>
+End of year Contribution
+</option>
+
+<option>
+Loan
+</option>
+
+<option>
+Loan Repayment
+</option>
+
+<option>
+Loan Interest
+</option>
+
+<option>
+Welfare
+</option>
+
+<option>
+Other
+</option>
+
 </select>
+
 
 <input
   id="financeAmount"
@@ -768,14 +1149,17 @@ Back to Dashboard
   placeholder="Amount"
 >
 
+
 <textarea
   id="financeDescription"
   placeholder="Description"
 ></textarea>
 
+
 <button onclick="saveFinance(event)">
 Save Transaction
 </button>
+
 
 <button
   class="cancel-button"
@@ -784,8 +1168,11 @@ Save Transaction
 Cancel
 </button>
 
+
 <div id="financeMessage"></div>
+
 <div id="financeList"></div>
+
 
 <button
   class="back-button"
@@ -797,19 +1184,41 @@ Back to Dashboard
 </section>
 
 
-<!-- MEETINGS -->
-<section id="meetingsSection" class="hidden card">
+<!-- =========================
+     MEETINGS
+========================= -->
 
-<h2 class="section-title">Meetings</h2>
+<section
+  id="meetingsSection"
+  class="hidden card"
+>
 
-<input id="meetingDate" type="date">
-<input id="meetingTitle" placeholder="Meeting Title">
-<input id="meetingLocation" placeholder="Location">
+<h2 class="section-title">
+Meetings
+</h2>
+
+
+<input
+  id="meetingDate"
+  type="date"
+>
+
+<input
+  id="meetingTitle"
+  placeholder="Meeting Title"
+>
+
+<input
+  id="meetingLocation"
+  placeholder="Location"
+>
+
 
 <textarea
   id="meetingDescription"
   placeholder="Minutes / Description"
 ></textarea>
+
 
 <div class="activity-photo-wrap">
 
@@ -817,9 +1226,11 @@ Back to Dashboard
   id="meetingPhotoPreview"
   class="activity-photo-preview"
 >
+
 <span class="activity-photo-placeholder">
 Meeting Photo
 </span>
+
 </div>
 
 <br>
@@ -833,9 +1244,11 @@ Meeting Photo
 
 </div>
 
+
 <button onclick="saveMeeting(event)">
 Save Meeting
 </button>
+
 
 <button
   class="cancel-button"
@@ -844,8 +1257,11 @@ Save Meeting
 Cancel
 </button>
 
+
 <div id="meetingMessage"></div>
+
 <div id="meetingsList"></div>
+
 
 <button
   class="back-button"
@@ -857,19 +1273,41 @@ Back to Dashboard
 </section>
 
 
-<!-- EVENTS -->
-<section id="eventsSection" class="hidden card">
+<!-- =========================
+     EVENTS
+========================= -->
 
-<h2 class="section-title">Events</h2>
+<section
+  id="eventsSection"
+  class="hidden card"
+>
 
-<input id="eventTitle" placeholder="Event Title">
-<input id="eventDate" type="date">
-<input id="eventLocation" placeholder="Location">
+<h2 class="section-title">
+Events
+</h2>
+
+
+<input
+  id="eventTitle"
+  placeholder="Event Title"
+>
+
+<input
+  id="eventDate"
+  type="date"
+>
+
+<input
+  id="eventLocation"
+  placeholder="Location"
+>
+
 
 <textarea
   id="eventDescription"
   placeholder="Description"
 ></textarea>
+
 
 <div class="activity-photo-wrap">
 
@@ -877,9 +1315,11 @@ Back to Dashboard
   id="eventPhotoPreview"
   class="activity-photo-preview"
 >
+
 <span class="activity-photo-placeholder">
 Event Photo
 </span>
+
 </div>
 
 <br>
@@ -893,9 +1333,11 @@ Event Photo
 
 </div>
 
+
 <button onclick="saveEvent(event)">
 Save Event
 </button>
+
 
 <button
   class="cancel-button"
@@ -904,8 +1346,11 @@ Save Event
 Cancel
 </button>
 
+
 <div id="eventMessage"></div>
+
 <div id="eventsList"></div>
+
 
 <button
   class="back-button"
@@ -917,10 +1362,19 @@ Back to Dashboard
 </section>
 
 
-<!-- DOCUMENTS -->
-<section id="documentsSection" class="hidden card">
+<!-- =========================
+     DOCUMENTS
+========================= -->
 
-<h2 class="section-title">Documents</h2>
+<section
+  id="documentsSection"
+  class="hidden card"
+>
+
+<h2 class="section-title">
+Documents
+</h2>
+
 
 <div class="document-upload-box">
 
@@ -931,14 +1385,17 @@ Back to Dashboard
   placeholder="Document Title"
 >
 
+
 <textarea
   id="typedDocumentContent"
   placeholder="Type document content..."
 ></textarea>
 
+
 <button onclick="saveTypedDocument()">
 Save Document
 </button>
+
 
 <div id="typedDocumentMessage"></div>
 
@@ -949,17 +1406,24 @@ Save Document
 
 <h3>Upload Document</h3>
 
-<input id="documentFile" type="file">
+<input
+  id="documentFile"
+  type="file"
+>
+
 
 <button onclick="uploadDocument()">
 Upload Document
 </button>
 
+
 <div id="documentMessage"></div>
 
 </div>
 
+
 <div id="documentsList"></div>
+
 
 <button
   class="back-button"
@@ -976,13 +1440,19 @@ Back to Dashboard
 
 
 <!-- SUPABASE -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <!-- QR CODE -->
+
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
 
 <script>
+
+/* =========================
+   SUPABASE
+========================= */
 
 const SUPABASE_URL =
 "https://atxeeymireukwbbsczbv.supabase.co";
@@ -992,6 +1462,7 @@ const SUPABASE_KEY =
 
 const DOCUMENT_BUCKET =
 "yona-documents";
+
 
 const supabaseClient =
 window.supabase.createClient(
@@ -1007,6 +1478,10 @@ window.supabase.createClient(
 );
 
 
+/* =========================
+   EDITING STATES
+========================= */
+
 let editingMemberId=null;
 let editingMemberOldPhoto=null;
 
@@ -1021,37 +1496,67 @@ let editingMeetingOldPhoto=null;
 let editingEventId=null;
 let editingEventOldPhoto=null;
 
+let allMembers=[];
+
+let currentQrLink="";
+
+
+/* =========================
+   HELPERS
+========================= */
 
 function escapeHtml(v){
+
   return String(v??'')
     .replace(/&/g,'&amp;')
     .replace(/</g,'&lt;')
     .replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;')
     .replace(/'/g,'&#039;');
+
 }
 
 
 function escapeJs(v){
+
   return String(v??'')
     .replace(/\\/g,'\\\\')
     .replace(/'/g,"\\'")
     .replace(/\n/g,'\\n')
     .replace(/\r/g,'\\r');
+
+}
+
+
+function read(v){
+
+  return v==null
+    ? ''
+    : String(v);
+
 }
 
 
 function showMessage(id,msg,type=''){
-  const e=document.getElementById(id);
+
+  const e=
+    document.getElementById(id);
 
   if(e){
+
     e.innerHTML=
       '<div class="message '+type+'">'+
       escapeHtml(msg)+
       '</div>';
+
   }
+
 }
 
+
+/* =========================
+   SECTION NAVIGATION
+========================= */
 
 function showSection(id){
 
@@ -1061,11 +1566,14 @@ function showSection(id){
 
   document
     .querySelectorAll('#appSection>section')
-    .forEach(s=>s.classList.add('hidden'));
+    .forEach(
+      s=>s.classList.add('hidden')
+    );
 
   document
     .getElementById(id)
     .classList.remove('hidden');
+
 }
 
 
@@ -1073,36 +1581,44 @@ function backToDashboard(){
 
   document
     .querySelectorAll('#appSection>section')
-    .forEach(s=>s.classList.add('hidden'));
+    .forEach(
+      s=>s.classList.add('hidden')
+    );
 
   document
     .getElementById('dashboardSection')
     .classList.remove('hidden');
 
-  loadMembers();
+  loadDashboardCounts();
+
 }
 
 
-function read(v){
-  return v==null?'':String(v);
-}
-
-
-/* LOGIN */
+/* =========================
+   LOGIN
+========================= */
 
 async function login(){
 
   const email=
-    document.getElementById('loginEmail').value.trim();
+    document
+      .getElementById('loginEmail')
+      .value
+      .trim();
 
   const password=
-    document.getElementById('loginPassword').value;
+    document
+      .getElementById('loginPassword')
+      .value;
 
   const b=
-    document.getElementById('loginButton');
+    document
+      .getElementById('loginButton');
+
 
   b.disabled=true;
   b.textContent='Logging in...';
+
 
   try{
 
@@ -1112,9 +1628,11 @@ async function login(){
         password
       });
 
+
     if(error)throw error;
 
     await showApp();
+
 
   }catch(e){
 
@@ -1124,11 +1642,14 @@ async function login(){
       'error'
     );
 
+
   }finally{
 
     b.disabled=false;
     b.textContent='Login';
+
   }
+
 }
 
 
@@ -1143,14 +1664,13 @@ async function logout(){
   document
     .getElementById('loginSection')
     .classList.remove('hidden');
+
 }
 
 
-/*
- IMPORTANT:
- The dashboard now loads member records immediately
- after login.
-*/
+/* =========================
+   SHOW APP
+========================= */
 
 async function showApp(){
 
@@ -1162,11 +1682,14 @@ async function showApp(){
     .getElementById('appSection')
     .classList.remove('hidden');
 
-  backToDashboard();
+  await loadDashboardCounts();
 
-  await loadMembers();
 }
 
+
+/* =========================
+   SESSION
+========================= */
 
 async function requireSession(){
 
@@ -1180,13 +1703,205 @@ async function requireSession(){
     throw new Error(
       'Your login session has expired. Please log in again.'
     );
+
   }
 
   return data.session;
+
 }
 
 
-/* PHOTOS */
+/* =========================
+   DASHBOARD COUNTS
+========================= */
+
+function setDashboardCount(id,value){
+
+  const e=
+    document.getElementById(id);
+
+  if(e){
+    e.textContent=
+      Number(value||0);
+  }
+
+}
+
+
+async function getTableCount(table){
+
+  const {count,error}=
+    await supabaseClient
+      .from(table)
+      .select('*',{
+        count:'exact',
+        head:true
+      });
+
+  if(error){
+
+    console.error(
+      'Could not count '+table,
+      error
+    );
+
+    return 0;
+
+  }
+
+  return count||0;
+
+}
+
+
+async function getDocumentsCount(){
+
+  try{
+
+    const {data,error}=
+      await supabaseClient
+        .storage
+        .from(DOCUMENT_BUCKET)
+        .list(
+          '',
+          {
+            limit:1000,
+            sortBy:{
+              column:'created_at',
+              order:'desc'
+            }
+          }
+        );
+
+
+    if(error){
+
+      console.error(
+        'Could not count documents',
+        error
+      );
+
+      return 0;
+
+    }
+
+    return data?.length||0;
+
+  }catch(e){
+
+    console.error(e);
+
+    return 0;
+
+  }
+
+}
+
+
+async function loadDashboardCounts(){
+
+  /*
+    Members
+  */
+
+  try{
+
+    const {data,error}=
+      await supabaseClient
+        .from('members')
+        .select(
+          'id,expiry_date,position,member_type'
+        );
+
+
+    if(!error){
+
+      allMembers=data||[];
+
+      setDashboardCount(
+        'dashboardMembersCount',
+        allMembers.length
+      );
+
+    }
+
+  }catch(e){
+
+    console.error(e);
+
+  }
+
+
+  /*
+    Executive
+  */
+
+  const executiveCount=
+    await getTableCount('executive');
+
+  setDashboardCount(
+    'dashboardExecutiveCount',
+    executiveCount
+  );
+
+
+  /*
+    Finance
+  */
+
+  const financeCount=
+    await getTableCount('finance');
+
+  setDashboardCount(
+    'dashboardFinanceCount',
+    financeCount
+  );
+
+
+  /*
+    Meetings
+  */
+
+  const meetingCount=
+    await getTableCount('meetings');
+
+  setDashboardCount(
+    'dashboardMeetingsCount',
+    meetingCount
+  );
+
+
+  /*
+    Events
+  */
+
+  const eventCount=
+    await getTableCount('events');
+
+  setDashboardCount(
+    'dashboardEventsCount',
+    eventCount
+  );
+
+
+  /*
+    Documents
+  */
+
+  const documentCount=
+    await getDocumentsCount();
+
+  setDashboardCount(
+    'dashboardDocumentsCount',
+    documentCount
+  );
+
+}
+
+
+/* =========================
+   PHOTOS
+========================= */
 
 function validatePhoto(file){
 
@@ -1194,29 +1909,47 @@ function validatePhoto(file){
 
   if(!file.type.startsWith('image/')){
 
-    alert('Please select an image file.');
+    alert(
+      'Please select an image file.'
+    );
 
     return false;
+
   }
+
 
   if(file.size>5*1024*1024){
 
-    alert('Profile photo must be 5 MB or smaller.');
+    alert(
+      'Profile photo must be 5 MB or smaller.'
+    );
 
     return false;
+
   }
 
+
   return true;
+
 }
 
 
-async function uploadPersonPhoto(file,folder,prefix){
+async function uploadPersonPhoto(
+  file,
+  folder,
+  prefix
+){
 
   if(!file)return null;
 
   if(!validatePhoto(file)){
-    throw new Error('Invalid photo.');
+
+    throw new Error(
+      'Invalid photo.'
+    );
+
   }
+
 
   const safe=
     file.name.replace(
@@ -1224,12 +1957,16 @@ async function uploadPersonPhoto(file,folder,prefix){
       '_'
     );
 
+
   const path=
     folder+'/'+
     prefix+'_'+
     Date.now()+'_'+
-    Math.random().toString(36).slice(2,8)+'_'+
+    Math.random()
+      .toString(36)
+      .slice(2,8)+'_'+
     safe;
+
 
   const {error}=
     await supabaseClient
@@ -1244,9 +1981,11 @@ async function uploadPersonPhoto(file,folder,prefix){
         }
       );
 
+
   if(error)throw error;
 
   return path;
+
 }
 
 
@@ -1260,6 +1999,7 @@ async function deleteStoredPhoto(path){
     .storage
     .from(DOCUMENT_BUCKET)
     .remove([path]);
+
 }
 
 
@@ -1271,11 +2011,16 @@ async function getPhotoUrl(path){
     await supabaseClient
       .storage
       .from(DOCUMENT_BUCKET)
-      .createSignedUrl(path,3600);
+      .createSignedUrl(
+        path,
+        3600
+      );
+
 
   return error
     ? null
     : data?.signedUrl||null;
+
 }
 
 
@@ -1285,7 +2030,10 @@ function previewMemberPhoto(event){
     event.target.files?.[0];
 
   const p=
-    document.getElementById('memberPhotoPreview');
+    document.getElementById(
+      'memberPhotoPreview'
+    );
+
 
   if(!f||!validatePhoto(f)){
 
@@ -1293,22 +2041,33 @@ function previewMemberPhoto(event){
       '<span class="photo-placeholder">Profile Photo</span>';
 
     return;
+
   }
 
-  const r=new FileReader();
+
+  const r=
+    new FileReader();
+
 
   r.onload=()=>{
+
     p.innerHTML=
       '<img class="member-photo-preview" src="'+
       r.result+
       '" alt="Preview">';
+
   };
 
+
   r.readAsDataURL(f);
+
 }
 
 
-function previewActivityPhoto(event,targetId){
+function previewActivityPhoto(
+  event,
+  targetId
+){
 
   const f=
     event.target.files?.[0];
@@ -1316,35 +2075,49 @@ function previewActivityPhoto(event,targetId){
   const p=
     document.getElementById(targetId);
 
+
   if(!f||!validatePhoto(f)){
 
     p.innerHTML=
       '<span class="activity-photo-placeholder">No Photo</span>';
 
     return;
+
   }
 
-  const r=new FileReader();
+
+  const r=
+    new FileReader();
+
 
   r.onload=()=>{
+
     p.innerHTML=
       '<img class="activity-photo-preview" src="'+
       r.result+
       '" alt="Photo Preview">';
+
   };
 
+
   r.readAsDataURL(f);
+
 }
 
 
-/* MEMBERS */
+/* =========================
+   MEMBERS
+========================= */
 
 async function saveMember(event){
 
   event.preventDefault();
 
   const button=
-    document.getElementById('memberSaveButton');
+    document.getElementById(
+      'memberSaveButton'
+    );
+
 
   button.disabled=true;
 
@@ -1353,46 +2126,71 @@ async function saveMember(event){
       ? 'Updating...'
       : 'Saving...';
 
+
   try{
 
     await requireSession();
 
+
     const name=
-      document.getElementById('memberName')
-      .value.trim();
+      document
+        .getElementById('memberName')
+        .value
+        .trim();
+
 
     const phone=
-      document.getElementById('memberPhone')
-      .value.trim();
+      document
+        .getElementById('memberPhone')
+        .value
+        .trim();
+
 
     const memberType=
-      document.getElementById('memberType')
-      .value;
+      document
+        .getElementById('memberType')
+        .value;
+
 
     const position=
-      document.getElementById('memberPosition')
-      .value.trim();
+      document
+        .getElementById('memberPosition')
+        .value
+        .trim();
+
 
     const file=
-      document.getElementById('memberPhoto')
-      .files?.[0];
+      document
+        .getElementById('memberPhoto')
+        .files?.[0];
+
 
     if(!name){
-      throw new Error('Member name is required.');
+
+      throw new Error(
+        'Member name is required.'
+      );
+
     }
 
+
     if(!memberType){
+
       throw new Error(
         'Please select the member category.'
       );
+
     }
+
 
     if(file&&!validatePhoto(file)){
       return;
     }
 
+
     let newPhotoPath=
       editingMemberOldPhoto||null;
+
 
     if(file){
 
@@ -1402,22 +2200,29 @@ async function saveMember(event){
           'member-photos',
           'member'
         );
+
     }
+
 
     const memberNumberValue=
       document
-        .getElementById("memberNumber")
-        .value.trim();
+        .getElementById('memberNumber')
+        .value
+        .trim();
+
 
     const expiryDate=
       document
-        .getElementById("expiryDate")
+        .getElementById('expiryDate')
         .value||null;
+
 
     const member_number=
       memberNumberValue
-        ? String(memberNumberValue).padStart(3,"0")
+        ? String(memberNumberValue)
+            .padStart(3,'0')
         : null;
+
 
     const record={
       name,
@@ -1438,40 +2243,45 @@ async function saveMember(event){
           .update(record)
           .eq('id',editingMemberId);
 
+
       if(error){
 
         if(
-          file &&
-          newPhotoPath &&
+          file&&
+          newPhotoPath&&
           newPhotoPath!==editingMemberOldPhoto
         ){
-          await deleteStoredPhoto(newPhotoPath);
+
+          await deleteStoredPhoto(
+            newPhotoPath
+          );
+
         }
 
-        throw new Error(
-          'Could not update member.\n'+
-          'Code: '+(error.code||'N/A')+'\n'+
-          'Message: '+(error.message||'Unknown error')+'\n'+
-          'Details: '+(error.details||'None')+'\n'+
-          'Hint: '+(error.hint||'None')
-        );
+        throw error;
+
       }
 
+
       if(
-        file &&
-        editingMemberOldPhoto &&
+        file&&
+        editingMemberOldPhoto&&
         editingMemberOldPhoto!==newPhotoPath
       ){
+
         await deleteStoredPhoto(
           editingMemberOldPhoto
         );
+
       }
+
 
       showMessage(
         'memberMessage',
         'Member updated successfully.',
         'success'
       );
+
 
     }else{
 
@@ -1480,31 +2290,35 @@ async function saveMember(event){
           .from('members')
           .insert([record]);
 
+
       if(error){
 
         if(newPhotoPath){
-          await deleteStoredPhoto(newPhotoPath);
+          await deleteStoredPhoto(
+            newPhotoPath
+          );
         }
 
-        throw new Error(
-          'Could not save member.\n'+
-          'Code: '+(error.code||'N/A')+'\n'+
-          'Message: '+(error.message||'Unknown error')+'\n'+
-          'Details: '+(error.details||'None')+'\n'+
-          'Hint: '+(error.hint||'None')
-        );
+        throw error;
+
       }
+
 
       showMessage(
         'memberMessage',
         'Member saved successfully.',
         'success'
       );
+
     }
+
 
     resetMemberForm();
 
     await loadMembers();
+
+    await loadDashboardCounts();
+
 
   }catch(error){
 
@@ -1512,21 +2326,26 @@ async function saveMember(event){
       error?.message||
       'Unknown error occurred.';
 
+
     if(
       m.toLowerCase()
        .includes('failed to fetch')
     ){
+
       m=
         'The app could not connect to Supabase. '+
         'Check your internet connection and make sure '+
         'the Supabase project is online.';
+
     }
+
 
     showMessage(
       'memberMessage',
       'Could not save member:\n'+m,
       'error'
     );
+
 
   }finally{
 
@@ -1536,11 +2355,10 @@ async function saveMember(event){
       editingMemberId
         ? 'Update Member'
         : 'Save Member';
+
   }
+
 }
-
-
-let allMembers=[];
 
 
 function isExpiredDate(date){
@@ -1548,9 +2366,12 @@ function isExpiredDate(date){
   if(!date)return false;
 
   const d=
-    new Date(date+'T23:59:59');
+    new Date(
+      date+'T23:59:59'
+    );
 
   return d<new Date();
+
 }
 
 
@@ -1559,23 +2380,30 @@ function updateMemberTotals(){
   const total=
     allMembers.length;
 
+
   const active=
     allMembers.filter(
-      m=>m.expiry_date &&
-      !isExpiredDate(m.expiry_date)
+      m=>
+        m.expiry_date &&
+        !isExpiredDate(m.expiry_date)
     ).length;
+
 
   const expired=
     allMembers.filter(
-      m=>m.expiry_date &&
-      isExpiredDate(m.expiry_date)
+      m=>
+        m.expiry_date &&
+        isExpiredDate(m.expiry_date)
     ).length;
+
 
   const executives=
     allMembers.filter(m=>{
 
       const p=
-        read(m.position).toLowerCase();
+        read(m.position)
+          .toLowerCase();
+
 
       return(
         p.includes('president')||
@@ -1591,35 +2419,67 @@ function updateMemberTotals(){
     }).length;
 
 
-  const a=
-    document.getElementById('totalMembers');
+  /*
+    These IDs are kept for compatibility
+    with the member system.
+  */
 
-  const b=
-    document.getElementById('activeMembers');
+  const totalOld=
+    document.getElementById(
+      'totalMembers'
+    );
 
-  const c=
-    document.getElementById('expiredMembers');
+  const activeOld=
+    document.getElementById(
+      'activeMembers'
+    );
 
-  const d=
-    document.getElementById('executiveMembers');
+  const expiredOld=
+    document.getElementById(
+      'expiredMembers'
+    );
+
+  const executiveOld=
+    document.getElementById(
+      'executiveMembers'
+    );
 
 
-  if(a)a.textContent=total;
-  if(b)b.textContent=active;
-  if(c)c.textContent=expired;
-  if(d)d.textContent=executives;
+  if(totalOld)
+    totalOld.textContent=total;
+
+  if(activeOld)
+    activeOld.textContent=active;
+
+  if(expiredOld)
+    expiredOld.textContent=expired;
+
+  if(executiveOld)
+    executiveOld.textContent=executives;
+
+
+  setDashboardCount(
+    'dashboardMembersCount',
+    total
+  );
+
 }
 
 
 function renderMembers(){
 
   const list=
-    document.getElementById('membersList');
+    document.getElementById(
+      'membersList'
+    );
+
 
   const q=
     (
       document
-        .getElementById('memberSearch')
+        .getElementById(
+          'memberSearch'
+        )
         ?.value||''
     )
     .trim()
@@ -1655,6 +2515,7 @@ function renderMembers(){
       q
         ? `${filtered.length} of ${allMembers.length} members found.`
         : `${allMembers.length} members total.`;
+
   }
 
 
@@ -1664,6 +2525,7 @@ function renderMembers(){
       '<p>No members match your search.</p>';
 
     return;
+
   }
 
 
@@ -1683,41 +2545,60 @@ function renderMembers(){
             class="person-photo"
             id="member-photo-${m.id}"
           >
+
             <span class="photo-placeholder">
               No Photo
             </span>
+
           </div>
 
         </div>
+
 
         <h3>
           ${escapeHtml(read(m.name))}
         </h3>
 
+
         <p>
           <strong>Phone:</strong>
-          ${escapeHtml(read(m.phone)||'Not provided')}
+          ${escapeHtml(
+            read(m.phone)||'Not provided'
+          )}
         </p>
+
 
         <p>
           <strong>Position:</strong>
-          ${escapeHtml(read(m.position)||'Member')}
+          ${escapeHtml(
+            read(m.position)||'Member'
+          )}
         </p>
+
 
         <p>
           <strong>Member No.:</strong>
-          ${escapeHtml(read(m.member_number)||'Not assigned')}
+          ${escapeHtml(
+            read(m.member_number)||'Not assigned'
+          )}
         </p>
+
 
         <p>
           <strong>Category:</strong>
-          ${escapeHtml(read(m.member_type)||'Member')}
+          ${escapeHtml(
+            read(m.member_type)||'Member'
+          )}
         </p>
+
 
         <p>
           <strong>Expiry:</strong>
-          ${escapeHtml(read(m.expiry_date)||'Not set')}
+          ${escapeHtml(
+            read(m.expiry_date)||'Not set'
+          )}
         </p>
+
 
         <button
           class="edit-button"
@@ -1726,6 +2607,7 @@ function renderMembers(){
           Edit
         </button>
 
+
         <button
           type="button"
           onclick="showIdCard(${JSON.stringify(m.id)})"
@@ -1733,12 +2615,14 @@ function renderMembers(){
           ID Card
         </button>
 
+
         <button
           type="button"
           onclick="generateQr(${JSON.stringify(m.id)})"
         >
           QR
         </button>
+
 
         <button
           class="delete-button"
@@ -1757,12 +2641,16 @@ function renderMembers(){
   filtered.forEach(async m=>{
 
     const url=
-      await getPhotoUrl(m.photo_url);
+      await getPhotoUrl(
+        m.photo_url
+      );
+
 
     const box=
       document.getElementById(
         'member-photo-'+m.id
       );
+
 
     if(box&&url){
 
@@ -1770,20 +2658,27 @@ function renderMembers(){
         '<img class="person-photo" src="'+
         escapeHtml(url)+
         '" alt="Member photo">';
+
     }
 
   });
+
 }
 
 
 async function loadMembers(){
 
   const list=
-    document.getElementById('membersList');
+    document.getElementById(
+      'membersList'
+    );
+
 
   if(list){
+
     list.innerHTML=
       '<p>Loading members...</p>';
+
   }
 
 
@@ -1793,7 +2688,10 @@ async function loadMembers(){
       .select(
         'id,created_at,name,phone,position,member_type,member_number,expiry_date,photo_url'
       )
-      .order('id',{ascending:false});
+      .order(
+        'id',
+        {ascending:false}
+      );
 
 
   if(error){
@@ -1805,21 +2703,28 @@ async function loadMembers(){
         'Error loading members: '+
         escapeHtml(error.message)+
         '</div>';
+
     }
+
 
     updateMemberTotals();
 
     return;
+
   }
 
 
-  allMembers=data||[];
+  allMembers=
+    data||[];
+
 
   updateMemberTotals();
+
 
   if(list){
     renderMembers();
   }
+
 }
 
 
@@ -1842,6 +2747,7 @@ async function editMember(id){
     );
 
     return;
+
   }
 
 
@@ -1851,32 +2757,54 @@ async function editMember(id){
     data.photo_url||null;
 
 
-  document.getElementById('memberName').value=
+  document.getElementById(
+    'memberName'
+  ).value=
     read(data.name);
 
-  document.getElementById('memberPhone').value=
+
+  document.getElementById(
+    'memberPhone'
+  ).value=
     read(data.phone);
 
-  document.getElementById('memberType').value=
+
+  document.getElementById(
+    'memberType'
+  ).value=
     read(data.member_type);
 
-  document.getElementById('memberPosition').value=
+
+  document.getElementById(
+    'memberPosition'
+  ).value=
     read(data.position);
 
-  document.getElementById('memberNumber').value=
+
+  document.getElementById(
+    'memberNumber'
+  ).value=
     data.member_number
       ? String(data.member_number)
           .replace(/^0+/,'')||'0'
       : '';
 
-  document.getElementById('expiryDate').value=
+
+  document.getElementById(
+    'expiryDate'
+  ).value=
     read(data.expiry_date);
 
-  document.getElementById('memberPhoto').value='';
+
+  document.getElementById(
+    'memberPhoto'
+  ).value='';
 
 
   const url=
-    await getPhotoUrl(data.photo_url);
+    await getPhotoUrl(
+      data.photo_url
+    );
 
 
   document.getElementById(
@@ -1891,7 +2819,8 @@ async function editMember(id){
 
   document.getElementById(
     'memberSaveButton'
-  ).textContent='Update Member';
+  ).textContent=
+    'Update Member';
 
 
   document
@@ -1899,6 +2828,7 @@ async function editMember(id){
     .scrollIntoView({
       behavior:'smooth'
     });
+
 }
 
 
@@ -1907,22 +2837,53 @@ function resetMemberForm(){
   editingMemberId=null;
   editingMemberOldPhoto=null;
 
-  document.getElementById('memberName').value='';
-  document.getElementById('memberPhone').value='';
-  document.getElementById('memberType').value='';
-  document.getElementById('memberPosition').value='';
-  document.getElementById('memberNumber').value='';
-  document.getElementById('expiryDate').value='';
-  document.getElementById('memberPhoto').value='';
+
+  document.getElementById(
+    'memberName'
+  ).value='';
+
+
+  document.getElementById(
+    'memberPhone'
+  ).value='';
+
+
+  document.getElementById(
+    'memberType'
+  ).value='';
+
+
+  document.getElementById(
+    'memberPosition'
+  ).value='';
+
+
+  document.getElementById(
+    'memberNumber'
+  ).value='';
+
+
+  document.getElementById(
+    'expiryDate'
+  ).value='';
+
+
+  document.getElementById(
+    'memberPhoto'
+  ).value='';
+
 
   document.getElementById(
     'memberPhotoPreview'
   ).innerHTML=
     '<span class="photo-placeholder">Profile Photo</span>';
 
+
   document.getElementById(
     'memberSaveButton'
-  ).textContent='Save Member';
+  ).textContent=
+    'Save Member';
+
 }
 
 
@@ -1960,27 +2921,29 @@ async function deleteMember(id){
     );
 
     return;
+
   }
 
 
   if(data?.photo_url){
+
     await deleteStoredPhoto(
       data.photo_url
     );
+
   }
 
 
   await loadMembers();
+
+  await loadDashboardCounts();
+
 }
 
 
-/*
- QR VERIFICATION URL
- Works whether app is opened as:
- /yona/app.html
- or:
- /yona/
-*/
+/* =========================
+   QR VERIFICATION
+========================= */
 
 function getVerificationUrl(memberId){
 
@@ -1992,16 +2955,16 @@ function getVerificationUrl(memberId){
       window.location.href
     );
 
+
   url.searchParams.set(
     'id',
     memberId
   );
 
+
   return url.href;
+
 }
-
-
-let currentQrLink="";
 
 
 function generateQr(memberId){
@@ -2009,10 +2972,11 @@ function generateQr(memberId){
   if(!memberId){
 
     alert(
-      "This member does not have a valid database ID."
+      'This member does not have a valid database ID.'
     );
 
     return;
+
   }
 
 
@@ -2021,26 +2985,38 @@ function generateQr(memberId){
 
 
   const card=
-    document.getElementById("qrCard");
+    document.getElementById(
+      'qrCard'
+    );
+
 
   const box=
-    document.getElementById("qrcode");
+    document.getElementById(
+      'qrcode'
+    );
 
 
   if(!card||!box)return;
 
 
-  card.classList.remove("hidden");
+  card.classList.remove(
+    'hidden'
+  );
 
-  box.innerHTML="";
+
+  box.innerHTML='';
 
 
-  if(typeof QRCode==="undefined"){
+  if(
+    typeof QRCode===
+    'undefined'
+  ){
 
     box.textContent=
-      "QR code library unavailable.";
+      'QR code library unavailable.';
 
     return;
+
   }
 
 
@@ -2050,19 +3026,22 @@ function generateQr(memberId){
       text:currentQrLink,
       width:220,
       height:220,
-      correctLevel:QRCode.CorrectLevel.H
+      correctLevel:
+        QRCode.CorrectLevel.H
     }
   );
 
 
   document.getElementById(
-    "qrLink"
-  ).textContent=currentQrLink;
+    'qrLink'
+  ).textContent=
+    currentQrLink;
 
 
   card.scrollIntoView({
-    behavior:"smooth"
+    behavior:'smooth'
   });
+
 }
 
 
@@ -2071,20 +3050,25 @@ function openQrLink(){
   if(!currentQrLink){
 
     alert(
-      "No QR code has been generated yet."
+      'No QR code has been generated yet.'
     );
 
     return;
+
   }
+
 
   window.open(
     currentQrLink,
-    "_blank"
+    '_blank'
   );
+
 }
 
 
-/* ID CARD */
+/* =========================
+   ID CARD
+========================= */
 
 async function showIdCard(memberId){
 
@@ -2092,11 +3076,11 @@ async function showIdCard(memberId){
 
     const {data,error}=
       await supabaseClient
-        .from("members")
+        .from('members')
         .select(
-          "id,name,phone,position,member_type,member_number,expiry_date,photo_url"
+          'id,name,phone,position,member_type,member_number,expiry_date,photo_url'
         )
-        .eq("id",memberId)
+        .eq('id',memberId)
         .single();
 
 
@@ -2104,43 +3088,49 @@ async function showIdCard(memberId){
 
 
     document.getElementById(
-      "idCardName"
+      'idCardName'
     ).textContent=
-      read(data.name)||"Unnamed Member";
+      read(data.name)||
+      'Unnamed Member';
 
 
     document.getElementById(
-      "idCardPosition"
+      'idCardPosition'
     ).textContent=
-      read(data.position)||"Member";
+      read(data.position)||
+      'Member';
 
 
     document.getElementById(
-      "idCardNumber"
+      'idCardNumber'
     ).textContent=
-      read(data.member_number)||"Not assigned";
+      read(data.member_number)||
+      'Not assigned';
 
 
     document.getElementById(
-      "idCardType"
+      'idCardType'
     ).textContent=
-      read(data.member_type)||"Member";
+      read(data.member_type)||
+      'Member';
 
 
     document.getElementById(
-      "idCardExpiry"
+      'idCardExpiry'
     ).textContent=
-      read(data.expiry_date)||"Not set";
+      read(data.expiry_date)||
+      'Not set';
 
 
     const img=
       document.getElementById(
-        "idCardPhoto"
+        'idCardPhoto'
       );
+
 
     const fallback=
       document.getElementById(
-        "idCardPhotoFallback"
+        'idCardPhotoFallback'
       );
 
 
@@ -2155,35 +3145,40 @@ async function showIdCard(memberId){
       img.src=url;
 
       img.style.display=
-        "inline-block";
+        'inline-block';
 
       fallback.style.display=
-        "none";
+        'none';
 
     }else{
 
       img.style.display=
-        "none";
+        'none';
 
       fallback.style.display=
-        "inline-flex";
+        'inline-flex';
+
     }
 
 
     const qr=
       document.getElementById(
-        "memberQrCode"
+        'memberQrCode'
       );
 
-    qr.innerHTML="";
+
+    qr.innerHTML='';
 
 
     const verifyUrl=
-      getVerificationUrl(data.id);
+      getVerificationUrl(
+        data.id
+      );
 
 
     if(
-      typeof QRCode!=="undefined"
+      typeof QRCode!==
+      'undefined'
     ){
 
       new QRCode(
@@ -2196,61 +3191,94 @@ async function showIdCard(memberId){
             QRCode.CorrectLevel.M
         }
       );
+
     }
 
 
     document
-      .getElementById("idCardModal")
-      .classList.remove("hidden");
+      .getElementById(
+        'idCardModal'
+      )
+      .classList.remove(
+        'hidden'
+      );
 
 
   }catch(e){
 
     alert(
-      "Could not open ID card: "+
+      'Could not open ID card: '+
       e.message
     );
+
   }
+
 }
 
 
 function closeIdCard(){
 
   document
-    .getElementById("idCardModal")
-    .classList.add("hidden");
+    .getElementById(
+      'idCardModal'
+    )
+    .classList.add(
+      'hidden'
+    );
+
 }
 
 
-/* EXECUTIVE */
+/* =========================
+   EXECUTIVE
+========================= */
 
 async function saveExecutive(event){
 
   event.preventDefault();
 
+
   const period=
     document
-      .getElementById('executivePeriod')
-      .value.trim();
+      .getElementById(
+        'executivePeriod'
+      )
+      .value
+      .trim();
+
 
   const name=
     document
-      .getElementById('executiveName')
-      .value.trim();
+      .getElementById(
+        'executiveName'
+      )
+      .value
+      .trim();
+
 
   const position=
     document
-      .getElementById('executivePosition')
-      .value.trim();
+      .getElementById(
+        'executivePosition'
+      )
+      .value
+      .trim();
+
 
   const phone=
     document
-      .getElementById('executivePhone')
-      .value.trim();
+      .getElementById(
+        'executivePhone'
+      )
+      .value
+      .trim();
+
 
   const file=
     document
-      .getElementById('executivePhoto')
+      .getElementById(
+        'executivePhoto'
+      )
       .files?.[0];
 
 
@@ -2263,13 +3291,15 @@ async function saveExecutive(event){
     );
 
     return;
+
   }
 
 
   try{
 
     let photo=
-      editingExecutiveOldPhoto||null;
+      editingExecutiveOldPhoto||
+      null;
 
 
     if(file){
@@ -2280,6 +3310,7 @@ async function saveExecutive(event){
           'executive-photos',
           'executive'
         );
+
     }
 
 
@@ -2294,10 +3325,15 @@ async function saveExecutive(event){
 
     const q=
       editingExecutiveId
+
         ? supabaseClient
             .from('executive')
             .update(record)
-            .eq('id',editingExecutiveId)
+            .eq(
+              'id',
+              editingExecutiveId
+            )
+
         : supabaseClient
             .from('executive')
             .insert([record]);
@@ -2313,6 +3349,7 @@ async function saveExecutive(event){
       }
 
       throw error;
+
     }
 
 
@@ -2320,9 +3357,11 @@ async function saveExecutive(event){
       file&&
       editingExecutiveOldPhoto
     ){
+
       await deleteStoredPhoto(
         editingExecutiveOldPhoto
       );
+
     }
 
 
@@ -2337,6 +3376,8 @@ async function saveExecutive(event){
 
     await loadExecutive();
 
+    await loadDashboardCounts();
+
 
   }catch(e){
 
@@ -2346,7 +3387,9 @@ async function saveExecutive(event){
       e.message,
       'error'
     );
+
   }
+
 }
 
 
@@ -2356,6 +3399,7 @@ async function loadExecutive(){
     document.getElementById(
       'executiveList'
     );
+
 
   list.innerHTML=
     'Loading executive...';
@@ -2367,7 +3411,10 @@ async function loadExecutive(){
       .select(
         'id,period,name,position,phone,photo'
       )
-      .order('id',{ascending:false});
+      .order(
+        'id',
+        {ascending:false}
+      );
 
 
   if(error){
@@ -2379,7 +3426,14 @@ async function loadExecutive(){
       '</div>';
 
     return;
+
   }
+
+
+  setDashboardCount(
+    'dashboardExecutiveCount',
+    data?.length||0
+  );
 
 
   if(!data?.length){
@@ -2388,6 +3442,7 @@ async function loadExecutive(){
       '<p>No executive records found.</p>';
 
     return;
+
   }
 
 
@@ -2396,10 +3451,13 @@ async function loadExecutive(){
       data.map(async x=>{
 
         const url=
-          await getPhotoUrl(x.photo);
+          await getPhotoUrl(
+            x.photo
+          );
 
 
         return `
+
         <div class="item-card">
 
           ${
@@ -2410,24 +3468,37 @@ async function loadExecutive(){
               : ''
           }
 
+
           <h3>
-            ${escapeHtml(read(x.name))}
+            ${escapeHtml(
+              read(x.name)
+            )}
           </h3>
+
 
           <p>
             <strong>Period:</strong>
-            ${escapeHtml(read(x.period))}
+            ${escapeHtml(
+              read(x.period)
+            )}
           </p>
+
 
           <p>
             <strong>Position:</strong>
-            ${escapeHtml(read(x.position))}
+            ${escapeHtml(
+              read(x.position)
+            )}
           </p>
+
 
           <p>
             <strong>Phone:</strong>
-            ${escapeHtml(read(x.phone))}
+            ${escapeHtml(
+              read(x.phone)
+            )}
           </p>
+
 
           <button
             class="edit-button"
@@ -2435,6 +3506,7 @@ async function loadExecutive(){
           >
             Edit
           </button>
+
 
           <button
             class="delete-button"
@@ -2444,7 +3516,9 @@ async function loadExecutive(){
           </button>
 
         </div>
+
         `;
+
       })
     );
 
@@ -2453,6 +3527,7 @@ async function loadExecutive(){
     '<div class="item-grid">'+
     cards.join('')+
     '</div>';
+
 }
 
 
@@ -2475,6 +3550,7 @@ async function editExecutive(id){
     );
 
     return;
+
   }
 
 
@@ -2486,28 +3562,33 @@ async function editExecutive(id){
 
   document.getElementById(
     'executivePeriod'
-  ).value=read(data.period);
+  ).value=
+    read(data.period);
 
 
   document.getElementById(
     'executiveName'
-  ).value=read(data.name);
+  ).value=
+    read(data.name);
 
 
   document.getElementById(
     'executivePosition'
-  ).value=read(data.position);
+  ).value=
+    read(data.position);
 
 
   document.getElementById(
     'executivePhone'
-  ).value=read(data.phone);
+  ).value=
+    read(data.phone);
 
 
   document.getElementById(
     'executiveSaveButton'
   ).textContent=
     'Update Executive';
+
 }
 
 
@@ -2515,6 +3596,7 @@ function resetExecutiveForm(){
 
   editingExecutiveId=null;
   editingExecutiveOldPhoto=null;
+
 
   [
     'executivePeriod',
@@ -2536,6 +3618,7 @@ function resetExecutiveForm(){
     'executiveSaveButton'
   ).textContent=
     'Save Executive';
+
 }
 
 
@@ -2572,41 +3655,64 @@ async function deleteExecutive(id){
     );
 
     return;
+
   }
 
 
   if(data?.photo){
-    await deleteStoredPhoto(data.photo);
+
+    await deleteStoredPhoto(
+      data.photo
+    );
+
   }
 
 
   await loadExecutive();
+
+  await loadDashboardCounts();
+
 }
 
 
-/* FINANCE */
+/* =========================
+   FINANCE
+========================= */
 
 async function saveFinance(){
 
   const name=
     document
-      .getElementById('financeName')
-      .value.trim();
+      .getElementById(
+        'financeName'
+      )
+      .value
+      .trim();
+
 
   const type=
     document
-      .getElementById('financeType')
+      .getElementById(
+        'financeType'
+      )
       .value;
+
 
   const amount=
     document
-      .getElementById('financeAmount')
+      .getElementById(
+        'financeAmount'
+      )
       .value;
+
 
   const description=
     document
-      .getElementById('financeDescription')
-      .value.trim();
+      .getElementById(
+        'financeDescription'
+      )
+      .value
+      .trim();
 
 
   if(!name||!type||!amount){
@@ -2618,6 +3724,7 @@ async function saveFinance(){
     );
 
     return;
+
   }
 
 
@@ -2635,7 +3742,10 @@ async function saveFinance(){
       ? await supabaseClient
           .from('finance')
           .update(record)
-          .eq('id',editingFinanceId)
+          .eq(
+            'id',
+            editingFinanceId
+          )
 
       : await supabaseClient
           .from('finance')
@@ -2652,6 +3762,7 @@ async function saveFinance(){
     );
 
     return;
+
   }
 
 
@@ -2664,7 +3775,10 @@ async function saveFinance(){
 
   resetFinanceForm();
 
-  loadFinance();
+  await loadFinance();
+
+  await loadDashboardCounts();
+
 }
 
 
@@ -2675,6 +3789,7 @@ async function loadFinance(){
       'financeList'
     );
 
+
   list.innerHTML=
     'Loading finance records...';
 
@@ -2683,7 +3798,10 @@ async function loadFinance(){
     await supabaseClient
       .from('finance')
       .select('*')
-      .order('id',{ascending:false});
+      .order(
+        'id',
+        {ascending:false}
+      );
 
 
   if(error){
@@ -2694,7 +3812,14 @@ async function loadFinance(){
       '</div>';
 
     return;
+
   }
+
+
+  setDashboardCount(
+    'dashboardFinanceCount',
+    data?.length||0
+  );
 
 
   if(!data?.length){
@@ -2703,6 +3828,7 @@ async function loadFinance(){
       '<p>No finance records found.</p>';
 
     return;
+
   }
 
 
@@ -2714,23 +3840,38 @@ async function loadFinance(){
       <div class="item-card">
 
         <h3>
-          ${escapeHtml(read(x.name))}
+          ${escapeHtml(
+            read(x.name)
+          )}
         </h3>
+
 
         <p>
           <strong>Type:</strong>
-          ${escapeHtml(read(x.type||x.category))}
+          ${escapeHtml(
+            read(
+              x.type||
+              x.category
+            )
+          )}
         </p>
+
 
         <p>
           <strong>Amount:</strong>
-          ${escapeHtml(read(x.amount))}
+          ${escapeHtml(
+            read(x.amount)
+          )}
         </p>
+
 
         <p>
           <strong>Description:</strong>
-          ${escapeHtml(read(x.description))}
+          ${escapeHtml(
+            read(x.description)
+          )}
         </p>
+
 
         <button
           class="edit-button"
@@ -2738,6 +3879,7 @@ async function loadFinance(){
         >
           Edit
         </button>
+
 
         <button
           class="delete-button"
@@ -2751,6 +3893,7 @@ async function loadFinance(){
     `).join('')+
 
     '</div>';
+
 }
 
 
@@ -2773,6 +3916,7 @@ async function editFinance(id){
     );
 
     return;
+
   }
 
 
@@ -2781,30 +3925,37 @@ async function editFinance(id){
 
   document.getElementById(
     'financeName'
-  ).value=read(data.name);
+  ).value=
+    read(data.name);
 
 
   document.getElementById(
     'financeType'
   ).value=
-    read(data.type||data.category);
+    read(
+      data.type||
+      data.category
+    );
 
 
   document.getElementById(
     'financeAmount'
-  ).value=read(data.amount);
+  ).value=
+    read(data.amount);
 
 
   document.getElementById(
     'financeDescription'
   ).value=
     read(data.description);
+
 }
 
 
 function resetFinanceForm(){
 
   editingFinanceId=null;
+
 
   [
     'financeName',
@@ -2815,6 +3966,7 @@ function resetFinanceForm(){
     id=>
       document.getElementById(id).value=''
   );
+
 }
 
 
@@ -2843,43 +3995,64 @@ async function deleteFinance(id){
     );
 
     return;
+
   }
 
 
-  loadFinance();
+  await loadFinance();
+
+  await loadDashboardCounts();
+
 }
 
 
-/* MEETINGS */
+/* =========================
+   MEETINGS
+========================= */
 
 async function saveMeeting(){
 
   const file=
     document
-      .getElementById('meetingPhoto')
+      .getElementById(
+        'meetingPhoto'
+      )
       .files?.[0];
 
 
   const record={
+
     meeting_date:
       document
-        .getElementById('meetingDate')
+        .getElementById(
+          'meetingDate'
+        )
         .value,
 
     meeting_title:
       document
-        .getElementById('meetingTitle')
-        .value.trim(),
+        .getElementById(
+          'meetingTitle'
+        )
+        .value
+        .trim(),
 
     location:
       document
-        .getElementById('meetingLocation')
-        .value.trim(),
+        .getElementById(
+          'meetingLocation'
+        )
+        .value
+        .trim(),
 
     description:
       document
-        .getElementById('meetingDescription')
-        .value.trim()
+        .getElementById(
+          'meetingDescription'
+        )
+        .value
+        .trim()
+
   };
 
 
@@ -2895,13 +4068,15 @@ async function saveMeeting(){
     );
 
     return;
+
   }
 
 
   try{
 
     let photo=
-      editingMeetingOldPhoto||null;
+      editingMeetingOldPhoto||
+      null;
 
 
     if(file){
@@ -2912,6 +4087,7 @@ async function saveMeeting(){
           'meeting-photos',
           'meeting'
         );
+
     }
 
 
@@ -2924,7 +4100,10 @@ async function saveMeeting(){
         ? await supabaseClient
             .from('meetings')
             .update(record)
-            .eq('id',editingMeetingId)
+            .eq(
+              'id',
+              editingMeetingId
+            )
 
         : await supabaseClient
             .from('meetings')
@@ -2938,6 +4117,7 @@ async function saveMeeting(){
       }
 
       throw error;
+
     }
 
 
@@ -2950,6 +4130,7 @@ async function saveMeeting(){
       await deleteStoredPhoto(
         editingMeetingOldPhoto
       );
+
     }
 
 
@@ -2962,7 +4143,9 @@ async function saveMeeting(){
 
     resetMeetingForm();
 
-    loadMeetings();
+    await loadMeetings();
+
+    await loadDashboardCounts();
 
 
   }catch(e){
@@ -2973,7 +4156,9 @@ async function saveMeeting(){
       e.message,
       'error'
     );
+
   }
+
 }
 
 
@@ -2983,6 +4168,7 @@ async function loadMeetings(){
     document.getElementById(
       'meetingsList'
     );
+
 
   list.innerHTML=
     'Loading meetings...';
@@ -3006,7 +4192,14 @@ async function loadMeetings(){
       '</div>';
 
     return;
+
   }
+
+
+  setDashboardCount(
+    'dashboardMeetingsCount',
+    data?.length||0
+  );
 
 
   if(!data?.length){
@@ -3015,6 +4208,7 @@ async function loadMeetings(){
       '<p>No meetings found.</p>';
 
     return;
+
   }
 
 
@@ -3029,6 +4223,7 @@ async function loadMeetings(){
 
 
         return `
+
         <div class="meeting-card">
 
           ${
@@ -3041,11 +4236,13 @@ async function loadMeetings(){
               : ''
           }
 
+
           <h3>
             ${escapeHtml(
               read(x.meeting_title)
             )}
           </h3>
+
 
           <p>
             <strong>Date:</strong>
@@ -3054,6 +4251,7 @@ async function loadMeetings(){
             )}
           </p>
 
+
           <p>
             <strong>Location:</strong>
             ${escapeHtml(
@@ -3061,12 +4259,17 @@ async function loadMeetings(){
             )}
           </p>
 
+
           <p>
             <strong>Minutes:</strong>
             ${escapeHtml(
-              read(x.description||x.minutes)
+              read(
+                x.description||
+                x.minutes
+              )
             )}
           </p>
+
 
           <button
             class="edit-button"
@@ -3074,6 +4277,7 @@ async function loadMeetings(){
           >
             Edit
           </button>
+
 
           <button
             class="delete-button"
@@ -3083,13 +4287,16 @@ async function loadMeetings(){
           </button>
 
         </div>
+
         `;
+
       })
     );
 
 
   list.innerHTML=
     cards.join('');
+
 }
 
 
@@ -3112,13 +4319,15 @@ async function editMeeting(id){
     );
 
     return;
+
   }
 
 
   editingMeetingId=id;
 
   editingMeetingOldPhoto=
-    data.photo_url||null;
+    data.photo_url||
+    null;
 
 
   document.getElementById(
@@ -3142,7 +4351,10 @@ async function editMeeting(id){
   document.getElementById(
     'meetingDescription'
   ).value=
-    read(data.description||data.minutes);
+    read(
+      data.description||
+      data.minutes
+    );
 
 
   document.getElementById(
@@ -3164,6 +4376,7 @@ async function editMeeting(id){
         escapeHtml(url)+
         '" alt="Meeting photo">'
       : '<span class="activity-photo-placeholder">Meeting Photo</span>';
+
 }
 
 
@@ -3171,6 +4384,7 @@ function resetMeetingForm(){
 
   editingMeetingId=null;
   editingMeetingOldPhoto=null;
+
 
   [
     'meetingDate',
@@ -3192,6 +4406,7 @@ function resetMeetingForm(){
     'meetingPhotoPreview'
   ).innerHTML=
     '<span class="activity-photo-placeholder">Meeting Photo</span>';
+
 }
 
 
@@ -3228,27 +4443,37 @@ async function deleteMeeting(id){
     );
 
     return;
+
   }
 
 
   if(data?.photo_url){
+
     await deleteStoredPhoto(
       data.photo_url
     );
+
   }
 
 
-  loadMeetings();
+  await loadMeetings();
+
+  await loadDashboardCounts();
+
 }
 
 
-/* EVENTS */
+/* =========================
+   EVENTS
+========================= */
 
 async function saveEvent(){
 
   const file=
     document
-      .getElementById('eventPhoto')
+      .getElementById(
+        'eventPhoto'
+      )
       .files?.[0];
 
 
@@ -3256,27 +4481,42 @@ async function saveEvent(){
 
     title:
       document
-        .getElementById('eventTitle')
-        .value.trim(),
+        .getElementById(
+          'eventTitle'
+        )
+        .value
+        .trim(),
 
     date:
       document
-        .getElementById('eventDate')
+        .getElementById(
+          'eventDate'
+        )
         .value,
 
     location:
       document
-        .getElementById('eventLocation')
-        .value.trim(),
+        .getElementById(
+          'eventLocation'
+        )
+        .value
+        .trim(),
 
     description:
       document
-        .getElementById('eventDescription')
-        .value.trim()
+        .getElementById(
+          'eventDescription'
+        )
+        .value
+        .trim()
+
   };
 
 
-  if(!record.title||!record.date){
+  if(
+    !record.title||
+    !record.date
+  ){
 
     showMessage(
       'eventMessage',
@@ -3285,13 +4525,15 @@ async function saveEvent(){
     );
 
     return;
+
   }
 
 
   try{
 
     let photo=
-      editingEventOldPhoto||null;
+      editingEventOldPhoto||
+      null;
 
 
     if(file){
@@ -3302,6 +4544,7 @@ async function saveEvent(){
           'event-photos',
           'event'
         );
+
     }
 
 
@@ -3314,7 +4557,10 @@ async function saveEvent(){
         ? await supabaseClient
             .from('events')
             .update(record)
-            .eq('id',editingEventId)
+            .eq(
+              'id',
+              editingEventId
+            )
 
         : await supabaseClient
             .from('events')
@@ -3328,6 +4574,7 @@ async function saveEvent(){
       }
 
       throw error;
+
     }
 
 
@@ -3340,6 +4587,7 @@ async function saveEvent(){
       await deleteStoredPhoto(
         editingEventOldPhoto
       );
+
     }
 
 
@@ -3352,7 +4600,9 @@ async function saveEvent(){
 
     resetEventForm();
 
-    loadEvents();
+    await loadEvents();
+
+    await loadDashboardCounts();
 
 
   }catch(e){
@@ -3363,7 +4613,9 @@ async function saveEvent(){
       e.message,
       'error'
     );
+
   }
+
 }
 
 
@@ -3373,6 +4625,7 @@ async function loadEvents(){
     document.getElementById(
       'eventsList'
     );
+
 
   list.innerHTML=
     'Loading events...';
@@ -3396,7 +4649,14 @@ async function loadEvents(){
       '</div>';
 
     return;
+
   }
+
+
+  setDashboardCount(
+    'dashboardEventsCount',
+    data?.length||0
+  );
 
 
   if(!data?.length){
@@ -3405,6 +4665,7 @@ async function loadEvents(){
       '<p>No events found.</p>';
 
     return;
+
   }
 
 
@@ -3419,6 +4680,7 @@ async function loadEvents(){
 
 
         return `
+
         <div class="event-card">
 
           ${
@@ -3431,11 +4693,13 @@ async function loadEvents(){
               : ''
           }
 
+
           <h3>
             ${escapeHtml(
               read(x.title)
             )}
           </h3>
+
 
           <p>
             <strong>Date:</strong>
@@ -3444,12 +4708,14 @@ async function loadEvents(){
             )}
           </p>
 
+
           <p>
             <strong>Location:</strong>
             ${escapeHtml(
               read(x.location)
             )}
           </p>
+
 
           <p>
             <strong>Description:</strong>
@@ -3458,12 +4724,14 @@ async function loadEvents(){
             )}
           </p>
 
+
           <button
             class="edit-button"
             onclick="editEvent(${JSON.stringify(x.id)})"
           >
             Edit
           </button>
+
 
           <button
             class="delete-button"
@@ -3473,13 +4741,16 @@ async function loadEvents(){
           </button>
 
         </div>
+
         `;
+
       })
     );
 
 
   list.innerHTML=
     cards.join('');
+
 }
 
 
@@ -3502,13 +4773,15 @@ async function editEvent(id){
     );
 
     return;
+
   }
 
 
   editingEventId=id;
 
   editingEventOldPhoto=
-    data.photo_url||null;
+    data.photo_url||
+    null;
 
 
   document.getElementById(
@@ -3554,6 +4827,7 @@ async function editEvent(id){
         escapeHtml(url)+
         '" alt="Event photo">'
       : '<span class="activity-photo-placeholder">Event Photo</span>';
+
 }
 
 
@@ -3561,6 +4835,7 @@ function resetEventForm(){
 
   editingEventId=null;
   editingEventOldPhoto=null;
+
 
   [
     'eventTitle',
@@ -3582,6 +4857,7 @@ function resetEventForm(){
     'eventPhotoPreview'
   ).innerHTML=
     '<span class="activity-photo-placeholder">Event Photo</span>';
+
 }
 
 
@@ -3618,6 +4894,7 @@ async function deleteEvent(id){
     );
 
     return;
+
   }
 
 
@@ -3626,14 +4903,20 @@ async function deleteEvent(id){
     await deleteStoredPhoto(
       data.photo_url
     );
+
   }
 
 
-  loadEvents();
+  await loadEvents();
+
+  await loadDashboardCounts();
+
 }
 
 
-/* DOCUMENTS */
+/* =========================
+   DOCUMENTS
+========================= */
 
 async function loadDocuments(){
 
@@ -3641,6 +4924,7 @@ async function loadDocuments(){
     document.getElementById(
       'documentsList'
     );
+
 
   list.innerHTML=
     'Loading documents...';
@@ -3653,7 +4937,7 @@ async function loadDocuments(){
       .list(
         '',
         {
-          limit:100,
+          limit:1000,
           sortBy:{
             column:'created_at',
             order:'desc'
@@ -3671,7 +4955,14 @@ async function loadDocuments(){
       '</div>';
 
     return;
+
   }
+
+
+  setDashboardCount(
+    'dashboardDocumentsCount',
+    data?.length||0
+  );
 
 
   if(!data?.length){
@@ -3680,6 +4971,7 @@ async function loadDocuments(){
       '<p>No documents uploaded yet.</p>';
 
     return;
+
   }
 
 
@@ -3692,17 +4984,21 @@ async function loadDocuments(){
           ${escapeHtml(f.name)}
         </div>
 
+
         <p class="small-text">
           ${escapeHtml(
-            f.metadata?.mimetype||'File'
+            f.metadata?.mimetype||
+            'File'
           )}
         </p>
+
 
         <button
           onclick="openDocument(${JSON.stringify(f.name)})"
         >
           Open / Download
         </button>
+
 
         <button
           class="delete-button"
@@ -3714,6 +5010,7 @@ async function loadDocuments(){
       </div>
 
     `).join('');
+
 }
 
 
@@ -3723,6 +5020,7 @@ async function uploadDocument(){
     document.getElementById(
       'documentFile'
     );
+
 
   const file=
     input.files?.[0];
@@ -3737,6 +5035,7 @@ async function uploadDocument(){
     );
 
     return;
+
   }
 
 
@@ -3749,6 +5048,7 @@ async function uploadDocument(){
     );
 
     return;
+
   }
 
 
@@ -3779,11 +5079,13 @@ async function uploadDocument(){
 
     showMessage(
       'documentMessage',
-      'Upload failed: '+error.message,
+      'Upload failed: '+
+      error.message,
       'error'
     );
 
     return;
+
   }
 
 
@@ -3797,7 +5099,10 @@ async function uploadDocument(){
   );
 
 
-  loadDocuments();
+  await loadDocuments();
+
+  await loadDashboardCounts();
+
 }
 
 
@@ -3808,7 +5113,8 @@ async function saveTypedDocument(){
       .getElementById(
         'typedDocumentTitle'
       )
-      .value.trim();
+      .value
+      .trim();
 
 
   const content=
@@ -3816,7 +5122,8 @@ async function saveTypedDocument(){
       .getElementById(
         'typedDocumentContent'
       )
-      .value.trim();
+      .value
+      .trim();
 
 
   if(!title||!content){
@@ -3828,6 +5135,7 @@ async function saveTypedDocument(){
     );
 
     return;
+
   }
 
 
@@ -3881,6 +5189,7 @@ async function saveTypedDocument(){
     );
 
     return;
+
   }
 
 
@@ -3901,7 +5210,10 @@ async function saveTypedDocument(){
   );
 
 
-  loadDocuments();
+  await loadDocuments();
+
+  await loadDashboardCounts();
+
 }
 
 
@@ -3925,6 +5237,7 @@ async function openDocument(name){
     );
 
     return;
+
   }
 
 
@@ -3932,6 +5245,7 @@ async function openDocument(name){
     data.signedUrl,
     '_blank'
   );
+
 }
 
 
@@ -3961,14 +5275,20 @@ async function deleteDocument(name){
     );
 
     return;
+
   }
 
 
-  loadDocuments();
+  await loadDocuments();
+
+  await loadDashboardCounts();
+
 }
 
 
-/* AUTH STATE */
+/* =========================
+   AUTH STATE
+========================= */
 
 supabaseClient.auth.onAuthStateChange(
   (event,session)=>{
@@ -3980,19 +5300,31 @@ supabaseClient.auth.onAuthStateChange(
     }else{
 
       document
-        .getElementById('appSection')
-        .classList.add('hidden');
+        .getElementById(
+          'appSection'
+        )
+        .classList.add(
+          'hidden'
+        );
+
 
       document
-        .getElementById('loginSection')
-        .classList.remove('hidden');
+        .getElementById(
+          'loginSection'
+        )
+        .classList.remove(
+          'hidden'
+        );
+
     }
 
   }
 );
 
 
-/* START APP */
+/* =========================
+   START APP
+========================= */
 
 (async()=>{
 
@@ -4003,14 +5335,17 @@ supabaseClient.auth.onAuthStateChange(
         .auth
         .getSession();
 
+
     if(data.session){
 
       await showApp();
+
     }
 
   }catch(e){
 
     console.error(e);
+
   }
 
 })();
@@ -4018,7 +5353,9 @@ supabaseClient.auth.onAuthStateChange(
 </script>
 
 
-<!-- ID CARD MODAL -->
+<!-- =========================
+     ID CARD MODAL
+========================= -->
 
 <div
   id="idCardModal"
@@ -4049,6 +5386,7 @@ YONA • UNITY AND DEVELOPMENT
   class="id-card-photo"
   alt="Member photo"
 >
+
 
 <div
   id="idCardPhotoFallback"
@@ -4130,6 +5468,7 @@ Official YONA Membership Identification Card
 >
 🖨️ Print ID Card
 </button>
+
 
 <button
   type="button"
