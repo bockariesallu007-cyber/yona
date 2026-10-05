@@ -1,5618 +1,986 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YONA App</title>
-
-<style>
-*{box-sizing:border-box}
-
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f2f5f8;
-color:#222
-}
-
-header{
-background:#075aaa;
-color:#fff;
-padding:20px;
-text-align:center
-}
-
-header h1{margin:0;font-size:25px}
-header p{margin:6px 0 0}
-
-.container{
-max-width:1100px;
-margin:auto;
-padding:20px
-}
-
-.card{
-background:#fff;
-padding:20px;
-border-radius:16px;
-margin-bottom:20px;
-box-shadow:0 2px 10px rgba(0,0,0,.08)
-}
-
-.hidden{display:none!important}
-
-.section-title{
-color:#075aaa;
-margin-top:0
-}
-
-input,select,textarea{
-width:100%;
-padding:12px;
-margin:7px 0;
-border:1px solid #ccc;
-border-radius:8px;
-font-size:15px
-}
-
-textarea{
-min-height:110px;
-resize:vertical
-}
-
-button{
-padding:11px 16px;
-border:0;
-border-radius:8px;
-background:#075aaa;
-color:#fff;
-cursor:pointer;
-margin:5px 4px 5px 0;
-font-size:15px
-}
-
-button:hover{background:#064a8d}
-button:disabled{opacity:.65;cursor:not-allowed}
-
-.delete-button{background:#d93025}
-.cancel-button{background:#777}
-.back-button{background:#444}
-.edit-button{background:#198754}
-
-.id-card-button{background:#6f42c1}
-.id-card-button:hover{background:#59339d}
-
-.print-button{background:#198754}
-.save-expiry-button{background:#075aaa}
-
-.message{
-padding:12px;
-border-radius:8px;
-background:#eef5ff;
-margin-top:12px;
-white-space:pre-wrap
-}
-
-.success{color:#087f23}
-.error{color:#c62828}
-
-.small-text{
-font-size:13px;
-color:#666
-}
-
-/* DASHBOARD */
-
-.dashboard{
-display:grid;
-grid-template-columns:repeat(3,minmax(0,1fr));
-gap:18px;
-margin-bottom:25px
-}
-
-.dashboard-card{
-background:#fff;
-border-radius:16px;
-padding:24px 18px;
-min-height:155px;
-box-shadow:0 2px 10px rgba(0,0,0,.08);
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center
-}
-
-.dashboard-icon{
-font-size:38px;
-margin-bottom:8px
-}
-
-.dashboard-card h3{
-margin:4px 0 8px;
-color:#075aaa
-}
-
-.dashboard-card p{
-font-size:14px;
-color:#666;
-margin:0 0 14px
-}
-
-.dashboard-card button{
-width:100%;
-margin:0
-}
-
-.dashboard-count{
-font-size:34px!important;
-font-weight:bold;
-color:#075aaa!important;
-margin:0 0 8px!important
-}
-
-.dashboard-loading{
-font-size:13px!important;
-color:#777!important
-}
-
-.dashboard-refresh{
-text-align:center;
-margin-bottom:18px
-}
-
-.dashboard-refresh button{
-background:#198754
-}
-
-/* LISTS */
-
-.item-grid{
-display:grid;
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:14px
-}
-
-.item-card,
-.meeting-card,
-.event-card,
-.document-card{
-background:#f8fafc;
-border:1px solid #ddd;
-border-radius:10px;
-padding:15px
-}
-
-.item-card h3,
-.meeting-card h3,
-.event-card h3,
-.document-card h3{
-margin-top:0;
-color:#075aaa
-}
-
-/* MEMBER SEARCH */
-
-.member-search-box{
-background:#f8fafc;
-border:1px solid #ddd;
-border-radius:10px;
-padding:15px;
-margin-bottom:18px
-}
-
-.member-search-box input{margin-bottom:4px}
-
-.member-search-status{
-font-size:13px;
-color:#666
-}
-
-/* PHOTOS */
-
-.member-photo-wrap,
-.record-photo-wrap{
-text-align:center;
-margin:10px 0 18px
-}
-
-.member-photo-preview,
-.record-photo-preview,
-.person-photo{
-width:110px;
-height:110px;
-border-radius:50%;
-object-fit:cover;
-border:3px solid #075aaa;
-background:#e9eef5;
-display:inline-flex;
-align-items:center;
-justify-content:center;
-color:#777
-}
-
-.record-photo-preview{
-border-radius:12px;
-width:180px;
-height:120px
-}
-
-.person-photo{
-width:80px;
-height:80px
-}
-
-.photo-placeholder{font-size:12px}
-
-.member-form-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px
-}
-
-.full{grid-column:1/-1}
-
-/* DOCUMENTS */
-
-.document-upload-box{
-background:#f8fafc;
-border:1px solid #ddd;
-border-radius:10px;
-padding:15px;
-margin-bottom:18px
-}
-
-.document-file-name{
-font-weight:bold;
-color:#075aaa;
-word-break:break-word
-}
-
-/* LOGIN */
-
-.auth-box{
-max-width:430px;
-margin:30px auto
-}
-
-.logout{
-float:right;
-background:#d93025
-}
-
-.topbar{
-overflow:auto;
-margin-bottom:12px
-}
-
-.login-status{
-text-align:center;
-margin-top:10px;
-font-size:13px;
-color:#666
-}
-
-.record-image{
-width:100%;
-max-width:360px;
-height:200px;
-object-fit:cover;
-border-radius:10px;
-border:2px solid #075aaa;
-margin-bottom:12px
-}
-
-/* =====================================================
-   MEMBER ID CARD
-===================================================== */
-
-.id-card-overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.65);
-z-index:9999;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:15px;
-overflow:auto
-}
-
-.id-card-modal{
-background:#fff;
-border-radius:16px;
-width:100%;
-max-width:700px;
-max-height:95vh;
-overflow:auto;
-padding:20px
-}
-
-.id-card-modal h2{
-color:#075aaa;
-text-align:center;
-margin-top:0
-}
-
-.id-card-expiry-box{
-max-width:500px;
-margin:0 auto 10px
-}
-
-.id-card-area{
-display:block
-}
-
-/* ID CARD */
-
-.id-card{
-width:560px;
-max-width:100%;
-min-height:335px;
-margin:20px auto;
-background:#fff;
-border:3px solid #075aaa;
-border-radius:18px;
-overflow:hidden;
-box-shadow:0 4px 18px rgba(0,0,0,.18)
-}
-
-.id-card-header{
-background:#075aaa;
-color:#fff;
-padding:14px 18px;
-display:flex;
-align-items:center;
-gap:12px
-}
-
-.id-card-logo{
-width:58px;
-height:58px;
-border-radius:50%;
-background:#fff;
-color:#075aaa;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:20px;
-font-weight:bold;
-border:3px solid #fff;
-flex-shrink:0
-}
-
-.id-card-header-text{
-text-align:left
-}
-
-.id-card-header-text h2{
-margin:0;
-font-size:20px;
-color:#fff
-}
-
-.id-card-header-text p{
-margin:3px 0 0;
-font-size:12px;
-color:#fff
-}
-
-.id-card-body{
-display:flex;
-gap:15px;
-padding:15px
-}
-
-.id-card-photo-box{
-width:115px;
-flex-shrink:0;
-text-align:center
-}
-
-.id-card-photo{
-width:105px;
-height:125px;
-object-fit:cover;
-border-radius:10px;
-border:3px solid #075aaa;
-background:#e9eef5
-}
-
-.id-card-no-photo{
-width:105px;
-height:125px;
-border-radius:10px;
-border:3px solid #075aaa;
-background:#e9eef5;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:13px;
-color:#777
-}
-
-.id-card-details{
-flex:1;
-min-width:0
-}
-
-.id-card-details h3{
-margin:0 0 6px;
-font-size:21px;
-color:#075aaa;
-word-break:break-word
-}
-
-.id-card-row{
-font-size:12px;
-margin:5px 0
-}
-
-.id-card-row strong{
-display:inline-block;
-width:72px
-}
-
-.id-card-number{
-margin-top:9px;
-padding:7px 10px;
-background:#075aaa;
-color:#fff;
-border-radius:6px;
-display:inline-block;
-font-weight:bold;
-font-size:14px
-}
-
-/* QR CODE */
-
-.id-card-qr-box{
-width:92px;
-flex-shrink:0;
-text-align:center;
-align-self:center
-}
-
-.id-card-qr{
-width:88px;
-height:88px;
-padding:4px;
-background:#fff;
-border:2px solid #075aaa;
-border-radius:6px;
-display:flex;
-align-items:center;
-justify-content:center
-}
-
-.id-card-qr img{
-width:78px!important;
-height:78px!important;
-display:block
-}
-
-.id-card-qr-label{
-font-size:9px;
-font-weight:bold;
-color:#075aaa;
-margin-top:4px
-}
-
-.id-card-footer{
-border-top:1px solid #ddd;
-padding:9px 15px;
-display:flex;
-justify-content:space-between;
-font-size:10px;
-color:#555;
-gap:10px
-}
-
-.id-card-footer span{
-flex:1
-}
-
-.id-card-footer span:last-child{
-text-align:right
-}
-
-.id-card-actions{
-text-align:center;
-margin-bottom:10px
-}
-
-/* MOBILE */
-
-@media(max-width:800px){
-
-.dashboard{
-grid-template-columns:repeat(2,minmax(0,1fr))
-}
-
-.item-grid{
-grid-template-columns:1fr
-}
-
-.member-form-grid{
-grid-template-columns:1fr
-}
-
-}
-
-@media(max-width:600px){
-
-.id-card{
-width:100%;
-min-height:auto
-}
-
-.id-card-body{
-gap:8px;
-padding:10px
-}
-
-.id-card-photo-box{
-width:88px
-}
-
-.id-card-photo,
-.id-card-no-photo{
-width:82px;
-height:105px
-}
-
-.id-card-details h3{
-font-size:16px
-}
-
-.id-card-row{
-font-size:10px
-}
-
-.id-card-row strong{
-width:60px
-}
-
-.id-card-number{
-font-size:11px;
-padding:6px 7px
-}
-
-.id-card-qr-box{
-width:72px
-}
-
-.id-card-qr{
-width:68px;
-height:68px
-}
-
-.id-card-qr img{
-width:58px!important;
-height:58px!important
-}
-
-.id-card-header-text h2{
-font-size:14px
-}
-
-.id-card-header-text p{
-font-size:9px
-}
-
-.id-card-logo{
-width:48px;
-height:48px;
-font-size:16px
-}
-
-}
-
-@media(max-width:500px){
-
-.container{padding:12px}
-
-.dashboard{
-grid-template-columns:1fr
-}
-
-.dashboard-card{
-min-height:135px
-}
-
-.topbar button{
-width:100%;
-margin:4px 0
-}
-
-.logout{float:none}
-
-}
-
-/* PRINT */
-
-@media print{
-
-body{
-background:#fff!important;
-margin:0!important;
-padding:0!important
-}
-
-body *{
-visibility:hidden!important
-}
-
-#idCardOverlay,
-#idCardOverlay *{
-visibility:visible!important
-}
-
-#idCardOverlay{
-display:block!important;
-position:absolute!important;
-left:0!important;
-top:0!important;
-width:100%!important;
-height:auto!important;
-background:#fff!important;
-padding:0!important
-}
-
-.id-card-modal{
-max-width:none!important;
-max-height:none!important;
-overflow:visible!important;
-padding:0!important;
-width:100%!important
-}
-
-.id-card-modal>h2,
-.id-card-expiry-box,
-.id-card-actions{
-display:none!important
-}
-
-#idCardArea{
-display:block!important;
-width:100%!important
-}
-
-.id-card{
-margin:10mm auto!important;
-box-shadow:none!important;
-page-break-inside:avoid!important
-}
-
-@page{
-size:auto;
-margin:10mm
-}
-
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>YONA Member Verification</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      color: #222;
+    }
+
+    .header {
+      background: #075aaa;
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 25px;
+      line-height: 1.3;
+    }
+
+    .header p {
+      margin: 7px 0 0;
+      font-size: 14px;
+    }
+
+    .container {
+      width: 94%;
+      max-width: 500px;
+      margin: 25px auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
+    }
+
+    .logo-circle {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      background: #075aaa;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .status {
+      text-align: center;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .status.valid {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+
+    .status.expired {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+
+    .status.not-found {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+
+    .photo-box {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .member-photo {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 3px solid #075aaa;
+      background: #eee;
+    }
+
+    .photo-placeholder {
+      width: 130px;
+      height: 130px;
+      margin: auto;
+      border-radius: 10px;
+      border: 3px solid #075aaa;
+      background: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .member-name {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #075aaa;
+      margin: 10px 0 4px;
+      word-break: break-word;
+    }
+
+    .member-position {
+      text-align: center;
+      color: #666;
+      margin-bottom: 20px;
+      word-break: break-word;
+    }
+
+    .verified-badge {
+      display: block;
+      width: fit-content;
+      margin: 0 auto 20px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #e0f2fe;
+      color: #075aaa;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+      padding: 12px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .info-label {
+      font-weight: bold;
+      color: #555;
+    }
+
+    .info-value {
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .expiry-valid {
+      color: #166534;
+      font-weight: bold;
+    }
+
+    .expiry-expired {
+      color: #991b1b;
+      font-weight: bold;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 35px 10px;
+      color: #666;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #e5e7eb;
+      border-top: 4px solid #075aaa;
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .error {
+      text-align: center;
+      color: #991b1b;
+      line-height: 1.6;
+    }
+
+    .error-icon {
+      font-size: 45px;
+      margin-bottom: 5px;
+    }
+
+    .back-button {
+      display: block;
+      width: 100%;
+      border: none;
+      background: #075aaa;
+      color: white;
+      padding: 13px;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .back-button:hover {
+      background: #06498d;
+    }
+
+    .refresh-button {
+      display: block;
+      width: 100%;
+      border: 1px solid #075aaa;
+      background: white;
+      color: #075aaa;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .refresh-button:hover {
+      background: #eff6ff;
+    }
+
+    .footer {
+      text-align: center;
+      color: #777;
+      font-size: 12px;
+      margin-top: 20px;
+      line-height: 1.5;
+    }
+
+    .security-note {
+      margin-top: 20px;
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+      color: #64748b;
+      font-size: 11px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    @media (max-width: 400px) {
+      .card {
+        padding: 18px;
+      }
+
+      .header h1 {
+        font-size: 21px;
+      }
+
+      .info-row {
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .info-value {
+        text-align: left;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-<h1>YONA App</h1>
-<p>Youths of Ndasei Association</p>
-<p><strong>Unity and Development</strong></p>
-</header>
+  <!-- YONA HEADER -->
+  <div class="header">
+    <h1>YOUTHS OF NDASEI ASSOCIATION</h1>
+    <p>YONA • Unity and Development</p>
+  </div>
 
-<div class="container">
 
-<!-- LOGIN -->
+  <div class="container">
 
-<section id="loginSection" class="card auth-box">
+    <div class="card">
 
-<h2 class="section-title">YONA Login</h2>
+      <!-- LOADING -->
+      <div id="loading" class="loading">
 
-<p class="small-text">
-Sign in with the YONA Supabase account.
-</p>
+        <div class="loading-spinner"></div>
 
-<form id="loginForm">
+        <div>
+          Checking YONA member...
+        </div>
 
-<input
-id="loginEmail"
-type="email"
-placeholder="Email"
-autocomplete="email"
-required
->
+      </div>
 
-<input
-id="loginPassword"
-type="password"
-placeholder="Password"
-autocomplete="current-password"
-required
->
 
-<button id="loginButton" type="submit">
-Login
-</button>
+      <!-- VERIFICATION RESULT -->
+      <div id="verificationResult" style="display:none;">
 
-</form>
+        <div id="statusBox" class="status"></div>
 
-<div id="loginMessage"></div>
-<div id="loginStatus" class="login-status"></div>
 
-</section>
+        <!-- MEMBER PHOTO -->
+        <div class="photo-box">
 
+          <img
+            id="memberPhoto"
+            class="member-photo"
+            src=""
+            alt="YONA Member Photo"
+            style="display:none;"
+          >
 
-<!-- APPLICATION -->
+          <div
+            id="photoPlaceholder"
+            class="photo-placeholder"
+            style="display:none;"
+          >
+            No Profile Photo
+          </div>
 
-<section id="appSection" class="hidden">
+        </div>
 
-<div class="topbar">
 
-<button
-id="logoutButton"
-class="logout"
-type="button">
-Logout
-</button>
+        <!-- MEMBER NAME -->
+        <div
+          id="memberName"
+          class="member-name"
+        ></div>
 
-</div>
 
+        <!-- MEMBER POSITION -->
+        <div
+          id="memberPosition"
+          class="member-position"
+        ></div>
 
-<!-- DASHBOARD -->
 
-<div id="dashboardSection">
+        <!-- VERIFIED BADGE -->
+        <div class="verified-badge">
+          ✓ YONA MEMBERSHIP RECORD
+        </div>
 
-<div class="dashboard-refresh">
 
-<button
-type="button"
-onclick="loadDashboardStats()">
-🔄 Refresh Dashboard
-</button>
+        <!-- MEMBER NUMBER -->
+        <div class="info-row">
 
-</div>
+          <div class="info-label">
+            Member Number
+          </div>
 
-<div class="dashboard">
+          <div
+            id="memberNumber"
+            class="info-value"
+          ></div>
 
-<div class="dashboard-card">
+        </div>
 
-<div class="dashboard-icon">👥</div>
 
-<h3>Members</h3>
+        <!-- MEMBER CATEGORY -->
+        <div class="info-row">
 
-<p id="membersCount" class="dashboard-count">...</p>
+          <div class="info-label">
+            Member Category
+          </div>
 
-<p>Total registered members</p>
+          <div
+            id="memberType"
+            class="info-value"
+          ></div>
 
-<button
-type="button"
-onclick="showSection('membersSection');loadMembers()">
-Manage Members
-</button>
+        </div>
 
-</div>
 
+        <!-- EXPIRY DATE -->
+        <div class="info-row">
 
-<div class="dashboard-card">
+          <div class="info-label">
+            Card Expiry
+          </div>
 
-<div class="dashboard-icon">👔</div>
+          <div
+            id="expiryDate"
+            class="info-value"
+          ></div>
 
-<h3>Executive</h3>
+        </div>
 
-<p id="executiveCount" class="dashboard-count">...</p>
 
-<p>Executive records</p>
+        <!-- BUTTONS -->
+        <button
+          type="button"
+          class="back-button"
+          onclick="window.location.href='index.html'"
+        >
+          Back to YONA Website
+        </button>
 
-<button
-type="button"
-onclick="showSection('executiveSection');loadExecutive()">
-Manage Executive
-</button>
 
-</div>
+        <button
+          type="button"
+          class="refresh-button"
+          onclick="verifyMember()"
+        >
+          🔄 Check Again
+        </button>
 
 
-<div class="dashboard-card">
+        <!-- SECURITY NOTE -->
+        <div class="security-note">
+          This page displays membership information retrieved
+          from the official YONA membership database.
+        </div>
 
-<div class="dashboard-icon">💰</div>
+      </div>
 
-<h3>Finance</h3>
 
-<p id="financeCount" class="dashboard-count">...</p>
+      <!-- ERROR RESULT -->
+      <div
+        id="errorResult"
+        style="display:none;"
+      ></div>
 
-<p>Financial records</p>
 
-<button
-type="button"
-onclick="showSection('financeSection');loadFinance()">
-Manage Finance
-</button>
+      <!-- FOOTER -->
+      <div class="footer">
 
-</div>
+        YOUTHS OF NDASEI ASSOCIATION (YONA)<br>
 
+        Unity and Development
 
-<div class="dashboard-card">
+      </div>
 
-<div class="dashboard-icon">📝</div>
+    </div>
 
-<h3>Meetings</h3>
+  </div>
 
-<p id="meetingsCount" class="dashboard-count">...</p>
 
-<p>Recorded meetings</p>
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<button
-type="button"
-onclick="showSection('meetingsSection');loadMeetings()">
-Manage Meetings
-</button>
 
-</div>
+  <script>
 
+    /* =====================================================
+       SUPABASE CONNECTION
+       ===================================================== */
 
-<div class="dashboard-card">
+    const SUPABASE_URL =
+      "https://atxeeymireukwbbsczbv.supabase.co";
 
-<div class="dashboard-icon">📅</div>
+    const SUPABASE_KEY =
+      "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
 
-<h3>Events</h3>
 
-<p id="eventsCount" class="dashboard-count">...</p>
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
-<p>YONA activities</p>
 
-<button
-type="button"
-onclick="showSection('eventsSection');loadEvents()">
-Manage Events
-</button>
+    /* =====================================================
+       FORMAT MEMBER NUMBER
+       ===================================================== */
 
-</div>
+    function formatMemberNumber(value) {
 
+      if (
+        value === null ||
+        value === undefined ||
+        value === ""
+      ) {
+        return "Not assigned";
+      }
 
-<div class="dashboard-card">
 
-<div class="dashboard-icon">📁</div>
+      const number =
+        parseInt(value, 10);
 
-<h3>Documents</h3>
 
-<p id="documentsCount" class="dashboard-count">...</p>
+      if (
+        !isNaN(number) &&
+        number >= 1 &&
+        number <= 999
+      ) {
 
-<p>Stored documents</p>
+        return String(number)
+          .padStart(3, "0");
 
-<button
-type="button"
-onclick="showSection('documentsSection');loadDocuments()">
-Manage Documents
-</button>
+      }
 
-</div>
 
-</div>
-</div>
+      return String(value);
 
+    }
 
-<!-- MEMBERS -->
 
-<section id="membersSection" class="hidden card">
+    /* =====================================================
+       FORMAT EXPIRY DATE
+       ===================================================== */
 
-<h2 class="section-title">Members</h2>
+    function formatExpiryDate(value) {
 
-<div class="member-search-box">
+      if (!value) {
+        return "Not set";
+      }
 
-<label><strong>Search Members</strong></label>
 
-<input
-id="memberSearch"
-type="search"
-placeholder="Search by name, phone, category or position..."
-autocomplete="off"
->
+      const date =
+        new Date(value + "T00:00:00");
 
-<p id="memberSearchStatus" class="member-search-status"></p>
 
-</div>
+      if (isNaN(date.getTime())) {
+        return value;
+      }
 
 
-<form id="memberForm">
+      return date.toLocaleDateString(
+        "en-GB",
+        {
+          day: "2-digit",
+          month: "long",
+          year: "numeric"
+        }
+      );
 
-<div class="member-form-grid">
+    }
 
-<div>
-<label>Member Number</label>
 
-<input
-id="memberNumber"
-type="text"
-inputmode="numeric"
-maxlength="3"
-placeholder="e.g. 001"
->
+    /* =====================================================
+       CHECK EXPIRY
+       ===================================================== */
 
-<p class="small-text">
-Enter a 3-digit number such as 001, 002 or 015.
-</p>
+    function isExpired(value) {
 
-</div>
+      if (!value) {
+        return false;
+      }
 
 
-<div>
-<label>Name</label>
+      const today =
+        new Date();
 
-<input
-id="memberName"
-required
->
+      today.setHours(
+        0,
+        0,
+        0,
+        0
+      );
 
-</div>
 
+      const expiry =
+        new Date(
+          value + "T00:00:00"
+        );
 
-<div>
-<label>Phone</label>
+      expiry.setHours(
+        0,
+        0,
+        0,
+        0
+      );
 
-<input
-id="memberPhone"
->
 
-</div>
+      return expiry < today;
 
+    }
 
-<div>
-<label>Member Category</label>
 
-<select
-id="memberType"
-required
->
+    /* =====================================================
+       GET MEMBER ID FROM URL
+       ===================================================== */
 
-<option value="">Select category</option>
+    function getMemberId() {
 
-<option>Old Member</option>
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
 
-<option>Current Member</option>
 
-<option>Probationary Member</option>
+      return params.get("id");
 
-</select>
+    }
 
-</div>
 
+    /* =====================================================
+       SHOW ERROR
+       ===================================================== */
 
-<div>
-<label>Position</label>
+    function showError(message) {
 
-<input
-id="memberPosition"
->
+      document.getElementById(
+        "loading"
+      ).style.display = "none";
 
-</div>
 
+      document.getElementById(
+        "verificationResult"
+      ).style.display = "none";
 
-<div>
-<label>Card Expiry Date</label>
 
-<input
-id="memberExpiryDate"
-type="date"
->
+      const errorBox =
+        document.getElementById(
+          "errorResult"
+        );
 
-<p class="small-text">
-This expiry date will be saved to the member record and shown on the ID card.
-</p>
 
-</div>
+      errorBox.style.display =
+        "block";
 
 
-<div class="full member-photo-wrap">
+      errorBox.innerHTML = `
 
-<div
-id="memberPhotoPreview"
-class="member-photo-preview">
+        <div class="error">
 
-<span class="photo-placeholder">
-Profile Photo
-</span>
+          <div class="error-icon">
+            ❌
+          </div>
 
-</div>
+          <h2>
+            Verification Failed
+          </h2>
 
-<br>
+          <p>
+            ${message}
+          </p>
 
-<input
-id="memberPhoto"
-type="file"
-accept="image/*"
->
 
-</div>
+          <button
+            type="button"
+            class="back-button"
+            onclick="window.location.href='index.html'"
+          >
+            Back to YONA Website
+          </button>
 
-</div>
 
+          <button
+            type="button"
+            class="refresh-button"
+            onclick="verifyMember()"
+          >
+            🔄 Try Again
+          </button>
 
-<button
-id="memberSaveButton"
-type="submit">
-Save Member
-</button>
+        </div>
 
-<button
-type="button"
-class="cancel-button"
-id="memberCancelButton">
-Cancel
-</button>
+      `;
 
-</form>
+    }
 
-<div id="memberMessage"></div>
 
-<div id="membersList"></div>
+    /* =====================================================
+       SHOW MEMBER PHOTO
+       ===================================================== */
 
-<button
-type="button"
-class="back-button"
-onclick="backToDashboard()">
-Back to Dashboard
-</button>
+    function showMemberPhoto(photoUrl) {
 
-</section>
+      const photo =
+        document.getElementById(
+          "memberPhoto"
+        );
 
 
-<!-- EXECUTIVE -->
+      const placeholder =
+        document.getElementById(
+          "photoPlaceholder"
+        );
 
-<section id="executiveSection" class="hidden card">
 
-<h2 class="section-title">Executive</h2>
+      if (photoUrl) {
 
-<div class="member-form-grid">
+        photo.src =
+          photoUrl;
 
-<div>
-<label>Period</label>
-<input
-id="executivePeriod"
-placeholder="e.g. 2026-2029">
-</div>
+        photo.style.display =
+          "inline-block";
 
-<div>
-<label>Name</label>
-<input id="executiveName">
-</div>
+        placeholder.style.display =
+          "none";
 
-<div>
-<label>Position</label>
-<input id="executivePosition">
-</div>
 
-<div>
-<label>Phone</label>
-<input id="executivePhone">
-</div>
+        photo.onerror =
+          function() {
 
-<div class="full">
+            photo.style.display =
+              "none";
 
-<label>Photo</label>
+            placeholder.style.display =
+              "flex";
 
-<input
-id="executivePhoto"
-type="file"
-accept="image/*"
->
+          };
 
-</div>
+      } else {
 
-</div>
+        photo.style.display =
+          "none";
 
-<button
-id="executiveSaveButton"
-type="button">
-Save Executive
-</button>
+        placeholder.style.display =
+          "flex";
 
-<button
-type="button"
-class="cancel-button"
-onclick="resetExecutiveForm()">
-Cancel
-</button>
+      }
 
-<div id="executiveMessage"></div>
-<div id="executiveList"></div>
+    }
 
-<button
-type="button"
-class="back-button"
-onclick="backToDashboard()">
-Back to Dashboard
-</button>
 
-</section>
+    /* =====================================================
+       VERIFY MEMBER
+       ===================================================== */
 
+    async function verifyMember() {
 
-<!-- FINANCE -->
+      /* Reset screen */
 
-<section id="financeSection" class="hidden card">
+      document.getElementById(
+        "loading"
+      ).style.display =
+        "block";
 
-<h2 class="section-title">Finance</h2>
 
-<input
-id="financeName"
-placeholder="Name"
->
+      document.getElementById(
+        "verificationResult"
+      ).style.display =
+        "none";
 
-<select id="financeType">
 
-<option value="">
-Select transaction type
-</option>
+      document.getElementById(
+        "errorResult"
+      ).style.display =
+        "none";
 
-<option>Registration</option>
-<option>Annual Contribution</option>
-<option>End of year Contribution</option>
-<option>Loan</option>
-<option>Loan Repayment</option>
-<option>Loan Interest</option>
-<option>Welfare</option>
-<option>Other</option>
 
-</select>
+      const memberId =
+        getMemberId();
 
-<input
-id="financeAmount"
-type="number"
-step="0.01"
-placeholder="Amount"
->
 
-<textarea
-id="financeDescription"
-placeholder="Description">
-</textarea>
+      /* No ID */
 
-<button
-type="button"
-onclick="saveFinance()">
-Save Transaction
-</button>
+      if (!memberId) {
 
-<button
-type="button"
-class="cancel-button"
-onclick="resetFinanceForm()">
-Cancel
-</button>
+        showError(
+          "No YONA member ID was provided. Please scan a valid YONA member QR code."
+        );
 
-<div id="financeMessage"></div>
-<div id="financeList"></div>
+        return;
 
-<button
-type="button"
-class="back-button"
-onclick="backToDashboard()">
-Back to Dashboard
-</button>
+      }
 
-</section>
 
+      /* Convert ID to number */
 
-<!-- MEETINGS -->
+      const numericId =
+        parseInt(
+          memberId,
+          10
+        );
 
-<section id="meetingsSection" class="hidden card">
 
-<h2 class="section-title">Meetings</h2>
+      if (
+        isNaN(numericId) ||
+        numericId <= 0
+      ) {
 
-<input
-id="meetingDate"
-type="date"
->
+        showError(
+          "The member ID in this QR code is not valid."
+        );
 
-<input
-id="meetingTitle"
-placeholder="Meeting Title"
->
+        return;
 
-<input
-id="meetingLocation"
-placeholder="Location"
->
+      }
 
-<div class="record-photo-wrap">
 
-<label><strong>Meeting Photo</strong></label>
+      try {
 
-<div
-id="meetingPhotoPreview"
-class="record-photo-preview">
+        /* Call Supabase verification function */
 
-<span class="photo-placeholder">
-Meeting Photo
-</span>
+        const {
+          data,
+          error
+        } =
+          await supabaseClient.rpc(
+            "verify_yona_member",
+            {
+              member_id: numericId
+            }
+          );
 
-</div>
 
-<input
-id="meetingPhoto"
-type="file"
-accept="image/*"
->
+        /* Database error */
 
-<p class="small-text">
-Optional. Maximum 5 MB.
-</p>
+        if (error) {
 
-</div>
+          console.error(
+            "YONA verification error:",
+            error
+          );
 
-<textarea
-id="meetingDescription"
-placeholder="Minutes / Description">
-</textarea>
 
-<button
-type="button"
-onclick="saveMeeting()">
-Save Meeting
-</button>
+          showError(
+            "The verification service could not connect to the YONA database."
+          );
 
-<button
-type="button"
-class="cancel-button"
-onclick="resetMeetingForm()">
-Cancel
-</button>
+          return;
 
-<div id="meetingMessage"></div>
-<div id="meetingsList"></div>
+        }
 
-<button
-type="button"
-class="back-button"
-onclick="backToDashboard()">
-Back to Dashboard
-</button>
 
-</section>
+        /* Member not found */
 
+        if (
+          !data ||
+          data.length === 0
+        ) {
 
-<!-- EVENTS -->
+          showError(
+            "This member could not be found in the YONA membership records."
+          );
 
-<section id="eventsSection" class="hidden card">
+          return;
 
-<h2 class="section-title">Events</h2>
+        }
 
-<input
-id="eventTitle"
-placeholder="Event Title"
->
 
-<input
-id="eventDate"
-type="date"
->
+        /* Get member */
 
-<input
-id="eventLocation"
-placeholder="Location"
->
+        const member =
+          data[0];
 
-<div class="record-photo-wrap">
 
-<label><strong>Event Photo</strong></label>
+        /* Hide loading */
 
-<div
-id="eventPhotoPreview"
-class="record-photo-preview">
+        document.getElementById(
+          "loading"
+        ).style.display =
+          "none";
 
-<span class="photo-placeholder">
-Event Photo
-</span>
 
-</div>
+        /* Show result */
 
-<input
-id="eventPhoto"
-type="file"
-accept="image/*"
->
+        document.getElementById(
+          "verificationResult"
+        ).style.display =
+          "block";
 
-<p class="small-text">
-Optional. Maximum 5 MB.
-</p>
 
-</div>
+        /* Member name */
 
-<textarea
-id="eventDescription"
-placeholder="Description">
-</textarea>
+        document.getElementById(
+          "memberName"
+        ).textContent =
+          member.name ||
+          "Unnamed Member";
 
-<button
-type="button"
-onclick="saveEvent()">
-Save Event
-</button>
 
-<button
-type="button"
-class="cancel-button"
-onclick="resetEventForm()">
-Cancel
-</button>
+        /* Position */
 
-<div id="eventMessage"></div>
-<div id="eventsList"></div>
+        document.getElementById(
+          "memberPosition"
+        ).textContent =
+          member.position ||
+          "Member";
 
-<button
-type="button"
-class="back-button"
-onclick="backToDashboard()">
-Back to Dashboard
-</button>
 
-</section>
+        /* Member number */
 
+        document.getElementById(
+          "memberNumber"
+        ).textContent =
+          formatMemberNumber(
+            member.member_number
+          );
 
-<!-- DOCUMENTS -->
 
-<section id="documentsSection" class="hidden card">
+        /* Member category */
 
-<h2 class="section-title">Documents</h2>
+        document.getElementById(
+          "memberType"
+        ).textContent =
+          member.member_type ||
+          "Member";
 
-<div class="document-upload-box">
 
-<h3>Create Document</h3>
+        /* Expiry */
 
-<input
-id="typedDocumentTitle"
-placeholder="Document Title"
->
+        const expiryElement =
+          document.getElementById(
+            "expiryDate"
+          );
 
-<textarea
-id="typedDocumentContent"
-placeholder="Type document content...">
-</textarea>
 
-<button
-type="button"
-onclick="saveTypedDocument()">
-Save Document
-</button>
+        expiryElement.textContent =
+          formatExpiryDate(
+            member.expiry_date
+          );
 
-<div id="typedDocumentMessage"></div>
 
-</div>
+        /* Photo */
 
+        showMemberPhoto(
+          member.photo_url
+        );
 
-<div class="document-upload-box">
 
-<h3>Upload Document</h3>
+        /* Status */
 
-<input
-id="documentFile"
-type="file"
->
+        const statusBox =
+          document.getElementById(
+            "statusBox"
+          );
 
-<button
-type="button"
-onclick="uploadDocument()">
-Upload Document
-</button>
 
-<div id="documentMessage"></div>
+        if (
+          isExpired(
+            member.expiry_date
+          )
+        ) {
 
-</div>
+          statusBox.className =
+            "status expired";
 
-<div id="documentsList"></div>
 
-<button
-type="button"
-class="back-button"
-onclick="backToDashboard()">
-Back to Dashboard
-</button>
+          statusBox.textContent =
+            "⚠️ YONA MEMBER — CARD EXPIRED";
 
-</section>
 
-</section>
-</div>
+          expiryElement.className =
+            "info-value expiry-expired";
 
+        } else {
 
-<!-- =====================================================
-     MEMBER ID CARD
-===================================================== -->
+          statusBox.className =
+            "status valid";
 
-<div
-id="idCardOverlay"
-class="id-card-overlay hidden">
 
-<div class="id-card-modal">
+          statusBox.textContent =
+            "✓ VALID YONA MEMBER";
 
-<h2>YONA Member ID Card</h2>
 
-<div class="id-card-expiry-box">
+          expiryElement.className =
+            "info-value expiry-valid";
 
-<label>
-<strong>Card Expiry Date</strong>
-</label>
+        }
 
-<input
-id="idCardExpiry"
-type="date"
->
+      } catch (error) {
 
-<p class="small-text">
-Change the expiry date and save it to the member record.
-</p>
+        console.error(
+          "Unexpected verification error:",
+          error
+        );
 
-<button
-type="button"
-class="save-expiry-button"
-onclick="saveIdCardExpiry()">
-💾 Save Expiry Date
-</button>
 
-</div>
+        showError(
+          "An unexpected error occurred while verifying this YONA member."
+        );
 
-<div id="idCardExpiryMessage"></div>
+      }
 
-<div id="idCardArea"></div>
+    }
 
-<div class="id-card-actions">
 
-<button
-type="button"
-class="print-button"
-onclick="printMemberIdCard()">
-🖨️ Print ID Card
-</button>
+    /* =====================================================
+       START VERIFICATION
+       ===================================================== */
 
-<button
-type="button"
-class="cancel-button"
-onclick="closeIdCard()">
-Close
-</button>
+    verifyMember();
 
-</div>
-
-</div>
-</div>
-
-
-<!-- =====================================================
-     SUPABASE
-===================================================== -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<!-- QR CODE LIBRARY -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<script>
-
-/* =====================================================
-   SUPABASE
-===================================================== */
-
-const SUPABASE_URL=
-"https://atxeeymireukwbbsczbv.supabase.co";
-
-const SUPABASE_KEY=
-"sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
-
-const DOCUMENT_BUCKET=
-"yona-documents";
-
-const supabaseClient=
-window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY,
-{
-auth:{
-persistSession:true,
-autoRefreshToken:true,
-detectSessionInUrl:true
-}
-}
-);
-
-
-/* =====================================================
-   VARIABLES
-===================================================== */
-
-let editingMemberId=null;
-let editingMemberOldPhoto=null;
-
-let editingExecutiveId=null;
-let editingExecutiveOldPhoto=null;
-
-let editingFinanceId=null;
-
-let editingMeetingId=null;
-let editingMeetingOldPhoto=null;
-
-let editingEventId=null;
-let editingEventOldPhoto=null;
-
-let currentIdCardMember=null;
-let currentIdCardPhotoUrl=null;
-
-let allMembers=[];
-
-
-/* =====================================================
-   GENERAL
-===================================================== */
-
-function escapeHtml(v){
-
-return String(v??'')
-.replace(/&/g,'&amp;')
-.replace(/</g,'&lt;')
-.replace(/>/g,'&gt;')
-.replace(/"/g,'&quot;')
-.replace(/'/g,'&#039;');
-
-}
-
-
-function read(v){
-
-return v==null?'':String(v);
-
-}
-
-
-function showMessage(id,msg,type=''){
-
-const e=document.getElementById(id);
-
-if(e){
-
-e.innerHTML=
-'<div class="message '+type+'">'+
-escapeHtml(msg)+
-'</div>';
-
-}
-
-}
-
-
-function showSection(id){
-
-document
-.getElementById('dashboardSection')
-.classList.add('hidden');
-
-document
-.querySelectorAll('#appSection>section')
-.forEach(s=>s.classList.add('hidden'));
-
-const section=document.getElementById(id);
-
-if(section){
-
-section.classList.remove('hidden');
-
-}
-
-}
-
-
-function backToDashboard(){
-
-document
-.querySelectorAll('#appSection>section')
-.forEach(s=>s.classList.add('hidden'));
-
-document
-.getElementById('dashboardSection')
-.classList
-.remove('hidden');
-
-loadDashboardStats();
-
-}
-
-
-/* =====================================================
-   DASHBOARD
-===================================================== */
-
-async function getTableCount(table){
-
-try{
-
-const {count,error}=
-await supabaseClient
-.from(table)
-.select('*',{count:'exact',head:true});
-
-if(error){
-
-console.error(
-'Dashboard count error:',
-error
-);
-
-return null;
-
-}
-
-return count??0;
-
-}catch(error){
-
-console.error(
-'Dashboard count exception:',
-error
-);
-
-return null;
-
-}
-
-}
-
-
-async function getDocumentCount(){
-
-try{
-
-const {data,error}=
-await supabaseClient
-.storage
-.from(DOCUMENT_BUCKET)
-.list('',{
-limit:1000,
-sortBy:{
-column:'created_at',
-order:'desc'
-}
-});
-
-if(error){
-
-console.error(
-'Document count error:',
-error
-);
-
-return null;
-
-}
-
-return data?.filter(item=>item.id).length||0;
-
-}catch(error){
-
-console.error(
-'Document count exception:',
-error
-);
-
-return null;
-
-}
-
-}
-
-
-function displayDashboardCount(id,count){
-
-const element=
-document.getElementById(id);
-
-if(!element)return;
-
-if(count===null){
-
-element.textContent='—';
-
-element.classList.add(
-'dashboard-loading'
-);
-
-return;
-
-}
-
-element.textContent=
-count.toLocaleString();
-
-element.classList.remove(
-'dashboard-loading'
-);
-
-}
-
-
-async function loadDashboardStats(){
-
-[
-'membersCount',
-'executiveCount',
-'financeCount',
-'meetingsCount',
-'eventsCount',
-'documentsCount'
-].forEach(
-id=>displayDashboardCount(id,'...')
-);
-
-const results=
-await Promise.all([
-
-getTableCount('members'),
-
-getTableCount('executive'),
-
-getTableCount('finance'),
-
-getTableCount('meetings'),
-
-getTableCount('events'),
-
-getDocumentCount()
-
-]);
-
-displayDashboardCount(
-'membersCount',
-results[0]
-);
-
-displayDashboardCount(
-'executiveCount',
-results[1]
-);
-
-displayDashboardCount(
-'financeCount',
-results[2]
-);
-
-displayDashboardCount(
-'meetingsCount',
-results[3]
-);
-
-displayDashboardCount(
-'eventsCount',
-results[4]
-);
-
-displayDashboardCount(
-'documentsCount',
-results[5]
-);
-
-}
-
-
-/* =====================================================
-   LOGIN
-===================================================== */
-
-async function login(){
-
-const email=
-document
-.getElementById('loginEmail')
-.value
-.trim();
-
-const password=
-document
-.getElementById('loginPassword')
-.value;
-
-const button=
-document.getElementById('loginButton');
-
-if(!email){
-
-showMessage(
-'loginMessage',
-'Please enter your email address.',
-'error'
-);
-
-return;
-
-}
-
-if(!password){
-
-showMessage(
-'loginMessage',
-'Please enter your password.',
-'error'
-);
-
-return;
-
-}
-
-button.disabled=true;
-button.textContent='Logging in...';
-
-try{
-
-const {data,error}=
-await supabaseClient.auth.signInWithPassword({
-email,
-password
-});
-
-if(error)throw error;
-
-if(!data?.session){
-
-throw new Error(
-'Login completed but no session was created.'
-);
-
-}
-
-showMessage(
-'loginMessage',
-'Login successful.',
-'success'
-);
-
-showApp();
-
-}catch(error){
-
-console.error(
-'YONA LOGIN ERROR:',
-error
-);
-
-showMessage(
-'loginMessage',
-error?.message||'Login failed.',
-'error'
-);
-
-}finally{
-
-button.disabled=false;
-button.textContent='Login';
-
-}
-
-}
-
-
-async function logout(){
-
-const button=
-document.getElementById('logoutButton');
-
-button.disabled=true;
-button.textContent='Logging out...';
-
-try{
-
-const {error}=
-await supabaseClient.auth.signOut();
-
-if(error)throw error;
-
-document
-.getElementById('appSection')
-.classList.add('hidden');
-
-document
-.getElementById('loginSection')
-.classList.remove('hidden');
-
-document
-.getElementById('loginEmail')
-.value='';
-
-document
-.getElementById('loginPassword')
-.value='';
-
-}catch(error){
-
-alert(
-'Logout failed: '+
-(error?.message||'Unknown error')
-);
-
-}finally{
-
-button.disabled=false;
-button.textContent='Logout';
-
-}
-
-}
-
-
-function showApp(){
-
-document
-.getElementById('loginSection')
-.classList.add('hidden');
-
-document
-.getElementById('appSection')
-.classList.remove('hidden');
-
-backToDashboard();
-
-loadDashboardStats();
-
-}
-
-
-async function requireSession(){
-
-const {data,error}=
-await supabaseClient.auth.getSession();
-
-if(error)throw error;
-
-if(!data.session){
-
-throw new Error(
-'Your login session has expired. Please log in again.'
-);
-
-}
-
-return data.session;
-
-}
-
-
-/* =====================================================
-   PHOTOS
-===================================================== */
-
-function validatePhoto(file){
-
-if(!file)return true;
-
-if(!file.type.startsWith('image/')){
-
-alert(
-'Please select an image file.'
-);
-
-return false;
-
-}
-
-if(file.size>5*1024*1024){
-
-alert(
-'Photo must be 5 MB or smaller.'
-);
-
-return false;
-
-}
-
-return true;
-
-}
-
-
-async function uploadPersonPhoto(
-file,
-folder,
-prefix
-){
-
-if(!file)return null;
-
-if(!validatePhoto(file)){
-
-throw new Error(
-'Invalid photo.'
-);
-
-}
-
-const safe=
-file.name.replace(
-/[^a-zA-Z0-9._-]/g,
-'_'
-);
-
-const path=
-folder+'/'+
-prefix+'_'+
-Date.now()+'_'+
-Math.random()
-.toString(36)
-.slice(2,8)+'_'+
-safe;
-
-const {data,error}=
-await supabaseClient
-.storage
-.from(DOCUMENT_BUCKET)
-.upload(
-path,
-file,
-{
-upsert:false,
-cacheControl:'3600'
-}
-);
-
-if(error){
-
-throw new Error(
-'Photo upload failed: '+
-error.message
-);
-
-}
-
-return path;
-
-}
-
-
-async function deleteStoredPhoto(path){
-
-if(
-!path||
-path.startsWith('http')
-)return;
-
-const {error}=
-await supabaseClient
-.storage
-.from(DOCUMENT_BUCKET)
-.remove([path]);
-
-if(error){
-
-console.warn(
-'Could not delete old photo:',
-error.message
-);
-
-}
-
-}
-
-
-async function getPhotoUrl(path){
-
-if(!path)return null;
-
-const {data,error}=
-await supabaseClient
-.storage
-.from(DOCUMENT_BUCKET)
-.createSignedUrl(
-path,
-3600
-);
-
-if(error){
-
-console.error(
-'PHOTO URL ERROR:',
-error
-);
-
-return null;
-
-}
-
-return data?.signedUrl||null;
-
-}
-
-
-/* =====================================================
-   MEMBER PHOTO PREVIEW
-===================================================== */
-
-function previewMemberPhoto(event){
-
-const file=
-event.target.files?.[0];
-
-const preview=
-document.getElementById(
-'memberPhotoPreview'
-);
-
-if(!file){
-
-preview.innerHTML=
-'<span class="photo-placeholder">Profile Photo</span>';
-
-return;
-
-}
-
-if(!validatePhoto(file)){
-
-event.target.value='';
-
-preview.innerHTML=
-'<span class="photo-placeholder">Profile Photo</span>';
-
-return;
-
-}
-
-const reader=new FileReader();
-
-reader.onload=()=>{
-
-preview.innerHTML=
-'<img class="member-photo-preview" src="'+
-reader.result+
-'" alt="Preview">';
-
-};
-
-reader.readAsDataURL(file);
-
-}
-
-
-/* =====================================================
-   MEMBER NUMBER
-===================================================== */
-
-function formatMemberNumber(value){
-
-value=String(value??'').trim();
-
-if(!value)return '';
-
-const number=parseInt(value,10);
-
-if(
-isNaN(number)||
-number<1||
-number>999
-){
-
-return value;
-
-}
-
-return String(number).padStart(3,'0');
-
-}
-
-
-function getMemberNumber(member){
-
-if(
-member&&
-member.member_number
-){
-
-return formatMemberNumber(
-member.member_number
-);
-
-}
-
-if(
-member&&
-member.id!=null
-){
-
-const number=
-parseInt(member.id,10);
-
-if(!isNaN(number)){
-
-return String(number)
-.padStart(3,'0');
-
-}
-
-}
-
-return '001';
-
-}
-
-
-/* =====================================================
-   SAVE MEMBER
-===================================================== */
-
-async function saveMember(event){
-
-if(event)event.preventDefault();
-
-const button=
-document.getElementById(
-'memberSaveButton'
-);
-
-const wasEditing=
-!!editingMemberId;
-
-button.disabled=true;
-
-button.textContent=
-wasEditing
-?
-'Updating...'
-:
-'Saving...';
-
-let newPhotoPath=null;
-
-try{
-
-await requireSession();
-
-const name=
-document
-.getElementById('memberName')
-.value
-.trim();
-
-const phone=
-document
-.getElementById('memberPhone')
-.value
-.trim();
-
-const memberType=
-document
-.getElementById('memberType')
-.value;
-
-const position=
-document
-.getElementById('memberPosition')
-.value
-.trim();
-
-const memberNumberRaw=
-document
-.getElementById('memberNumber')
-.value
-.trim();
-
-const expiryDate=
-document
-.getElementById('memberExpiryDate')
-.value||null;
-
-const file=
-document
-.getElementById('memberPhoto')
-.files?.[0];
-
-if(!name){
-
-throw new Error(
-'Member name is required.'
-);
-
-}
-
-if(!memberType){
-
-throw new Error(
-'Please select the member category.'
-);
-
-}
-
-
-/* MEMBER NUMBER */
-
-let memberNumber=null;
-
-if(memberNumberRaw){
-
-const number=
-parseInt(memberNumberRaw,10);
-
-if(
-isNaN(number)||
-number<1||
-number>999
-){
-
-throw new Error(
-'Member number must be between 001 and 999.'
-);
-
-}
-
-memberNumber=
-String(number).padStart(3,'0');
-
-}
-
-
-/* PHOTO */
-
-if(
-file&&
-!validatePhoto(file)
-){
-
-throw new Error(
-'Invalid profile photo.'
-);
-
-}
-
-if(file){
-
-newPhotoPath=
-await uploadPersonPhoto(
-file,
-'member-photos',
-'member'
-);
-
-}
-
-
-const record={
-
-name,
-
-phone,
-
-position,
-
-member_type:memberType,
-
-member_number:memberNumber,
-
-expiry_date:expiryDate,
-
-photo_url:
-newPhotoPath||
-editingMemberOldPhoto||
-null
-
-};
-
-
-if(editingMemberId){
-
-const {error}=
-await supabaseClient
-.from('members')
-.update(record)
-.eq('id',editingMemberId);
-
-if(error)throw error;
-
-if(
-newPhotoPath&&
-editingMemberOldPhoto&&
-newPhotoPath!==editingMemberOldPhoto
-){
-
-await deleteStoredPhoto(
-editingMemberOldPhoto
-);
-
-}
-
-showMessage(
-'memberMessage',
-'Member updated successfully.',
-'success'
-);
-
-}else{
-
-const {error}=
-await supabaseClient
-.from('members')
-.insert(record);
-
-if(error)throw error;
-
-showMessage(
-'memberMessage',
-'Member saved successfully.',
-'success'
-);
-
-}
-
-resetMemberForm();
-
-await loadMembers();
-
-await loadDashboardStats();
-
-}catch(error){
-
-console.error(
-'SAVE MEMBER ERROR:',
-error
-);
-
-if(
-newPhotoPath&&
-!editingMemberId
-){
-
-await deleteStoredPhoto(
-newPhotoPath
-);
-
-}
-
-showMessage(
-'memberMessage',
-'Could not save member:\n\n'+
-(error?.message||'Unknown error'),
-'error'
-);
-
-}finally{
-
-button.disabled=false;
-
-button.textContent=
-wasEditing
-?
-'Update Member'
-:
-'Save Member';
-
-}
-
-}
-
-
-/* =====================================================
-   RENDER MEMBERS
-===================================================== */
-
-async function renderMembers(){
-
-const list=
-document.getElementById(
-'membersList'
-);
-
-const status=
-document.getElementById(
-'memberSearchStatus'
-);
-
-const searchInput=
-document.getElementById(
-'memberSearch'
-);
-
-const query=
-(
-searchInput?.value||''
-)
-.trim()
-.toLowerCase();
-
-const filteredMembers=
-allMembers.filter(m=>{
-
-if(!query)return true;
-
-const values=[
-
-read(m.name),
-
-read(m.phone),
-
-read(m.member_type),
-
-read(m.position),
-
-read(m.member_number)
-
-]
-.map(
-value=>value.toLowerCase()
-);
-
-return values.some(
-value=>value.includes(query)
-);
-
-});
-
-
-if(status){
-
-if(!query){
-
-status.textContent=
-allMembers.length+
-(
-allMembers.length===1
-?
-' member'
-:
-' members'
-);
-
-}else{
-
-status.textContent=
-filteredMembers.length+
-' of '+
-allMembers.length+
-' members found.';
-
-}
-
-}
-
-
-if(!filteredMembers.length){
-
-list.innerHTML=
-query
-?
-'<div class="message">No members match "'+
-escapeHtml(query)+
-'".</div>'
-:
-'<p>No members found.</p>';
-
-return;
-
-}
-
-
-const cards=
-await Promise.all(
-
-filteredMembers.map(
-async m=>{
-
-const url=
-await getPhotoUrl(
-m.photo_url
-);
-
-return `
-
-<div class="item-card">
-
-<div style="text-align:center">
-
-${
-url
-?
-'<img class="person-photo" src="'+
-escapeHtml(url)+
-'" alt="Member photo">'
-:
-'<div class="person-photo"><span class="photo-placeholder">No Photo</span></div>'
-}
-
-</div>
-
-<h3>
-${escapeHtml(read(m.name))}
-</h3>
-
-<p>
-<strong>Member No:</strong>
-${escapeHtml(getMemberNumber(m))}
-</p>
-
-<p>
-<strong>Expiry:</strong>
-${escapeHtml(
-read(m.expiry_date)||
-'Not set'
-)}
-</p>
-
-<p>
-<strong>Phone:</strong>
-${escapeHtml(read(m.phone))}
-</p>
-
-<p>
-<strong>Category:</strong>
-${escapeHtml(
-read(m.member_type)
-)}
-</p>
-
-<p>
-<strong>Position:</strong>
-${escapeHtml(
-read(m.position)
-)}
-</p>
-
-<button
-type="button"
-class="id-card-button"
-onclick="generateMemberIdCard(${JSON.stringify(m.id)})">
-🪪 ID Card
-</button>
-
-<button
-type="button"
-class="edit-button"
-onclick="editMember(${JSON.stringify(m.id)})">
-Edit
-</button>
-
-<button
-type="button"
-class="delete-button"
-onclick="deleteMember(${JSON.stringify(m.id)})">
-Delete
-</button>
-
-</div>
-
-`;
-
-})
-);
-
-list.innerHTML=
-'<div class="item-grid">'+
-cards.join('')+
-'</div>';
-
-}
-
-
-/* =====================================================
-   LOAD MEMBERS
-===================================================== */
-
-async function loadMembers(){
-
-const list=
-document.getElementById(
-'membersList'
-);
-
-list.innerHTML=
-'<p>Loading members...</p>';
-
-const {data,error}=
-await supabaseClient
-.from('members')
-.select(
-'id,created_at,name,phone,position,member_type,member_number,expiry_date,photo_url'
-)
-.order(
-'id',
-{ascending:false}
-);
-
-if(error){
-
-allMembers=[];
-
-list.innerHTML=
-'<div class="message error">'+
-escapeHtml(error.message)+
-'</div>';
-
-return;
-
-}
-
-allMembers=data||[];
-
-await renderMembers();
-
-}
-
-
-/* =====================================================
-   EDIT MEMBER
-===================================================== */
-
-async function editMember(id){
-
-const {data,error}=
-await supabaseClient
-.from('members')
-.select('*')
-.eq('id',id)
-.single();
-
-if(error){
-
-showMessage(
-'memberMessage',
-'Could not load member: '+
-error.message,
-'error'
-);
-
-return;
-
-}
-
-editingMemberId=id;
-
-editingMemberOldPhoto=
-data.photo_url||null;
-
-
-/* MEMBER NUMBER */
-
-document
-.getElementById('memberNumber')
-.value=
-read(data.member_number);
-
-
-/* OTHER DETAILS */
-
-document
-.getElementById('memberName')
-.value=
-read(data.name);
-
-document
-.getElementById('memberPhone')
-.value=
-read(data.phone);
-
-document
-.getElementById('memberType')
-.value=
-read(data.member_type);
-
-document
-.getElementById('memberPosition')
-.value=
-read(data.position);
-
-
-/* EXPIRY DATE */
-
-document
-.getElementById('memberExpiryDate')
-.value=
-read(data.expiry_date);
-
-
-/* PHOTO */
-
-document
-.getElementById('memberPhoto')
-.value='';
-
-const url=
-await getPhotoUrl(
-data.photo_url
-);
-
-document
-.getElementById(
-'memberPhotoPreview'
-)
-.innerHTML=
-url
-?
-'<img class="member-photo-preview" src="'+
-escapeHtml(url)+
-'" alt="Profile photo">'
-:
-'<span class="photo-placeholder">Profile Photo</span>';
-
-
-document
-.getElementById(
-'memberSaveButton'
-)
-.textContent=
-'Update Member';
-
-}
-
-
-/* =====================================================
-   RESET MEMBER FORM
-===================================================== */
-
-function resetMemberForm(){
-
-editingMemberId=null;
-
-editingMemberOldPhoto=null;
-
-document
-.getElementById('memberNumber')
-.value='';
-
-document
-.getElementById('memberName')
-.value='';
-
-document
-.getElementById('memberPhone')
-.value='';
-
-document
-.getElementById('memberType')
-.value='';
-
-document
-.getElementById('memberPosition')
-.value='';
-
-document
-.getElementById('memberExpiryDate')
-.value='';
-
-document
-.getElementById('memberPhoto')
-.value='';
-
-document
-.getElementById(
-'memberPhotoPreview'
-)
-.innerHTML=
-'<span class="photo-placeholder">Profile Photo</span>';
-
-document
-.getElementById(
-'memberSaveButton'
-)
-.textContent=
-'Save Member';
-
-}
-
-
-/* =====================================================
-   DELETE MEMBER
-===================================================== */
-
-async function deleteMember(id){
-
-if(
-!confirm(
-'Are you sure you want to delete this member?'
-)
-){
-
-return;
-
-}
-
-const {data}=
-await supabaseClient
-.from('members')
-.select('photo_url')
-.eq('id',id)
-.single();
-
-const {error}=
-await supabaseClient
-.from('members')
-.delete()
-.eq('id',id);
-
-if(error){
-
-showMessage(
-'memberMessage',
-'Could not delete member: '+
-error.message,
-'error'
-);
-
-return;
-
-}
-
-if(data?.photo_url){
-
-await deleteStoredPhoto(
-data.photo_url
-);
-
-}
-
-await loadMembers();
-
-await loadDashboardStats();
-
-}
-
-
-/* =====================================================
-   MEMBER ID CARD GENERATOR
-===================================================== */
-
-async function generateMemberIdCard(id){
-
-const area=
-document.getElementById(
-'idCardArea'
-);
-
-area.innerHTML=
-'<div class="message">Loading member ID card...</div>';
-
-document
-.getElementById('idCardOverlay')
-.classList
-.remove('hidden');
-
-
-document
-.getElementById(
-'idCardExpiryMessage'
-)
-.innerHTML='';
-
-
-try{
-
-const {data,error}=
-await supabaseClient
-.from('members')
-.select(
-'id,name,phone,position,member_type,member_number,expiry_date,photo_url'
-)
-.eq('id',id)
-.single();
-
-if(error)throw error;
-
-if(!data){
-
-throw new Error(
-'Member record could not be found.'
-);
-
-}
-
-currentIdCardMember=data;
-
-currentIdCardPhotoUrl=
-await getPhotoUrl(
-data.photo_url
-);
-
-
-const expiry=
-data.expiry_date||
-'2029-01-01';
-
-
-document
-.getElementById('idCardExpiry')
-.value=
-expiry;
-
-
-renderIdCard(
-currentIdCardMember,
-currentIdCardPhotoUrl,
-expiry
-);
-
-}catch(error){
-
-console.error(
-'ID CARD ERROR:',
-error
-);
-
-area.innerHTML=
-'<div class="message error">'+
-escapeHtml(
-'Could not generate ID card: '+
-(error?.message||'Unknown error')
-)+
-'</div>';
-
-}
-
-}
-
-
-/* =====================================================
-   RENDER ID CARD
-===================================================== */
-
-function renderIdCard(
-member,
-photoUrl,
-expiry
-){
-
-if(!member)return;
-
-let formattedExpiry=
-'Not set';
-
-
-if(expiry){
-
-const date=
-new Date(
-expiry+'T00:00:00'
-);
-
-if(!isNaN(date.getTime())){
-
-formattedExpiry=
-date.toLocaleDateString(
-'en-GB',
-{
-day:'2-digit',
-month:'long',
-year:'numeric'
-}
-);
-
-}
-
-}
-
-
-const number=
-getMemberNumber(member);
-
-
-const photoHtml=
-photoUrl
-?
-'<img class="id-card-photo" src="'+
-escapeHtml(photoUrl)+
-'" alt="Member photo">'
-:
-'<div class="id-card-no-photo">No Photo</div>';
-
-
-/* =====================================================
-   QR CODE DATA
-===================================================== */
-
-const qrData=
-[
-'YONA MEMBER VERIFICATION',
-'Member No: '+number,
-'Name: '+read(member.name),
-'Position: '+(
-read(member.position)||'Member'
-),
-'Phone: '+(
-read(member.phone)||'Not provided'
-),
-'Category: '+(
-read(member.member_type)||'Member'
-),
-'Valid Until: '+formattedExpiry
-].join('\n');
-
-
-document
-.getElementById('idCardArea')
-.innerHTML=`
-
-<div class="id-card">
-
-<div class="id-card-header">
-
-<div class="id-card-logo">
-YONA
-</div>
-
-<div class="id-card-header-text">
-
-<h2>
-YOUTHS OF NDASEI ASSOCIATION
-</h2>
-
-<p>
-UNITY AND DEVELOPMENT
-</p>
-
-</div>
-
-</div>
-
-
-<div class="id-card-body">
-
-<div class="id-card-photo-box">
-
-${photoHtml}
-
-</div>
-
-
-<div class="id-card-details">
-
-<h3>
-${escapeHtml(
-read(member.name)
-)}
-</h3>
-
-
-<div class="id-card-row">
-
-<strong>Position:</strong>
-
-${escapeHtml(
-read(member.position)||
-'Member'
-)}
-
-</div>
-
-
-<div class="id-card-row">
-
-<strong>Category:</strong>
-
-${escapeHtml(
-read(member.member_type)||
-'Member'
-)}
-
-</div>
-
-
-<div class="id-card-row">
-
-<strong>Phone:</strong>
-
-${escapeHtml(
-read(member.phone)||
-'Not provided'
-)}
-
-</div>
-
-
-<div class="id-card-number">
-
-MEMBER NO:
-${escapeHtml(number)}
-
-</div>
-
-</div>
-
-
-<!-- QR CODE -->
-
-<div class="id-card-qr-box">
-
-<div
-id="memberQRCode"
-class="id-card-qr">
-</div>
-
-<div class="id-card-qr-label">
-SCAN TO VERIFY
-</div>
-
-</div>
-
-</div>
-
-
-<div class="id-card-footer">
-
-<span>
-
-<strong>Valid Until:</strong>
-
-${escapeHtml(
-formattedExpiry
-)}
-
-</span>
-
-<span>
-YONA • MEMBER ID
-</span>
-
-</div>
-
-</div>
-
-`;
-
-
-/* =====================================================
-   CREATE QR CODE
-===================================================== */
-
-const qrContainer=
-document.getElementById(
-'memberQRCode'
-);
-
-if(qrContainer){
-
-try{
-
-new QRCode(
-qrContainer,
-{
-text:qrData,
-width:78,
-height:78,
-colorDark:'#000000',
-colorLight:'#ffffff',
-correctLevel:QRCode.CorrectLevel.M
-}
-);
-
-}catch(error){
-
-console.error(
-'QR CODE ERROR:',
-error
-);
-
-qrContainer.innerHTML=
-'<span style="font-size:9px;color:#c62828">QR Error</span>';
-
-}
-
-}
-
-}
-
-
-/* =====================================================
-   SAVE ID CARD EXPIRY
-===================================================== */
-
-async function saveIdCardExpiry(){
-
-if(!currentIdCardMember){
-
-showMessage(
-'idCardExpiryMessage',
-'Please generate a member ID card first.',
-'error'
-);
-
-return;
-
-}
-
-const expiry=
-document
-.getElementById('idCardExpiry')
-.value;
-
-
-if(!expiry){
-
-showMessage(
-'idCardExpiryMessage',
-'Please select an expiry date.',
-'error'
-);
-
-return;
-
-}
-
-
-const button=
-document.querySelector(
-'.save-expiry-button'
-);
-
-button.disabled=true;
-button.textContent='Saving...';
-
-
-try{
-
-await requireSession();
-
-
-const {error}=
-await supabaseClient
-.from('members')
-.update({
-expiry_date:expiry
-})
-.eq(
-'id',
-currentIdCardMember.id
-);
-
-
-if(error)throw error;
-
-
-currentIdCardMember.expiry_date=
-expiry;
-
-
-renderIdCard(
-currentIdCardMember,
-currentIdCardPhotoUrl,
-expiry
-);
-
-
-showMessage(
-'idCardExpiryMessage',
-'Expiry date saved successfully.',
-'success'
-);
-
-
-await loadMembers();
-
-}catch(error){
-
-console.error(
-'SAVE EXPIRY ERROR:',
-error
-);
-
-showMessage(
-'idCardExpiryMessage',
-'Could not save expiry date: '+
-(error?.message||'Unknown error'),
-'error'
-);
-
-}finally{
-
-button.disabled=false;
-button.textContent=
-'💾 Save Expiry Date';
-
-}
-
-}
-
-
-/* =====================================================
-   ID CARD EXPIRY CHANGE
-===================================================== */
-
-document
-.getElementById('idCardExpiry')
-.addEventListener(
-'change',
-function(){
-
-if(!currentIdCardMember)return;
-
-renderIdCard(
-currentIdCardMember,
-currentIdCardPhotoUrl,
-this.value
-);
-
-}
-);
-
-
-/* =====================================================
-   CLOSE ID CARD
-===================================================== */
-
-function closeIdCard(){
-
-document
-.getElementById('idCardOverlay')
-.classList
-.add('hidden');
-
-document
-.getElementById('idCardArea')
-.innerHTML='';
-
-document
-.getElementById(
-'idCardExpiryMessage'
-)
-.innerHTML='';
-
-currentIdCardMember=null;
-
-currentIdCardPhotoUrl=null;
-
-}
-
-
-/* =====================================================
-   PRINT ID CARD
-===================================================== */
-
-function printMemberIdCard(){
-
-if(!currentIdCardMember){
-
-alert(
-'Please generate an ID card first.'
-);
-
-return;
-
-}
-
-window.print();
-
-}
-
-
-/* =====================================================
-   EXECUTIVE
-===================================================== */
-
-async function saveExecutive(){
-
-const period=
-document
-.getElementById('executivePeriod')
-.value
-.trim();
-
-const name=
-document
-.getElementById('executiveName')
-.value
-.trim();
-
-const position=
-document
-.getElementById('executivePosition')
-.value
-.trim();
-
-const phone=
-document
-.getElementById('executivePhone')
-.value
-.trim();
-
-const file=
-document
-.getElementById('executivePhoto')
-.files?.[0];
-
-if(!name){
-
-showMessage(
-'executiveMessage',
-'Please enter the executive name.',
-'error'
-);
-
-return;
-
-}
-
-try{
-
-let photo=
-editingExecutiveOldPhoto||null;
-
-if(file){
-
-photo=
-await uploadPersonPhoto(
-file,
-'executive-photos',
-'executive'
-);
-
-}
-
-const record={
-period,
-name,
-position,
-phone,
-photo
-};
-
-let result;
-
-if(editingExecutiveId){
-
-result=
-await supabaseClient
-.from('executive')
-.update(record)
-.eq(
-'id',
-editingExecutiveId
-);
-
-}else{
-
-result=
-await supabaseClient
-.from('executive')
-.insert([record]);
-
-}
-
-if(result.error)throw result.error;
-
-if(
-file&&
-editingExecutiveOldPhoto
-){
-
-await deleteStoredPhoto(
-editingExecutiveOldPhoto
-);
-
-}
-
-showMessage(
-'executiveMessage',
-'Executive saved successfully.',
-'success'
-);
-
-resetExecutiveForm();
-
-await loadExecutive();
-
-await loadDashboardStats();
-
-}catch(error){
-
-showMessage(
-'executiveMessage',
-'Could not save executive: '+
-error.message,
-'error'
-);
-
-}
-
-}
-
-
-async function loadExecutive(){
-
-const list=
-document.getElementById(
-'executiveList'
-);
-
-list.innerHTML=
-'Loading executive...';
-
-const {data,error}=
-await supabaseClient
-.from('executive')
-.select(
-'id,period,name,position,phone,photo'
-)
-.order(
-'id',
-{ascending:false}
-);
-
-if(error){
-
-list.innerHTML=
-'<div class="message error">'+
-escapeHtml(error.message)+
-'</div>';
-
-return;
-
-}
-
-if(!data?.length){
-
-list.innerHTML=
-'<p>No executive records found.</p>';
-
-return;
-
-}
-
-const cards=
-await Promise.all(
-
-data.map(
-async x=>{
-
-const url=
-await getPhotoUrl(x.photo);
-
-return `
-
-<div class="item-card">
-
-<div style="text-align:center">
-
-${
-url
-?
-'<img class="person-photo" src="'+
-escapeHtml(url)+
-'" alt="Executive photo">'
-:
-'<div class="person-photo"><span class="photo-placeholder">No Photo</span></div>'
-}
-
-</div>
-
-<h3>
-${escapeHtml(read(x.name))}
-</h3>
-
-<p>
-<strong>Period:</strong>
-${escapeHtml(read(x.period))}
-</p>
-
-<p>
-<strong>Position:</strong>
-${escapeHtml(read(x.position))}
-</p>
-
-<p>
-<strong>Phone:</strong>
-${escapeHtml(read(x.phone))}
-</p>
-
-<button
-type="button"
-class="edit-button"
-onclick="editExecutive(${JSON.stringify(x.id)})">
-Edit
-</button>
-
-<button
-type="button"
-class="delete-button"
-onclick="deleteExecutive(${JSON.stringify(x.id)})">
-Delete
-</button>
-
-</div>
-
-`;
-
-})
-);
-
-list.innerHTML=
-'<div class="item-grid">'+
-cards.join('')+
-'</div>';
-
-}
-
-
-async function editExecutive(id){
-
-const {data,error}=
-await supabaseClient
-.from('executive')
-.select('*')
-.eq('id',id)
-.single();
-
-if(error){
-
-showMessage(
-'executiveMessage',
-error.message,
-'error'
-);
-
-return;
-
-}
-
-editingExecutiveId=id;
-
-editingExecutiveOldPhoto=
-data.photo||null;
-
-document
-.getElementById('executivePeriod')
-.value=
-read(data.period);
-
-document
-.getElementById('executiveName')
-.value=
-read(data.name);
-
-document
-.getElementById('executivePosition')
-.value=
-read(data.position);
-
-document
-.getElementById('executivePhone')
-.value=
-read(data.phone);
-
-document
-.getElementById('executiveSaveButton')
-.textContent=
-'Update Executive';
-
-}
-
-
-function resetExecutiveForm(){
-
-editingExecutiveId=null;
-
-editingExecutiveOldPhoto=null;
-
-[
-'executivePeriod',
-'executiveName',
-'executivePosition',
-'executivePhone'
-].forEach(id=>{
-
-document
-.getElementById(id)
-.value='';
-
-});
-
-document
-.getElementById('executivePhoto')
-.value='';
-
-document
-.getElementById(
-'executiveSaveButton'
-)
-.textContent=
-'Save Executive';
-
-}
-
-
-async function deleteExecutive(id){
-
-if(
-!confirm(
-'Delete this executive record?'
-)
-)return;
-
-const {data}=
-await supabaseClient
-.from('executive')
-.select('photo')
-.eq('id',id)
-.single();
-
-const {error}=
-await supabaseClient
-.from('executive')
-.delete()
-.eq('id',id);
-
-if(error){
-
-showMessage(
-'executiveMessage',
-error.message,
-'error'
-);
-
-return;
-
-}
-
-if(data?.photo){
-
-await deleteStoredPhoto(
-data.photo
-);
-
-}
-
-await loadExecutive();
-
-await loadDashboardStats();
-
-}
-
-
-/* =====================================================
-   FINANCE
-===================================================== */
-
-async function saveFinance(){
-
-const name=
-document
-.getElementById('financeName')
-.value
-.trim();
-
-const type=
-document
-.getElementById('financeType')
-.value;
-
-const amount=
-document
-.getElementById('financeAmount')
-.value;
-
-const description=
-document
-.getElementById(
-'financeDescription'
-)
-.value
-.trim();
-
-if(!name||!type||!amount){
-
-showMessage(
-'financeMessage',
-'Name, transaction type and amount are required.',
-'error'
-);
-
-return;
-
-}
-
-const record={
-name,
-type,
-amount:Number(amount),
-description
-};
-
-const result=
-editingFinanceId
-?
-await supabaseClient
-.from('finance')
-.update(record)
-.eq('id',editingFinanceId)
-:
-await supabaseClient
-.from('finance')
-.insert([record]);
-
-if(result.error){
-
-showMessage(
-'financeMessage',
-'Could not save finance record: '+
-result.error.message,
-'error'
-);
-
-return;
-
-}
-
-showMessage(
-'financeMessage',
-'Finance record saved successfully.',
-'success'
-);
-
-resetFinanceForm();
-
-await loadFinance();
-
-await loadDashboardStats();
-
-}
-
-
-async function loadFinance(){
-
-const list=
-document.getElementById(
-'financeList'
-);
-
-list.innerHTML=
-'Loading finance records...';
-
-const {data,error}=
-await supabaseClient
-.from('finance')
-.select('*')
-.order(
-'id',
-{ascending:false}
-);
-
-if(error){
-
-list.innerHTML=
-'<div class="message error">'+
-escapeHtml(error.message)+
-'</div>';
-
-return;
-
-}
-
-if(!data?.length){
-
-list.innerHTML=
-'<p>No finance records found.</p>';
-
-return;
-
-}
-
-list.innerHTML=
-'<div class="item-grid">'+
-
-data.map(x=>`
-
-<div class="item-card">
-
-<h3>
-${escapeHtml(read(x.name))}
-</h3>
-
-<p>
-<strong>Type:</strong>
-${escapeHtml(
-read(x.type||x.category)
-)}
-</p>
-
-<p>
-<strong>Amount:</strong>
-${escapeHtml(
-read(x.amount)
-)}
-</p>
-
-<p>
-<strong>Description:</strong>
-${escapeHtml(
-read(x.description)
-)}
-</p>
-
-<button
-type="button"
-class="edit-button"
-onclick="editFinance(${JSON.stringify(x.id)})">
-Edit
-</button>
-
-<button
-type="button"
-class="delete-button"
-onclick="deleteFinance(${JSON.stringify(x.id)})">
-Delete
-</button>
-
-</div>
-
-`).join('')+
-'</div>';
-
-}
-
-
-async function editFinance(id){
-
-const {data,error}=
-await supabaseClient
-.from('finance')
-.select('*')
-.eq('id',id)
-.single();
-
-if(error){
-
-showMessage(
-'financeMessage',
-error.message,
-'error'
-);
-
-return;
-
-}
-
-editingFinanceId=id;
-
-document
-.getElementById('financeName')
-.value=
-read(data.name);
-
-document
-.getElementById('financeType')
-.value=
-read(data.type||data.category);
-
-document
-.getElementById('financeAmount')
-.value=
-read(data.amount);
-
-document
-.getElementById(
-'financeDescription'
-)
-.value=
-read(data.description);
-
-}
-
-
-function resetFinanceForm(){
-
-editingFinanceId=null;
-
-[
-'financeName',
-'financeType',
-'financeAmount',
-'financeDescription'
-].forEach(id=>{
-
-document
-.getElementById(id)
-.value='';
-
-});
-
-}
-
-
-async function deleteFinance(id){
-
-if(
-!confirm(
-'Delete this finance record?'
-)
-)return;
-
-const {error}=
-await supabaseClient
-.from('finance')
-.delete()
-.eq('id',id);
-
-if(error){
-
-showMessage(
-'financeMessage',
-error.message,
-'error'
-);
-
-return;
-
-}
-
-await loadFinance();
-
-await loadDashboardStats();
-
-}
-
-
-/* =====================================================
-   MEETING PHOTO
-===================================================== */
-
-function previewMeetingPhoto(event){
-
-const file=
-event.target.files?.[0];
-
-const preview=
-document.getElementById(
-'meetingPhotoPreview'
-);
-
-if(!file){
-
-preview.innerHTML=
-'<span class="photo-placeholder">Meeting Photo</span>';
-
-return;
-
-}
-
-if(!validatePhoto(file)){
-
-event.target.value='';
-
-preview.innerHTML=
-'<span class="photo-placeholder">Meeting Photo</span>';
-
-return;
-
-}
-
-const reader=new FileReader();
-
-reader.onload=()=>{
-
-preview.innerHTML=
-'<img class="record-photo-preview" src="'+
-reader.result+
-'" alt="Meeting photo">';
-
-};
-
-reader.readAsDataURL(file);
-
-}
-
-
-/* =====================================================
-   MEETINGS
-===================================================== */
-
-async function saveMeeting(){
-
-let newPhotoPath=null;
-
-try{
-
-await requireSession();
-
-const record={
-
-meeting_date:
-document
-.getElementById('meetingDate')
-.value,
-
-meeting_title:
-document
-.getElementById('meetingTitle')
-.value
-.trim(),
-
-location:
-document
-.getElementById('meetingLocation')
-.value
-.trim(),
-
-description:
-document
-.getElementById('meetingDescription')
-.value
-.trim()
-
-};
-
-const file=
-document
-.getElementById('meetingPhoto')
-.files?.[0];
-
-if(
-!record.meeting_date||
-!record.meeting_title
-){
-
-throw new Error(
-'Meeting date and title are required.'
-);
-
-}
-
-if(file){
-
-newPhotoPath=
-await uploadPersonPhoto(
-file,
-'meeting-photos',
-'meeting'
-);
-
-}
-
-record.photo_url=
-newPhotoPath||
-editingMeetingOldPhoto||
-null;
-
-let result;
-
-if(editingMeetingId){
-
-result=
-await supabaseClient
-.from('meetings')
-.update(record)
-.eq(
-'id',
-editingMeetingId
-);
-
-}else{
-
-result=
-await supabaseClient
-.from('meetings')
-.insert([record]);
-
-}
-
-if(result.error)throw result.error;
-
-if(
-newPhotoPath&&
-editingMeetingOldPhoto&&
-newPhotoPath!==editingMeetingOldPhoto
-){
-
-await deleteStoredPhoto(
-editingMeetingOldPhoto
-);
-
-}
-
-showMessage(
-'meetingMessage',
-'Meeting saved successfully.',
-'success'
-);
-
-resetMeetingForm();
-
-await loadMeetings();
-
-await loadDashboardStats();
-
-}catch(error){
-
-if(newPhotoPath){
-
-await deleteStoredPhoto(
-newPhotoPath
-);
-
-}
-
-showMessage(
-'meetingMessage',
-'Could not save meeting:\n\n'+
-(error?.message||'Unknown error'),
-'error'
-);
-
-}
-
-}
-
-
-async function loadMeetings(){
-
-const list=
-document.getElementById(
-'meetingsList'
-);
-
-list.innerHTML=
-'Loading meetings...';
-
-const {data,error}=
-await supabaseClient
-.from('meetings')
-.select('*')
-.order(
-'meeting_date',
-{ascending:false}
-);
-
-if(error){
-
-list.innerHTML=
-'<div class="message error">'+
-escapeHtml(error.message)+
-'</div>';
-
-return;
-
-}
-
-if(!data?.length){
-
-list.innerHTML=
-'<p>No meetings found.</p>';
-
-return;
-
-}
-
-const cards=
-await Promise.all(
-
-data.map(
-async x=>{
-
-const url=
-await getPhotoUrl(
-x.photo_url
-);
-
-return `
-
-<div class="meeting-card">
-
-${
-url
-?
-'<img class="record-image" src="'+
-escapeHtml(url)+
-'" alt="Meeting photo">'
-:
-''
-}
-
-<h3>
-${escapeHtml(
-read(x.meeting_title)
-)}
-</h3>
-
-<p>
-<strong>Date:</strong>
-${escapeHtml(
-read(x.meeting_date)
-)}
-</p>
-
-<p>
-<strong>Location:</strong>
-${escapeHtml(
-read(x.location)
-)}
-</p>
-
-<p>
-<strong>Minutes:</strong>
-${escapeHtml(
-read(x.description||x.minutes)
-)}
-</p>
-
-<button
-type="button"
-class="edit-button"
-onclick="editMeeting(${JSON.stringify(x.id)})">
-Edit
-</button>
-
-<button
-type="button"
-class="delete-button"
-onclick="deleteMeeting(${JSON.stringify(x.id)})">
-Delete
-</button>
-
-</div>
-
-`;
-
-})
-);
-
-list.innerHTML=
-cards.join('');
-
-}
-
-
-async function editMeeting(id){
-
-const {data,error}=
-await supabaseClient
-.from('meetings')
-.select('*')
-.eq('id',id)
-.single();
-
-if(error){
-
-showMessage(
-'meetingMessage',
-error.message,
-'error'
-);
-
-return;
-
-}
-
-editingMeetingId=id;
-
-editingMeetingOldPhoto=
-data.photo_url||null;
-
-document
-.getElementById('meetingDate')
-.value=
-read(data.meeting_date);
-
-document
-.getElementById('meetingTitle')
-.value=
-read(data.meeting_title);
-
-document
-.getElementById('meetingLocation')
-.value=
-read(data.location);
-
-document
-.getElementById('meetingDescription')
-.value=
-read(
-data.description||
-data.minutes
-);
-
-document
-.getElementById('meetingPhoto')
-.value='';
-
-const url=
-await getPhotoUrl(
-data.photo_url
-);
-
-document
-.getElementById(
-'meetingPhotoPreview'
-)
-.innerHTML=
-url
-?
-'<img class="record-photo-preview" src="'+
-escapeHtml(url)+
-'" alt="Meeting photo">'
-:
-'<span class="photo-placeholder">Meeting Photo</span>';
-
-}
-
-
-function resetMeetingForm(){
-
-editingMeetingId=null;
-
-editingMeetingOldPhoto=null;
-
-[
-'meetingDate',
-'meetingTitle',
-'meetingLocation',
-'meetingDescription'
-].forEach(id=>{
-
-document
-.getElementById(id)
-.value='';
-
-});
-
-document
-.getElementById('meetingPhoto')
-.value='';
-
-document
-.getElementById(
-'meetingPhotoPreview'
-)
-.innerHTML=
-'<span class="photo-placeholder">Meeting Photo</span>';
-
-}
-
-
-async function deleteMeeting(id){
-
-if(
-!confirm(
-'Delete this meeting?'
-)
-)return;
-
-const {data}=
-await supabaseClient
-.from('meetings')
-.select('photo_url')
-.eq('id',id)
-.single();
-
-const {error}=
-await supabaseClient
-.from('meetings')
-.delete()
-.eq('id',id);
-
-if(error){
-
-showMessage(
-'meetingMessage',
-error.message,
-'error'
-);
-
-return;
-
-}
-
-if(data?.photo_url){
-
-await deleteStoredPhoto(
-data.photo_url
-);
-
-}
-
-await loadMeetings();
-
-await loadDashboardStats();
-
-}
-
-
-/* =====================================================
-   EVENT PHOTO
-===================================================== */
-
-function previewEventPhoto(event){
-
-const file=
-event.target.files?.[0];
-
-const preview=
-document.getElementById(
-'eventPhotoPreview'
-);
-
-if(!file){
-
-preview.innerHTML=
-'<span class="photo-placeholder">Event Photo</span>';
-
-return;
-
-}
-
-if(!validatePhoto(file)){
-
-event.target.value='';
-
-preview.innerHTML=
-'<span class="photo-placeholder">Event Photo</span>';
-
-return;
-
-}
-
-const reader=new FileReader();
-
-reader.onload=()=>{
-
-preview.innerHTML=
-'<img class="record-photo-preview" src="'+
-reader.result+
-'" alt="Event photo">';
-
-};
-
-reader.readAsDataURL(file);
-
-}
-
-
-/* =====================================================
-   EVENTS
-===================================================== */
-
-async function saveEvent(){
-
-let newPhotoPath=null;
-
-try{
-
-await requireSession();
-
-const record={
-
-title:
-document
-.getElementById('eventTitle')
-.value
-.trim(),
-
-date:
-document
-.getElementById('eventDate')
-.value,
-
-location:
-document
-.getElementById('eventLocation')
-.value
-.trim(),
-
-description:
-document
-.getElementById('eventDescription')
-.value
-.trim()
-
-};
-
-const file=
-document
-.getElementById('eventPhoto')
-.files?.[0];
-
-if(
-!record.title||
-!record.date
-){
-
-throw new Error(
-'Event title and date are required.'
-);
-
-}
-
-if(file){
-
-newPhotoPath=
-await uploadPersonPhoto(
-file,
-'event-photos',
-'event'
-);
-
-}
-
-record.photo_url=
-newPhotoPath||
-editingEventOldPhoto||
-null;
-
-let result;
-
-if(editingEventId){
-
-result=
-await supabaseClient
-.from('events')
-.update(record)
-.eq(
-'id',
-editingEventId
-);
-
-}else{
-
-result=
-await supabaseClient
-.from('events')
-.insert([record]);
-
-}
-
-if(result.error)throw result.error;
-
-if(
-newPhotoPath&&
-editingEventOldPhoto&&
-newPhotoPath!==editingEventOldPhoto
-){
-
-await deleteStoredPhoto(
-editingEventOldPhoto
-);
-
-}
-
-showMessage(
-'eventMessage',
-'Event saved successfully.',
-'success'
-);
-
-resetEventForm();
-
-await loadEvents();
-
-await loadDashboardStats();
-
-}catch(error){
-
-if(newPhotoPath){
-
-await deleteStoredPhoto(
-newPhotoPath
-);
-
-}
-
-showMessage(
-'eventMessage',
-'Could not save event:\n\n'+
-(error?.message||'Unknown error'),
-'error'
-);
-
-}
-
-}
-
-
-async function loadEvents(){
-
-const list=
-document.getElementById(
-'eventsList'
-);
-
-list.innerHTML=
-'Loading events...';
-
-const {data,error}=
-await supabaseClient
-.from('events')
-.select('*')
-.order(
-'date',
-{ascending:false}
-);
-
-if(error){
-
-list.innerHTML=
-'<div class="message error">'+
-escapeHtml(error.message)+
-'</div>';
-
-return;
-
-}
-
-if(!data?.length){
-
-list.innerHTML=
-'<p>No events found.</p>';
-
-return;
-
-}
-
-const cards=
-await Promise.all(
-
-data.map(
-async x=>{
-
-const url=
-await getPhotoUrl(
-x.photo_url
-);
-
-return `
-
-<div class="event-card">
-
-${
-url
-?
-'<img class="record-image" src="'+
-escapeHtml(url)+
-'" alt="Event photo">'
-:
-''
-}
-
-<h3>
-${escapeHtml(
-read(x.title)
-)}
-</h3>
-
-<p>
-<strong>Date:</strong>
-${escapeHtml(
-read(x.date)
-)}
-</p>
-
-<p>
-<strong>Location:</strong>
-${escapeHtml(
-read(x.location)
-)}
-</p>
-
-<p>
-<strong>Description:</strong>
-${escapeHtml(
-read(x.description)
-)}
-</p>
-
-<button
-type="button"
-class="edit-button"
-onclick="editEvent(${JSON.stringify(x.id)})">
-Edit
-</button>
-
-<button
-type="button"
-class="delete-button"
-onclick="deleteEvent(${JSON.stringify(x.id)})">
-Delete
-</button>
-
-</div>
-
-`;
-
-})
-);
-
-list.innerHTML=
-cards.join('');
-
-}
-
-
-async function editEvent(id){
-
-const {data,error}=
-await supabaseClient
-.from('events')
-.select('*')
-.eq('id',id)
-.single();
-
-if(error){
-
-showMessage(
-'eventMessage',
-error.message,
-'error'
-);
-
-return;
-
-}
-
-editingEventId=id;
-
-editingEventOldPhoto=
-data.photo_url||null;
-
-document
-.getElementById('eventTitle')
-.value=
-read(data.title);
-
-document
-.getElementById('eventDate')
-.value=
-read(data.date);
-
-document
-.getElementById('eventLocation')
-.value=
-read(data.location);
-
-document
-.getElementById('eventDescription')
-.value=
-read(data.description);
-
-document
-.getElementById('eventPhoto')
-.value='';
-
-const url=
-await getPhotoUrl(
-data.photo_url
-);
-
-document
-.getElementById(
-'eventPhotoPreview'
-)
-.innerHTML=
-url
-?
-'<img class="record-photo-preview" src="'+
-escapeHtml(url)+
-'" alt="Event photo">'
-:
-'<span class="photo-placeholder">Event Photo</span>';
-
-}
-
-
-function resetEventForm(){
-
-editingEventId=null;
-
-editingEventOldPhoto=null;
-
-[
-'eventTitle',
-'eventDate',
-'eventLocation',
-'eventDescription'
-].forEach(id=>{
-
-document
-.getElementById(id)
-.value='';
-
-});
-
-document
-.getElementById('eventPhoto')
-.value='';
-
-document
-.getElementById(
-'eventPhotoPreview'
-)
-.innerHTML=
-'<span class="photo-placeholder">Event Photo</span>';
-
-}
-
-
-async function deleteEvent(id){
-
-if(
-!confirm(
-'Delete this event?'
-)
-)return;
-
-const {data}=
-await supabaseClient
-.from('events')
-.select('photo_url')
-.eq('id',id)
-.single();
-
-const {error}=
-await supabaseClient
-.from('events')
-.delete()
-.eq('id',id);
-
-if(error){
-
-showMessage(
-'eventMessage',
-error.message,
-'error'
-);
-
-return;
-
-}
-
-if(data?.photo_url){
-
-await deleteStoredPhoto(
-data.photo_url
-);
-
-}
-
-await loadEvents();
-
-await loadDashboardStats();
-
-}
-
-
-/* =====================================================
-   DOCUMENTS
-===================================================== */
-
-async function loadDocuments(){
-
-const list=
-document.getElementById(
-'documentsList'
-);
-
-list.innerHTML=
-'Loading documents...';
-
-const {data,error}=
-await supabaseClient
-.storage
-.from(DOCUMENT_BUCKET)
-.list(
-'',
-{
-limit:100,
-sortBy:{
-column:'created_at',
-order:'desc'
-}
-}
-);
-
-if(error){
-
-list.innerHTML=
-'<div class="message error">'+
-'Error loading documents: '+
-escapeHtml(error.message)+
-'</div>';
-
-return;
-
-}
-
-if(!data?.length){
-
-list.innerHTML=
-'<p>No documents uploaded yet.</p>';
-
-return;
-
-}
-
-list.innerHTML=
-data.map(f=>`
-
-<div class="document-card">
-
-<div class="document-file-name">
-${escapeHtml(f.name)}
-</div>
-
-<p class="small-text">
-${escapeHtml(
-f.metadata?.mimetype||'File'
-)}
-</p>
-
-<button
-type="button"
-onclick="openDocument(${JSON.stringify(f.name)})">
-Open / Download
-</button>
-
-<button
-type="button"
-class="delete-button"
-onclick="deleteDocument(${JSON.stringify(f.name)})">
-Delete
-</button>
-
-</div>
-
-`).join('');
-
-}
-
-
-async function uploadDocument(){
-
-const input=
-document.getElementById(
-'documentFile'
-);
-
-const file=
-input.files?.[0];
-
-if(!file){
-
-showMessage(
-'documentMessage',
-'Please select a document first.',
-'error'
-);
-
-return;
-
-}
-
-if(
-file.size>
-50*1024*1024
-){
-
-showMessage(
-'documentMessage',
-'The file is larger than the 50 MB limit.',
-'error'
-);
-
-return;
-
-}
-
-const name=
-Date.now()+
-'_'+
-file.name.replace(
-/[^a-zA-Z0-9._-]/g,
-'_'
-);
-
-const {error}=
-await supabaseClient
-.storage
-.from(DOCUMENT_BUCKET)
-.upload(
-name,
-file,
-{
-cacheControl:'3600',
-upsert:false
-}
-);
-
-if(error){
-
-showMessage(
-'documentMessage',
-'Upload failed: '+
-error.message,
-'error'
-);
-
-return;
-
-}
-
-input.value='';
-
-showMessage(
-'documentMessage',
-'Document uploaded successfully.',
-'success'
-);
-
-await loadDocuments();
-
-await loadDashboardStats();
-
-}
-
-
-async function saveTypedDocument(){
-
-const title=
-document
-.getElementById(
-'typedDocumentTitle'
-)
-.value
-.trim();
-
-const content=
-document
-.getElementById(
-'typedDocumentContent'
-)
-.value
-.trim();
-
-if(!title||!content){
-
-showMessage(
-'typedDocumentMessage',
-'Document title and content are required.',
-'error'
-);
-
-return;
-
-}
-
-const name=
-Date.now()+
-'_'+
-title.replace(
-/[^a-zA-Z0-9._-]/g,
-'_'
-)+
-'.txt';
-
-const blob=
-new Blob(
-[
-'YOUTHS OF NDASEI ASSOCIATION (YONA)\n'+
-'Unity and Development\n\n'+
-'DOCUMENT TITLE: '+
-title+
-'\n\n'+
-content
-],
-{
-type:'text/plain'
-}
-);
-
-const {error}=
-await supabaseClient
-.storage
-.from(DOCUMENT_BUCKET)
-.upload(
-name,
-blob,
-{
-cacheControl:'3600',
-upsert:false
-}
-);
-
-if(error){
-
-showMessage(
-'typedDocumentMessage',
-'Could not save document: '+
-error.message,
-'error'
-);
-
-return;
-
-}
-
-document
-.getElementById(
-'typedDocumentTitle'
-)
-.value='';
-
-document
-.getElementById(
-'typedDocumentContent'
-)
-.value='';
-
-showMessage(
-'typedDocumentMessage',
-'Document saved successfully.',
-'success'
-);
-
-await loadDocuments();
-
-await loadDashboardStats();
-
-}
-
-
-async function openDocument(name){
-
-const {data,error}=
-await supabaseClient
-.storage
-.from(DOCUMENT_BUCKET)
-.createSignedUrl(
-name,
-3600
-);
-
-if(error){
-
-alert(
-'Could not open document: '+
-error.message
-);
-
-return;
-
-}
-
-window.open(
-data.signedUrl,
-'_blank'
-);
-
-}
-
-
-async function deleteDocument(name){
-
-if(
-!confirm(
-'Delete this document?'
-)
-)return;
-
-const {error}=
-await supabaseClient
-.storage
-.from(DOCUMENT_BUCKET)
-.remove([name]);
-
-if(error){
-
-showMessage(
-'documentMessage',
-'Could not delete document: '+
-error.message,
-'error'
-);
-
-return;
-
-}
-
-await loadDocuments();
-
-await loadDashboardStats();
-
-}
-
-
-/* =====================================================
-   MEMBER SEARCH
-===================================================== */
-
-document
-.getElementById('memberSearch')
-.addEventListener(
-'input',
-function(){
-
-renderMembers();
-
-}
-);
-
-
-/* =====================================================
-   AUTH STATE
-===================================================== */
-
-supabaseClient
-.auth
-.onAuthStateChange(
-(event,session)=>{
-
-console.log(
-'Auth state:',
-event,
-session
-?
-'SESSION ACTIVE'
-:
-'NO SESSION'
-);
-
-if(session){
-
-showApp();
-
-}else{
-
-document
-.getElementById('appSection')
-.classList
-.add('hidden');
-
-document
-.getElementById('loginSection')
-.classList
-.remove('hidden');
-
-}
-
-}
-);
-
-
-/* =====================================================
-   BUTTON EVENTS
-===================================================== */
-
-document
-.getElementById('loginForm')
-.addEventListener(
-'submit',
-function(event){
-
-event.preventDefault();
-
-login();
-
-}
-);
-
-
-document
-.getElementById('logoutButton')
-.addEventListener(
-'click',
-function(){
-
-logout();
-
-}
-);
-
-
-document
-.getElementById('memberForm')
-.addEventListener(
-'submit',
-function(event){
-
-saveMember(event);
-
-}
-);
-
-
-document
-.getElementById('memberCancelButton')
-.addEventListener(
-'click',
-function(){
-
-resetMemberForm();
-
-}
-);
-
-
-document
-.getElementById('memberPhoto')
-.addEventListener(
-'change',
-function(event){
-
-previewMemberPhoto(event);
-
-}
-);
-
-
-document
-.getElementById('meetingPhoto')
-.addEventListener(
-'change',
-function(event){
-
-previewMeetingPhoto(event);
-
-}
-);
-
-
-document
-.getElementById('eventPhoto')
-.addEventListener(
-'change',
-function(event){
-
-previewEventPhoto(event);
-
-}
-);
-
-
-document
-.getElementById('executiveSaveButton')
-.addEventListener(
-'click',
-function(){
-
-saveExecutive();
-
-}
-);
-
-
-/* =====================================================
-   INITIAL SESSION
-===================================================== */
-
-(async function(){
-
-try{
-
-const {data,error}=
-await supabaseClient
-.auth
-.getSession();
-
-if(error){
-
-console.error(
-'Session check error:',
-error
-);
-
-return;
-
-}
-
-if(data?.session){
-
-showApp();
-
-}else{
-
-document
-.getElementById('appSection')
-.classList
-.add('hidden');
-
-document
-.getElementById('loginSection')
-.classList
-.remove('hidden');
-
-}
-
-}catch(error){
-
-console.error(
-'Initial session error:',
-error
-);
-
-}
-
-})();
-
-</script>
+  </script>
 
 </body>
 </html>
