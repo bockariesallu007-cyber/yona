@@ -230,6 +230,28 @@ color:#075aaa
 
 
 /* =========================
+   MEMBER SEARCH
+========================= */
+
+.member-search-box{
+background:#f8fafc;
+border:1px solid #ddd;
+border-radius:10px;
+padding:15px;
+margin-bottom:18px
+}
+
+.member-search-box input{
+margin-bottom:4px
+}
+
+.member-search-status{
+font-size:13px;
+color:#666
+}
+
+
+/* =========================
    PHOTOS
 ========================= */
 
@@ -649,6 +671,30 @@ Manage Documents
 <section id="membersSection" class="hidden card">
 
 <h2 class="section-title">Members</h2>
+
+
+<!-- MEMBER SEARCH -->
+
+<div class="member-search-box">
+
+<label>
+<strong>Search Members</strong>
+</label>
+
+<input
+id="memberSearch"
+type="search"
+placeholder="Search by name, phone, category or position..."
+autocomplete="off"
+>
+
+<p
+id="memberSearchStatus"
+class="member-search-status">
+</p>
+
+</div>
+
 
 <form id="memberForm">
 
@@ -1158,6 +1204,13 @@ let editingEventOldPhoto=null;
 
 
 /* =====================================================
+   MEMBER SEARCH DATA
+===================================================== */
+
+let allMembers=[];
+
+
+/* =====================================================
    GENERAL
 ===================================================== */
 
@@ -1318,12 +1371,6 @@ if(!data){
 return 0;
 
 }
-
-
-/*
-Only count actual files in the
-main document folder.
-*/
 
 return data.filter(
 item=>item.id
@@ -2150,56 +2197,117 @@ wasEditing
 
 
 /* =====================================================
-   LOAD MEMBERS
+   RENDER MEMBERS
 ===================================================== */
 
-async function loadMembers(){
+async function renderMembers(){
 
 const list=
 document.getElementById(
 'membersList'
 );
 
-list.innerHTML=
-'<p>Loading members...</p>';
+const status=
+document.getElementById(
+'memberSearchStatus'
+);
 
-const {data,error}=
-await supabaseClient
-.from('members')
-.select(
-'id,created_at,name,phone,position,member_type,photo_url'
-)
-.order(
-'id',
-{
-ascending:false
+const searchInput=
+document.getElementById(
+'memberSearch'
+);
+
+const query=
+(searchInput?.value || '')
+.trim()
+.toLowerCase();
+
+
+const filteredMembers=
+allMembers.filter(
+m=>{
+
+if(!query){
+
+return true;
+
+}
+
+const values=[
+
+read(m.name),
+read(m.phone),
+read(m.member_type),
+read(m.position)
+
+].map(
+value=>value.toLowerCase()
+);
+
+return values.some(
+value=>value.includes(query)
+);
+
 }
 );
 
-if(error){
 
-list.innerHTML=
-'<div class="message error">'+
-escapeHtml(error.message)+
-'</div>';
+if(status){
 
-return;
+if(!query){
+
+status.textContent=
+allMembers.length+
+(
+allMembers.length===1
+?
+' member'
+:
+' members'
+);
+
+}
+else{
+
+status.textContent=
+filteredMembers.length+
+' of '+
+allMembers.length+
+' members found.';
 
 }
 
-if(!data?.length){
+}
+
+
+if(!filteredMembers.length){
+
+if(query){
+
+list.innerHTML=
+'<div class="message">'+
+'No members match "'+
+escapeHtml(query)+
+'".'+
+'</div>';
+
+}
+else{
 
 list.innerHTML=
 '<p>No members found.</p>';
 
+}
+
 return;
 
 }
 
+
 const cards=
 await Promise.all(
 
-data.map(
+filteredMembers.map(
 async m=>{
 
 const url=
@@ -2275,6 +2383,58 @@ cards.join('')+
 }
 
 
+/* =====================================================
+   LOAD MEMBERS
+===================================================== */
+
+async function loadMembers(){
+
+const list=
+document.getElementById(
+'membersList'
+);
+
+list.innerHTML=
+'<p>Loading members...</p>';
+
+const {data,error}=
+await supabaseClient
+.from('members')
+.select(
+'id,created_at,name,phone,position,member_type,photo_url'
+)
+.order(
+'id',
+{
+ascending:false
+}
+);
+
+if(error){
+
+allMembers=[];
+
+list.innerHTML=
+'<div class="message error">'+
+escapeHtml(error.message)+
+'</div>';
+
+return;
+
+}
+
+allMembers=
+data || [];
+
+await renderMembers();
+
+}
+
+
+/* =====================================================
+   EDIT MEMBER
+===================================================== */
+
 async function editMember(id){
 
 const {data,error}=
@@ -2340,6 +2500,10 @@ document
 }
 
 
+/* =====================================================
+   RESET MEMBER
+===================================================== */
+
 function resetMemberForm(){
 
 editingMemberId=null;
@@ -2363,6 +2527,10 @@ document
 
 }
 
+
+/* =====================================================
+   DELETE MEMBER
+===================================================== */
 
 async function deleteMember(id){
 
@@ -4270,6 +4438,22 @@ await loadDocuments();
 await loadDashboardStats();
 
 }
+
+
+/* =====================================================
+   MEMBER SEARCH EVENT
+===================================================== */
+
+document
+.getElementById('memberSearch')
+.addEventListener(
+'input',
+function(){
+
+renderMembers();
+
+}
+);
 
 
 /* =====================================================
