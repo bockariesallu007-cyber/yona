@@ -6,10 +6,7 @@
 <title>YONA App</title>
 
 <style>
-
-*{
-box-sizing:border-box
-}
+*{box-sizing:border-box}
 
 body{
 margin:0;
@@ -25,14 +22,8 @@ padding:20px;
 text-align:center
 }
 
-header h1{
-margin:0;
-font-size:25px
-}
-
-header p{
-margin:6px 0 0
-}
+header h1{margin:0;font-size:25px}
+header p{margin:6px 0 0}
 
 .container{
 max-width:1100px;
@@ -48,18 +39,14 @@ margin-bottom:20px;
 box-shadow:0 2px 10px rgba(0,0,0,.08)
 }
 
-.hidden{
-display:none!important
-}
+.hidden{display:none!important}
 
 .section-title{
 color:#075aaa;
 margin-top:0
 }
 
-input,
-select,
-textarea{
+input,select,textarea{
 width:100%;
 padding:12px;
 margin:7px 0;
@@ -84,42 +71,18 @@ margin:5px 4px 5px 0;
 font-size:15px
 }
 
-button:hover{
-background:#064a8d
-}
+button:hover{background:#064a8d}
+button:disabled{opacity:.65;cursor:not-allowed}
 
-button:disabled{
-opacity:.65;
-cursor:not-allowed
-}
+.delete-button{background:#d93025}
+.cancel-button{background:#777}
+.back-button{background:#444}
+.edit-button{background:#198754}
 
-.delete-button{
-background:#d93025
-}
+.id-card-button{background:#6f42c1}
+.id-card-button:hover{background:#59339d}
 
-.cancel-button{
-background:#777
-}
-
-.back-button{
-background:#444
-}
-
-.edit-button{
-background:#198754
-}
-
-.id-card-button{
-background:#6f42c1
-}
-
-.id-card-button:hover{
-background:#59339d
-}
-
-.print-button{
-background:#198754
-}
+.print-button{background:#198754}
 
 .message{
 padding:12px;
@@ -129,24 +92,15 @@ margin-top:12px;
 white-space:pre-wrap
 }
 
-.success{
-color:#087f23
-}
-
-.error{
-color:#c62828
-}
+.success{color:#087f23}
+.error{color:#c62828}
 
 .small-text{
 font-size:13px;
 color:#666
 }
 
-
-/* =========================
-   DASHBOARD
-========================= */
-
+/* DASHBOARD */
 .dashboard{
 display:grid;
 grid-template-columns:repeat(3,minmax(0,1fr));
@@ -209,11 +163,7 @@ margin-bottom:18px
 background:#198754
 }
 
-
-/* =========================
-   LISTS
-========================= */
-
+/* LISTS */
 .item-grid{
 display:grid;
 grid-template-columns:repeat(2,minmax(0,1fr));
@@ -238,11 +188,7 @@ margin-top:0;
 color:#075aaa
 }
 
-
-/* =========================
-   MEMBER SEARCH
-========================= */
-
+/* MEMBER SEARCH */
 .member-search-box{
 background:#f8fafc;
 border:1px solid #ddd;
@@ -251,20 +197,14 @@ padding:15px;
 margin-bottom:18px
 }
 
-.member-search-box input{
-margin-bottom:4px
-}
+.member-search-box input{margin-bottom:4px}
 
 .member-search-status{
 font-size:13px;
 color:#666
 }
 
-
-/* =========================
-   PHOTOS
-========================= */
-
+/* PHOTOS */
 .member-photo-wrap,
 .record-photo-wrap{
 text-align:center;
@@ -297,9 +237,7 @@ width:80px;
 height:80px
 }
 
-.photo-placeholder{
-font-size:12px
-}
+.photo-placeholder{font-size:12px}
 
 .member-form-grid{
 display:grid;
@@ -307,15 +245,9 @@ grid-template-columns:1fr 1fr;
 gap:10px
 }
 
-.full{
-grid-column:1/-1
-}
+.full{grid-column:1/-1}
 
-
-/* =========================
-   DOCUMENTS
-========================= */
-
+/* DOCUMENTS */
 .document-upload-box{
 background:#f8fafc;
 border:1px solid #ddd;
@@ -330,11 +262,7 @@ color:#075aaa;
 word-break:break-word
 }
 
-
-/* =========================
-   LOGIN
-========================= */
-
+/* LOGIN */
 .auth-box{
 max-width:430px;
 margin:30px auto
@@ -367,13 +295,45 @@ border:2px solid #075aaa;
 margin-bottom:12px
 }
 
-
 /* =====================================================
    MEMBER ID CARD
 ===================================================== */
 
+.id-card-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.65);
+z-index:9999;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:15px;
+overflow:auto
+}
+
+.id-card-modal{
+background:#fff;
+border-radius:16px;
+width:100%;
+max-width:650px;
+max-height:95vh;
+overflow:auto;
+padding:20px
+}
+
+.id-card-modal h2{
+color:#075aaa;
+text-align:center;
+margin-top:0
+}
+
+.id-card-expiry-box{
+max-width:500px;
+margin:0 auto 10px
+}
+
 .id-card-area{
-display:none
+display:block
 }
 
 .id-card{
@@ -385,8 +345,7 @@ background:#fff;
 border:3px solid #075aaa;
 border-radius:18px;
 overflow:hidden;
-box-shadow:0 4px 18px rgba(0,0,0,.18);
-position:relative
+box-shadow:0 4px 18px rgba(0,0,0,.18)
 }
 
 .id-card-header{
@@ -419,12 +378,14 @@ text-align:left
 
 .id-card-header-text h2{
 margin:0;
-font-size:20px
+font-size:20px;
+color:#fff
 }
 
 .id-card-header-text p{
 margin:3px 0 0;
-font-size:12px
+font-size:12px;
+color:#fff
 }
 
 .id-card-body{
@@ -483,13 +444,13 @@ width:90px
 
 .id-card-number{
 margin-top:12px;
-padding:7px 10px;
+padding:8px 12px;
 background:#075aaa;
 color:#fff;
 border-radius:6px;
 display:inline-block;
 font-weight:bold;
-font-size:14px
+font-size:15px
 }
 
 .id-card-footer{
@@ -503,21 +464,11 @@ color:#555
 
 .id-card-actions{
 text-align:center;
-margin-bottom:25px
+margin-bottom:10px
 }
 
-.id-card-expiry-box{
-max-width:500px;
-margin:0 auto 10px
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
+/* MOBILE */
 @media(max-width:800px){
-
 .dashboard{
 grid-template-columns:repeat(2,minmax(0,1fr))
 }
@@ -529,14 +480,10 @@ grid-template-columns:1fr
 .member-form-grid{
 grid-template-columns:1fr
 }
-
 }
 
 @media(max-width:500px){
-
-.container{
-padding:12px
-}
+.container{padding:12px}
 
 .dashboard{
 grid-template-columns:1fr
@@ -551,9 +498,7 @@ width:100%;
 margin:4px 0
 }
 
-.logout{
-float:none
-}
+.logout{float:none}
 
 .id-card{
 width:100%;
@@ -587,89 +532,70 @@ font-size:12px
 width:75px
 }
 
+.id-card-header-text h2{
+font-size:16px
+}
 }
 
-
-/* =====================================================
-   PRINT ID CARD
-===================================================== */
-
+/* PRINT */
 @media print{
 
 body{
-background:#fff;
-margin:0;
-padding:0
+background:#fff!important;
+margin:0!important;
+padding:0!important
 }
 
 body *{
-visibility:hidden
+visibility:hidden!important
 }
 
-.id-card-area,
-.id-card-area *{
-visibility:visible
+#idCardOverlay,
+#idCardOverlay *{
+visibility:visible!important
+}
+
+#idCardOverlay{
+display:block!important;
+position:absolute!important;
+left:0!important;
+top:0!important;
+width:100%!important;
+height:auto!important;
+background:#fff!important;
+padding:0!important
+}
+
+.id-card-modal{
+max-width:none!important;
+max-height:none!important;
+overflow:visible!important;
+padding:0!important;
+width:100%!important
+}
+
+.id-card-modal>h2,
+.id-card-expiry-box,
+.id-card-actions{
+display:none!important
 }
 
 .id-card-area{
 display:block!important;
-position:absolute;
-left:0;
-top:0;
-width:100%
-}
-
-.id-card-actions,
-.id-card-expiry-box{
-display:none!important
+width:100%!important
 }
 
 .id-card{
-margin:0 auto;
-box-shadow:none;
-page-break-inside:avoid
+margin:10mm auto!important;
+box-shadow:none!important;
+page-break-inside:avoid!important
 }
 
 @page{
 size:auto;
 margin:10mm
 }
-
 }
-
-
-/* =========================
-   ID CARD SCREEN MODAL AREA
-========================= */
-
-.id-card-overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.65);
-z-index:9999;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:15px;
-overflow:auto
-}
-
-.id-card-modal{
-background:#fff;
-border-radius:16px;
-width:100%;
-max-width:650px;
-max-height:95vh;
-overflow:auto;
-padding:20px
-}
-
-.id-card-modal h2{
-color:#075aaa;
-text-align:center;
-margin-top:0
-}
-
 </style>
 </head>
 
@@ -683,11 +609,7 @@ margin-top:0
 
 <div class="container">
 
-
-<!-- =====================================================
-     LOGIN
-===================================================== -->
-
+<!-- LOGIN -->
 <section id="loginSection" class="card auth-box">
 
 <h2 class="section-title">YONA Login</h2>
@@ -714,25 +636,19 @@ autocomplete="current-password"
 required
 >
 
-<button
-id="loginButton"
-type="submit">
+<button id="loginButton" type="submit">
 Login
 </button>
 
 </form>
 
 <div id="loginMessage"></div>
-
 <div id="loginStatus" class="login-status"></div>
 
 </section>
 
 
-<!-- =====================================================
-     APPLICATION
-===================================================== -->
-
+<!-- APPLICATION -->
 <section id="appSection" class="hidden">
 
 <div class="topbar">
@@ -747,10 +663,7 @@ Logout
 </div>
 
 
-<!-- =====================================================
-     DASHBOARD
-===================================================== -->
-
+<!-- DASHBOARD -->
 <div id="dashboardSection">
 
 <div class="dashboard-refresh">
@@ -765,175 +678,113 @@ onclick="loadDashboardStats()">
 
 <div class="dashboard">
 
-
 <div class="dashboard-card">
-
 <div class="dashboard-icon">👥</div>
-
 <h3>Members</h3>
 
-<p
-id="membersCount"
-class="dashboard-count">
-...
-</p>
+<p id="membersCount" class="dashboard-count">...</p>
 
-<p>
-Total registered members
-</p>
+<p>Total registered members</p>
 
 <button
 type="button"
 onclick="showSection('membersSection');loadMembers()">
 Manage Members
 </button>
-
 </div>
 
 
 <div class="dashboard-card">
-
 <div class="dashboard-icon">👔</div>
-
 <h3>Executive</h3>
 
-<p
-id="executiveCount"
-class="dashboard-count">
-...
-</p>
+<p id="executiveCount" class="dashboard-count">...</p>
 
-<p>
-Executive records
-</p>
+<p>Executive records</p>
 
 <button
 type="button"
 onclick="showSection('executiveSection');loadExecutive()">
 Manage Executive
 </button>
-
 </div>
 
 
 <div class="dashboard-card">
-
 <div class="dashboard-icon">💰</div>
-
 <h3>Finance</h3>
 
-<p
-id="financeCount"
-class="dashboard-count">
-...
-</p>
+<p id="financeCount" class="dashboard-count">...</p>
 
-<p>
-Financial records
-</p>
+<p>Financial records</p>
 
 <button
 type="button"
 onclick="showSection('financeSection');loadFinance()">
 Manage Finance
 </button>
-
 </div>
 
 
 <div class="dashboard-card">
-
 <div class="dashboard-icon">📝</div>
-
 <h3>Meetings</h3>
 
-<p
-id="meetingsCount"
-class="dashboard-count">
-...
-</p>
+<p id="meetingsCount" class="dashboard-count">...</p>
 
-<p>
-Recorded meetings
-</p>
+<p>Recorded meetings</p>
 
 <button
 type="button"
 onclick="showSection('meetingsSection');loadMeetings()">
 Manage Meetings
 </button>
-
 </div>
 
 
 <div class="dashboard-card">
-
 <div class="dashboard-icon">📅</div>
-
 <h3>Events</h3>
 
-<p
-id="eventsCount"
-class="dashboard-count">
-...
-</p>
+<p id="eventsCount" class="dashboard-count">...</p>
 
-<p>
-YONA activities
-</p>
+<p>YONA activities</p>
 
 <button
 type="button"
 onclick="showSection('eventsSection');loadEvents()">
 Manage Events
 </button>
-
 </div>
 
 
 <div class="dashboard-card">
-
 <div class="dashboard-icon">📁</div>
-
 <h3>Documents</h3>
 
-<p
-id="documentsCount"
-class="dashboard-count">
-...
-</p>
+<p id="documentsCount" class="dashboard-count">...</p>
 
-<p>
-Stored documents
-</p>
+<p>Stored documents</p>
 
 <button
 type="button"
 onclick="showSection('documentsSection');loadDocuments()">
 Manage Documents
 </button>
-
 </div>
 
 </div>
-
 </div>
 
 
-<!-- =====================================================
-     MEMBERS
-===================================================== -->
-
+<!-- MEMBERS -->
 <section id="membersSection" class="hidden card">
 
 <h2 class="section-title">Members</h2>
 
-
 <div class="member-search-box">
 
-<label>
-<strong>Search Members</strong>
-</label>
+<label><strong>Search Members</strong></label>
 
 <input
 id="memberSearch"
@@ -942,10 +793,7 @@ placeholder="Search by name, phone, category or position..."
 autocomplete="off"
 >
 
-<p
-id="memberSearchStatus"
-class="member-search-status">
-</p>
+<p id="memberSearchStatus" class="member-search-status"></p>
 
 </div>
 
@@ -965,7 +813,6 @@ class="member-search-status">
 </div>
 
 <div>
-
 <label>Member Category</label>
 
 <select id="memberType" required>
@@ -976,28 +823,18 @@ class="member-search-status">
 <option>Probationary Member</option>
 
 </select>
-
 </div>
 
 <div>
-
 <label>Position</label>
-
 <input id="memberPosition">
-
 </div>
 
 
 <div class="full member-photo-wrap">
 
-<div
-id="memberPhotoPreview"
-class="member-photo-preview">
-
-<span class="photo-placeholder">
-Profile Photo
-</span>
-
+<div id="memberPhotoPreview" class="member-photo-preview">
+<span class="photo-placeholder">Profile Photo</span>
 </div>
 
 <br>
@@ -1005,7 +842,8 @@ Profile Photo
 <input
 id="memberPhoto"
 type="file"
-accept="image/*">
+accept="image/*"
+>
 
 </div>
 
@@ -1041,10 +879,7 @@ Back to Dashboard
 </section>
 
 
-<!-- =====================================================
-     EXECUTIVE
-===================================================== -->
-
+<!-- EXECUTIVE -->
 <section id="executiveSection" class="hidden card">
 
 <h2 class="section-title">Executive</h2>
@@ -1053,9 +888,7 @@ Back to Dashboard
 
 <div>
 <label>Period</label>
-<input
-id="executivePeriod"
-placeholder="e.g. 2026-2029">
+<input id="executivePeriod" placeholder="e.g. 2026-2029">
 </div>
 
 <div>
@@ -1080,7 +913,8 @@ placeholder="e.g. 2026-2029">
 <input
 id="executivePhoto"
 type="file"
-accept="image/*">
+accept="image/*"
+>
 
 </div>
 
@@ -1100,7 +934,6 @@ Cancel
 </button>
 
 <div id="executiveMessage"></div>
-
 <div id="executiveList"></div>
 
 <button
@@ -1113,24 +946,16 @@ Back to Dashboard
 </section>
 
 
-<!-- =====================================================
-     FINANCE
-===================================================== -->
-
+<!-- FINANCE -->
 <section id="financeSection" class="hidden card">
 
 <h2 class="section-title">Finance</h2>
 
-<input
-id="financeName"
-placeholder="Name">
+<input id="financeName" placeholder="Name">
 
 <select id="financeType">
 
-<option value="">
-Select transaction type
-</option>
-
+<option value="">Select transaction type</option>
 <option>Registration</option>
 <option>Annual Contribution</option>
 <option>End of year Contribution</option>
@@ -1146,16 +971,15 @@ Select transaction type
 id="financeAmount"
 type="number"
 step="0.01"
-placeholder="Amount">
+placeholder="Amount"
+>
 
 <textarea
 id="financeDescription"
 placeholder="Description">
 </textarea>
 
-<button
-type="button"
-onclick="saveFinance()">
+<button type="button" onclick="saveFinance()">
 Save Transaction
 </button>
 
@@ -1167,7 +991,6 @@ Cancel
 </button>
 
 <div id="financeMessage"></div>
-
 <div id="financeList"></div>
 
 <button
@@ -1180,47 +1003,28 @@ Back to Dashboard
 </section>
 
 
-<!-- =====================================================
-     MEETINGS
-===================================================== -->
-
+<!-- MEETINGS -->
 <section id="meetingsSection" class="hidden card">
 
 <h2 class="section-title">Meetings</h2>
 
-<input
-id="meetingDate"
-type="date">
-
-<input
-id="meetingTitle"
-placeholder="Meeting Title">
-
-<input
-id="meetingLocation"
-placeholder="Location">
-
+<input id="meetingDate" type="date">
+<input id="meetingTitle" placeholder="Meeting Title">
+<input id="meetingLocation" placeholder="Location">
 
 <div class="record-photo-wrap">
 
-<label>
-<strong>Meeting Photo</strong>
-</label>
+<label><strong>Meeting Photo</strong></label>
 
-<div
-id="meetingPhotoPreview"
-class="record-photo-preview">
-
-<span class="photo-placeholder">
-Meeting Photo
-</span>
-
+<div id="meetingPhotoPreview" class="record-photo-preview">
+<span class="photo-placeholder">Meeting Photo</span>
 </div>
 
 <input
 id="meetingPhoto"
 type="file"
-accept="image/*">
+accept="image/*"
+>
 
 <p class="small-text">
 Optional. Maximum 5 MB.
@@ -1228,15 +1032,12 @@ Optional. Maximum 5 MB.
 
 </div>
 
-
 <textarea
 id="meetingDescription"
 placeholder="Minutes / Description">
 </textarea>
 
-<button
-type="button"
-onclick="saveMeeting()">
+<button type="button" onclick="saveMeeting()">
 Save Meeting
 </button>
 
@@ -1248,7 +1049,6 @@ Cancel
 </button>
 
 <div id="meetingMessage"></div>
-
 <div id="meetingsList"></div>
 
 <button
@@ -1261,47 +1061,28 @@ Back to Dashboard
 </section>
 
 
-<!-- =====================================================
-     EVENTS
-===================================================== -->
-
+<!-- EVENTS -->
 <section id="eventsSection" class="hidden card">
 
 <h2 class="section-title">Events</h2>
 
-<input
-id="eventTitle"
-placeholder="Event Title">
-
-<input
-id="eventDate"
-type="date">
-
-<input
-id="eventLocation"
-placeholder="Location">
-
+<input id="eventTitle" placeholder="Event Title">
+<input id="eventDate" type="date">
+<input id="eventLocation" placeholder="Location">
 
 <div class="record-photo-wrap">
 
-<label>
-<strong>Event Photo</strong>
-</label>
+<label><strong>Event Photo</strong></label>
 
-<div
-id="eventPhotoPreview"
-class="record-photo-preview">
-
-<span class="photo-placeholder">
-Event Photo
-</span>
-
+<div id="eventPhotoPreview" class="record-photo-preview">
+<span class="photo-placeholder">Event Photo</span>
 </div>
 
 <input
 id="eventPhoto"
 type="file"
-accept="image/*">
+accept="image/*"
+>
 
 <p class="small-text">
 Optional. Maximum 5 MB.
@@ -1309,15 +1090,12 @@ Optional. Maximum 5 MB.
 
 </div>
 
-
 <textarea
 id="eventDescription"
 placeholder="Description">
 </textarea>
 
-<button
-type="button"
-onclick="saveEvent()">
+<button type="button" onclick="saveEvent()">
 Save Event
 </button>
 
@@ -1329,7 +1107,6 @@ Cancel
 </button>
 
 <div id="eventMessage"></div>
-
 <div id="eventsList"></div>
 
 <button
@@ -1342,10 +1119,7 @@ Back to Dashboard
 </section>
 
 
-<!-- =====================================================
-     DOCUMENTS
-===================================================== -->
-
+<!-- DOCUMENTS -->
 <section id="documentsSection" class="hidden card">
 
 <h2 class="section-title">Documents</h2>
@@ -1356,7 +1130,8 @@ Back to Dashboard
 
 <input
 id="typedDocumentTitle"
-placeholder="Document Title">
+placeholder="Document Title"
+>
 
 <textarea
 id="typedDocumentContent"
@@ -1378,9 +1153,7 @@ Save Document
 
 <h3>Upload Document</h3>
 
-<input
-id="documentFile"
-type="file">
+<input id="documentFile" type="file">
 
 <button
 type="button"
@@ -1404,12 +1177,11 @@ Back to Dashboard
 </section>
 
 </section>
-
 </div>
 
 
 <!-- =====================================================
-     ID CARD MODAL
+     MEMBER ID CARD
 ===================================================== -->
 
 <div
@@ -1429,19 +1201,16 @@ class="id-card-overlay hidden">
 <input
 id="idCardExpiry"
 type="date"
+value="2029-01-01"
 >
 
 <p class="small-text">
-Select the date this member ID card should expire.
+Change the expiry date if needed.
 </p>
 
 </div>
 
-
-<div id="idCardArea">
-
-</div>
-
+<div id="idCardArea"></div>
 
 <div class="id-card-actions">
 
@@ -1462,7 +1231,6 @@ Close
 </div>
 
 </div>
-
 </div>
 
 
@@ -1474,16 +1242,16 @@ Close
    SUPABASE
 ===================================================== */
 
-const SUPABASE_URL =
+const SUPABASE_URL=
 "https://atxeeymireukwbbsczbv.supabase.co";
 
-const SUPABASE_KEY =
+const SUPABASE_KEY=
 "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
 
-const DOCUMENT_BUCKET =
+const DOCUMENT_BUCKET=
 "yona-documents";
 
-const supabaseClient =
+const supabaseClient=
 window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY,
@@ -1498,7 +1266,7 @@ detectSessionInUrl:true
 
 
 /* =====================================================
-   EDITING VARIABLES
+   VARIABLES
 ===================================================== */
 
 let editingMemberId=null;
@@ -1515,17 +1283,8 @@ let editingMeetingOldPhoto=null;
 let editingEventId=null;
 let editingEventOldPhoto=null;
 
-
-/* =====================================================
-   ID CARD VARIABLES
-===================================================== */
-
 let currentIdCardMember=null;
-
-
-/* =====================================================
-   MEMBER SEARCH DATA
-===================================================== */
+let currentIdCardPhotoUrl=null;
 
 let allMembers=[];
 
@@ -1535,32 +1294,27 @@ let allMembers=[];
 ===================================================== */
 
 function escapeHtml(v){
-
-return String(v ?? '')
+return String(v??'')
 .replace(/&/g,'&amp;')
 .replace(/</g,'&lt;')
 .replace(/>/g,'&gt;')
 .replace(/"/g,'&quot;')
 .replace(/'/g,'&#039;');
-
 }
 
+function read(v){
+return v==null?'':String(v);
+}
 
 function showMessage(id,msg,type=''){
-
 const e=document.getElementById(id);
-
 if(e){
-
 e.innerHTML=
 '<div class="message '+type+'">'+
 escapeHtml(msg)+
 '</div>';
-
 }
-
 }
-
 
 function showSection(id){
 
@@ -1570,48 +1324,31 @@ document
 
 document
 .querySelectorAll('#appSection>section')
-.forEach(
-s=>s.classList.add('hidden')
-);
+.forEach(s=>s.classList.add('hidden'));
 
-const section=
-document.getElementById(id);
+const section=document.getElementById(id);
 
 if(section){
-
 section.classList.remove('hidden');
-
 }
-
 }
-
 
 function backToDashboard(){
 
 document
 .querySelectorAll('#appSection>section')
-.forEach(
-s=>s.classList.add('hidden')
-);
+.forEach(s=>s.classList.add('hidden'));
 
 document
 .getElementById('dashboardSection')
 .classList.remove('hidden');
 
 loadDashboardStats();
-
-}
-
-
-function read(v){
-
-return v==null ? '' : String(v);
-
 }
 
 
 /* =====================================================
-   DASHBOARD STATISTICS
+   DASHBOARD
 ===================================================== */
 
 async function getTableCount(table){
@@ -1621,40 +1358,22 @@ try{
 const {count,error}=
 await supabaseClient
 .from(table)
-.select('*',{
-count:'exact',
-head:true
-});
+.select('*',{count:'exact',head:true});
 
 if(error){
+console.error('Dashboard count error:',error);
+return null;
+}
 
-console.error(
-'Dashboard count error for '+
-table+':',
-error
-);
+return count??0;
 
+}catch(error){
+
+console.error('Dashboard count exception:',error);
 return null;
 
 }
-
-return count ?? 0;
-
 }
-catch(error){
-
-console.error(
-'Dashboard count exception for '+
-table+':',
-error
-);
-
-return null;
-
-}
-
-}
-
 
 async function getDocumentCount(){
 
@@ -1664,168 +1383,71 @@ const {data,error}=
 await supabaseClient
 .storage
 .from(DOCUMENT_BUCKET)
-.list(
-'',
-{
+.list('',{
 limit:1000,
 sortBy:{
 column:'created_at',
 order:'desc'
 }
-}
-);
+});
 
 if(error){
+console.error('Document count error:',error);
+return null;
+}
 
-console.error(
-'Document count error:',
-error
-);
+return data?.filter(item=>item.id).length||0;
 
+}catch(error){
+
+console.error('Document count exception:',error);
 return null;
 
 }
-
-if(!data){
-
-return 0;
-
 }
 
-return data.filter(
-item=>item.id
-).length;
+function displayDashboardCount(id,count){
 
-}
-catch(error){
+const element=document.getElementById(id);
 
-console.error(
-'Document count exception:',
-error
-);
-
-return null;
-
-}
-
-}
-
-
-function displayDashboardCount(
-id,
-count
-){
-
-const element=
-document.getElementById(id);
-
-if(!element){
-
-return;
-
-}
+if(!element)return;
 
 if(count===null){
-
 element.textContent='—';
-
-element.classList.add(
-'dashboard-loading'
-);
-
+element.classList.add('dashboard-loading');
 return;
-
 }
 
-element.textContent=
-count.toLocaleString();
-
-element.classList.remove(
-'dashboard-loading'
-);
-
+element.textContent=count.toLocaleString();
+element.classList.remove('dashboard-loading');
 }
-
 
 async function loadDashboardStats(){
 
-displayDashboardCount(
+[
 'membersCount',
-'...'
-);
-
-displayDashboardCount(
 'executiveCount',
-'...'
-);
-
-displayDashboardCount(
 'financeCount',
-'...'
-);
-
-displayDashboardCount(
 'meetingsCount',
-'...'
-);
-
-displayDashboardCount(
 'eventsCount',
-'...'
-);
+'documentsCount'
+].forEach(id=>displayDashboardCount(id,'...'));
 
-displayDashboardCount(
-'documentsCount',
-'...'
-);
-
-const results=
-await Promise.all([
-
+const results=await Promise.all([
 getTableCount('members'),
-
 getTableCount('executive'),
-
 getTableCount('finance'),
-
 getTableCount('meetings'),
-
 getTableCount('events'),
-
 getDocumentCount()
-
 ]);
 
-displayDashboardCount(
-'membersCount',
-results[0]
-);
-
-displayDashboardCount(
-'executiveCount',
-results[1]
-);
-
-displayDashboardCount(
-'financeCount',
-results[2]
-);
-
-displayDashboardCount(
-'meetingsCount',
-results[3]
-);
-
-displayDashboardCount(
-'eventsCount',
-results[4]
-);
-
-displayDashboardCount(
-'documentsCount',
-results[5]
-);
-
+displayDashboardCount('membersCount',results[0]);
+displayDashboardCount('executiveCount',results[1]);
+displayDashboardCount('financeCount',results[2]);
+displayDashboardCount('meetingsCount',results[3]);
+displayDashboardCount('eventsCount',results[4]);
+displayDashboardCount('documentsCount',results[5]);
 }
 
 
@@ -1835,39 +1457,18 @@ results[5]
 
 async function login(){
 
-const email=
-document.getElementById('loginEmail')
-.value.trim();
-
-const password=
-document.getElementById('loginPassword')
-.value;
-
-const button=
-document.getElementById('loginButton');
+const email=document.getElementById('loginEmail').value.trim();
+const password=document.getElementById('loginPassword').value;
+const button=document.getElementById('loginButton');
 
 if(!email){
-
-showMessage(
-'loginMessage',
-'Please enter your email address.',
-'error'
-);
-
+showMessage('loginMessage','Please enter your email address.','error');
 return;
-
 }
 
 if(!password){
-
-showMessage(
-'loginMessage',
-'Please enter your password.',
-'error'
-);
-
+showMessage('loginMessage','Please enter your password.','error');
 return;
-
 }
 
 button.disabled=true;
@@ -1881,18 +1482,10 @@ email,
 password
 });
 
-if(error){
-
-throw error;
-
-}
+if(error)throw error;
 
 if(!data?.session){
-
-throw new Error(
-'Login completed but no session was created.'
-);
-
+throw new Error('Login completed but no session was created.');
 }
 
 showMessage(
@@ -1903,282 +1496,142 @@ showMessage(
 
 showApp();
 
-}
-catch(error){
+}catch(error){
 
-console.error(
-'YONA LOGIN ERROR:',
-error
-);
-
-let msg=
-error?.message ||
-'Login failed.';
-
-if(error?.code){
-
-msg+='\n\nCode: '+error.code;
-
-}
-
-if(error?.status){
-
-msg+='\nStatus: '+error.status;
-
-}
+console.error('YONA LOGIN ERROR:',error);
 
 showMessage(
 'loginMessage',
-msg,
+error?.message||'Login failed.',
 'error'
 );
 
-}
-finally{
+}finally{
 
 button.disabled=false;
 button.textContent='Login';
 
 }
-
 }
 
 
-/* =====================================================
-   LOGOUT
-===================================================== */
-
 async function logout(){
 
-const button=
-document.getElementById('logoutButton');
+const button=document.getElementById('logoutButton');
 
 button.disabled=true;
 button.textContent='Logging out...';
 
 try{
 
-const {error}=
-await supabaseClient.auth.signOut();
+const {error}=await supabaseClient.auth.signOut();
 
-if(error){
+if(error)throw error;
 
-throw error;
+document.getElementById('appSection').classList.add('hidden');
+document.getElementById('loginSection').classList.remove('hidden');
 
-}
+document.getElementById('loginEmail').value='';
+document.getElementById('loginPassword').value='';
 
-document
-.getElementById('appSection')
-.classList.add('hidden');
+}catch(error){
 
-document
-.getElementById('loginSection')
-.classList.remove('hidden');
+alert('Logout failed: '+(error?.message||'Unknown error'));
 
-document
-.getElementById('loginEmail')
-.value='';
-
-document
-.getElementById('loginPassword')
-.value='';
-
-backToDashboard();
-
-}
-catch(error){
-
-console.error(
-'YONA LOGOUT ERROR:',
-error
-);
-
-alert(
-'Logout failed: '+
-(error?.message || 'Unknown error')
-);
-
-}
-finally{
+}finally{
 
 button.disabled=false;
 button.textContent='Logout';
 
 }
-
 }
 
-
-/* =====================================================
-   SHOW APP
-===================================================== */
 
 function showApp(){
 
-document
-.getElementById('loginSection')
-.classList.add('hidden');
-
-document
-.getElementById('appSection')
-.classList.remove('hidden');
+document.getElementById('loginSection').classList.add('hidden');
+document.getElementById('appSection').classList.remove('hidden');
 
 backToDashboard();
-
 loadDashboardStats();
-
 }
 
-
-/* =====================================================
-   SESSION
-===================================================== */
 
 async function requireSession(){
 
-const {data,error}=
-await supabaseClient.auth.getSession();
+const {data,error}=await supabaseClient.auth.getSession();
 
-if(error){
-
-throw error;
-
-}
+if(error)throw error;
 
 if(!data.session){
-
 throw new Error(
 'Your login session has expired. Please log in again.'
 );
-
 }
 
 return data.session;
-
 }
 
 
 /* =====================================================
-   PHOTO
+   PHOTOS
 ===================================================== */
 
 function validatePhoto(file){
 
-if(!file){
-
-return true;
-
-}
+if(!file)return true;
 
 if(!file.type.startsWith('image/')){
-
-alert(
-'Please select an image file.'
-);
-
+alert('Please select an image file.');
 return false;
-
 }
 
 if(file.size>5*1024*1024){
-
-alert(
-'Photo must be 5 MB or smaller.'
-);
-
+alert('Photo must be 5 MB or smaller.');
 return false;
-
 }
 
 return true;
-
 }
 
 
-async function uploadPersonPhoto(
-file,
-folder,
-prefix
-){
+async function uploadPersonPhoto(file,folder,prefix){
 
-if(!file){
-
-return null;
-
-}
+if(!file)return null;
 
 if(!validatePhoto(file)){
-
-throw new Error(
-'Invalid photo.'
-);
-
+throw new Error('Invalid photo.');
 }
 
-const safe=
-file.name.replace(
-/[^a-zA-Z0-9._-]/g,
-'_'
-);
+const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
 
 const path=
-folder+
-'/'+
-prefix+
-'_'+
-Date.now()+
-'_'+
-Math.random()
-.toString(36)
-.slice(2,8)+
-'_'+
+folder+'/'+
+prefix+'_'+
+Date.now()+'_'+
+Math.random().toString(36).slice(2,8)+'_'+
 safe;
 
 const {data,error}=
 await supabaseClient
 .storage
 .from(DOCUMENT_BUCKET)
-.upload(
-path,
-file,
-{
+.upload(path,file,{
 upsert:false,
 cacheControl:'3600'
-}
-);
+});
 
 if(error){
-
-console.error(
-'PHOTO UPLOAD ERROR:',
-error
-);
-
-throw new Error(
-'Photo upload failed: '+
-error.message
-);
-
+throw new Error('Photo upload failed: '+error.message);
 }
 
 return path;
-
 }
 
 
 async function deleteStoredPhoto(path){
 
-if(!path){
-
-return;
-
-}
-
-if(path.startsWith('http')){
-
-return;
-
-}
+if(!path||path.startsWith('http'))return;
 
 const {error}=
 await supabaseClient
@@ -2187,47 +1640,27 @@ await supabaseClient
 .remove([path]);
 
 if(error){
-
-console.warn(
-'Could not delete old photo:',
-error.message
-);
-
+console.warn('Could not delete old photo:',error.message);
 }
-
 }
 
 
 async function getPhotoUrl(path){
 
-if(!path){
-
-return null;
-
-}
+if(!path)return null;
 
 const {data,error}=
 await supabaseClient
 .storage
 .from(DOCUMENT_BUCKET)
-.createSignedUrl(
-path,
-3600
-);
+.createSignedUrl(path,3600);
 
 if(error){
-
-console.error(
-'PHOTO URL ERROR:',
-error
-);
-
+console.error('PHOTO URL ERROR:',error);
 return null;
-
 }
 
-return data?.signedUrl || null;
-
+return data?.signedUrl||null;
 }
 
 
@@ -2237,79 +1670,46 @@ return data?.signedUrl || null;
 
 function previewMemberPhoto(event){
 
-const file=
-event.target.files?.[0];
-
-const preview=
-document.getElementById(
-'memberPhotoPreview'
-);
+const file=event.target.files?.[0];
+const preview=document.getElementById('memberPhotoPreview');
 
 if(!file){
-
-preview.innerHTML=
-'<span class="photo-placeholder">Profile Photo</span>';
-
+preview.innerHTML='<span class="photo-placeholder">Profile Photo</span>';
 return;
-
 }
 
 if(!validatePhoto(file)){
-
 event.target.value='';
-
-preview.innerHTML=
-'<span class="photo-placeholder">Profile Photo</span>';
-
+preview.innerHTML='<span class="photo-placeholder">Profile Photo</span>';
 return;
-
 }
 
-const reader=
-new FileReader();
+const reader=new FileReader();
 
 reader.onload=()=>{
-
 preview.innerHTML=
 '<img class="member-photo-preview" src="'+
 reader.result+
 '" alt="Preview">';
-
 };
 
 reader.readAsDataURL(file);
-
 }
 
 
 /* =====================================================
-   MEMBER SAVE
+   SAVE MEMBER
 ===================================================== */
 
 async function saveMember(event){
 
-if(event){
+if(event)event.preventDefault();
 
-event.preventDefault();
-
-}
-
-const button=
-document.getElementById(
-'memberSaveButton'
-);
-
-const wasEditing=
-!!editingMemberId;
+const button=document.getElementById('memberSaveButton');
+const wasEditing=!!editingMemberId;
 
 button.disabled=true;
-
-button.textContent=
-wasEditing
-?
-'Updating...'
-:
-'Saving...';
+button.textContent=wasEditing?'Updating...':'Saving...';
 
 let newPhotoPath=null;
 
@@ -2317,72 +1717,34 @@ try{
 
 await requireSession();
 
-const name=
-document.getElementById('memberName')
-.value.trim();
+const name=document.getElementById('memberName').value.trim();
+const phone=document.getElementById('memberPhone').value.trim();
+const memberType=document.getElementById('memberType').value;
+const position=document.getElementById('memberPosition').value.trim();
+const file=document.getElementById('memberPhoto').files?.[0];
 
-const phone=
-document.getElementById('memberPhone')
-.value.trim();
-
-const memberType=
-document.getElementById('memberType')
-.value;
-
-const position=
-document.getElementById('memberPosition')
-.value.trim();
-
-const file=
-document.getElementById('memberPhoto')
-.files?.[0];
-
-if(!name){
-
-throw new Error(
-'Member name is required.'
-);
-
-}
-
-if(!memberType){
-
-throw new Error(
-'Please select the member category.'
-);
-
-}
+if(!name)throw new Error('Member name is required.');
+if(!memberType)throw new Error('Please select the member category.');
 
 if(file&&!validatePhoto(file)){
-
-throw new Error(
-'Invalid profile photo.'
-);
-
+throw new Error('Invalid profile photo.');
 }
 
 if(file){
-
 newPhotoPath=
 await uploadPersonPhoto(
 file,
 'member-photos',
 'member'
 );
-
 }
 
 const record={
-
-name:name,
-phone:phone,
-position:position,
+name,
+phone,
+position,
 member_type:memberType,
-photo_url:
-newPhotoPath ||
-editingMemberOldPhoto ||
-null
-
+photo_url:newPhotoPath||editingMemberOldPhoto||null
 };
 
 if(editingMemberId){
@@ -2393,22 +1755,14 @@ await supabaseClient
 .update(record)
 .eq('id',editingMemberId);
 
-if(error){
-
-throw error;
-
-}
+if(error)throw error;
 
 if(
-newPhotoPath &&
-editingMemberOldPhoto &&
+newPhotoPath&&
+editingMemberOldPhoto&&
 newPhotoPath!==editingMemberOldPhoto
 ){
-
-await deleteStoredPhoto(
-editingMemberOldPhoto
-);
-
+await deleteStoredPhoto(editingMemberOldPhoto);
 }
 
 showMessage(
@@ -2417,19 +1771,14 @@ showMessage(
 'success'
 );
 
-}
-else{
+}else{
 
 const {error}=
 await supabaseClient
 .from('members')
 .insert(record);
 
-if(error){
-
-throw error;
-
-}
+if(error)throw error;
 
 showMessage(
 'memberMessage',
@@ -2440,111 +1789,46 @@ showMessage(
 }
 
 resetMemberForm();
-
 await loadMembers();
-
 await loadDashboardStats();
 
-}
-catch(error){
+}catch(error){
 
-console.error(
-'SAVE MEMBER ERROR:',
-error
-);
+console.error('SAVE MEMBER ERROR:',error);
 
-if(
-newPhotoPath &&
-!editingMemberId
-){
-
-await deleteStoredPhoto(
-newPhotoPath
-);
-
-}
-
-let message=
-error?.message ||
-'Unknown error occurred.';
-
-if(error?.code){
-
-message+=
-'\n\nCode: '+
-error.code;
-
-}
-
-if(error?.details){
-
-message+=
-'\nDetails: '+
-error.details;
-
-}
-
-if(error?.hint){
-
-message+=
-'\nHint: '+
-error.hint;
-
+if(newPhotoPath&&!editingMemberId){
+await deleteStoredPhoto(newPhotoPath);
 }
 
 showMessage(
 'memberMessage',
 'Could not save member:\n\n'+
-message,
+(error?.message||'Unknown error'),
 'error'
 );
 
-}
-finally{
+}finally{
 
 button.disabled=false;
-
-button.textContent=
-wasEditing
-?
-'Update Member'
-:
-'Save Member';
+button.textContent=wasEditing?'Update Member':'Save Member';
 
 }
-
 }
 
 
 /* =====================================================
-   MEMBER ID NUMBER
+   MEMBER NUMBER
 ===================================================== */
-
-/*
-   We use the existing Supabase member ID.
-
-   Example:
-   database id 1  = 001
-   database id 2  = 002
-   database id 15 = 015
-
-   This means no new database column is required.
-*/
 
 function getMemberNumber(id){
 
-const number=
-parseInt(id,10);
+const number=parseInt(id,10);
 
 if(isNaN(number)){
-
 return '001';
-
 }
 
-return String(number)
-.padStart(3,'0');
-
+return String(number).padStart(3,'0');
 }
 
 
@@ -2554,55 +1838,28 @@ return String(number)
 
 async function renderMembers(){
 
-const list=
-document.getElementById(
-'membersList'
-);
-
-const status=
-document.getElementById(
-'memberSearchStatus'
-);
-
-const searchInput=
-document.getElementById(
-'memberSearch'
-);
+const list=document.getElementById('membersList');
+const status=document.getElementById('memberSearchStatus');
+const searchInput=document.getElementById('memberSearch');
 
 const query=
-(searchInput?.value || '')
-.trim()
-.toLowerCase();
-
+(searchInput?.value||'').trim().toLowerCase();
 
 const filteredMembers=
-allMembers.filter(
-m=>{
+allMembers.filter(m=>{
 
-if(!query){
-
-return true;
-
-}
+if(!query)return true;
 
 const values=[
-
 read(m.name),
 read(m.phone),
 read(m.member_type),
 read(m.position)
+].map(value=>value.toLowerCase());
 
-].map(
-value=>value.toLowerCase()
-);
+return values.some(value=>value.includes(query));
 
-return values.some(
-value=>value.includes(query)
-);
-
-}
-);
-
+});
 
 if(status){
 
@@ -2610,16 +1867,9 @@ if(!query){
 
 status.textContent=
 allMembers.length+
-(
-allMembers.length===1
-?
-' member'
-:
-' members'
-);
+(allMembers.length===1?' member':' members');
 
-}
-else{
+}else{
 
 status.textContent=
 filteredMembers.length+
@@ -2628,47 +1878,27 @@ allMembers.length+
 ' members found.';
 
 }
-
 }
-
 
 if(!filteredMembers.length){
 
-if(query){
-
-list.innerHTML=
-'<div class="message">'+
-'No members match "'+
+list.innerHTML=query
+?
+'<div class="message">No members match "'+
 escapeHtml(query)+
-'".'+
-'</div>';
-
-}
-else{
-
-list.innerHTML=
+'".</div>'
+:
 '<p>No members found.</p>';
 
-}
-
 return;
-
 }
 
+const cards=await Promise.all(
+filteredMembers.map(async m=>{
 
-const cards=
-await Promise.all(
-
-filteredMembers.map(
-async m=>{
-
-const url=
-await getPhotoUrl(
-m.photo_url
-);
+const url=await getPhotoUrl(m.photo_url);
 
 return `
-
 <div class="item-card">
 
 <div style="text-align:center">
@@ -2685,9 +1915,7 @@ escapeHtml(url)+
 
 </div>
 
-<h3>
-${escapeHtml(read(m.name))}
-</h3>
+<h3>${escapeHtml(read(m.name))}</h3>
 
 <p>
 <strong>Member No:</strong>
@@ -2731,19 +1959,15 @@ Delete
 </button>
 
 </div>
-
 `;
 
-}
-)
-
+})
 );
 
 list.innerHTML=
 '<div class="item-grid">'+
 cards.join('')+
 '</div>';
-
 }
 
 
@@ -2753,13 +1977,9 @@ cards.join('')+
 
 async function loadMembers(){
 
-const list=
-document.getElementById(
-'membersList'
-);
+const list=document.getElementById('membersList');
 
-list.innerHTML=
-'<p>Loading members...</p>';
+list.innerHTML='<p>Loading members...</p>';
 
 const {data,error}=
 await supabaseClient
@@ -2767,12 +1987,7 @@ await supabaseClient
 .select(
 'id,created_at,name,phone,position,member_type,photo_url'
 )
-.order(
-'id',
-{
-ascending:false
-}
-);
+.order('id',{ascending:false});
 
 if(error){
 
@@ -2784,14 +1999,11 @@ escapeHtml(error.message)+
 '</div>';
 
 return;
-
 }
 
-allMembers=
-data || [];
+allMembers=data||[];
 
 await renderMembers();
-
 }
 
 
@@ -2812,42 +2024,25 @@ if(error){
 
 showMessage(
 'memberMessage',
-'Could not load member: '+
-error.message,
+'Could not load member: '+error.message,
 'error'
 );
 
 return;
-
 }
 
 editingMemberId=id;
+editingMemberOldPhoto=data.photo_url||null;
 
-editingMemberOldPhoto=
-data.photo_url || null;
-
-document.getElementById('memberName').value=
-read(data.name);
-
-document.getElementById('memberPhone').value=
-read(data.phone);
-
-document.getElementById('memberType').value=
-read(data.member_type);
-
-document.getElementById('memberPosition').value=
-read(data.position);
-
+document.getElementById('memberName').value=read(data.name);
+document.getElementById('memberPhone').value=read(data.phone);
+document.getElementById('memberType').value=read(data.member_type);
+document.getElementById('memberPosition').value=read(data.position);
 document.getElementById('memberPhoto').value='';
 
-const url=
-await getPhotoUrl(
-data.photo_url
-);
+const url=await getPhotoUrl(data.photo_url);
 
-document
-.getElementById('memberPhotoPreview')
-.innerHTML=
+document.getElementById('memberPhotoPreview').innerHTML=
 url
 ?
 '<img class="member-photo-preview" src="'+
@@ -2856,17 +2051,10 @@ escapeHtml(url)+
 :
 '<span class="photo-placeholder">Profile Photo</span>';
 
-document
-.getElementById('memberSaveButton')
-.textContent=
+document.getElementById('memberSaveButton').textContent=
 'Update Member';
-
 }
 
-
-/* =====================================================
-   RESET MEMBER
-===================================================== */
 
 function resetMemberForm(){
 
@@ -2879,42 +2067,27 @@ document.getElementById('memberType').value='';
 document.getElementById('memberPosition').value='';
 document.getElementById('memberPhoto').value='';
 
-document
-.getElementById('memberPhotoPreview')
-.innerHTML=
+document.getElementById('memberPhotoPreview').innerHTML=
 '<span class="photo-placeholder">Profile Photo</span>';
 
-document
-.getElementById('memberSaveButton')
-.textContent=
+document.getElementById('memberSaveButton').textContent=
 'Save Member';
-
 }
 
-
-/* =====================================================
-   DELETE MEMBER
-===================================================== */
 
 async function deleteMember(id){
 
-if(!confirm(
-'Are you sure you want to delete this member?'
-)){
-
+if(!confirm('Are you sure you want to delete this member?')){
 return;
-
 }
 
-const {data}=
-await supabaseClient
+const {data}=await supabaseClient
 .from('members')
 .select('photo_url')
 .eq('id',id)
 .single();
 
-const {error}=
-await supabaseClient
+const {error}=await supabaseClient
 .from('members')
 .delete()
 .eq('id',id);
@@ -2923,27 +2096,19 @@ if(error){
 
 showMessage(
 'memberMessage',
-'Could not delete member: '+
-error.message,
+'Could not delete member: '+error.message,
 'error'
 );
 
 return;
-
 }
 
 if(data?.photo_url){
-
-await deleteStoredPhoto(
-data.photo_url
-);
-
+await deleteStoredPhoto(data.photo_url);
 }
 
 await loadMembers();
-
 await loadDashboardStats();
-
 }
 
 
@@ -2952,6 +2117,15 @@ await loadDashboardStats();
 ===================================================== */
 
 async function generateMemberIdCard(id){
+
+const area=document.getElementById('idCardArea');
+
+area.innerHTML=
+'<div class="message">Loading member ID card...</div>';
+
+document
+.getElementById('idCardOverlay')
+.classList.remove('hidden');
 
 try{
 
@@ -2964,77 +2138,40 @@ await supabaseClient
 .eq('id',id)
 .single();
 
-if(error){
-
-throw error;
-
-}
+if(error)throw error;
 
 if(!data){
-
-throw new Error(
-'Member record could not be found.'
-);
-
+throw new Error('Member record could not be found.');
 }
 
 currentIdCardMember=data;
 
-const expiryInput=
-document.getElementById(
-'idCardExpiry'
-);
+currentIdCardPhotoUrl=
+await getPhotoUrl(data.photo_url);
 
-/*
-   Default expiry:
-   one year from today.
-*/
-
-if(!expiryInput.value){
-
-const date=
-new Date();
-
-date.setFullYear(
-date.getFullYear()+1
-);
-
-expiryInput.value=
-date.toISOString()
-.split('T')[0];
-
-}
-
-const photoUrl=
-await getPhotoUrl(
-data.photo_url
-);
+const expiry=
+document.getElementById('idCardExpiry').value||
+'2029-01-01';
 
 renderIdCard(
-data,
-photoUrl,
-expiryInput.value
+currentIdCardMember,
+currentIdCardPhotoUrl,
+expiry
 );
 
-document
-.getElementById('idCardOverlay')
-.classList.remove('hidden');
+}catch(error){
+
+console.error('ID CARD ERROR:',error);
+
+area.innerHTML=
+'<div class="message error">'+
+escapeHtml(
+'Could not generate ID card: '+
+(error?.message||'Unknown error')
+)+
+'</div>';
 
 }
-catch(error){
-
-console.error(
-'ID CARD ERROR:',
-error
-);
-
-alert(
-'Could not generate ID card:\n'+
-(error?.message || 'Unknown error')
-);
-
-}
-
 }
 
 
@@ -3042,22 +2179,15 @@ alert(
    RENDER ID CARD
 ===================================================== */
 
-function renderIdCard(
-member,
-photoUrl,
-expiry
-){
+function renderIdCard(member,photoUrl,expiry){
 
-const number=
-getMemberNumber(member.id);
+if(!member)return;
 
-let formattedExpiry=
-expiry || '';
+let formattedExpiry='Not set';
 
 if(expiry){
 
-const date=
-new Date(expiry+'T00:00:00');
+const date=new Date(expiry+'T00:00:00');
 
 if(!isNaN(date.getTime())){
 
@@ -3066,14 +2196,15 @@ date.toLocaleDateString(
 'en-GB',
 {
 day:'2-digit',
-month:'short',
+month:'long',
 year:'numeric'
 }
 );
 
 }
-
 }
+
+const number=getMemberNumber(member.id);
 
 const photoHtml=
 photoUrl
@@ -3084,9 +2215,7 @@ escapeHtml(photoUrl)+
 :
 '<div class="id-card-no-photo">No Photo</div>';
 
-document
-.getElementById('idCardArea')
-.innerHTML=`
+document.getElementById('idCardArea').innerHTML=`
 
 <div class="id-card">
 
@@ -3128,17 +2257,23 @@ ${escapeHtml(read(member.name))}
 
 <div class="id-card-row">
 <strong>Position:</strong>
-${escapeHtml(read(member.position) || 'Member')}
+${escapeHtml(
+read(member.position)||'Member'
+)}
 </div>
 
 <div class="id-card-row">
 <strong>Category:</strong>
-${escapeHtml(read(member.member_type))}
+${escapeHtml(
+read(member.member_type)||'Member'
+)}
 </div>
 
 <div class="id-card-row">
 <strong>Phone:</strong>
-${escapeHtml(read(member.phone) || 'Not provided')}
+${escapeHtml(
+read(member.phone)||'Not provided'
+)}
 </div>
 
 <div class="id-card-number">
@@ -3154,7 +2289,7 @@ MEMBER NO: ${escapeHtml(number)}
 
 <span>
 <strong>Valid Until:</strong>
-${escapeHtml(formattedExpiry || 'Not set')}
+${escapeHtml(formattedExpiry)}
 </span>
 
 <span>
@@ -3166,12 +2301,11 @@ YONA
 </div>
 
 `;
-
 }
 
 
 /* =====================================================
-   EXPIRY DATE CHANGE
+   ID CARD EXPIRY CHANGE
 ===================================================== */
 
 document
@@ -3180,25 +2314,12 @@ document
 'change',
 function(){
 
-if(!currentIdCardMember){
-
-return;
-
-}
-
-getPhotoUrl(
-currentIdCardMember.photo_url
-)
-.then(
-url=>{
+if(!currentIdCardMember)return;
 
 renderIdCard(
 currentIdCardMember,
-url,
+currentIdCardPhotoUrl,
 this.value
-);
-
-}
 );
 
 }
@@ -3215,12 +2336,10 @@ document
 .getElementById('idCardOverlay')
 .classList.add('hidden');
 
-document
-.getElementById('idCardArea')
-.innerHTML='';
+document.getElementById('idCardArea').innerHTML='';
 
 currentIdCardMember=null;
-
+currentIdCardPhotoUrl=null;
 }
 
 
@@ -3232,16 +2351,12 @@ function printMemberIdCard(){
 
 if(!currentIdCardMember){
 
-alert(
-'Please generate an ID card first.'
-);
+alert('Please generate an ID card first.');
 
 return;
-
 }
 
 window.print();
-
 }
 
 
@@ -3251,25 +2366,11 @@ window.print();
 
 async function saveExecutive(){
 
-const period=
-document.getElementById('executivePeriod')
-.value.trim();
-
-const name=
-document.getElementById('executiveName')
-.value.trim();
-
-const position=
-document.getElementById('executivePosition')
-.value.trim();
-
-const phone=
-document.getElementById('executivePhone')
-.value.trim();
-
-const file=
-document.getElementById('executivePhoto')
-.files?.[0];
+const period=document.getElementById('executivePeriod').value.trim();
+const name=document.getElementById('executiveName').value.trim();
+const position=document.getElementById('executivePosition').value.trim();
+const phone=document.getElementById('executivePhone').value.trim();
+const file=document.getElementById('executivePhoto').files?.[0];
 
 if(!name){
 
@@ -3280,18 +2381,15 @@ showMessage(
 );
 
 return;
-
 }
 
 try{
 
-let photo=
-editingExecutiveOldPhoto || null;
+let photo=editingExecutiveOldPhoto||null;
 
 if(file){
 
-photo=
-await uploadPersonPhoto(
+photo=await uploadPersonPhoto(
 file,
 'executive-photos',
 'executive'
@@ -3317,8 +2415,7 @@ await supabaseClient
 .update(record)
 .eq('id',editingExecutiveId);
 
-}
-else{
+}else{
 
 result=
 await supabaseClient
@@ -3327,21 +2424,10 @@ await supabaseClient
 
 }
 
-if(result.error){
+if(result.error)throw result.error;
 
-throw result.error;
-
-}
-
-if(
-file &&
-editingExecutiveOldPhoto
-){
-
-await deleteStoredPhoto(
-editingExecutiveOldPhoto
-);
-
+if(file&&editingExecutiveOldPhoto){
+await deleteStoredPhoto(editingExecutiveOldPhoto);
 }
 
 showMessage(
@@ -3351,88 +2437,56 @@ showMessage(
 );
 
 resetExecutiveForm();
-
 await loadExecutive();
-
 await loadDashboardStats();
 
-}
-catch(error){
-
-console.error(
-'EXECUTIVE ERROR:',
-error
-);
+}catch(error){
 
 showMessage(
 'executiveMessage',
-'Could not save executive: '+
-error.message,
+'Could not save executive: '+error.message,
 'error'
 );
 
 }
-
 }
 
 
 async function loadExecutive(){
 
-const list=
-document.getElementById(
-'executiveList'
-);
+const list=document.getElementById('executiveList');
 
-list.innerHTML=
-'Loading executive...';
+list.innerHTML='Loading executive...';
 
 const {data,error}=
 await supabaseClient
 .from('executive')
-.select(
-'id,period,name,position,phone,photo'
-)
-.order(
-'id',
-{
-ascending:false
-}
-);
+.select('id,period,name,position,phone,photo')
+.order('id',{ascending:false});
 
 if(error){
 
 list.innerHTML=
 '<div class="message error">'+
-'Error loading executive: '+
 escapeHtml(error.message)+
 '</div>';
 
 return;
-
 }
 
 if(!data?.length){
 
-list.innerHTML=
-'<p>No executive records found.</p>';
+list.innerHTML='<p>No executive records found.</p>';
 
 return;
-
 }
 
-const cards=
-await Promise.all(
+const cards=await Promise.all(
+data.map(async x=>{
 
-data.map(
-async x=>{
-
-const url=
-await getPhotoUrl(
-x.photo
-);
+const url=await getPhotoUrl(x.photo);
 
 return `
-
 <div class="item-card">
 
 <div style="text-align:center">
@@ -3449,24 +2503,13 @@ escapeHtml(url)+
 
 </div>
 
-<h3>
-${escapeHtml(read(x.name))}
-</h3>
+<h3>${escapeHtml(read(x.name))}</h3>
 
-<p>
-<strong>Period:</strong>
-${escapeHtml(read(x.period))}
-</p>
+<p><strong>Period:</strong> ${escapeHtml(read(x.period))}</p>
 
-<p>
-<strong>Position:</strong>
-${escapeHtml(read(x.position))}
-</p>
+<p><strong>Position:</strong> ${escapeHtml(read(x.position))}</p>
 
-<p>
-<strong>Phone:</strong>
-${escapeHtml(read(x.phone))}
-</p>
+<p><strong>Phone:</strong> ${escapeHtml(read(x.phone))}</p>
 
 <button
 type="button"
@@ -3483,19 +2526,15 @@ Delete
 </button>
 
 </div>
-
 `;
 
-}
-)
-
+})
 );
 
 list.innerHTML=
 '<div class="item-grid">'+
 cards.join('')+
 '</div>';
-
 }
 
 
@@ -3517,29 +2556,18 @@ error.message,
 );
 
 return;
-
 }
 
 editingExecutiveId=id;
+editingExecutiveOldPhoto=data.photo||null;
 
-editingExecutiveOldPhoto=
-data.photo || null;
-
-document.getElementById('executivePeriod').value=
-read(data.period);
-
-document.getElementById('executiveName').value=
-read(data.name);
-
-document.getElementById('executivePosition').value=
-read(data.position);
-
-document.getElementById('executivePhone').value=
-read(data.phone);
+document.getElementById('executivePeriod').value=read(data.period);
+document.getElementById('executiveName').value=read(data.name);
+document.getElementById('executivePosition').value=read(data.position);
+document.getElementById('executivePhone').value=read(data.phone);
 
 document.getElementById('executiveSaveButton').textContent=
 'Update Executive';
-
 }
 
 
@@ -3553,40 +2581,28 @@ editingExecutiveOldPhoto=null;
 'executiveName',
 'executivePosition',
 'executivePhone'
-]
-.forEach(
-id=>{
+].forEach(id=>{
 document.getElementById(id).value='';
-}
-);
+});
 
 document.getElementById('executivePhoto').value='';
 
 document.getElementById('executiveSaveButton').textContent=
 'Save Executive';
-
 }
 
 
 async function deleteExecutive(id){
 
-if(!confirm(
-'Delete this executive record?'
-)){
+if(!confirm('Delete this executive record?'))return;
 
-return;
-
-}
-
-const {data}=
-await supabaseClient
+const {data}=await supabaseClient
 .from('executive')
 .select('photo')
 .eq('id',id)
 .single();
 
-const {error}=
-await supabaseClient
+const {error}=await supabaseClient
 .from('executive')
 .delete()
 .eq('id',id);
@@ -3600,21 +2616,14 @@ error.message,
 );
 
 return;
-
 }
 
 if(data?.photo){
-
-await deleteStoredPhoto(
-data.photo
-);
-
+await deleteStoredPhoto(data.photo);
 }
 
 await loadExecutive();
-
 await loadDashboardStats();
-
 }
 
 
@@ -3624,23 +2633,12 @@ await loadDashboardStats();
 
 async function saveFinance(){
 
-const name=
-document.getElementById('financeName')
-.value.trim();
+const name=document.getElementById('financeName').value.trim();
+const type=document.getElementById('financeType').value;
+const amount=document.getElementById('financeAmount').value;
+const description=document.getElementById('financeDescription').value.trim();
 
-const type=
-document.getElementById('financeType')
-.value;
-
-const amount=
-document.getElementById('financeAmount')
-.value;
-
-const description=
-document.getElementById('financeDescription')
-.value.trim();
-
-if(!name || !type || !amount){
+if(!name||!type||!amount){
 
 showMessage(
 'financeMessage',
@@ -3649,7 +2647,6 @@ showMessage(
 );
 
 return;
-
 }
 
 const record={
@@ -3681,7 +2678,6 @@ result.error.message,
 );
 
 return;
-
 }
 
 showMessage(
@@ -3691,32 +2687,22 @@ showMessage(
 );
 
 resetFinanceForm();
-
 await loadFinance();
-
 await loadDashboardStats();
-
 }
 
 
 async function loadFinance(){
 
-const list=
-document.getElementById('financeList');
+const list=document.getElementById('financeList');
 
-list.innerHTML=
-'Loading finance records...';
+list.innerHTML='Loading finance records...';
 
 const {data,error}=
 await supabaseClient
 .from('finance')
 .select('*')
-.order(
-'id',
-{
-ascending:false
-}
-);
+.order('id',{ascending:false});
 
 if(error){
 
@@ -3726,16 +2712,13 @@ escapeHtml(error.message)+
 '</div>';
 
 return;
-
 }
 
 if(!data?.length){
 
-list.innerHTML=
-'<p>No finance records found.</p>';
+list.innerHTML='<p>No finance records found.</p>';
 
 return;
-
 }
 
 list.innerHTML=
@@ -3745,15 +2728,11 @@ data.map(x=>`
 
 <div class="item-card">
 
-<h3>
-${escapeHtml(read(x.name))}
-</h3>
+<h3>${escapeHtml(read(x.name))}</h3>
 
 <p>
 <strong>Type:</strong>
-${escapeHtml(
-read(x.type || x.category)
-)}
+${escapeHtml(read(x.type||x.category))}
 </p>
 
 <p>
@@ -3783,9 +2762,7 @@ Delete
 </div>
 
 `).join('')+
-
 '</div>';
-
 }
 
 
@@ -3807,23 +2784,14 @@ error.message,
 );
 
 return;
-
 }
 
 editingFinanceId=id;
 
-document.getElementById('financeName').value=
-read(data.name);
-
-document.getElementById('financeType').value=
-read(data.type || data.category);
-
-document.getElementById('financeAmount').value=
-read(data.amount);
-
-document.getElementById('financeDescription').value=
-read(data.description);
-
+document.getElementById('financeName').value=read(data.name);
+document.getElementById('financeType').value=read(data.type||data.category);
+document.getElementById('financeAmount').value=read(data.amount);
+document.getElementById('financeDescription').value=read(data.description);
 }
 
 
@@ -3836,25 +2804,15 @@ editingFinanceId=null;
 'financeType',
 'financeAmount',
 'financeDescription'
-]
-.forEach(
-id=>{
+].forEach(id=>{
 document.getElementById(id).value='';
-}
-);
-
+});
 }
 
 
 async function deleteFinance(id){
 
-if(!confirm(
-'Delete this finance record?'
-)){
-
-return;
-
-}
+if(!confirm('Delete this finance record?'))return;
 
 const {error}=
 await supabaseClient
@@ -3871,13 +2829,10 @@ error.message,
 );
 
 return;
-
 }
 
 await loadFinance();
-
 await loadDashboardStats();
-
 }
 
 
@@ -3887,13 +2842,8 @@ await loadDashboardStats();
 
 function previewMeetingPhoto(event){
 
-const file=
-event.target.files?.[0];
-
-const preview=
-document.getElementById(
-'meetingPhotoPreview'
-);
+const file=event.target.files?.[0];
+const preview=document.getElementById('meetingPhotoPreview');
 
 if(!file){
 
@@ -3901,7 +2851,6 @@ preview.innerHTML=
 '<span class="photo-placeholder">Meeting Photo</span>';
 
 return;
-
 }
 
 if(!validatePhoto(file)){
@@ -3912,23 +2861,18 @@ preview.innerHTML=
 '<span class="photo-placeholder">Meeting Photo</span>';
 
 return;
-
 }
 
-const reader=
-new FileReader();
+const reader=new FileReader();
 
 reader.onload=()=>{
-
 preview.innerHTML=
 '<img class="record-photo-preview" src="'+
 reader.result+
 '" alt="Meeting photo">';
-
 };
 
 reader.readAsDataURL(file);
-
 }
 
 
@@ -3945,30 +2889,15 @@ try{
 await requireSession();
 
 const record={
-
-meeting_date:
-document.getElementById('meetingDate').value,
-
-meeting_title:
-document.getElementById('meetingTitle').value.trim(),
-
-location:
-document.getElementById('meetingLocation').value.trim(),
-
-description:
-document.getElementById('meetingDescription').value.trim()
-
+meeting_date:document.getElementById('meetingDate').value,
+meeting_title:document.getElementById('meetingTitle').value.trim(),
+location:document.getElementById('meetingLocation').value.trim(),
+description:document.getElementById('meetingDescription').value.trim()
 };
 
-const file=
-document
-.getElementById('meetingPhoto')
-.files?.[0];
+const file=document.getElementById('meetingPhoto').files?.[0];
 
-if(
-!record.meeting_date ||
-!record.meeting_title
-){
+if(!record.meeting_date||!record.meeting_title){
 
 throw new Error(
 'Meeting date and title are required.'
@@ -3988,8 +2917,8 @@ file,
 }
 
 record.photo_url=
-newPhotoPath ||
-editingMeetingOldPhoto ||
+newPhotoPath||
+editingMeetingOldPhoto||
 null;
 
 let result;
@@ -4002,8 +2931,7 @@ await supabaseClient
 .update(record)
 .eq('id',editingMeetingId);
 
-}
-else{
+}else{
 
 result=
 await supabaseClient
@@ -4012,21 +2940,15 @@ await supabaseClient
 
 }
 
-if(result.error){
-
-throw result.error;
-
-}
+if(result.error)throw result.error;
 
 if(
-newPhotoPath &&
-editingMeetingOldPhoto &&
+newPhotoPath&&
+editingMeetingOldPhoto&&
 newPhotoPath!==editingMeetingOldPhoto
 ){
 
-await deleteStoredPhoto(
-editingMeetingOldPhoto
-);
+await deleteStoredPhoto(editingMeetingOldPhoto);
 
 }
 
@@ -4037,59 +2959,37 @@ showMessage(
 );
 
 resetMeetingForm();
-
 await loadMeetings();
-
 await loadDashboardStats();
 
-}
-catch(error){
-
-console.error(
-'MEETING SAVE ERROR:',
-error
-);
+}catch(error){
 
 if(newPhotoPath){
-
-await deleteStoredPhoto(
-newPhotoPath
-);
-
+await deleteStoredPhoto(newPhotoPath);
 }
 
 showMessage(
 'meetingMessage',
 'Could not save meeting:\n\n'+
-(error?.message || 'Unknown error'),
+(error?.message||'Unknown error'),
 'error'
 );
 
 }
-
 }
 
 
 async function loadMeetings(){
 
-const list=
-document.getElementById(
-'meetingsList'
-);
+const list=document.getElementById('meetingsList');
 
-list.innerHTML=
-'Loading meetings...';
+list.innerHTML='Loading meetings...';
 
 const {data,error}=
 await supabaseClient
 .from('meetings')
 .select('*')
-.order(
-'meeting_date',
-{
-ascending:false
-}
-);
+.order('meeting_date',{ascending:false});
 
 if(error){
 
@@ -4099,31 +2999,21 @@ escapeHtml(error.message)+
 '</div>';
 
 return;
-
 }
 
 if(!data?.length){
 
-list.innerHTML=
-'<p>No meetings found.</p>';
+list.innerHTML='<p>No meetings found.</p>';
 
 return;
-
 }
 
-const cards=
-await Promise.all(
+const cards=await Promise.all(
+data.map(async x=>{
 
-data.map(
-async x=>{
-
-const url=
-await getPhotoUrl(
-x.photo_url
-);
+const url=await getPhotoUrl(x.photo_url);
 
 return `
-
 <div class="meeting-card">
 
 ${
@@ -4136,32 +3026,13 @@ escapeHtml(url)+
 ''
 }
 
-<h3>
-${escapeHtml(
-read(x.meeting_title)
-)}
-</h3>
+<h3>${escapeHtml(read(x.meeting_title))}</h3>
 
-<p>
-<strong>Date:</strong>
-${escapeHtml(
-read(x.meeting_date)
-)}
-</p>
+<p><strong>Date:</strong> ${escapeHtml(read(x.meeting_date))}</p>
 
-<p>
-<strong>Location:</strong>
-${escapeHtml(
-read(x.location)
-)}
-</p>
+<p><strong>Location:</strong> ${escapeHtml(read(x.location))}</p>
 
-<p>
-<strong>Minutes:</strong>
-${escapeHtml(
-read(x.description || x.minutes)
-)}
-</p>
+<p><strong>Minutes:</strong> ${escapeHtml(read(x.description||x.minutes))}</p>
 
 <button
 type="button"
@@ -4178,17 +3049,12 @@ Delete
 </button>
 
 </div>
-
 `;
 
-}
-)
-
+})
 );
 
-list.innerHTML=
-cards.join('');
-
+list.innerHTML=cards.join('');
 }
 
 
@@ -4210,13 +3076,10 @@ error.message,
 );
 
 return;
-
 }
 
 editingMeetingId=id;
-
-editingMeetingOldPhoto=
-data.photo_url || null;
+editingMeetingOldPhoto=data.photo_url||null;
 
 document.getElementById('meetingDate').value=
 read(data.meeting_date);
@@ -4228,17 +3091,11 @@ document.getElementById('meetingLocation').value=
 read(data.location);
 
 document.getElementById('meetingDescription').value=
-read(
-data.description ||
-data.minutes
-);
+read(data.description||data.minutes);
 
 document.getElementById('meetingPhoto').value='';
 
-const url=
-await getPhotoUrl(
-data.photo_url
-);
+const url=await getPhotoUrl(data.photo_url);
 
 document.getElementById('meetingPhotoPreview').innerHTML=
 url
@@ -4248,7 +3105,6 @@ escapeHtml(url)+
 '" alt="Meeting photo">'
 :
 '<span class="photo-placeholder">Meeting Photo</span>';
-
 }
 
 
@@ -4262,40 +3118,28 @@ editingMeetingOldPhoto=null;
 'meetingTitle',
 'meetingLocation',
 'meetingDescription'
-]
-.forEach(
-id=>{
+].forEach(id=>{
 document.getElementById(id).value='';
-}
-);
+});
 
 document.getElementById('meetingPhoto').value='';
 
 document.getElementById('meetingPhotoPreview').innerHTML=
 '<span class="photo-placeholder">Meeting Photo</span>';
-
 }
 
 
 async function deleteMeeting(id){
 
-if(!confirm(
-'Delete this meeting?'
-)){
+if(!confirm('Delete this meeting?'))return;
 
-return;
-
-}
-
-const {data}=
-await supabaseClient
+const {data}=await supabaseClient
 .from('meetings')
 .select('photo_url')
 .eq('id',id)
 .single();
 
-const {error}=
-await supabaseClient
+const {error}=await supabaseClient
 .from('meetings')
 .delete()
 .eq('id',id);
@@ -4309,21 +3153,14 @@ error.message,
 );
 
 return;
-
 }
 
 if(data?.photo_url){
-
-await deleteStoredPhoto(
-data.photo_url
-);
-
+await deleteStoredPhoto(data.photo_url);
 }
 
 await loadMeetings();
-
 await loadDashboardStats();
-
 }
 
 
@@ -4333,13 +3170,8 @@ await loadDashboardStats();
 
 function previewEventPhoto(event){
 
-const file=
-event.target.files?.[0];
-
-const preview=
-document.getElementById(
-'eventPhotoPreview'
-);
+const file=event.target.files?.[0];
+const preview=document.getElementById('eventPhotoPreview');
 
 if(!file){
 
@@ -4347,7 +3179,6 @@ preview.innerHTML=
 '<span class="photo-placeholder">Event Photo</span>';
 
 return;
-
 }
 
 if(!validatePhoto(file)){
@@ -4358,23 +3189,18 @@ preview.innerHTML=
 '<span class="photo-placeholder">Event Photo</span>';
 
 return;
-
 }
 
-const reader=
-new FileReader();
+const reader=new FileReader();
 
 reader.onload=()=>{
-
 preview.innerHTML=
 '<img class="record-photo-preview" src="'+
 reader.result+
 '" alt="Event photo">';
-
 };
 
 reader.readAsDataURL(file);
-
 }
 
 
@@ -4391,30 +3217,15 @@ try{
 await requireSession();
 
 const record={
-
-title:
-document.getElementById('eventTitle').value.trim(),
-
-date:
-document.getElementById('eventDate').value,
-
-location:
-document.getElementById('eventLocation').value.trim(),
-
-description:
-document.getElementById('eventDescription').value.trim()
-
+title:document.getElementById('eventTitle').value.trim(),
+date:document.getElementById('eventDate').value,
+location:document.getElementById('eventLocation').value.trim(),
+description:document.getElementById('eventDescription').value.trim()
 };
 
-const file=
-document
-.getElementById('eventPhoto')
-.files?.[0];
+const file=document.getElementById('eventPhoto').files?.[0];
 
-if(
-!record.title ||
-!record.date
-){
+if(!record.title||!record.date){
 
 throw new Error(
 'Event title and date are required.'
@@ -4434,8 +3245,8 @@ file,
 }
 
 record.photo_url=
-newPhotoPath ||
-editingEventOldPhoto ||
+newPhotoPath||
+editingEventOldPhoto||
 null;
 
 let result;
@@ -4448,8 +3259,7 @@ await supabaseClient
 .update(record)
 .eq('id',editingEventId);
 
-}
-else{
+}else{
 
 result=
 await supabaseClient
@@ -4458,21 +3268,15 @@ await supabaseClient
 
 }
 
-if(result.error){
-
-throw result.error;
-
-}
+if(result.error)throw result.error;
 
 if(
-newPhotoPath &&
-editingEventOldPhoto &&
+newPhotoPath&&
+editingEventOldPhoto&&
 newPhotoPath!==editingEventOldPhoto
 ){
 
-await deleteStoredPhoto(
-editingEventOldPhoto
-);
+await deleteStoredPhoto(editingEventOldPhoto);
 
 }
 
@@ -4483,59 +3287,37 @@ showMessage(
 );
 
 resetEventForm();
-
 await loadEvents();
-
 await loadDashboardStats();
 
-}
-catch(error){
-
-console.error(
-'EVENT SAVE ERROR:',
-error
-);
+}catch(error){
 
 if(newPhotoPath){
-
-await deleteStoredPhoto(
-newPhotoPath
-);
-
+await deleteStoredPhoto(newPhotoPath);
 }
 
 showMessage(
 'eventMessage',
 'Could not save event:\n\n'+
-(error?.message || 'Unknown error'),
+(error?.message||'Unknown error'),
 'error'
 );
 
 }
-
 }
 
 
 async function loadEvents(){
 
-const list=
-document.getElementById(
-'eventsList'
-);
+const list=document.getElementById('eventsList');
 
-list.innerHTML=
-'Loading events...';
+list.innerHTML='Loading events...';
 
 const {data,error}=
 await supabaseClient
 .from('events')
 .select('*')
-.order(
-'date',
-{
-ascending:false
-}
-);
+.order('date',{ascending:false});
 
 if(error){
 
@@ -4545,31 +3327,21 @@ escapeHtml(error.message)+
 '</div>';
 
 return;
-
 }
 
 if(!data?.length){
 
-list.innerHTML=
-'<p>No events found.</p>';
+list.innerHTML='<p>No events found.</p>';
 
 return;
-
 }
 
-const cards=
-await Promise.all(
+const cards=await Promise.all(
+data.map(async x=>{
 
-data.map(
-async x=>{
-
-const url=
-await getPhotoUrl(
-x.photo_url
-);
+const url=await getPhotoUrl(x.photo_url);
 
 return `
-
 <div class="event-card">
 
 ${
@@ -4582,32 +3354,13 @@ escapeHtml(url)+
 ''
 }
 
-<h3>
-${escapeHtml(
-read(x.title)
-)}
-</h3>
+<h3>${escapeHtml(read(x.title))}</h3>
 
-<p>
-<strong>Date:</strong>
-${escapeHtml(
-read(x.date)
-)}
-</p>
+<p><strong>Date:</strong> ${escapeHtml(read(x.date))}</p>
 
-<p>
-<strong>Location:</strong>
-${escapeHtml(
-read(x.location)
-)}
-</p>
+<p><strong>Location:</strong> ${escapeHtml(read(x.location))}</p>
 
-<p>
-<strong>Description:</strong>
-${escapeHtml(
-read(x.description)
-)}
-</p>
+<p><strong>Description:</strong> ${escapeHtml(read(x.description))}</p>
 
 <button
 type="button"
@@ -4624,17 +3377,12 @@ Delete
 </button>
 
 </div>
-
 `;
 
-}
-)
-
+})
 );
 
-list.innerHTML=
-cards.join('');
-
+list.innerHTML=cards.join('');
 }
 
 
@@ -4656,32 +3404,18 @@ error.message,
 );
 
 return;
-
 }
 
 editingEventId=id;
+editingEventOldPhoto=data.photo_url||null;
 
-editingEventOldPhoto=
-data.photo_url || null;
-
-document.getElementById('eventTitle').value=
-read(data.title);
-
-document.getElementById('eventDate').value=
-read(data.date);
-
-document.getElementById('eventLocation').value=
-read(data.location);
-
-document.getElementById('eventDescription').value=
-read(data.description);
-
+document.getElementById('eventTitle').value=read(data.title);
+document.getElementById('eventDate').value=read(data.date);
+document.getElementById('eventLocation').value=read(data.location);
+document.getElementById('eventDescription').value=read(data.description);
 document.getElementById('eventPhoto').value='';
 
-const url=
-await getPhotoUrl(
-data.photo_url
-);
+const url=await getPhotoUrl(data.photo_url);
 
 document.getElementById('eventPhotoPreview').innerHTML=
 url
@@ -4691,7 +3425,6 @@ escapeHtml(url)+
 '" alt="Event photo">'
 :
 '<span class="photo-placeholder">Event Photo</span>';
-
 }
 
 
@@ -4705,40 +3438,28 @@ editingEventOldPhoto=null;
 'eventDate',
 'eventLocation',
 'eventDescription'
-]
-.forEach(
-id=>{
+].forEach(id=>{
 document.getElementById(id).value='';
-}
-);
+});
 
 document.getElementById('eventPhoto').value='';
 
 document.getElementById('eventPhotoPreview').innerHTML=
 '<span class="photo-placeholder">Event Photo</span>';
-
 }
 
 
 async function deleteEvent(id){
 
-if(!confirm(
-'Delete this event?'
-)){
+if(!confirm('Delete this event?'))return;
 
-return;
-
-}
-
-const {data}=
-await supabaseClient
+const {data}=await supabaseClient
 .from('events')
 .select('photo_url')
 .eq('id',id)
 .single();
 
-const {error}=
-await supabaseClient
+const {error}=await supabaseClient
 .from('events')
 .delete()
 .eq('id',id);
@@ -4752,21 +3473,14 @@ error.message,
 );
 
 return;
-
 }
 
 if(data?.photo_url){
-
-await deleteStoredPhoto(
-data.photo_url
-);
-
+await deleteStoredPhoto(data.photo_url);
 }
 
 await loadEvents();
-
 await loadDashboardStats();
-
 }
 
 
@@ -4776,28 +3490,21 @@ await loadDashboardStats();
 
 async function loadDocuments(){
 
-const list=
-document.getElementById(
-'documentsList'
-);
+const list=document.getElementById('documentsList');
 
-list.innerHTML=
-'Loading documents...';
+list.innerHTML='Loading documents...';
 
 const {data,error}=
 await supabaseClient
 .storage
 .from(DOCUMENT_BUCKET)
-.list(
-'',
-{
+.list('',{
 limit:100,
 sortBy:{
 column:'created_at',
 order:'desc'
 }
-}
-);
+});
 
 if(error){
 
@@ -4808,16 +3515,13 @@ escapeHtml(error.message)+
 '</div>';
 
 return;
-
 }
 
 if(!data?.length){
 
-list.innerHTML=
-'<p>No documents uploaded yet.</p>';
+list.innerHTML='<p>No documents uploaded yet.</p>';
 
 return;
-
 }
 
 list.innerHTML=
@@ -4830,10 +3534,7 @@ ${escapeHtml(f.name)}
 </div>
 
 <p class="small-text">
-${escapeHtml(
-f.metadata?.mimetype ||
-'File'
-)}
+${escapeHtml(f.metadata?.mimetype||'File')}
 </p>
 
 <button
@@ -4852,19 +3553,13 @@ Delete
 </div>
 
 `).join('');
-
 }
 
 
 async function uploadDocument(){
 
-const input=
-document.getElementById(
-'documentFile'
-);
-
-const file=
-input.files?.[0];
+const input=document.getElementById('documentFile');
+const file=input.files?.[0];
 
 if(!file){
 
@@ -4875,7 +3570,6 @@ showMessage(
 );
 
 return;
-
 }
 
 if(file.size>50*1024*1024){
@@ -4887,41 +3581,31 @@ showMessage(
 );
 
 return;
-
 }
 
 const name=
 Date.now()+
 '_'+
-file.name.replace(
-/[^a-zA-Z0-9._-]/g,
-'_'
-);
+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
 
 const {error}=
 await supabaseClient
 .storage
 .from(DOCUMENT_BUCKET)
-.upload(
-name,
-file,
-{
+.upload(name,file,{
 cacheControl:'3600',
 upsert:false
-}
-);
+});
 
 if(error){
 
 showMessage(
 'documentMessage',
-'Upload failed: '+
-error.message,
+'Upload failed: '+error.message,
 'error'
 );
 
 return;
-
 }
 
 input.value='';
@@ -4933,27 +3617,19 @@ showMessage(
 );
 
 await loadDocuments();
-
 await loadDashboardStats();
-
 }
 
 
 async function saveTypedDocument(){
 
 const title=
-document.getElementById(
-'typedDocumentTitle'
-)
-.value.trim();
+document.getElementById('typedDocumentTitle').value.trim();
 
 const content=
-document.getElementById(
-'typedDocumentContent'
-)
-.value.trim();
+document.getElementById('typedDocumentContent').value.trim();
 
-if(!title || !content){
+if(!title||!content){
 
 showMessage(
 'typedDocumentMessage',
@@ -4962,20 +3638,15 @@ showMessage(
 );
 
 return;
-
 }
 
 const name=
 Date.now()+
 '_'+
-title.replace(
-/[^a-zA-Z0-9._-]/g,
-'_'
-)+
+title.replace(/[^a-zA-Z0-9._-]/g,'_')+
 '.txt';
 
-const blob=
-new Blob(
+const blob=new Blob(
 [
 'YOUTHS OF NDASEI ASSOCIATION (YONA)\n'+
 'Unity and Development\n\n'+
@@ -4984,23 +3655,17 @@ title+
 '\n\n'+
 content
 ],
-{
-type:'text/plain'
-}
+{type:'text/plain'}
 );
 
 const {error}=
 await supabaseClient
 .storage
 .from(DOCUMENT_BUCKET)
-.upload(
-name,
-blob,
-{
+.upload(name,blob,{
 cacheControl:'3600',
 upsert:false
-}
-);
+});
 
 if(error){
 
@@ -5012,16 +3677,10 @@ error.message,
 );
 
 return;
-
 }
 
-document.getElementById(
-'typedDocumentTitle'
-).value='';
-
-document.getElementById(
-'typedDocumentContent'
-).value='';
+document.getElementById('typedDocumentTitle').value='';
+document.getElementById('typedDocumentContent').value='';
 
 showMessage(
 'typedDocumentMessage',
@@ -5030,9 +3689,7 @@ showMessage(
 );
 
 await loadDocuments();
-
 await loadDashboardStats();
-
 }
 
 
@@ -5042,10 +3699,7 @@ const {data,error}=
 await supabaseClient
 .storage
 .from(DOCUMENT_BUCKET)
-.createSignedUrl(
-name,
-3600
-);
+.createSignedUrl(name,3600);
 
 if(error){
 
@@ -5055,26 +3709,15 @@ error.message
 );
 
 return;
-
 }
 
-window.open(
-data.signedUrl,
-'_blank'
-);
-
+window.open(data.signedUrl,'_blank');
 }
 
 
 async function deleteDocument(name){
 
-if(!confirm(
-'Delete this document?'
-)){
-
-return;
-
-}
+if(!confirm('Delete this document?'))return;
 
 const {error}=
 await supabaseClient
@@ -5092,18 +3735,15 @@ error.message,
 );
 
 return;
-
 }
 
 await loadDocuments();
-
 await loadDashboardStats();
-
 }
 
 
 /* =====================================================
-   MEMBER SEARCH EVENT
+   MEMBER SEARCH
 ===================================================== */
 
 document
@@ -5111,9 +3751,7 @@ document
 .addEventListener(
 'input',
 function(){
-
 renderMembers();
-
 }
 );
 
@@ -5130,19 +3768,14 @@ supabaseClient
 console.log(
 'Auth state:',
 event,
-session
-?
-'SESSION ACTIVE'
-:
-'NO SESSION'
+session?'SESSION ACTIVE':'NO SESSION'
 );
 
 if(session){
 
 showApp();
 
-}
-else{
+}else{
 
 document
 .getElementById('appSection')
@@ -5169,7 +3802,6 @@ document
 function(event){
 
 event.preventDefault();
-
 login();
 
 }
@@ -5181,9 +3813,7 @@ document
 .addEventListener(
 'click',
 function(){
-
 logout();
-
 }
 );
 
@@ -5193,9 +3823,7 @@ document
 .addEventListener(
 'submit',
 function(event){
-
 saveMember(event);
-
 }
 );
 
@@ -5205,9 +3833,7 @@ document
 .addEventListener(
 'click',
 function(){
-
 resetMemberForm();
-
 }
 );
 
@@ -5217,9 +3843,7 @@ document
 .addEventListener(
 'change',
 function(event){
-
 previewMemberPhoto(event);
-
 }
 );
 
@@ -5229,9 +3853,7 @@ document
 .addEventListener(
 'change',
 function(event){
-
 previewMeetingPhoto(event);
-
 }
 );
 
@@ -5241,9 +3863,7 @@ document
 .addEventListener(
 'change',
 function(event){
-
 previewEventPhoto(event);
-
 }
 );
 
@@ -5253,15 +3873,13 @@ document
 .addEventListener(
 'click',
 function(){
-
 saveExecutive();
-
 }
 );
 
 
 /* =====================================================
-   EXISTING SESSION
+   INITIAL SESSION
 ===================================================== */
 
 (async function(){
@@ -5281,15 +3899,13 @@ error
 );
 
 return;
-
 }
 
 if(data?.session){
 
 showApp();
 
-}
-else{
+}else{
 
 document
 .getElementById('appSection')
@@ -5301,8 +3917,7 @@ document
 
 }
 
-}
-catch(error){
+}catch(error){
 
 console.error(
 'Initial session error:',
