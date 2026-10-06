@@ -104,6 +104,18 @@ button:disabled{
   background:#198754
 }
 
+.record-button{
+  background:#d93025
+}
+
+.stop-button{
+  background:#555
+}
+
+.remove-media-button{
+  background:#777
+}
+
 .message{
   padding:12px;
   border-radius:8px;
@@ -180,7 +192,8 @@ button:disabled{
   background:#f8fafc;
   border:1px solid #ddd;
   border-radius:10px;
-  padding:15px
+  padding:15px;
+  margin-bottom:14px
 }
 
 .item-card h3,
@@ -313,6 +326,7 @@ button:disabled{
 }
 
 /* CAMERA */
+
 .camera-buttons{
   display:flex;
   justify-content:center;
@@ -360,7 +374,64 @@ button:disabled{
   margin:5px 0 0
 }
 
+/* MEDIA */
+
+.media-box{
+  background:#f8fafc;
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:15px;
+  margin:15px 0
+}
+
+.media-box h3{
+  color:#075aaa;
+  margin-top:0
+}
+
+.media-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:8px
+}
+
+.media-buttons button{
+  margin:0
+}
+
+.media-status{
+  margin:8px 0;
+  font-size:13px;
+  font-weight:bold
+}
+
+.recording{
+  color:#d93025
+}
+
+.media-preview{
+  width:100%;
+  max-width:600px;
+  border-radius:10px;
+  margin-top:10px;
+  background:#111
+}
+
+audio.media-preview{
+  height:50px
+}
+
+.media-existing{
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:10px;
+  padding:10px;
+  margin-top:10px
+}
+
 /* ID CARD */
+
 .id-modal{
   position:fixed;
   inset:0;
@@ -464,6 +535,7 @@ button:disabled{
 }
 
 @media(max-width:800px){
+
   .dashboard{
     grid-template-columns:repeat(2,minmax(0,1fr))
   }
@@ -475,9 +547,11 @@ button:disabled{
   .member-form-grid{
     grid-template-columns:1fr
   }
+
 }
 
 @media(max-width:500px){
+
   .container{
     padding:12px
   }
@@ -502,9 +576,11 @@ button:disabled{
   .camera-buttons button{
     width:100%
   }
+
 }
 
 @media print{
+
   body>*:not(#idCardModal){
     display:none!important
   }
@@ -526,6 +602,7 @@ button:disabled{
   .id-card{
     box-shadow:none
   }
+
 }
 </style>
 </head>
@@ -541,22 +618,45 @@ button:disabled{
 <div class="container">
 
 <section id="loginSection" class="card auth-box">
+
   <h2 class="section-title">YONA Login</h2>
-  <p class="small-text">Sign in with the YONA Supabase account.</p>
 
-  <input id="loginEmail" type="email" placeholder="Email">
-  <input id="loginPassword" type="password" placeholder="Password">
+  <p class="small-text">
+    Sign in with the YONA Supabase account.
+  </p>
 
-  <button id="loginButton" onclick="login()">Login</button>
+  <input
+    id="loginEmail"
+    type="email"
+    placeholder="Email"
+  >
+
+  <input
+    id="loginPassword"
+    type="password"
+    placeholder="Password"
+  >
+
+  <button id="loginButton" onclick="login()">
+    Login
+  </button>
 
   <div id="loginMessage"></div>
+
 </section>
 
 
 <section id="appSection" class="hidden">
 
 <div class="topbar">
-  <button class="logout" onclick="logout()">Logout</button>
+
+  <button
+    class="logout"
+    onclick="logout()"
+  >
+    Logout
+  </button>
+
 </div>
 
 
@@ -565,27 +665,54 @@ button:disabled{
 <div class="dashboard stats-dashboard">
 
 <div class="dashboard-card stat-card">
-  <div id="totalMembers" class="stat-number">0</div>
+
+  <div id="totalMembers" class="stat-number">
+    0
+  </div>
+
   <h3>Total Members</h3>
+
   <p>All registered YONA members.</p>
+
 </div>
 
+
 <div class="dashboard-card stat-card">
-  <div id="activeMembers" class="stat-number">0</div>
+
+  <div id="activeMembers" class="stat-number">
+    0
+  </div>
+
   <h3>Active Members</h3>
+
   <p>Members with valid cards.</p>
+
 </div>
 
+
 <div class="dashboard-card stat-card">
-  <div id="expiredMembers" class="stat-number">0</div>
+
+  <div id="expiredMembers" class="stat-number">
+    0
+  </div>
+
   <h3>Expired Cards</h3>
+
   <p>Cards past their expiry date.</p>
+
 </div>
 
+
 <div class="dashboard-card stat-card">
-  <div id="executiveMembers" class="stat-number">0</div>
+
+  <div id="executiveMembers" class="stat-number">
+    0
+  </div>
+
   <h3>Executives</h3>
+
   <p>Executive leadership records.</p>
+
 </div>
 
 </div>
@@ -594,65 +721,125 @@ button:disabled{
 <div class="dashboard">
 
 <div class="dashboard-card">
+
   <div class="dashboard-icon">👥</div>
+
   <h3>Members</h3>
+
   <p>Manage YONA members and membership records.</p>
-  <button onclick="showSection('membersSection');loadMembers()">Members</button>
+
+  <button onclick="showSection('membersSection');loadMembers()">
+    Members
+  </button>
+
 </div>
 
+
 <div class="dashboard-card">
+
   <div class="dashboard-icon">👔</div>
+
   <h3>Executive</h3>
+
   <p>Manage executive leadership and periods.</p>
-  <button onclick="showSection('executiveSection');loadExecutive()">Executive</button>
+
+  <button onclick="showSection('executiveSection');loadExecutive()">
+    Executive
+  </button>
+
 </div>
 
+
 <div class="dashboard-card">
+
   <div class="dashboard-icon">💰</div>
+
   <h3>Finance</h3>
+
   <p>Manage contributions and financial records.</p>
-  <button onclick="showSection('financeSection');loadFinance()">Finance</button>
+
+  <button onclick="showSection('financeSection');loadFinance()">
+    Finance
+  </button>
+
 </div>
 
+
 <div class="dashboard-card">
+
   <div class="dashboard-icon">📝</div>
+
   <h3>Meetings</h3>
-  <p>Store meetings and minutes.</p>
-  <button onclick="showSection('meetingsSection');loadMeetings()">Meetings</button>
+
+  <p>Store meetings, photos, videos and voice recordings.</p>
+
+  <button onclick="showSection('meetingsSection');loadMeetings()">
+    Meetings
+  </button>
+
 </div>
 
+
 <div class="dashboard-card">
+
   <div class="dashboard-icon">📅</div>
+
   <h3>Events</h3>
-  <p>Manage YONA events and activities.</p>
-  <button onclick="showSection('eventsSection');loadEvents()">Events</button>
+
+  <p>Manage events, photos, videos and voice recordings.</p>
+
+  <button onclick="showSection('eventsSection');loadEvents()">
+    Events
+  </button>
+
 </div>
+
 
 <div class="dashboard-card">
+
   <div class="dashboard-icon">📁</div>
+
   <h3>Documents</h3>
+
   <p>Store important YONA documents.</p>
-  <button onclick="showSection('documentsSection');loadDocuments()">Documents</button>
+
+  <button onclick="showSection('documentsSection');loadDocuments()">
+    Documents
+  </button>
+
+</div>
+
 </div>
 
 </div>
-</div>
 
 
-<!-- MEMBERS -->
+<!-- =========================
+     MEMBERS
+========================= -->
 
-<section id="membersSection" class="hidden card">
+<section
+  id="membersSection"
+  class="hidden card"
+>
 
 <h2 class="section-title">Members</h2>
 
+
 <div class="member-search-box">
+
   <input
     id="memberSearch"
     type="search"
     placeholder="🔎 Search members by name, phone, position, category or member number"
     oninput="renderMembers()"
   >
-  <div id="memberSearchStatus" class="small-text"></div>
+
+  <div
+    id="memberSearchStatus"
+    class="small-text"
+  ></div>
+
 </div>
 
 
@@ -661,151 +848,213 @@ button:disabled{
 <div class="member-form-grid">
 
 <div>
-  <label>Name</label>
-  <input id="memberName" required>
+
+<label>Name</label>
+
+<input
+  id="memberName"
+  required
+>
+
 </div>
+
 
 <div>
-  <label>Phone</label>
-  <input id="memberPhone">
+
+<label>Phone</label>
+
+<input
+  id="memberPhone"
+>
+
 </div>
+
 
 <div>
-  <label>Member Category</label>
-  <select id="memberType" required>
-    <option value="">Select category</option>
-    <option>Old Member</option>
-    <option>Current Member</option>
-    <option>Probationary Member</option>
-  </select>
+
+<label>Member Category</label>
+
+<select
+  id="memberType"
+  required
+>
+
+<option value="">
+Select category
+</option>
+
+<option>Old Member</option>
+
+<option>Current Member</option>
+
+<option>Probationary Member</option>
+
+</select>
+
 </div>
+
 
 <div>
-  <label>Position</label>
-  <input id="memberPosition">
+
+<label>Position</label>
+
+<input
+  id="memberPosition"
+>
+
 </div>
+
 
 <div>
-  <label>Member Number</label>
-  <input
-    id="memberNumber"
-    type="number"
-    min="1"
-    max="999"
-    placeholder="Example: 001"
-  >
+
+<label>Member Number</label>
+
+<input
+  id="memberNumber"
+  type="number"
+  min="1"
+  max="999"
+  placeholder="Example: 001"
+>
+
 </div>
+
 
 <div>
-  <label>Card Expiry Date</label>
-  <input id="expiryDate" type="date">
+
+<label>Card Expiry Date</label>
+
+<input
+  id="expiryDate"
+  type="date"
+>
+
 </div>
 
 
-<!-- MEMBER PHOTO WITH CAMERA -->
+<!-- MEMBER PHOTO -->
 
 <div class="full member-photo-wrap">
 
-  <label><strong>Profile Photo</strong></label>
-
-  <div id="memberPhotoPreview" class="member-photo-preview">
-    <span class="photo-placeholder">Profile Photo</span>
-  </div>
-
-  <div class="camera-buttons">
-
-    <button
-      type="button"
-      onclick="openMemberCamera()"
-    >
-      📷 Take Photo
-    </button>
-
-    <button
-      type="button"
-      onclick="document.getElementById('memberPhoto').click()"
-    >
-      🖼️ Add Photo
-    </button>
-
-  </div>
-
-  <input
-    id="memberPhoto"
-    type="file"
-    accept="image/*"
-    onchange="previewMemberPhoto(event)"
-    style="display:none"
-  >
+<label>
+<strong>Profile Photo</strong>
+</label>
 
 
-  <!-- CAMERA BOX -->
+<div
+  id="memberPhotoPreview"
+  class="member-photo-preview"
+>
 
-  <div
-    id="memberCameraBox"
-    class="camera-box"
-    style="display:none"
-  >
-
-    <video
-      id="memberCamera"
-      class="camera-video"
-      autoplay
-      playsinline
-    ></video>
-
-    <div class="camera-actions">
-
-      <button
-        type="button"
-        onclick="takeMemberPhoto()"
-      >
-        📸 Capture Photo
-      </button>
-
-      <button
-        type="button"
-        class="cancel-button"
-        onclick="closeMemberCamera()"
-      >
-        Cancel
-      </button>
-
-    </div>
-
-    <p class="camera-help">
-      Position the member's face inside the camera and tap Capture Photo.
-    </p>
-
-    <canvas
-      id="memberCameraCanvas"
-      style="display:none"
-    ></canvas>
-
-  </div>
+<span class="photo-placeholder">
+Profile Photo
+</span>
 
 </div>
 
-</div>
 
-<button id="memberSaveButton" type="submit">
-  Save Member
+<div class="camera-buttons">
+
+<button
+  type="button"
+  onclick="openMemberCamera()"
+>
+📷 Take Photo
 </button>
+
+
+<button
+  type="button"
+  onclick="document.getElementById('memberPhoto').click()"
+>
+🖼️ Add Photo
+</button>
+
+</div>
+
+
+<input
+  id="memberPhoto"
+  type="file"
+  accept="image/*"
+  onchange="previewMemberPhoto(event)"
+  style="display:none"
+>
+
+
+<div
+  id="memberCameraBox"
+  class="camera-box"
+  style="display:none"
+>
+
+<video
+  id="memberCamera"
+  class="camera-video"
+  autoplay
+  playsinline
+></video>
+
+
+<div class="camera-actions">
+
+<button
+  type="button"
+  onclick="takeMemberPhoto()"
+>
+📸 Capture Photo
+</button>
+
+
+<button
+  type="button"
+  class="cancel-button"
+  onclick="closeMemberCamera()"
+>
+Cancel
+</button>
+
+</div>
+
+
+<p class="camera-help">
+Position the member's face inside the camera and tap Capture Photo.
+</p>
+
+
+<canvas
+  id="memberCameraCanvas"
+  style="display:none"
+></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+
+<button
+  id="memberSaveButton"
+  type="submit"
+>
+Save Member
+</button>
+
 
 <button
   type="button"
   class="cancel-button"
   onclick="resetMemberForm()"
 >
-  Cancel
+Cancel
 </button>
 
 </form>
 
+
 <div id="memberMessage"></div>
 
-
-<!-- QR -->
 
 <div
   id="qrCard"
@@ -814,30 +1063,32 @@ button:disabled{
 >
 
 <h3 class="section-title">
-  Member QR Code
+Member QR Code
 </h3>
 
 <p class="small-text">
-  Scan this QR code to open the public YONA member verification page.
+Scan this QR code to open the public YONA member verification page.
 </p>
+
 
 <div style="text-align:center;padding:15px">
 
-  <div id="qrcode"></div>
+<div id="qrcode"></div>
 
-  <div
-    id="qrLink"
-    class="small-text"
-    style="word-break:break-all;margin-top:10px"
-  ></div>
+<div
+  id="qrLink"
+  class="small-text"
+  style="word-break:break-all;margin-top:10px"
+></div>
 
 </div>
+
 
 <button
   type="button"
   onclick="openQrLink()"
 >
-  Open Verification
+Open Verification
 </button>
 
 </div>
@@ -845,100 +1096,228 @@ button:disabled{
 
 <div id="membersList"></div>
 
+
 <button
   class="back-button"
   onclick="backToDashboard()"
 >
-  Back to Dashboard
+Back to Dashboard
 </button>
 
 </section>
 
 
-<!-- EXECUTIVE -->
+<!-- =========================
+     EXECUTIVE
+========================= -->
 
-<section id="executiveSection" class="hidden card">
+<section
+  id="executiveSection"
+  class="hidden card"
+>
 
-<h2 class="section-title">Executive</h2>
+<h2 class="section-title">
+Executive
+</h2>
+
 
 <div class="member-form-grid">
 
 <div>
-  <label>Period</label>
-  <input
-    id="executivePeriod"
-    placeholder="e.g. 2026-2029"
-  >
+
+<label>Period</label>
+
+<input
+  id="executivePeriod"
+  placeholder="e.g. 2026-2029"
+>
+
 </div>
 
-<div>
-  <label>Name</label>
-  <input id="executiveName">
-</div>
 
 <div>
-  <label>Position</label>
-  <input id="executivePosition">
+
+<label>Name</label>
+
+<input
+  id="executiveName"
+>
+
 </div>
 
+
 <div>
-  <label>Phone</label>
-  <input id="executivePhone">
+
+<label>Position</label>
+
+<input
+  id="executivePosition"
+>
+
 </div>
+
+
+<div>
+
+<label>Phone</label>
+
+<input
+  id="executivePhone"
+>
+
+</div>
+
 
 <div class="full">
-  <label>Photo</label>
-  <input
-    id="executivePhoto"
-    type="file"
-    accept="image/*"
-  >
+
+<label>
+<strong>Executive Photo</strong>
+</label>
+
+
+<div
+  id="executivePhotoPreview"
+  class="activity-photo-preview"
+>
+
+<span class="activity-photo-placeholder">
+Executive Photo
+</span>
+
+</div>
+
+
+<div class="camera-buttons">
+
+<button
+  type="button"
+  onclick="openExecutiveCamera()"
+>
+📷 Take Photo
+</button>
+
+
+<button
+  type="button"
+  onclick="document.getElementById('executivePhoto').click()"
+>
+🖼️ Add Photo
+</button>
+
+</div>
+
+
+<input
+  id="executivePhoto"
+  type="file"
+  accept="image/*"
+  onchange="previewExecutivePhoto(event)"
+  style="display:none"
+>
+
+
+<div
+  id="executiveCameraBox"
+  class="camera-box"
+  style="display:none"
+>
+
+<video
+  id="executiveCamera"
+  class="camera-video"
+  autoplay
+  playsinline
+></video>
+
+
+<div class="camera-actions">
+
+<button
+  type="button"
+  onclick="takeExecutivePhoto()"
+>
+📸 Capture Photo
+</button>
+
+
+<button
+  type="button"
+  class="cancel-button"
+  onclick="closeExecutiveCamera()"
+>
+Cancel
+</button>
+
+</div>
+
+
+<canvas
+  id="executiveCameraCanvas"
+  style="display:none"
+></canvas>
+
 </div>
 
 </div>
+
+</div>
+
 
 <button
   id="executiveSaveButton"
   onclick="saveExecutive(event)"
 >
-  Save Executive
+Save Executive
 </button>
+
 
 <button
   class="cancel-button"
   onclick="resetExecutiveForm()"
 >
-  Cancel
+Cancel
 </button>
 
+
 <div id="executiveMessage"></div>
+
 <div id="executiveList"></div>
+
 
 <button
   class="back-button"
   onclick="backToDashboard()"
 >
-  Back to Dashboard
+Back to Dashboard
 </button>
 
 </section>
 
 
-<!-- FINANCE -->
+<!-- =========================
+     FINANCE
+========================= -->
 
-<section id="financeSection" class="hidden card">
+<section
+  id="financeSection"
+  class="hidden card"
+>
 
-<h2 class="section-title">Finance</h2>
+<h2 class="section-title">
+Finance
+</h2>
+
 
 <input
   id="financeName"
   placeholder="Name"
 >
 
+
 <select id="financeType">
 
 <option value="">
-  Select transaction type
+Select transaction type
 </option>
 
 <option>Registration</option>
@@ -952,6 +1331,7 @@ button:disabled{
 
 </select>
 
+
 <input
   id="financeAmount"
   type="number"
@@ -959,199 +1339,694 @@ button:disabled{
   placeholder="Amount"
 >
 
+
 <textarea
   id="financeDescription"
   placeholder="Description"
 ></textarea>
 
+
 <button onclick="saveFinance(event)">
-  Save Transaction
+Save Transaction
 </button>
+
 
 <button
   class="cancel-button"
   onclick="resetFinanceForm()"
 >
-  Cancel
+Cancel
 </button>
 
+
 <div id="financeMessage"></div>
+
 <div id="financeList"></div>
+
 
 <button
   class="back-button"
   onclick="backToDashboard()"
 >
-  Back to Dashboard
+Back to Dashboard
 </button>
 
 </section>
 
 
-<!-- MEETINGS -->
+<!-- =========================
+     MEETINGS
+========================= -->
 
-<section id="meetingsSection" class="hidden card">
+<section
+  id="meetingsSection"
+  class="hidden card"
+>
 
-<h2 class="section-title">Meetings</h2>
+<h2 class="section-title">
+Meetings
+</h2>
 
-<input id="meetingDate" type="date">
+
+<input
+  id="meetingDate"
+  type="date"
+>
+
 
 <input
   id="meetingTitle"
   placeholder="Meeting Title"
 >
 
+
 <input
   id="meetingLocation"
   placeholder="Location"
 >
+
 
 <textarea
   id="meetingDescription"
   placeholder="Minutes / Description"
 ></textarea>
 
+
+<!-- MEETING PHOTO -->
+
 <div class="activity-photo-wrap">
+
+<label>
+<strong>Meeting Photo</strong>
+</label>
+
 
 <div
   id="meetingPhotoPreview"
   class="activity-photo-preview"
 >
-  <span class="activity-photo-placeholder">
-    Meeting Photo
-  </span>
+
+<span class="activity-photo-placeholder">
+Meeting Photo
+</span>
+
 </div>
 
-<br>
+
+<div class="camera-buttons">
+
+<button
+  type="button"
+  onclick="openMeetingCamera()"
+>
+📷 Take Photo
+</button>
+
+
+<button
+  type="button"
+  onclick="document.getElementById('meetingPhoto').click()"
+>
+🖼️ Add Photo
+</button>
+
+</div>
+
 
 <input
   id="meetingPhoto"
   type="file"
   accept="image/*"
-  onchange="previewActivityPhoto(event,'meetingPhotoPreview')"
+  onchange="previewMeetingPhoto(event)"
+  style="display:none"
 >
+
+
+<div
+  id="meetingCameraBox"
+  class="camera-box"
+  style="display:none"
+>
+
+<video
+  id="meetingCamera"
+  class="camera-video"
+  autoplay
+  playsinline
+></video>
+
+
+<div class="camera-actions">
+
+<button
+  type="button"
+  onclick="takeMeetingPhoto()"
+>
+📸 Capture Photo
+</button>
+
+
+<button
+  type="button"
+  class="cancel-button"
+  onclick="closeMeetingCamera()"
+>
+Cancel
+</button>
 
 </div>
 
-<button onclick="saveMeeting(event)">
-  Save Meeting
+
+<canvas
+  id="meetingCameraCanvas"
+  style="display:none"
+></canvas>
+
+</div>
+
+</div>
+
+
+<!-- MEETING VIDEO -->
+
+<div class="media-box">
+
+<h3>🎥 Meeting Video</h3>
+
+<p class="small-text">
+Record a meeting video using the camera or select an existing video.
+</p>
+
+
+<input
+  id="meetingVideo"
+  type="file"
+  accept="video/*"
+  onchange="previewMeetingVideoFile(event)"
+>
+
+
+<div class="media-buttons">
+
+<button
+  type="button"
+  onclick="startMeetingVideoRecording()"
+>
+🎥 Start Video
 </button>
+
+
+<button
+  type="button"
+  class="stop-button"
+  onclick="stopMeetingVideoRecording()"
+>
+⏹ Stop Video
+</button>
+
+
+<button
+  type="button"
+  class="remove-media-button"
+  onclick="removeMeetingVideo()"
+>
+🗑️ Remove Video
+</button>
+
+</div>
+
+
+<div
+  id="meetingVideoStatus"
+  class="media-status"
+></div>
+
+
+<video
+  id="meetingVideoPreview"
+  class="media-preview"
+  controls
+  style="display:none"
+></video>
+
+
+<div
+  id="meetingVideoCameraBox"
+  class="camera-box"
+  style="display:none"
+>
+
+<video
+  id="meetingVideoCamera"
+  class="camera-video"
+  autoplay
+  muted
+  playsinline
+></video>
+
+</div>
+
+</div>
+
+
+<!-- MEETING AUDIO -->
+
+<div class="media-box">
+
+<h3>🎙️ Meeting Voice Recording</h3>
+
+<p class="small-text">
+Record the meeting voice/audio and save it with the meeting.
+</p>
+
+
+<input
+  id="meetingAudio"
+  type="file"
+  accept="audio/*"
+  onchange="previewMeetingAudioFile(event)"
+>
+
+
+<div class="media-buttons">
+
+<button
+  type="button"
+  class="record-button"
+  onclick="startMeetingRecording()"
+>
+🎙️ Start Recording
+</button>
+
+
+<button
+  type="button"
+  class="stop-button"
+  onclick="stopMeetingRecording()"
+>
+⏹ Stop Recording
+</button>
+
+
+<button
+  type="button"
+  class="remove-media-button"
+  onclick="removeMeetingAudio()"
+>
+🗑️ Remove Audio
+</button>
+
+</div>
+
+
+<div
+  id="meetingAudioStatus"
+  class="media-status"
+></div>
+
+
+<audio
+  id="meetingAudioPreview"
+  class="media-preview"
+  controls
+  style="display:none"
+></audio>
+
+</div>
+
+
+<button onclick="saveMeeting(event)">
+Save Meeting
+</button>
+
 
 <button
   class="cancel-button"
   onclick="resetMeetingForm()"
 >
-  Cancel
+Cancel
 </button>
 
+
 <div id="meetingMessage"></div>
+
 <div id="meetingsList"></div>
+
 
 <button
   class="back-button"
   onclick="backToDashboard()"
 >
-  Back to Dashboard
+Back to Dashboard
 </button>
 
 </section>
 
 
-<!-- EVENTS -->
+<!-- =========================
+     EVENTS
+========================= -->
 
-<section id="eventsSection" class="hidden card">
+<section
+  id="eventsSection"
+  class="hidden card"
+>
 
-<h2 class="section-title">Events</h2>
+<h2 class="section-title">
+Events
+</h2>
+
 
 <input
   id="eventTitle"
   placeholder="Event Title"
 >
 
+
 <input
   id="eventDate"
   type="date"
 >
+
 
 <input
   id="eventLocation"
   placeholder="Location"
 >
 
+
 <textarea
   id="eventDescription"
   placeholder="Description"
 ></textarea>
 
+
+<!-- EVENT PHOTO -->
+
 <div class="activity-photo-wrap">
+
+<label>
+<strong>Event Photo</strong>
+</label>
+
 
 <div
   id="eventPhotoPreview"
   class="activity-photo-preview"
 >
-  <span class="activity-photo-placeholder">
-    Event Photo
-  </span>
+
+<span class="activity-photo-placeholder">
+Event Photo
+</span>
+
 </div>
 
-<br>
+
+<div class="camera-buttons">
+
+<button
+  type="button"
+  onclick="openEventCamera()"
+>
+📷 Take Photo
+</button>
+
+
+<button
+  type="button"
+  onclick="document.getElementById('eventPhoto').click()"
+>
+🖼️ Add Photo
+</button>
+
+</div>
+
 
 <input
   id="eventPhoto"
   type="file"
   accept="image/*"
-  onchange="previewActivityPhoto(event,'eventPhotoPreview')"
+  onchange="previewEventPhoto(event)"
+  style="display:none"
 >
+
+
+<div
+  id="eventCameraBox"
+  class="camera-box"
+  style="display:none"
+>
+
+<video
+  id="eventCamera"
+  class="camera-video"
+  autoplay
+  playsinline
+></video>
+
+
+<div class="camera-actions">
+
+<button
+  type="button"
+  onclick="takeEventPhoto()"
+>
+📸 Capture Photo
+</button>
+
+
+<button
+  type="button"
+  class="cancel-button"
+  onclick="closeEventCamera()"
+>
+Cancel
+</button>
 
 </div>
 
-<button onclick="saveEvent(event)">
-  Save Event
+
+<canvas
+  id="eventCameraCanvas"
+  style="display:none"
+></canvas>
+
+</div>
+
+</div>
+
+
+<!-- EVENT VIDEO -->
+
+<div class="media-box">
+
+<h3>🎥 Event Video</h3>
+
+<p class="small-text">
+Record an event video using the camera or select an existing video.
+</p>
+
+
+<input
+  id="eventVideo"
+  type="file"
+  accept="video/*"
+  onchange="previewEventVideoFile(event)"
+>
+
+
+<div class="media-buttons">
+
+<button
+  type="button"
+  onclick="startEventVideoRecording()"
+>
+🎥 Start Video
 </button>
+
+
+<button
+  type="button"
+  class="stop-button"
+  onclick="stopEventVideoRecording()"
+>
+⏹ Stop Video
+</button>
+
+
+<button
+  type="button"
+  class="remove-media-button"
+  onclick="removeEventVideo()"
+>
+🗑️ Remove Video
+</button>
+
+</div>
+
+
+<div
+  id="eventVideoStatus"
+  class="media-status"
+></div>
+
+
+<video
+  id="eventVideoPreview"
+  class="media-preview"
+  controls
+  style="display:none"
+></video>
+
+
+<div
+  id="eventVideoCameraBox"
+  class="camera-box"
+  style="display:none"
+>
+
+<video
+  id="eventVideoCamera"
+  class="camera-video"
+  autoplay
+  muted
+  playsinline
+></video>
+
+</div>
+
+</div>
+
+
+<!-- EVENT AUDIO -->
+
+<div class="media-box">
+
+<h3>🎙️ Event Voice Recording</h3>
+
+<p class="small-text">
+Record event voice/audio and save it with the event.
+</p>
+
+
+<input
+  id="eventAudio"
+  type="file"
+  accept="audio/*"
+  onchange="previewEventAudioFile(event)"
+>
+
+
+<div class="media-buttons">
+
+<button
+  type="button"
+  class="record-button"
+  onclick="startEventRecording()"
+>
+🎙️ Start Recording
+</button>
+
+
+<button
+  type="button"
+  class="stop-button"
+  onclick="stopEventRecording()"
+>
+⏹ Stop Recording
+</button>
+
+
+<button
+  type="button"
+  class="remove-media-button"
+  onclick="removeEventAudio()"
+>
+🗑️ Remove Audio
+</button>
+
+</div>
+
+
+<div
+  id="eventAudioStatus"
+  class="media-status"
+></div>
+
+
+<audio
+  id="eventAudioPreview"
+  class="media-preview"
+  controls
+  style="display:none"
+></audio>
+
+</div>
+
+
+<button onclick="saveEvent(event)">
+Save Event
+</button>
+
 
 <button
   class="cancel-button"
   onclick="resetEventForm()"
 >
-  Cancel
+Cancel
 </button>
 
+
 <div id="eventMessage"></div>
+
 <div id="eventsList"></div>
+
 
 <button
   class="back-button"
   onclick="backToDashboard()"
 >
-  Back to Dashboard
+Back to Dashboard
 </button>
 
 </section>
 
 
-<!-- DOCUMENTS -->
+<!-- =========================
+     DOCUMENTS
+========================= -->
 
-<section id="documentsSection" class="hidden card">
+<section
+  id="documentsSection"
+  class="hidden card"
+>
 
-<h2 class="section-title">Documents</h2>
+<h2 class="section-title">
+Documents
+</h2>
+
 
 <div class="document-upload-box">
 
 <h3>Create Document</h3>
+
 
 <input
   id="typedDocumentTitle"
   placeholder="Document Title"
 >
 
+
 <textarea
   id="typedDocumentContent"
   placeholder="Type document content..."
 ></textarea>
 
+
 <button onclick="saveTypedDocument()">
-  Save Document
+Save Document
 </button>
+
 
 <div id="typedDocumentMessage"></div>
 
@@ -1162,26 +2037,31 @@ button:disabled{
 
 <h3>Upload Document</h3>
 
+
 <input
   id="documentFile"
   type="file"
 >
 
+
 <button onclick="uploadDocument()">
-  Upload Document
+Upload Document
 </button>
+
 
 <div id="documentMessage"></div>
 
 </div>
 
+
 <div id="documentsList"></div>
+
 
 <button
   class="back-button"
   onclick="backToDashboard()"
 >
-  Back to Dashboard
+Back to Dashboard
 </button>
 
 </section>
@@ -1197,6 +2077,10 @@ button:disabled{
 
 
 <script>
+
+/* =========================
+   SUPABASE
+========================= */
 
 const SUPABASE_URL =
 "https://atxeeymireukwbbsczbv.supabase.co";
@@ -1222,7 +2106,9 @@ window.supabase.createClient(
 );
 
 
-/* EDITING VARIABLES */
+/* =========================
+   EDITING VARIABLES
+========================= */
 
 let editingMemberId = null;
 let editingMemberOldPhoto = null;
@@ -1234,22 +2120,88 @@ let editingFinanceId = null;
 
 let editingMeetingId = null;
 let editingMeetingOldPhoto = null;
+let editingMeetingOldVideo = null;
+let editingMeetingOldAudio = null;
 
 let editingEventId = null;
 let editingEventOldPhoto = null;
+let editingEventOldVideo = null;
+let editingEventOldAudio = null;
 
 
-/* NEW CAMERA PHOTO VARIABLE */
+/* =========================
+   MEMBER CAMERA
+========================= */
 
 let selectedMemberPhotoFile = null;
-
-
-/* CAMERA STREAM */
-
 let memberCameraStream = null;
 
 
-/* HELPERS */
+/* =========================
+   EXECUTIVE CAMERA
+========================= */
+
+let selectedExecutivePhotoFile = null;
+let executiveCameraStream = null;
+
+
+/* =========================
+   MEETING PHOTO CAMERA
+========================= */
+
+let selectedMeetingPhotoFile = null;
+let meetingCameraStream = null;
+
+
+/* =========================
+   EVENT PHOTO CAMERA
+========================= */
+
+let selectedEventPhotoFile = null;
+let eventCameraStream = null;
+
+
+/* =========================
+   MEETING AUDIO
+========================= */
+
+let meetingMediaRecorder = null;
+let meetingAudioChunks = [];
+let meetingAudioFile = null;
+
+
+/* =========================
+   EVENT AUDIO
+========================= */
+
+let eventMediaRecorder = null;
+let eventAudioChunks = [];
+let eventAudioFile = null;
+
+
+/* =========================
+   MEETING VIDEO
+========================= */
+
+let meetingVideoRecorder = null;
+let meetingVideoChunks = [];
+let meetingVideoFile = null;
+let meetingVideoStream = null;
+
+
+/* =========================
+   EVENT VIDEO
+========================= */
+
+let eventVideoRecorder = null;
+let eventVideoChunks = [];
+let eventVideoFile = null;
+let eventVideoStream = null;
+
+
+/* =========================
+   HELPERS
+========================= */
 
 function escapeHtml(v){
 
@@ -1259,17 +2211,6 @@ function escapeHtml(v){
     .replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;')
     .replace(/'/g,'&#039;');
-
-}
-
-
-function escapeJs(v){
-
-  return String(v ?? '')
-    .replace(/\\/g,'\\\\')
-    .replace(/'/g,"\\'")
-    .replace(/\n/g,'\\n')
-    .replace(/\r/g,'\\r');
 
 }
 
@@ -1287,6 +2228,13 @@ function showMessage(id,msg,type=''){
       '</div>';
 
   }
+
+}
+
+
+function read(v){
+
+  return v == null ? '' : String(v);
 
 }
 
@@ -1312,6 +2260,8 @@ function showSection(id){
 
 function backToDashboard(){
 
+  stopAllMedia();
+
   document
     .querySelectorAll('#appSection>section')
     .forEach(
@@ -1325,14 +2275,9 @@ function backToDashboard(){
 }
 
 
-function read(v){
-
-  return v == null ? '' : String(v);
-
-}
-
-
-/* LOGIN */
+/* =========================
+   LOGIN
+========================= */
 
 async function login(){
 
@@ -1386,6 +2331,8 @@ async function login(){
 
 async function logout(){
 
+  stopAllMedia();
+
   await supabaseClient.auth.signOut();
 
   document
@@ -1434,7 +2381,9 @@ async function requireSession(){
 }
 
 
-/* PHOTO */
+/* =========================
+   PHOTO HELPERS
+========================= */
 
 function validatePhoto(file){
 
@@ -1451,7 +2400,7 @@ function validatePhoto(file){
   if(file.size > 5 * 1024 * 1024){
 
     alert(
-      'Profile photo must be 5 MB or smaller.'
+      'Photo must be 5 MB or smaller.'
     );
 
     return false;
@@ -1483,17 +2432,14 @@ async function uploadPersonPhoto(
       '_'
     );
 
-  const path =
+  const cleanPath =
     folder+'/'+
     prefix+'_'+
-    Date.now()+'_ '+
+    Date.now()+'_'+
     Math.random()
       .toString(36)
       .slice(2,8)+'_'+
     safe;
-
-  const cleanPath =
-    path.replace('_ ','_');
 
   const {error} =
     await supabaseClient
@@ -1521,10 +2467,18 @@ async function deleteStoredPhoto(path){
 
   if(path.startsWith('http')) return;
 
-  await supabaseClient
-    .storage
-    .from(DOCUMENT_BUCKET)
-    .remove([path]);
+  try{
+
+    await supabaseClient
+      .storage
+      .from(DOCUMENT_BUCKET)
+      .remove([path]);
+
+  }catch(e){
+
+    console.error(e);
+
+  }
 
 }
 
@@ -1549,7 +2503,9 @@ async function getPhotoUrl(path){
 }
 
 
-/* GALLERY PHOTO */
+/* =========================
+   MEMBER PHOTO
+========================= */
 
 function previewMemberPhoto(event){
 
@@ -1566,28 +2522,22 @@ function previewMemberPhoto(event){
     selectedMemberPhotoFile = null;
 
     p.innerHTML =
-      '<span class="photo-placeholder">'+
-      'Profile Photo'+
-      '</span>';
+      '<span class="photo-placeholder">Profile Photo</span>';
 
     return;
 
   }
 
-
   selectedMemberPhotoFile = f;
 
-
-  const r =
-    new FileReader();
+  const r = new FileReader();
 
   r.onload = () => {
 
     p.innerHTML =
-      '<img '+
-      'class="member-photo-preview" '+
-      'src="'+r.result+'" '+
-      'alt="Profile Preview">';
+      '<img class="member-photo-preview" src="'+
+      r.result+
+      '" alt="Profile Preview">';
 
   };
 
@@ -1595,10 +2545,6 @@ function previewMemberPhoto(event){
 
 }
 
-
-/* =========================
-   MEMBER CAMERA
-========================= */
 
 async function openMemberCamera(){
 
@@ -1611,7 +2557,6 @@ async function openMemberCamera(){
     document.getElementById(
       'memberCamera'
     );
-
 
   if(
     !navigator.mediaDevices ||
@@ -1626,25 +2571,19 @@ async function openMemberCamera(){
 
   }
 
-
   try{
 
     closeMemberCamera();
 
-
     memberCameraStream =
       await navigator.mediaDevices.getUserMedia({
-
         video:{
           facingMode:{
             ideal:'environment'
           }
         },
-
         audio:false
-
       });
-
 
     video.srcObject =
       memberCameraStream;
@@ -1652,21 +2591,16 @@ async function openMemberCamera(){
     box.style.display =
       'block';
 
-
     try{
       await video.play();
     }catch(e){}
 
-
   }catch(error){
 
-    console.error(
-      'Camera error:',
-      error
-    );
+    console.error(error);
 
     alert(
-      'Camera access was not allowed. Please allow camera permission in your browser and try again.'
+      'Camera access was not allowed. Please allow camera permission and try again.'
     );
 
   }
@@ -1691,27 +2625,24 @@ function takeMemberPhoto(){
       'memberPhotoPreview'
     );
 
-
   if(
     !video.videoWidth ||
     !video.videoHeight
   ){
 
     alert(
-      'Camera is not ready yet. Please wait a moment and try again.'
+      'Camera is not ready yet.'
     );
 
     return;
 
   }
 
-
   canvas.width =
     video.videoWidth;
 
   canvas.height =
     video.videoHeight;
-
 
   const context =
     canvas.getContext('2d');
@@ -1724,21 +2655,18 @@ function takeMemberPhoto(){
     canvas.height
   );
 
-
   canvas.toBlob(
-
     function(blob){
 
       if(!blob){
 
         alert(
-          'Could not capture photo. Please try again.'
+          'Could not capture photo.'
         );
 
         return;
 
       }
-
 
       selectedMemberPhotoFile =
         new File(
@@ -1751,35 +2679,25 @@ function takeMemberPhoto(){
           }
         );
 
-
       const imageUrl =
         URL.createObjectURL(
           selectedMemberPhotoFile
         );
 
-
       preview.innerHTML =
-        '<img '+
-        'class="member-photo-preview" '+
-        'src="'+imageUrl+'" '+
-        'alt="Captured Member Photo">';
-
-
-      /* Clear gallery input because
-         camera photo is now selected */
+        '<img class="member-photo-preview" src="'+
+        imageUrl+
+        '" alt="Captured Member Photo">';
 
       document
         .getElementById('memberPhoto')
         .value = '';
 
-
       closeMemberCamera();
 
     },
-
     'image/jpeg',
     0.90
-
   );
 
 }
@@ -1799,18 +2717,14 @@ function closeMemberCamera(){
 
   }
 
-
   const video =
     document.getElementById(
       'memberCamera'
     );
 
   if(video){
-
     video.srcObject = null;
-
   }
-
 
   const box =
     document.getElementById(
@@ -1818,54 +2732,1704 @@ function closeMemberCamera(){
     );
 
   if(box){
+    box.style.display = 'none';
+  }
 
-    box.style.display =
-      'none';
+}
+
+
+/* =========================
+   EXECUTIVE CAMERA
+========================= */
+
+function previewExecutivePhoto(event){
+
+  const f =
+    event.target.files?.[0];
+
+  const p =
+    document.getElementById(
+      'executivePhotoPreview'
+    );
+
+  if(!f || !validatePhoto(f)){
+
+    selectedExecutivePhotoFile = null;
+
+    p.innerHTML =
+      '<span class="activity-photo-placeholder">Executive Photo</span>';
+
+    return;
+
+  }
+
+  selectedExecutivePhotoFile = f;
+
+  const r = new FileReader();
+
+  r.onload = () => {
+
+    p.innerHTML =
+      '<img class="activity-photo-preview" src="'+
+      r.result+
+      '" alt="Executive photo">';
+
+  };
+
+  r.readAsDataURL(f);
+
+}
+
+
+async function openExecutiveCamera(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia
+  ){
+
+    alert('Camera is not available. Use Add Photo instead.');
+
+    return;
+
+  }
+
+  try{
+
+    closeExecutiveCamera();
+
+    executiveCameraStream =
+      await navigator.mediaDevices.getUserMedia({
+        video:{
+          facingMode:{
+            ideal:'environment'
+          }
+        },
+        audio:false
+      });
+
+    const video =
+      document.getElementById(
+        'executiveCamera'
+      );
+
+    video.srcObject =
+      executiveCameraStream;
+
+    document.getElementById(
+      'executiveCameraBox'
+    ).style.display='block';
+
+    try{
+      await video.play();
+    }catch(e){}
+
+  }catch(e){
+
+    alert(
+      'Camera access was not allowed.'
+    );
 
   }
 
 }
 
 
-/* ACTIVITY PHOTO */
+function takeExecutivePhoto(){
 
-function previewActivityPhoto(
-  event,
-  targetId
-){
+  const video =
+    document.getElementById(
+      'executiveCamera'
+    );
 
-  const f =
-    event.target.files?.[0];
+  const canvas =
+    document.getElementById(
+      'executiveCameraCanvas'
+    );
 
-  const p =
-    document.getElementById(targetId);
+  if(
+    !video.videoWidth ||
+    !video.videoHeight
+  ){
 
-  if(!f || !validatePhoto(f)){
-
-    p.innerHTML =
-      '<span class="activity-photo-placeholder">'+
-      'No Photo'+
-      '</span>';
+    alert('Camera is not ready yet.');
 
     return;
 
   }
 
+  canvas.width =
+    video.videoWidth;
 
-  const r =
-    new FileReader();
+  canvas.height =
+    video.videoHeight;
 
-  r.onload = () => {
+  canvas
+    .getContext('2d')
+    .drawImage(
+      video,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+  canvas.toBlob(
+    blob=>{
+
+      if(!blob) return;
+
+      selectedExecutivePhotoFile =
+        new File(
+          [blob],
+          'executive_camera_'+
+          Date.now()+
+          '.jpg',
+          {
+            type:'image/jpeg'
+          }
+        );
+
+      const url =
+        URL.createObjectURL(
+          selectedExecutivePhotoFile
+        );
+
+      document.getElementById(
+        'executivePhotoPreview'
+      ).innerHTML =
+        '<img class="activity-photo-preview" src="'+
+        url+
+        '" alt="Executive photo">';
+
+      document.getElementById(
+        'executivePhoto'
+      ).value='';
+
+      closeExecutiveCamera();
+
+    },
+    'image/jpeg',
+    0.90
+  );
+
+}
+
+
+function closeExecutiveCamera(){
+
+  if(executiveCameraStream){
+
+    executiveCameraStream
+      .getTracks()
+      .forEach(
+        t=>t.stop()
+      );
+
+    executiveCameraStream=null;
+
+  }
+
+  const video =
+    document.getElementById(
+      'executiveCamera'
+    );
+
+  if(video){
+    video.srcObject=null;
+  }
+
+  const box =
+    document.getElementById(
+      'executiveCameraBox'
+    );
+
+  if(box){
+    box.style.display='none';
+  }
+
+}
+
+
+/* =========================
+   MEETING PHOTO CAMERA
+========================= */
+
+function previewMeetingPhoto(event){
+
+  const f =
+    event.target.files?.[0];
+
+  const p =
+    document.getElementById(
+      'meetingPhotoPreview'
+    );
+
+  if(!f || !validatePhoto(f)){
+
+    selectedMeetingPhotoFile=null;
 
     p.innerHTML =
-      '<img '+
-      'class="activity-photo-preview" '+
-      'src="'+r.result+'" '+
-      'alt="Photo Preview">';
+      '<span class="activity-photo-placeholder">Meeting Photo</span>';
+
+    return;
+
+  }
+
+  selectedMeetingPhotoFile=f;
+
+  const r=new FileReader();
+
+  r.onload=()=>{
+
+    p.innerHTML =
+      '<img class="activity-photo-preview" src="'+
+      r.result+
+      '" alt="Meeting photo">';
 
   };
 
   r.readAsDataURL(f);
+
+}
+
+
+async function openMeetingCamera(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia
+  ){
+
+    alert('Camera is not available.');
+
+    return;
+
+  }
+
+  try{
+
+    closeMeetingCamera();
+
+    meetingCameraStream =
+      await navigator.mediaDevices.getUserMedia({
+        video:{
+          facingMode:{
+            ideal:'environment'
+          }
+        },
+        audio:false
+      });
+
+    const video =
+      document.getElementById(
+        'meetingCamera'
+      );
+
+    video.srcObject =
+      meetingCameraStream;
+
+    document.getElementById(
+      'meetingCameraBox'
+    ).style.display='block';
+
+    try{
+      await video.play();
+    }catch(e){}
+
+  }catch(e){
+
+    alert(
+      'Camera access was not allowed.'
+    );
+
+  }
+
+}
+
+
+function takeMeetingPhoto(){
+
+  const video =
+    document.getElementById(
+      'meetingCamera'
+    );
+
+  const canvas =
+    document.getElementById(
+      'meetingCameraCanvas'
+    );
+
+  if(
+    !video.videoWidth ||
+    !video.videoHeight
+  ){
+
+    alert('Camera is not ready yet.');
+
+    return;
+
+  }
+
+  canvas.width =
+    video.videoWidth;
+
+  canvas.height =
+    video.videoHeight;
+
+  canvas
+    .getContext('2d')
+    .drawImage(
+      video,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+  canvas.toBlob(
+    blob=>{
+
+      if(!blob) return;
+
+      selectedMeetingPhotoFile =
+        new File(
+          [blob],
+          'meeting_camera_'+
+          Date.now()+
+          '.jpg',
+          {
+            type:'image/jpeg'
+          }
+        );
+
+      const url =
+        URL.createObjectURL(
+          selectedMeetingPhotoFile
+        );
+
+      document.getElementById(
+        'meetingPhotoPreview'
+      ).innerHTML =
+        '<img class="activity-photo-preview" src="'+
+        url+
+        '" alt="Meeting photo">';
+
+      document.getElementById(
+        'meetingPhoto'
+      ).value='';
+
+      closeMeetingCamera();
+
+    },
+    'image/jpeg',
+    0.90
+  );
+
+}
+
+
+function closeMeetingCamera(){
+
+  if(meetingCameraStream){
+
+    meetingCameraStream
+      .getTracks()
+      .forEach(
+        t=>t.stop()
+      );
+
+    meetingCameraStream=null;
+
+  }
+
+  const video =
+    document.getElementById(
+      'meetingCamera'
+    );
+
+  if(video){
+    video.srcObject=null;
+  }
+
+  const box =
+    document.getElementById(
+      'meetingCameraBox'
+    );
+
+  if(box){
+    box.style.display='none';
+  }
+
+}
+
+
+/* =========================
+   EVENT PHOTO CAMERA
+========================= */
+
+function previewEventPhoto(event){
+
+  const f =
+    event.target.files?.[0];
+
+  const p =
+    document.getElementById(
+      'eventPhotoPreview'
+    );
+
+  if(!f || !validatePhoto(f)){
+
+    selectedEventPhotoFile=null;
+
+    p.innerHTML =
+      '<span class="activity-photo-placeholder">Event Photo</span>';
+
+    return;
+
+  }
+
+  selectedEventPhotoFile=f;
+
+  const r=new FileReader();
+
+  r.onload=()=>{
+
+    p.innerHTML =
+      '<img class="activity-photo-preview" src="'+
+      r.result+
+      '" alt="Event photo">';
+
+  };
+
+  r.readAsDataURL(f);
+
+}
+
+
+async function openEventCamera(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia
+  ){
+
+    alert('Camera is not available.');
+
+    return;
+
+  }
+
+  try{
+
+    closeEventCamera();
+
+    eventCameraStream =
+      await navigator.mediaDevices.getUserMedia({
+        video:{
+          facingMode:{
+            ideal:'environment'
+          }
+        },
+        audio:false
+      });
+
+    const video =
+      document.getElementById(
+        'eventCamera'
+      );
+
+    video.srcObject =
+      eventCameraStream;
+
+    document.getElementById(
+      'eventCameraBox'
+    ).style.display='block';
+
+    try{
+      await video.play();
+    }catch(e){}
+
+  }catch(e){
+
+    alert(
+      'Camera access was not allowed.'
+    );
+
+  }
+
+}
+
+
+function takeEventPhoto(){
+
+  const video =
+    document.getElementById(
+      'eventCamera'
+    );
+
+  const canvas =
+    document.getElementById(
+      'eventCameraCanvas'
+    );
+
+  if(
+    !video.videoWidth ||
+    !video.videoHeight
+  ){
+
+    alert('Camera is not ready yet.');
+
+    return;
+
+  }
+
+  canvas.width =
+    video.videoWidth;
+
+  canvas.height =
+    video.videoHeight;
+
+  canvas
+    .getContext('2d')
+    .drawImage(
+      video,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+  canvas.toBlob(
+    blob=>{
+
+      if(!blob) return;
+
+      selectedEventPhotoFile =
+        new File(
+          [blob],
+          'event_camera_'+
+          Date.now()+
+          '.jpg',
+          {
+            type:'image/jpeg'
+          }
+        );
+
+      const url =
+        URL.createObjectURL(
+          selectedEventPhotoFile
+        );
+
+      document.getElementById(
+        'eventPhotoPreview'
+      ).innerHTML =
+        '<img class="activity-photo-preview" src="'+
+        url+
+        '" alt="Event photo">';
+
+      document.getElementById(
+        'eventPhoto'
+      ).value='';
+
+      closeEventCamera();
+
+    },
+    'image/jpeg',
+    0.90
+  );
+
+}
+
+
+function closeEventCamera(){
+
+  if(eventCameraStream){
+
+    eventCameraStream
+      .getTracks()
+      .forEach(
+        t=>t.stop()
+      );
+
+    eventCameraStream=null;
+
+  }
+
+  const video =
+    document.getElementById(
+      'eventCamera'
+    );
+
+  if(video){
+    video.srcObject=null;
+  }
+
+  const box =
+    document.getElementById(
+      'eventCameraBox'
+    );
+
+  if(box){
+    box.style.display='none';
+  }
+
+}
+
+
+/* =========================
+   MEDIA HELPERS
+========================= */
+
+function getAudioMimeType(){
+
+  const types=[
+    'audio/webm;codecs=opus',
+    'audio/webm',
+    'audio/ogg;codecs=opus',
+    'audio/mp4'
+  ];
+
+  return types.find(
+    t=>MediaRecorder.isTypeSupported(t)
+  ) || '';
+
+}
+
+
+function getVideoMimeType(){
+
+  const types=[
+    'video/webm;codecs=vp9,opus',
+    'video/webm;codecs=vp8,opus',
+    'video/webm',
+    'video/mp4'
+  ];
+
+  return types.find(
+    t=>MediaRecorder.isTypeSupported(t)
+  ) || '';
+
+}
+
+
+async function uploadActivityMedia(
+  file,
+  folder,
+  prefix
+){
+
+  if(!file) return null;
+
+  if(file.size > 100*1024*1024){
+
+    throw new Error(
+      'Media file is larger than 100 MB.'
+    );
+
+  }
+
+  const safe =
+    file.name.replace(
+      /[^a-zA-Z0-9._-]/g,
+      '_'
+    );
+
+  const path =
+    folder+'/'+
+    prefix+'_'+
+    Date.now()+'_'+
+    Math.random()
+      .toString(36)
+      .slice(2,8)+'_'+
+    safe;
+
+  const {error} =
+    await supabaseClient
+      .storage
+      .from(DOCUMENT_BUCKET)
+      .upload(
+        path,
+        file,
+        {
+          upsert:false,
+          cacheControl:'3600',
+          contentType:file.type
+        }
+      );
+
+  if(error) throw error;
+
+  return path;
+
+}
+
+
+/* =========================
+   MEETING AUDIO
+========================= */
+
+async function startMeetingRecording(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia ||
+    typeof MediaRecorder==='undefined'
+  ){
+
+    alert(
+      'Audio recording is not supported in this browser.'
+    );
+
+    return;
+
+  }
+
+  try{
+
+    if(meetingMediaRecorder){
+      return;
+    }
+
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+        audio:true
+      });
+
+    meetingAudioChunks=[];
+
+    const mime =
+      getAudioMimeType();
+
+    meetingMediaRecorder =
+      mime
+        ? new MediaRecorder(
+            stream,
+            {mimeType:mime}
+          )
+        : new MediaRecorder(stream);
+
+    meetingMediaRecorder.ondataavailable =
+      e=>{
+
+        if(e.data && e.data.size){
+          meetingAudioChunks.push(e.data);
+        }
+
+      };
+
+    meetingMediaRecorder.onstop =
+      ()=>{
+
+        const type =
+          meetingMediaRecorder.mimeType ||
+          'audio/webm';
+
+        const blob =
+          new Blob(
+            meetingAudioChunks,
+            {type}
+          );
+
+        const extension =
+          type.includes('mp4')
+            ? 'm4a'
+            : type.includes('ogg')
+              ? 'ogg'
+              : 'webm';
+
+        meetingAudioFile =
+          new File(
+            [blob],
+            'meeting_audio_'+
+            Date.now()+'.'+
+            extension,
+            {type}
+          );
+
+        const url =
+          URL.createObjectURL(
+            meetingAudioFile
+          );
+
+        const player =
+          document.getElementById(
+            'meetingAudioPreview'
+          );
+
+        player.src=url;
+        player.style.display='block';
+
+        document.getElementById(
+          'meetingAudioStatus'
+        ).textContent =
+          'Voice recording ready.';
+
+        document.getElementById(
+          'meetingAudioStatus'
+        ).className =
+          'media-status success';
+
+        stream
+          .getTracks()
+          .forEach(
+            t=>t.stop()
+          );
+
+        meetingMediaRecorder=null;
+
+      };
+
+    meetingMediaRecorder.start();
+
+    const status =
+      document.getElementById(
+        'meetingAudioStatus'
+      );
+
+    status.textContent =
+      '🔴 Recording meeting voice...';
+
+    status.className =
+      'media-status recording';
+
+  }catch(e){
+
+    meetingMediaRecorder=null;
+
+    alert(
+      'Could not start microphone: '+
+      e.message
+    );
+
+  }
+
+}
+
+
+function stopMeetingRecording(){
+
+  if(
+    meetingMediaRecorder &&
+    meetingMediaRecorder.state!=='inactive'
+  ){
+
+    meetingMediaRecorder.stop();
+
+  }
+
+}
+
+
+function previewMeetingAudioFile(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file) return;
+
+  meetingAudioFile=file;
+
+  const url =
+    URL.createObjectURL(file);
+
+  const player =
+    document.getElementById(
+      'meetingAudioPreview'
+    );
+
+  player.src=url;
+  player.style.display='block';
+
+  document.getElementById(
+    'meetingAudioStatus'
+  ).textContent =
+    'Audio file selected.';
+
+}
+
+
+function removeMeetingAudio(){
+
+  meetingAudioFile=null;
+
+  meetingAudioChunks=[];
+
+  document.getElementById(
+    'meetingAudio'
+  ).value='';
+
+  const player =
+    document.getElementById(
+      'meetingAudioPreview'
+    );
+
+  player.pause();
+  player.removeAttribute('src');
+  player.style.display='none';
+
+  document.getElementById(
+    'meetingAudioStatus'
+  ).textContent =
+    'Audio removed from this form.';
+
+}
+
+
+/* =========================
+   EVENT AUDIO
+========================= */
+
+async function startEventRecording(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia ||
+    typeof MediaRecorder==='undefined'
+  ){
+
+    alert(
+      'Audio recording is not supported in this browser.'
+    );
+
+    return;
+
+  }
+
+  try{
+
+    if(eventMediaRecorder){
+      return;
+    }
+
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+        audio:true
+      });
+
+    eventAudioChunks=[];
+
+    const mime =
+      getAudioMimeType();
+
+    eventMediaRecorder =
+      mime
+        ? new MediaRecorder(
+            stream,
+            {mimeType:mime}
+          )
+        : new MediaRecorder(stream);
+
+    eventMediaRecorder.ondataavailable =
+      e=>{
+
+        if(e.data && e.data.size){
+          eventAudioChunks.push(e.data);
+        }
+
+      };
+
+    eventMediaRecorder.onstop =
+      ()=>{
+
+        const type =
+          eventMediaRecorder.mimeType ||
+          'audio/webm';
+
+        const blob =
+          new Blob(
+            eventAudioChunks,
+            {type}
+          );
+
+        const extension =
+          type.includes('mp4')
+            ? 'm4a'
+            : type.includes('ogg')
+              ? 'ogg'
+              : 'webm';
+
+        eventAudioFile =
+          new File(
+            [blob],
+            'event_audio_'+
+            Date.now()+'.'+
+            extension,
+            {type}
+          );
+
+        const url =
+          URL.createObjectURL(
+            eventAudioFile
+          );
+
+        const player =
+          document.getElementById(
+            'eventAudioPreview'
+          );
+
+        player.src=url;
+        player.style.display='block';
+
+        document.getElementById(
+          'eventAudioStatus'
+        ).textContent =
+          'Voice recording ready.';
+
+        document.getElementById(
+          'eventAudioStatus'
+        ).className =
+          'media-status success';
+
+        stream
+          .getTracks()
+          .forEach(
+            t=>t.stop()
+          );
+
+        eventMediaRecorder=null;
+
+      };
+
+    eventMediaRecorder.start();
+
+    const status =
+      document.getElementById(
+        'eventAudioStatus'
+      );
+
+    status.textContent =
+      '🔴 Recording event voice...';
+
+    status.className =
+      'media-status recording';
+
+  }catch(e){
+
+    eventMediaRecorder=null;
+
+    alert(
+      'Could not start microphone: '+
+      e.message
+    );
+
+  }
+
+}
+
+
+function stopEventRecording(){
+
+  if(
+    eventMediaRecorder &&
+    eventMediaRecorder.state!=='inactive'
+  ){
+
+    eventMediaRecorder.stop();
+
+  }
+
+}
+
+
+function previewEventAudioFile(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file) return;
+
+  eventAudioFile=file;
+
+  const url =
+    URL.createObjectURL(file);
+
+  const player =
+    document.getElementById(
+      'eventAudioPreview'
+    );
+
+  player.src=url;
+  player.style.display='block';
+
+  document.getElementById(
+    'eventAudioStatus'
+  ).textContent =
+    'Audio file selected.';
+
+}
+
+
+function removeEventAudio(){
+
+  eventAudioFile=null;
+
+  eventAudioChunks=[];
+
+  document.getElementById(
+    'eventAudio'
+  ).value='';
+
+  const player =
+    document.getElementById(
+      'eventAudioPreview'
+    );
+
+  player.pause();
+  player.removeAttribute('src');
+  player.style.display='none';
+
+  document.getElementById(
+    'eventAudioStatus'
+  ).textContent =
+    'Audio removed from this form.';
+
+}
+
+
+/* =========================
+   MEETING VIDEO
+========================= */
+
+async function startMeetingVideoRecording(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia ||
+    typeof MediaRecorder==='undefined'
+  ){
+
+    alert(
+      'Video recording is not supported in this browser.'
+    );
+
+    return;
+
+  }
+
+  try{
+
+    if(meetingVideoRecorder){
+      return;
+    }
+
+    meetingVideoStream =
+      await navigator.mediaDevices.getUserMedia({
+        video:{
+          facingMode:{
+            ideal:'environment'
+          }
+        },
+        audio:true
+      });
+
+    const camera =
+      document.getElementById(
+        'meetingVideoCamera'
+      );
+
+    camera.srcObject =
+      meetingVideoStream;
+
+    document.getElementById(
+      'meetingVideoCameraBox'
+    ).style.display='block';
+
+    const mime =
+      getVideoMimeType();
+
+    meetingVideoChunks=[];
+
+    meetingVideoRecorder =
+      mime
+        ? new MediaRecorder(
+            meetingVideoStream,
+            {mimeType:mime}
+          )
+        : new MediaRecorder(
+            meetingVideoStream
+          );
+
+    meetingVideoRecorder.ondataavailable =
+      e=>{
+
+        if(e.data && e.data.size){
+          meetingVideoChunks.push(e.data);
+        }
+
+      };
+
+    meetingVideoRecorder.onstop =
+      ()=>{
+
+        const type =
+          meetingVideoRecorder.mimeType ||
+          'video/webm';
+
+        const blob =
+          new Blob(
+            meetingVideoChunks,
+            {type}
+          );
+
+        meetingVideoFile =
+          new File(
+            [blob],
+            'meeting_video_'+
+            Date.now()+'.webm',
+            {type}
+          );
+
+        const url =
+          URL.createObjectURL(
+            meetingVideoFile
+          );
+
+        const player =
+          document.getElementById(
+            'meetingVideoPreview'
+          );
+
+        player.src=url;
+        player.style.display='block';
+
+        document.getElementById(
+          'meetingVideoStatus'
+        ).textContent =
+          'Video recording ready.';
+
+        document.getElementById(
+          'meetingVideoStatus'
+        ).className =
+          'media-status success';
+
+        closeMeetingVideoCamera();
+
+        meetingVideoRecorder=null;
+
+      };
+
+    meetingVideoRecorder.start();
+
+    document.getElementById(
+      'meetingVideoStatus'
+    ).textContent =
+      '🔴 Recording meeting video...';
+
+    document.getElementById(
+      'meetingVideoStatus'
+    ).className =
+      'media-status recording';
+
+  }catch(e){
+
+    closeMeetingVideoCamera();
+
+    alert(
+      'Could not start meeting video: '+
+      e.message
+    );
+
+  }
+
+}
+
+
+function stopMeetingVideoRecording(){
+
+  if(
+    meetingVideoRecorder &&
+    meetingVideoRecorder.state!=='inactive'
+  ){
+
+    meetingVideoRecorder.stop();
+
+  }
+
+}
+
+
+function closeMeetingVideoCamera(){
+
+  if(meetingVideoStream){
+
+    meetingVideoStream
+      .getTracks()
+      .forEach(
+        t=>t.stop()
+      );
+
+    meetingVideoStream=null;
+
+  }
+
+  const camera =
+    document.getElementById(
+      'meetingVideoCamera'
+    );
+
+  if(camera){
+    camera.srcObject=null;
+  }
+
+  document.getElementById(
+    'meetingVideoCameraBox'
+  ).style.display='none';
+
+}
+
+
+function previewMeetingVideoFile(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file) return;
+
+  meetingVideoFile=file;
+
+  const url =
+    URL.createObjectURL(file);
+
+  const player =
+    document.getElementById(
+      'meetingVideoPreview'
+    );
+
+  player.src=url;
+  player.style.display='block';
+
+  document.getElementById(
+    'meetingVideoStatus'
+  ).textContent =
+    'Video file selected.';
+
+}
+
+
+function removeMeetingVideo(){
+
+  meetingVideoFile=null;
+
+  meetingVideoChunks=[];
+
+  document.getElementById(
+    'meetingVideo'
+  ).value='';
+
+  const player =
+    document.getElementById(
+      'meetingVideoPreview'
+    );
+
+  player.pause();
+  player.removeAttribute('src');
+  player.style.display='none';
+
+  document.getElementById(
+    'meetingVideoStatus'
+  ).textContent =
+    'Video removed from this form.';
+
+}
+
+
+/* =========================
+   EVENT VIDEO
+========================= */
+
+async function startEventVideoRecording(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia ||
+    typeof MediaRecorder==='undefined'
+  ){
+
+    alert(
+      'Video recording is not supported in this browser.'
+    );
+
+    return;
+
+  }
+
+  try{
+
+    if(eventVideoRecorder){
+      return;
+    }
+
+    eventVideoStream =
+      await navigator.mediaDevices.getUserMedia({
+        video:{
+          facingMode:{
+            ideal:'environment'
+          }
+        },
+        audio:true
+      });
+
+    const camera =
+      document.getElementById(
+        'eventVideoCamera'
+      );
+
+    camera.srcObject =
+      eventVideoStream;
+
+    document.getElementById(
+      'eventVideoCameraBox'
+    ).style.display='block';
+
+    const mime =
+      getVideoMimeType();
+
+    eventVideoChunks=[];
+
+    eventVideoRecorder =
+      mime
+        ? new MediaRecorder(
+            eventVideoStream,
+            {mimeType:mime}
+          )
+        : new MediaRecorder(
+            eventVideoStream
+          );
+
+    eventVideoRecorder.ondataavailable =
+      e=>{
+
+        if(e.data && e.data.size){
+          eventVideoChunks.push(e.data);
+        }
+
+      };
+
+    eventVideoRecorder.onstop =
+      ()=>{
+
+        const type =
+          eventVideoRecorder.mimeType ||
+          'video/webm';
+
+        const blob =
+          new Blob(
+            eventVideoChunks,
+            {type}
+          );
+
+        eventVideoFile =
+          new File(
+            [blob],
+            'event_video_'+
+            Date.now()+'.webm',
+            {type}
+          );
+
+        const url =
+          URL.createObjectURL(
+            eventVideoFile
+          );
+
+        const player =
+          document.getElementById(
+            'eventVideoPreview'
+          );
+
+        player.src=url;
+        player.style.display='block';
+
+        document.getElementById(
+          'eventVideoStatus'
+        ).textContent =
+          'Video recording ready.';
+
+        document.getElementById(
+          'eventVideoStatus'
+        ).className =
+          'media-status success';
+
+        closeEventVideoCamera();
+
+        eventVideoRecorder=null;
+
+      };
+
+    eventVideoRecorder.start();
+
+    document.getElementById(
+      'eventVideoStatus'
+    ).textContent =
+      '🔴 Recording event video...';
+
+    document.getElementById(
+      'eventVideoStatus'
+    ).className =
+      'media-status recording';
+
+  }catch(e){
+
+    closeEventVideoCamera();
+
+    alert(
+      'Could not start event video: '+
+      e.message
+    );
+
+  }
+
+}
+
+
+function stopEventVideoRecording(){
+
+  if(
+    eventVideoRecorder &&
+    eventVideoRecorder.state!=='inactive'
+  ){
+
+    eventVideoRecorder.stop();
+
+  }
+
+}
+
+
+function closeEventVideoCamera(){
+
+  if(eventVideoStream){
+
+    eventVideoStream
+      .getTracks()
+      .forEach(
+        t=>t.stop()
+      );
+
+    eventVideoStream=null;
+
+  }
+
+  const camera =
+    document.getElementById(
+      'eventVideoCamera'
+    );
+
+  if(camera){
+    camera.srcObject=null;
+  }
+
+  document.getElementById(
+    'eventVideoCameraBox'
+  ).style.display='none';
+
+}
+
+
+function previewEventVideoFile(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file) return;
+
+  eventVideoFile=file;
+
+  const url =
+    URL.createObjectURL(file);
+
+  const player =
+    document.getElementById(
+      'eventVideoPreview'
+    );
+
+  player.src=url;
+  player.style.display='block';
+
+  document.getElementById(
+    'eventVideoStatus'
+  ).textContent =
+    'Video file selected.';
+
+}
+
+
+function removeEventVideo(){
+
+  eventVideoFile=null;
+
+  eventVideoChunks=[];
+
+  document.getElementById(
+    'eventVideo'
+  ).value='';
+
+  const player =
+    document.getElementById(
+      'eventVideoPreview'
+    );
+
+  player.pause();
+  player.removeAttribute('src');
+  player.style.display='none';
+
+  document.getElementById(
+    'eventVideoStatus'
+  ).textContent =
+    'Video removed from this form.';
+
+}
+
+
+/* =========================
+   STOP ALL MEDIA
+========================= */
+
+function stopAllMedia(){
+
+  closeMemberCamera();
+  closeExecutiveCamera();
+  closeMeetingCamera();
+  closeEventCamera();
+
+  closeMeetingVideoCamera();
+  closeEventVideoCamera();
+
+  if(
+    meetingMediaRecorder &&
+    meetingMediaRecorder.state!=='inactive'
+  ){
+
+    meetingMediaRecorder.stop();
+
+  }
+
+  if(
+    eventMediaRecorder &&
+    eventMediaRecorder.state!=='inactive'
+  ){
+
+    eventMediaRecorder.stop();
+
+  }
+
+  if(
+    meetingVideoRecorder &&
+    meetingVideoRecorder.state!=='inactive'
+  ){
+
+    meetingVideoRecorder.stop();
+
+  }
+
+  if(
+    eventVideoRecorder &&
+    eventVideoRecorder.state!=='inactive'
+  ){
+
+    eventVideoRecorder.stop();
+
+  }
 
 }
 
@@ -1878,25 +4442,24 @@ async function saveMember(event){
 
   event.preventDefault();
 
-
   const button =
     document.getElementById(
       'memberSaveButton'
     );
 
+  button.disabled=true;
 
-  button.disabled = true;
+  const wasEditing =
+    !!editingMemberId;
 
   button.textContent =
-    editingMemberId
+    wasEditing
       ? 'Updating...'
       : 'Saving...';
-
 
   try{
 
     await requireSession();
-
 
     const name =
       document
@@ -1904,19 +4467,16 @@ async function saveMember(event){
         .value
         .trim();
 
-
     const phone =
       document
         .getElementById('memberPhone')
         .value
         .trim();
 
-
     const memberType =
       document
         .getElementById('memberType')
         .value;
-
 
     const position =
       document
@@ -1924,24 +4484,14 @@ async function saveMember(event){
         .value
         .trim();
 
-
-    /*
-      IMPORTANT:
-      Camera photo has priority.
-      If no camera photo exists,
-      use gallery photo.
-    */
-
     const galleryFile =
       document
         .getElementById('memberPhoto')
         .files?.[0];
 
-
     const file =
       selectedMemberPhotoFile ||
       galleryFile;
-
 
     if(!name){
 
@@ -1951,7 +4501,6 @@ async function saveMember(event){
 
     }
 
-
     if(!memberType){
 
       throw new Error(
@@ -1960,18 +4509,9 @@ async function saveMember(event){
 
     }
 
-
-    if(file && !validatePhoto(file)){
-
-      return;
-
-    }
-
-
     let newPhotoPath =
       editingMemberOldPhoto ||
       null;
-
 
     if(file){
 
@@ -1984,13 +4524,11 @@ async function saveMember(event){
 
     }
 
-
     const memberNumberValue =
       document
         .getElementById('memberNumber')
         .value
         .trim();
-
 
     const expiryDate =
       document
@@ -1998,35 +4536,22 @@ async function saveMember(event){
         .value ||
       null;
 
-
     const member_number =
       memberNumberValue
-        ? String(memberNumberValue)
-            .padStart(3,'0')
+        ? String(memberNumberValue).padStart(3,'0')
         : null;
-
 
     const record = {
 
       name,
-
       phone,
-
       position,
-
-      member_type:
-        memberType,
-
+      member_type:memberType,
       member_number,
-
-      expiry_date:
-        expiryDate,
-
-      photo_url:
-        newPhotoPath
+      expiry_date:expiryDate,
+      photo_url:newPhotoPath
 
     };
-
 
     if(editingMemberId){
 
@@ -2039,14 +4564,12 @@ async function saveMember(event){
             editingMemberId
           );
 
-
       if(error){
 
         if(
           file &&
           newPhotoPath &&
-          newPhotoPath !==
-          editingMemberOldPhoto
+          newPhotoPath!==editingMemberOldPhoto
         ){
 
           await deleteStoredPhoto(
@@ -2055,27 +4578,14 @@ async function saveMember(event){
 
         }
 
-
-        throw new Error(
-          'Could not update member.\n'+
-          'Code: '+
-          (error.code||'N/A')+
-          '\nMessage: '+
-          (error.message||'Unknown error')+
-          '\nDetails: '+
-          (error.details||'None')+
-          '\nHint: '+
-          (error.hint||'None')
-        );
+        throw error;
 
       }
-
 
       if(
         file &&
         editingMemberOldPhoto &&
-        editingMemberOldPhoto !==
-        newPhotoPath
+        editingMemberOldPhoto!==newPhotoPath
       ){
 
         await deleteStoredPhoto(
@@ -2084,13 +4594,11 @@ async function saveMember(event){
 
       }
 
-
       showMessage(
         'memberMessage',
         'Member updated successfully.',
         'success'
       );
-
 
     }else{
 
@@ -2099,32 +4607,17 @@ async function saveMember(event){
           .from('members')
           .insert([record]);
 
-
       if(error){
 
         if(newPhotoPath){
-
           await deleteStoredPhoto(
             newPhotoPath
           );
-
         }
 
-
-        throw new Error(
-          'Could not save member.\n'+
-          'Code: '+
-          (error.code||'N/A')+
-          '\nMessage: '+
-          (error.message||'Unknown error')+
-          '\nDetails: '+
-          (error.details||'None')+
-          '\nHint: '+
-          (error.hint||'None')
-        );
+        throw error;
 
       }
-
 
       showMessage(
         'memberMessage',
@@ -2134,18 +4627,15 @@ async function saveMember(event){
 
     }
 
-
     resetMemberForm();
 
     await loadMembers();
-
 
   }catch(error){
 
     let m =
       error?.message ||
       'Unknown error occurred.';
-
 
     if(
       m
@@ -2158,20 +4648,18 @@ async function saveMember(event){
 
     }
 
-
     showMessage(
       'memberMessage',
       'Could not save member:\n'+m,
       'error'
     );
 
-
   }finally{
 
-    button.disabled = false;
+    button.disabled=false;
 
     button.textContent =
-      editingMemberId
+      wasEditing
         ? 'Update Member'
         : 'Save Member';
 
@@ -2180,9 +4668,11 @@ async function saveMember(event){
 }
 
 
-/* MEMBERS */
+/* =========================
+   MEMBERS
+========================= */
 
-let allMembers = [];
+let allMembers=[];
 
 
 function isExpiredDate(date){
@@ -2194,7 +4684,7 @@ function isExpiredDate(date){
       date+'T23:59:59'
     );
 
-  return d < new Date();
+  return d<new Date();
 
 }
 
@@ -2203,7 +4693,6 @@ function updateMemberTotals(){
 
   const total =
     allMembers.length;
-
 
   const active =
     allMembers.filter(
@@ -2214,7 +4703,6 @@ function updateMemberTotals(){
         )
     ).length;
 
-
   const expired =
     allMembers.filter(
       m =>
@@ -2223,7 +4711,6 @@ function updateMemberTotals(){
           m.expiry_date
         )
     ).length;
-
 
   const executives =
     allMembers.filter(m=>{
@@ -2240,38 +4727,26 @@ function updateMemberTotals(){
         p.includes('organisational') ||
         p.includes('pro') ||
         read(m.member_type)
-          .toLowerCase() ===
-          'executive'
+          .toLowerCase()==='executive'
       );
 
     }).length;
 
+  document.getElementById(
+    'totalMembers'
+  ).textContent=total;
 
-  const a =
-    document.getElementById(
-      'totalMembers'
-    );
+  document.getElementById(
+    'activeMembers'
+  ).textContent=active;
 
-  const b =
-    document.getElementById(
-      'activeMembers'
-    );
+  document.getElementById(
+    'expiredMembers'
+  ).textContent=expired;
 
-  const c =
-    document.getElementById(
-      'expiredMembers'
-    );
-
-  const d =
-    document.getElementById(
-      'executiveMembers'
-    );
-
-
-  if(a) a.textContent = total;
-  if(b) b.textContent = active;
-  if(c) c.textContent = expired;
-  if(d) d.textContent = executives;
+  document.getElementById(
+    'executiveMembers'
+  ).textContent=executives;
 
 }
 
@@ -2283,7 +4758,6 @@ function renderMembers(){
       'membersList'
     );
 
-
   const q =
     (
       document
@@ -2294,10 +4768,8 @@ function renderMembers(){
       .trim()
       .toLowerCase();
 
-
   const filtered =
-    allMembers.filter(m =>
-
+    allMembers.filter(m=>
       [
         read(m.name),
         read(m.phone),
@@ -2308,15 +4780,12 @@ function renderMembers(){
         .join(' ')
         .toLowerCase()
         .includes(q)
-
     );
-
 
   const status =
     document.getElementById(
       'memberSearchStatus'
     );
-
 
   if(status){
 
@@ -2327,7 +4796,6 @@ function renderMembers(){
 
   }
 
-
   if(!filtered.length){
 
     list.innerHTML =
@@ -2337,24 +4805,18 @@ function renderMembers(){
 
   }
 
-
   list.innerHTML =
     '<div class="item-grid">'+
+    filtered.map(m=>
 
-    filtered.map(m =>
-
-      '<div class="item-card member-result" data-member-id="'+
-      m.id+
-      '">' +
+      '<div class="item-card member-result">'+
 
       '<div class="member-photo-wrap">'+
 
       '<div class="person-photo" id="member-photo-'+
       m.id+
-      '">' +
-
+      '">'+
       '<span class="photo-placeholder">No Photo</span>'+
-
       '</div>'+
 
       '</div>'+
@@ -2364,49 +4826,34 @@ function renderMembers(){
       '</h3>'+
 
       '<p><strong>Phone:</strong> '+
-      escapeHtml(
-        read(m.phone) ||
-        'Not provided'
-      )+
+      escapeHtml(read(m.phone)||'Not provided')+
       '</p>'+
 
       '<p><strong>Position:</strong> '+
-      escapeHtml(
-        read(m.position) ||
-        'Member'
-      )+
+      escapeHtml(read(m.position)||'Member')+
       '</p>'+
 
       '<p><strong>Member No.:</strong> '+
-      escapeHtml(
-        read(m.member_number) ||
-        'Not assigned'
-      )+
+      escapeHtml(read(m.member_number)||'Not assigned')+
       '</p>'+
 
       '<p><strong>Category:</strong> '+
-      escapeHtml(
-        read(m.member_type) ||
-        'Member'
-      )+
+      escapeHtml(read(m.member_type)||'Member')+
       '</p>'+
 
       '<p><strong>Expiry:</strong> '+
-      escapeHtml(
-        read(m.expiry_date) ||
-        'Not set'
-      )+
+      escapeHtml(read(m.expiry_date)||'Not set')+
       '</p>'+
 
       '<button class="edit-button" onclick="editMember('+
       JSON.stringify(m.id)+
       ')">Edit</button>'+
 
-      '<button type="button" onclick="showIdCard('+
+      '<button onclick="showIdCard('+
       JSON.stringify(m.id)+
       ')">ID Card</button>'+
 
-      '<button type="button" onclick="generateQr('+
+      '<button onclick="generateQr('+
       JSON.stringify(m.id)+
       ')">QR</button>'+
 
@@ -2417,31 +4864,25 @@ function renderMembers(){
       '</div>'
 
     ).join('')+
-
     '</div>';
 
-
   filtered.forEach(
-    async m => {
+    async m=>{
 
       const url =
         await getPhotoUrl(
           m.photo_url
         );
 
-
       const box =
         document.getElementById(
           'member-photo-'+m.id
         );
 
-
       if(box && url){
 
         box.innerHTML =
-          '<img '+
-          'class="person-photo" '+
-          'src="'+
+          '<img class="person-photo" src="'+
           escapeHtml(url)+
           '" alt="Member photo">';
 
@@ -2460,10 +4901,8 @@ async function loadMembers(){
       'membersList'
     );
 
-
   list.innerHTML =
     '<p>Loading members...</p>';
-
 
   const {data,error} =
     await supabaseClient
@@ -2475,7 +4914,6 @@ async function loadMembers(){
         'id',
         {ascending:false}
       );
-
 
   if(error){
 
@@ -2489,10 +4927,7 @@ async function loadMembers(){
 
   }
 
-
-  allMembers =
-    data || [];
-
+  allMembers=data||[];
 
   updateMemberTotals();
 
@@ -2500,8 +4935,6 @@ async function loadMembers(){
 
 }
 
-
-/* EDIT MEMBER */
 
 async function editMember(id){
 
@@ -2512,13 +4945,11 @@ async function editMember(id){
       .eq('id',id)
       .single();
 
-
   if(error){
 
     showMessage(
       'memberMessage',
-      'Could not load member: '+
-      error.message,
+      'Could not load member: '+error.message,
       'error'
     );
 
@@ -2526,71 +4957,50 @@ async function editMember(id){
 
   }
 
-
-  editingMemberId =
-    id;
+  editingMemberId=id;
 
   editingMemberOldPhoto =
-    data.photo_url || null;
+    data.photo_url||null;
 
-
-  /* Clear any previous camera selection */
-
-  selectedMemberPhotoFile = null;
+  selectedMemberPhotoFile=null;
 
   closeMemberCamera();
 
-
   document.getElementById(
     'memberName'
-  ).value =
-    read(data.name);
-
+  ).value=read(data.name);
 
   document.getElementById(
     'memberPhone'
-  ).value =
-    read(data.phone);
-
+  ).value=read(data.phone);
 
   document.getElementById(
     'memberType'
-  ).value =
-    read(data.member_type);
-
+  ).value=read(data.member_type);
 
   document.getElementById(
     'memberPosition'
-  ).value =
-    read(data.position);
-
+  ).value=read(data.position);
 
   document.getElementById(
     'memberNumber'
-  ).value =
+  ).value=
     data.member_number
-      ? String(data.member_number)
-          .replace(/^0+/,'') ||
-        '0'
+      ? String(data.member_number).replace(/^0+/,'')||'0'
       : '';
-
 
   document.getElementById(
     'expiryDate'
-  ).value =
-    read(data.expiry_date);
-
+  ).value=read(data.expiry_date);
 
   document.getElementById(
     'memberPhoto'
-  ).value = '';
-
+  ).value='';
 
   const url =
     await getPhotoUrl(
       data.photo_url
     );
-
 
   document.getElementById(
     'memberPhotoPreview'
@@ -2601,12 +5011,9 @@ async function editMember(id){
         '" alt="Profile photo">'
       : '<span class="photo-placeholder">Profile Photo</span>';
 
-
   document.getElementById(
     'memberSaveButton'
-  ).textContent =
-    'Update Member';
-
+  ).textContent='Update Member';
 
   document
     .getElementById('membersSection')
@@ -2617,76 +5024,45 @@ async function editMember(id){
 }
 
 
-/* RESET MEMBER */
-
 function resetMemberForm(){
 
   closeMemberCamera();
 
+  selectedMemberPhotoFile=null;
 
-  selectedMemberPhotoFile =
-    null;
+  editingMemberId=null;
+  editingMemberOldPhoto=null;
 
-
-  editingMemberId =
-    null;
-
-  editingMemberOldPhoto =
-    null;
-
-
-  document.getElementById(
-    'memberName'
-  ).value = '';
-
-
-  document.getElementById(
-    'memberPhone'
-  ).value = '';
-
+  [
+    'memberName',
+    'memberPhone',
+    'memberPosition',
+    'memberNumber',
+    'expiryDate'
+  ].forEach(
+    id=>
+      document.getElementById(id).value=''
+  );
 
   document.getElementById(
     'memberType'
-  ).value = '';
-
-
-  document.getElementById(
-    'memberPosition'
-  ).value = '';
-
-
-  document.getElementById(
-    'memberNumber'
-  ).value = '';
-
-
-  document.getElementById(
-    'expiryDate'
-  ).value = '';
-
+  ).value='';
 
   document.getElementById(
     'memberPhoto'
-  ).value = '';
-
+  ).value='';
 
   document.getElementById(
     'memberPhotoPreview'
-  ).innerHTML =
-    '<span class="photo-placeholder">'+
-    'Profile Photo'+
-    '</span>';
-
+  ).innerHTML=
+    '<span class="photo-placeholder">Profile Photo</span>';
 
   document.getElementById(
     'memberSaveButton'
-  ).textContent =
-    'Save Member';
+  ).textContent='Save Member';
 
 }
 
-
-/* DELETE MEMBER */
 
 async function deleteMember(id){
 
@@ -2696,7 +5072,6 @@ async function deleteMember(id){
     )
   ) return;
 
-
   const {data} =
     await supabaseClient
       .from('members')
@@ -2704,27 +5079,23 @@ async function deleteMember(id){
       .eq('id',id)
       .single();
 
-
   const {error} =
     await supabaseClient
       .from('members')
       .delete()
       .eq('id',id);
 
-
   if(error){
 
     showMessage(
       'memberMessage',
-      'Could not delete member: '+
-      error.message,
+      'Could not delete member: '+error.message,
       'error'
     );
 
     return;
 
   }
-
 
   if(data?.photo_url){
 
@@ -2734,40 +5105,30 @@ async function deleteMember(id){
 
   }
 
-
   await loadMembers();
 
 }
 
 
 /* =========================
-   QR CODE
+   QR
 ========================= */
 
-let currentQrLink = "";
+let currentQrLink='';
 
 
 function getMemberVerificationUrl(memberId){
 
-  /*
-    This works whether the app file is:
-    app.html
-    YONA_APP_RESTORED.html
-    or another HTML filename.
-  */
-
   const path =
     window.location.pathname;
-
 
   const directory =
     path.substring(
       0,
-      path.lastIndexOf('/') + 1
+      path.lastIndexOf('/')+1
     );
 
-
-  return (
+  return(
     window.location.origin+
     directory+
     'member.html?id='+
@@ -2782,52 +5143,42 @@ function generateQr(memberId){
   if(!memberId){
 
     alert(
-      "This member does not have a valid database ID."
+      'This member does not have a valid database ID.'
     );
 
     return;
 
   }
-
 
   currentQrLink =
     getMemberVerificationUrl(
       memberId
     );
 
-
   const card =
     document.getElementById(
-      "qrCard"
+      'qrCard'
     );
-
 
   const box =
     document.getElementById(
-      "qrcode"
+      'qrcode'
     );
 
+  if(!card||!box) return;
 
-  if(!card || !box) return;
+  card.classList.remove('hidden');
 
+  box.innerHTML='';
 
-  card.classList.remove(
-    "hidden"
-  );
+  if(typeof QRCode==='undefined'){
 
-
-  box.innerHTML = "";
-
-
-  if(typeof QRCode === "undefined"){
-
-    box.textContent =
-      "QR code library unavailable.";
+    box.textContent=
+      'QR code library unavailable.';
 
     return;
 
   }
-
 
   new QRCode(
     box,
@@ -2840,15 +5191,12 @@ function generateQr(memberId){
     }
   );
 
-
   document.getElementById(
-    "qrLink"
-  ).textContent =
-    currentQrLink;
-
+    'qrLink'
+  ).textContent=currentQrLink;
 
   card.scrollIntoView({
-    behavior:"smooth"
+    behavior:'smooth'
   });
 
 }
@@ -2859,17 +5207,16 @@ function openQrLink(){
   if(!currentQrLink){
 
     alert(
-      "No QR code has been generated yet."
+      'No QR code has been generated yet.'
     );
 
     return;
 
   }
 
-
   window.open(
     currentQrLink,
-    "_blank"
+    '_blank'
   );
 
 }
@@ -2885,110 +5232,81 @@ async function showIdCard(memberId){
 
     const {data,error} =
       await supabaseClient
-        .from("members")
+        .from('members')
         .select(
-          "id,name,phone,position,member_type,member_number,expiry_date,photo_url"
+          'id,name,phone,position,member_type,member_number,expiry_date,photo_url'
         )
-        .eq("id",memberId)
+        .eq('id',memberId)
         .single();
-
 
     if(error) throw error;
 
+    document.getElementById(
+      'idCardName'
+    ).textContent=
+      read(data.name)||'Unnamed Member';
 
     document.getElementById(
-      "idCardName"
-    ).textContent =
-      read(data.name) ||
-      "Unnamed Member";
-
+      'idCardPosition'
+    ).textContent=
+      read(data.position)||'Member';
 
     document.getElementById(
-      "idCardPosition"
-    ).textContent =
-      read(data.position) ||
-      "Member";
-
+      'idCardNumber'
+    ).textContent=
+      read(data.member_number)||'Not assigned';
 
     document.getElementById(
-      "idCardNumber"
-    ).textContent =
-      read(data.member_number) ||
-      "Not assigned";
-
+      'idCardType'
+    ).textContent=
+      read(data.member_type)||'Member';
 
     document.getElementById(
-      "idCardType"
-    ).textContent =
-      read(data.member_type) ||
-      "Member";
-
-
-    document.getElementById(
-      "idCardExpiry"
-    ).textContent =
-      read(data.expiry_date) ||
-      "Not set";
-
+      'idCardExpiry'
+    ).textContent=
+      read(data.expiry_date)||'Not set';
 
     const img =
       document.getElementById(
-        "idCardPhoto"
+        'idCardPhoto'
       );
-
 
     const fallback =
       document.getElementById(
-        "idCardPhotoFallback"
+        'idCardPhotoFallback'
       );
-
 
     const url =
       await getPhotoUrl(
         data.photo_url
       );
 
-
     if(url){
 
-      img.src = url;
-
-      img.style.display =
-        "inline-block";
-
-      fallback.style.display =
-        "none";
+      img.src=url;
+      img.style.display='inline-block';
+      fallback.style.display='none';
 
     }else{
 
-      img.style.display =
-        "none";
-
-      fallback.style.display =
-        "inline-flex";
+      img.style.display='none';
+      fallback.style.display='inline-flex';
 
     }
 
-
     const qr =
       document.getElementById(
-        "memberQrCode"
+        'memberQrCode'
       );
 
-
-    qr.innerHTML = "";
-
+    qr.innerHTML='';
 
     const verifyUrl =
       getMemberVerificationUrl(
         data.id
       );
 
-
-    if(
-      typeof QRCode !==
-      "undefined"
-    ){
+    if(typeof QRCode!=='undefined'){
 
       new QRCode(
         qr,
@@ -3003,20 +5321,14 @@ async function showIdCard(memberId){
 
     }
 
-
     document
-      .getElementById(
-        "idCardModal"
-      )
-      .classList.remove(
-        "hidden"
-      );
-
+      .getElementById('idCardModal')
+      .classList.remove('hidden');
 
   }catch(e){
 
     alert(
-      "Could not open ID card: "+
+      'Could not open ID card: '+
       e.message
     );
 
@@ -3028,12 +5340,8 @@ async function showIdCard(memberId){
 function closeIdCard(){
 
   document
-    .getElementById(
-      "idCardModal"
-    )
-    .classList.add(
-      "hidden"
-    );
+    .getElementById('idCardModal')
+    .classList.add('hidden');
 
 }
 
@@ -3046,50 +5354,38 @@ async function saveExecutive(event){
 
   event.preventDefault();
 
-
   const period =
     document
-      .getElementById(
-        'executivePeriod'
-      )
+      .getElementById('executivePeriod')
       .value
       .trim();
-
 
   const name =
     document
-      .getElementById(
-        'executiveName'
-      )
+      .getElementById('executiveName')
       .value
       .trim();
-
 
   const position =
     document
-      .getElementById(
-        'executivePosition'
-      )
+      .getElementById('executivePosition')
       .value
       .trim();
-
 
   const phone =
     document
-      .getElementById(
-        'executivePhone'
-      )
+      .getElementById('executivePhone')
       .value
       .trim();
 
-
-  const file =
+  const galleryFile =
     document
-      .getElementById(
-        'executivePhoto'
-      )
+      .getElementById('executivePhoto')
       .files?.[0];
 
+  const file =
+    selectedExecutivePhotoFile ||
+    galleryFile;
 
   if(!name){
 
@@ -3103,13 +5399,11 @@ async function saveExecutive(event){
 
   }
 
-
   try{
 
     let photo =
-      editingExecutiveOldPhoto ||
+      editingExecutiveOldPhoto||
       null;
-
 
     if(file){
 
@@ -3122,17 +5416,13 @@ async function saveExecutive(event){
 
     }
 
-
-    const record = {
-
+    const record={
       period,
       name,
       position,
       phone,
       photo
-
     };
-
 
     const q =
       editingExecutiveId
@@ -3147,25 +5437,17 @@ async function saveExecutive(event){
             .from('executive')
             .insert([record]);
 
-
-    const {error} =
-      await q;
-
+    const {error}=await q;
 
     if(error){
 
       if(file){
-
-        await deleteStoredPhoto(
-          photo
-        );
-
+        await deleteStoredPhoto(photo);
       }
 
       throw error;
 
     }
-
 
     if(
       file &&
@@ -3178,25 +5460,21 @@ async function saveExecutive(event){
 
     }
 
-
     showMessage(
       'executiveMessage',
       'Executive saved successfully.',
       'success'
     );
 
-
     resetExecutiveForm();
 
     await loadExecutive();
-
 
   }catch(e){
 
     showMessage(
       'executiveMessage',
-      'Could not save executive: '+
-      e.message,
+      'Could not save executive: '+e.message,
       'error'
     );
 
@@ -3212,10 +5490,8 @@ async function loadExecutive(){
       'executiveList'
     );
 
-
-  list.innerHTML =
+  list.innerHTML=
     'Loading executive...';
-
 
   const {data,error} =
     await supabaseClient
@@ -3228,12 +5504,10 @@ async function loadExecutive(){
         {ascending:false}
       );
 
-
   if(error){
 
-    list.innerHTML =
+    list.innerHTML=
       '<div class="message error">'+
-      'Error loading executive: '+
       escapeHtml(error.message)+
       '</div>';
 
@@ -3241,65 +5515,52 @@ async function loadExecutive(){
 
   }
 
-
   if(!data?.length){
 
-    list.innerHTML =
+    list.innerHTML=
       '<p>No executive records found.</p>';
 
     return;
 
   }
 
-
   const cards =
     await Promise.all(
-
       data.map(
-        async x => {
+        async x=>{
 
           const url =
             await getPhotoUrl(
               x.photo
             );
 
-
-          return (
-
+          return(
             '<div class="item-card">'+
 
             (
               url
-              ?
-              '<img class="person-photo" src="'+
-              escapeHtml(url)+
-              '" alt="Executive photo">'
-              :
-              ''
+                ? '<div style="text-align:center">'+
+                  '<img class="person-photo" src="'+
+                  escapeHtml(url)+
+                  '" alt="Executive photo">'+
+                  '</div>'
+                : ''
             )+
 
             '<h3>'+
-            escapeHtml(
-              read(x.name)
-            )+
+            escapeHtml(read(x.name))+
             '</h3>'+
 
             '<p><strong>Period:</strong> '+
-            escapeHtml(
-              read(x.period)
-            )+
+            escapeHtml(read(x.period))+
             '</p>'+
 
             '<p><strong>Position:</strong> '+
-            escapeHtml(
-              read(x.position)
-            )+
+            escapeHtml(read(x.position))+
             '</p>'+
 
             '<p><strong>Phone:</strong> '+
-            escapeHtml(
-              read(x.phone)
-            )+
+            escapeHtml(read(x.phone))+
             '</p>'+
 
             '<button class="edit-button" onclick="editExecutive('+
@@ -3311,16 +5572,13 @@ async function loadExecutive(){
             ')">Delete</button>'+
 
             '</div>'
-
           );
 
         }
       )
-
     );
 
-
-  list.innerHTML =
+  list.innerHTML=
     '<div class="item-grid">'+
     cards.join('')+
     '</div>';
@@ -3337,7 +5595,6 @@ async function editExecutive(id){
       .eq('id',id)
       .single();
 
-
   if(error){
 
     showMessage(
@@ -3350,54 +5607,64 @@ async function editExecutive(id){
 
   }
 
-
-  editingExecutiveId =
-    id;
+  editingExecutiveId=id;
 
   editingExecutiveOldPhoto =
-    data.photo || null;
+    data.photo||null;
 
+  selectedExecutivePhotoFile=null;
+
+  closeExecutiveCamera();
 
   document.getElementById(
     'executivePeriod'
-  ).value =
-    read(data.period);
-
+  ).value=read(data.period);
 
   document.getElementById(
     'executiveName'
-  ).value =
-    read(data.name);
-
+  ).value=read(data.name);
 
   document.getElementById(
     'executivePosition'
-  ).value =
-    read(data.position);
-
+  ).value=read(data.position);
 
   document.getElementById(
     'executivePhone'
-  ).value =
-    read(data.phone);
+  ).value=read(data.phone);
 
+  document.getElementById(
+    'executivePhoto'
+  ).value='';
+
+  const url =
+    await getPhotoUrl(
+      data.photo
+    );
+
+  document.getElementById(
+    'executivePhotoPreview'
+  ).innerHTML=
+    url
+      ? '<img class="activity-photo-preview" src="'+
+        escapeHtml(url)+
+        '" alt="Executive photo">'
+      : '<span class="activity-photo-placeholder">Executive Photo</span>';
 
   document.getElementById(
     'executiveSaveButton'
-  ).textContent =
-    'Update Executive';
+  ).textContent='Update Executive';
 
 }
 
 
 function resetExecutiveForm(){
 
-  editingExecutiveId =
-    null;
+  closeExecutiveCamera();
 
-  editingExecutiveOldPhoto =
-    null;
+  selectedExecutivePhotoFile=null;
 
+  editingExecutiveId=null;
+  editingExecutiveOldPhoto=null;
 
   [
     'executivePeriod',
@@ -3405,22 +5672,22 @@ function resetExecutiveForm(){
     'executivePosition',
     'executivePhone'
   ].forEach(
-    id =>
-      document.getElementById(
-        id
-      ).value=''
+    id=>
+      document.getElementById(id).value=''
   );
-
 
   document.getElementById(
     'executivePhoto'
   ).value='';
 
+  document.getElementById(
+    'executivePhotoPreview'
+  ).innerHTML=
+    '<span class="activity-photo-placeholder">Executive Photo</span>';
 
   document.getElementById(
     'executiveSaveButton'
-  ).textContent =
-    'Save Executive';
+  ).textContent='Save Executive';
 
 }
 
@@ -3433,7 +5700,6 @@ async function deleteExecutive(id){
     )
   ) return;
 
-
   const {data} =
     await supabaseClient
       .from('executive')
@@ -3441,13 +5707,11 @@ async function deleteExecutive(id){
       .eq('id',id)
       .single();
 
-
   const {error} =
     await supabaseClient
       .from('executive')
       .delete()
       .eq('id',id);
-
 
   if(error){
 
@@ -3461,7 +5725,6 @@ async function deleteExecutive(id){
 
   }
 
-
   if(data?.photo){
 
     await deleteStoredPhoto(
@@ -3469,7 +5732,6 @@ async function deleteExecutive(id){
     );
 
   }
-
 
   await loadExecutive();
 
@@ -3488,29 +5750,23 @@ async function saveFinance(){
       .value
       .trim();
 
-
   const type =
     document
       .getElementById('financeType')
       .value;
-
 
   const amount =
     document
       .getElementById('financeAmount')
       .value;
 
-
   const description =
     document
-      .getElementById(
-        'financeDescription'
-      )
+      .getElementById('financeDescription')
       .value
       .trim();
 
-
-  if(!name || !type || !amount){
+  if(!name||!type||!amount){
 
     showMessage(
       'financeMessage',
@@ -3522,20 +5778,15 @@ async function saveFinance(){
 
   }
 
-
-  const record = {
-
+  const record={
     name,
     type,
     amount:Number(amount),
     description
-
   };
-
 
   const {error} =
     editingFinanceId
-
       ? await supabaseClient
           .from('finance')
           .update(record)
@@ -3543,18 +5794,15 @@ async function saveFinance(){
             'id',
             editingFinanceId
           )
-
       : await supabaseClient
           .from('finance')
           .insert([record]);
-
 
   if(error){
 
     showMessage(
       'financeMessage',
-      'Could not save finance record: '+
-      error.message,
+      'Could not save finance record: '+error.message,
       'error'
     );
 
@@ -3562,13 +5810,11 @@ async function saveFinance(){
 
   }
 
-
   showMessage(
     'financeMessage',
     'Finance record saved successfully.',
     'success'
   );
-
 
   resetFinanceForm();
 
@@ -3584,10 +5830,8 @@ async function loadFinance(){
       'financeList'
     );
 
-
-  list.innerHTML =
+  list.innerHTML=
     'Loading finance records...';
-
 
   const {data,error} =
     await supabaseClient
@@ -3598,10 +5842,9 @@ async function loadFinance(){
         {ascending:false}
       );
 
-
   if(error){
 
-    list.innerHTML =
+    list.innerHTML=
       '<div class="message error">'+
       escapeHtml(error.message)+
       '</div>';
@@ -3610,50 +5853,37 @@ async function loadFinance(){
 
   }
 
-
   if(!data?.length){
 
-    list.innerHTML =
+    list.innerHTML=
       '<p>No finance records found.</p>';
 
     return;
 
   }
 
-
-  list.innerHTML =
+  list.innerHTML=
     '<div class="item-grid">'+
 
     data.map(
-      x =>
+      x=>
 
       '<div class="item-card">'+
 
       '<h3>'+
-      escapeHtml(
-        read(x.name)
-      )+
+      escapeHtml(read(x.name))+
       '</h3>'+
 
       '<p><strong>Type:</strong> '+
-      escapeHtml(
-        read(
-          x.type ||
-          x.category
-        )
-      )+
+      escapeHtml(read(x.type||x.category))+
       '</p>'+
 
       '<p><strong>Amount:</strong> '+
-      escapeHtml(
-        read(x.amount)
-      )+
+      escapeHtml(read(x.amount))+
       '</p>'+
 
       '<p><strong>Description:</strong> '+
-      escapeHtml(
-        read(x.description)
-      )+
+      escapeHtml(read(x.description))+
       '</p>'+
 
       '<button class="edit-button" onclick="editFinance('+
@@ -3667,7 +5897,6 @@ async function loadFinance(){
       '</div>'
 
     ).join('')+
-
     '</div>';
 
 }
@@ -3682,7 +5911,6 @@ async function editFinance(id){
       .eq('id',id)
       .single();
 
-
   if(error){
 
     showMessage(
@@ -3695,45 +5923,31 @@ async function editFinance(id){
 
   }
 
-
-  editingFinanceId =
-    id;
-
+  editingFinanceId=id;
 
   document.getElementById(
     'financeName'
-  ).value =
-    read(data.name);
-
+  ).value=read(data.name);
 
   document.getElementById(
     'financeType'
-  ).value =
-    read(
-      data.type ||
-      data.category
-    );
-
+  ).value=
+    read(data.type||data.category);
 
   document.getElementById(
     'financeAmount'
-  ).value =
-    read(data.amount);
-
+  ).value=read(data.amount);
 
   document.getElementById(
     'financeDescription'
-  ).value =
-    read(data.description);
+  ).value=read(data.description);
 
 }
 
 
 function resetFinanceForm(){
 
-  editingFinanceId =
-    null;
-
+  editingFinanceId=null;
 
   [
     'financeName',
@@ -3741,10 +5955,8 @@ function resetFinanceForm(){
     'financeAmount',
     'financeDescription'
   ].forEach(
-    id =>
-      document.getElementById(
-        id
-      ).value=''
+    id=>
+      document.getElementById(id).value=''
   );
 
 }
@@ -3758,13 +5970,11 @@ async function deleteFinance(id){
     )
   ) return;
 
-
   const {error} =
     await supabaseClient
       .from('finance')
       .delete()
       .eq('id',id);
-
 
   if(error){
 
@@ -3778,7 +5988,6 @@ async function deleteFinance(id){
 
   }
 
-
   loadFinance();
 
 }
@@ -3788,43 +5997,48 @@ async function deleteFinance(id){
    MEETINGS
 ========================= */
 
-async function saveMeeting(){
+async function saveMeeting(event){
 
-  const file =
+  if(event) event.preventDefault();
+
+  const galleryPhoto =
     document
-      .getElementById(
-        'meetingPhoto'
-      )
+      .getElementById('meetingPhoto')
       .files?.[0];
 
+  const photoFile =
+    selectedMeetingPhotoFile ||
+    galleryPhoto;
 
-  const record = {
+  const record={
 
     meeting_date:
-      document.getElementById(
-        'meetingDate'
-      ).value,
+      document
+        .getElementById('meetingDate')
+        .value,
 
     meeting_title:
-      document.getElementById(
-        'meetingTitle'
-      ).value.trim(),
+      document
+        .getElementById('meetingTitle')
+        .value
+        .trim(),
 
     location:
-      document.getElementById(
-        'meetingLocation'
-      ).value.trim(),
+      document
+        .getElementById('meetingLocation')
+        .value
+        .trim(),
 
     description:
-      document.getElementById(
-        'meetingDescription'
-      ).value.trim()
+      document
+        .getElementById('meetingDescription')
+        .value
+        .trim()
 
   };
 
-
   if(
-    !record.meeting_date ||
+    !record.meeting_date||
     !record.meeting_title
   ){
 
@@ -3838,66 +6052,98 @@ async function saveMeeting(){
 
   }
 
-
   try{
 
     let photo =
-      editingMeetingOldPhoto ||
-      null;
+      editingMeetingOldPhoto||null;
 
+    let video =
+      editingMeetingOldVideo||null;
 
-    if(file){
+    let audio =
+      editingMeetingOldAudio||null;
+
+    if(photoFile){
 
       photo =
         await uploadPersonPhoto(
-          file,
+          photoFile,
           'meeting-photos',
           'meeting'
         );
 
     }
 
+    if(meetingVideoFile){
 
-    record.photo_url =
-      photo;
-
-
-    const {error} =
-      editingMeetingId
-
-        ? await supabaseClient
-            .from('meetings')
-            .update(record)
-            .eq(
-              'id',
-              editingMeetingId
-            )
-
-        : await supabaseClient
-            .from('meetings')
-            .insert([record]);
-
-
-    if(error){
-
-      if(file && photo){
-
-        await deleteStoredPhoto(
-          photo
+      video =
+        await uploadActivityMedia(
+          meetingVideoFile,
+          'meeting-videos',
+          'meeting-video'
         );
-
-      }
-
-      throw error;
 
     }
 
+    if(meetingAudioFile){
+
+      audio =
+        await uploadActivityMedia(
+          meetingAudioFile,
+          'meeting-audio',
+          'meeting-audio'
+        );
+
+    }
+
+    record.photo_url=photo;
+    record.video_url=video;
+    record.audio_url=audio;
+
+    let result;
+
+    if(editingMeetingId){
+
+      result =
+        await supabaseClient
+          .from('meetings')
+          .update(record)
+          .eq(
+            'id',
+            editingMeetingId
+          );
+
+    }else{
+
+      result =
+        await supabaseClient
+          .from('meetings')
+          .insert([record]);
+
+    }
+
+    if(result.error){
+
+      if(photoFile && photo){
+        await deleteStoredPhoto(photo);
+      }
+
+      if(meetingVideoFile && video){
+        await deleteStoredPhoto(video);
+      }
+
+      if(meetingAudioFile && audio){
+        await deleteStoredPhoto(audio);
+      }
+
+      throw result.error;
+
+    }
 
     if(
-      file &&
+      photoFile &&
       editingMeetingOldPhoto &&
-      editingMeetingOldPhoto !==
-      photo
+      editingMeetingOldPhoto!==photo
     ){
 
       await deleteStoredPhoto(
@@ -3906,6 +6152,29 @@ async function saveMeeting(){
 
     }
 
+    if(
+      meetingVideoFile &&
+      editingMeetingOldVideo &&
+      editingMeetingOldVideo!==video
+    ){
+
+      await deleteStoredPhoto(
+        editingMeetingOldVideo
+      );
+
+    }
+
+    if(
+      meetingAudioFile &&
+      editingMeetingOldAudio &&
+      editingMeetingOldAudio!==audio
+    ){
+
+      await deleteStoredPhoto(
+        editingMeetingOldAudio
+      );
+
+    }
 
     showMessage(
       'meetingMessage',
@@ -3913,18 +6182,15 @@ async function saveMeeting(){
       'success'
     );
 
-
     resetMeetingForm();
 
-    loadMeetings();
-
+    await loadMeetings();
 
   }catch(e){
 
     showMessage(
       'meetingMessage',
-      'Could not save meeting: '+
-      e.message,
+      'Could not save meeting: '+e.message,
       'error'
     );
 
@@ -3940,10 +6206,8 @@ async function loadMeetings(){
       'meetingsList'
     );
 
-
-  list.innerHTML =
+  list.innerHTML=
     'Loading meetings...';
-
 
   const {data,error} =
     await supabaseClient
@@ -3954,10 +6218,9 @@ async function loadMeetings(){
         {ascending:false}
       );
 
-
   if(error){
 
-    list.innerHTML =
+    list.innerHTML=
       '<div class="message error">'+
       escapeHtml(error.message)+
       '</div>';
@@ -3966,43 +6229,47 @@ async function loadMeetings(){
 
   }
 
-
   if(!data?.length){
 
-    list.innerHTML =
+    list.innerHTML=
       '<p>No meetings found.</p>';
 
     return;
 
   }
 
-
   const cards =
     await Promise.all(
-
       data.map(
-        async x => {
+        async x=>{
 
-          const url =
+          const photoUrl =
             await getPhotoUrl(
               x.photo_url
             );
 
+          const videoUrl =
+            await getPhotoUrl(
+              x.video_url
+            );
 
-          return (
+          const audioUrl =
+            await getPhotoUrl(
+              x.audio_url
+            );
+
+          return(
 
             '<div class="meeting-card">'+
 
             (
-              url
-              ?
-              '<div style="text-align:center">'+
-              '<img class="activity-photo-preview" src="'+
-              escapeHtml(url)+
-              '" alt="Meeting photo">'+
-              '</div>'
-              :
-              ''
+              photoUrl
+                ? '<div style="text-align:center">'+
+                  '<img class="activity-photo-preview" src="'+
+                  escapeHtml(photoUrl)+
+                  '" alt="Meeting photo">'+
+                  '</div>'
+                : ''
             )+
 
             '<h3>'+
@@ -4012,25 +6279,40 @@ async function loadMeetings(){
             '</h3>'+
 
             '<p><strong>Date:</strong> '+
-            escapeHtml(
-              read(x.meeting_date)
-            )+
+            escapeHtml(read(x.meeting_date))+
             '</p>'+
 
             '<p><strong>Location:</strong> '+
-            escapeHtml(
-              read(x.location)
-            )+
+            escapeHtml(read(x.location))+
             '</p>'+
 
             '<p><strong>Minutes:</strong> '+
             escapeHtml(
-              read(
-                x.description ||
-                x.minutes
-              )
+              read(x.description||x.minutes)
             )+
             '</p>'+
+
+            (
+              videoUrl
+                ? '<div class="media-existing">'+
+                  '<strong>🎥 Meeting Video</strong>'+
+                  '<video class="media-preview" controls src="'+
+                  escapeHtml(videoUrl)+
+                  '"></video>'+
+                  '</div>'
+                : ''
+            )+
+
+            (
+              audioUrl
+                ? '<div class="media-existing">'+
+                  '<strong>🎙️ Meeting Voice</strong>'+
+                  '<audio class="media-preview" controls src="'+
+                  escapeHtml(audioUrl)+
+                  '"></audio>'+
+                  '</div>'
+                : ''
+            )+
 
             '<button class="edit-button" onclick="editMeeting('+
             JSON.stringify(x.id)+
@@ -4046,11 +6328,9 @@ async function loadMeetings(){
 
         }
       )
-
     );
 
-
-  list.innerHTML =
+  list.innerHTML=
     cards.join('');
 
 }
@@ -4065,7 +6345,6 @@ async function editMeeting(id){
       .eq('id',id)
       .single();
 
-
   if(error){
 
     showMessage(
@@ -4078,78 +6357,163 @@ async function editMeeting(id){
 
   }
 
-
-  editingMeetingId =
-    id;
+  editingMeetingId=id;
 
   editingMeetingOldPhoto =
-    data.photo_url ||
-    null;
+    data.photo_url||null;
 
+  editingMeetingOldVideo =
+    data.video_url||null;
+
+  editingMeetingOldAudio =
+    data.audio_url||null;
+
+  selectedMeetingPhotoFile=null;
+
+  meetingVideoFile=null;
+  meetingAudioFile=null;
+
+  closeMeetingCamera();
+  closeMeetingVideoCamera();
 
   document.getElementById(
     'meetingDate'
-  ).value =
-    read(data.meeting_date);
-
+  ).value=read(data.meeting_date);
 
   document.getElementById(
     'meetingTitle'
-  ).value =
-    read(data.meeting_title);
-
+  ).value=read(data.meeting_title);
 
   document.getElementById(
     'meetingLocation'
-  ).value =
-    read(data.location);
-
+  ).value=read(data.location);
 
   document.getElementById(
     'meetingDescription'
-  ).value =
-    read(
-      data.description ||
-      data.minutes
-    );
-
+  ).value=
+    read(data.description||data.minutes);
 
   document.getElementById(
     'meetingPhoto'
-  ).value = '';
+  ).value='';
 
+  document.getElementById(
+    'meetingVideo'
+  ).value='';
 
-  const url =
+  document.getElementById(
+    'meetingAudio'
+  ).value='';
+
+  const photoUrl =
     await getPhotoUrl(
       data.photo_url
     );
 
-
   document.getElementById(
     'meetingPhotoPreview'
-  ).innerHTML =
-
-    url
-
+  ).innerHTML=
+    photoUrl
       ? '<img class="activity-photo-preview" src="'+
-        escapeHtml(url)+
+        escapeHtml(photoUrl)+
         '" alt="Meeting photo">'
+      : '<span class="activity-photo-placeholder">Meeting Photo</span>';
 
-      : '<span class="activity-photo-placeholder">'+
-        'Meeting Photo'+
-        '</span>';
+  const videoUrl =
+    await getPhotoUrl(
+      data.video_url
+    );
+
+  const videoPreview =
+    document.getElementById(
+      'meetingVideoPreview'
+    );
+
+  if(videoUrl){
+
+    videoPreview.src=videoUrl;
+    videoPreview.style.display='block';
+
+    document.getElementById(
+      'meetingVideoStatus'
+    ).textContent=
+      'Existing meeting video loaded.';
+
+  }else{
+
+    videoPreview.removeAttribute('src');
+    videoPreview.style.display='none';
+
+  }
+
+  const audioUrl =
+    await getPhotoUrl(
+      data.audio_url
+    );
+
+  const audioPreview =
+    document.getElementById(
+      'meetingAudioPreview'
+    );
+
+  if(audioUrl){
+
+    audioPreview.src=audioUrl;
+    audioPreview.style.display='block';
+
+    document.getElementById(
+      'meetingAudioStatus'
+    ).textContent=
+      'Existing meeting voice loaded.';
+
+  }else{
+
+    audioPreview.removeAttribute('src');
+    audioPreview.style.display='none';
+
+  }
 
 }
 
 
 function resetMeetingForm(){
 
-  editingMeetingId =
-    null;
+  closeMeetingCamera();
+  closeMeetingVideoCamera();
 
-  editingMeetingOldPhoto =
-    null;
+  if(
+    meetingMediaRecorder &&
+    meetingMediaRecorder.state!=='inactive'
+  ){
 
+    meetingMediaRecorder.stop();
+
+  }
+
+  if(
+    meetingVideoRecorder &&
+    meetingVideoRecorder.state!=='inactive'
+  ){
+
+    meetingVideoRecorder.stop();
+
+  }
+
+  meetingMediaRecorder=null;
+  meetingVideoRecorder=null;
+
+  selectedMeetingPhotoFile=null;
+
+  meetingVideoFile=null;
+  meetingAudioFile=null;
+
+  meetingAudioChunks=[];
+  meetingVideoChunks=[];
+
+  editingMeetingId=null;
+  editingMeetingOldPhoto=null;
+  editingMeetingOldVideo=null;
+  editingMeetingOldAudio=null;
 
   [
     'meetingDate',
@@ -4157,24 +6521,52 @@ function resetMeetingForm(){
     'meetingLocation',
     'meetingDescription'
   ].forEach(
-    id =>
-      document.getElementById(
-        id
-      ).value=''
+    id=>
+      document.getElementById(id).value=''
   );
-
 
   document.getElementById(
     'meetingPhoto'
   ).value='';
 
+  document.getElementById(
+    'meetingVideo'
+  ).value='';
+
+  document.getElementById(
+    'meetingAudio'
+  ).value='';
 
   document.getElementById(
     'meetingPhotoPreview'
-  ).innerHTML =
-    '<span class="activity-photo-placeholder">'+
-    'Meeting Photo'+
-    '</span>';
+  ).innerHTML=
+    '<span class="activity-photo-placeholder">Meeting Photo</span>';
+
+  const vp =
+    document.getElementById(
+      'meetingVideoPreview'
+    );
+
+  vp.pause();
+  vp.removeAttribute('src');
+  vp.style.display='none';
+
+  const ap =
+    document.getElementById(
+      'meetingAudioPreview'
+    );
+
+  ap.pause();
+  ap.removeAttribute('src');
+  ap.style.display='none';
+
+  document.getElementById(
+    'meetingVideoStatus'
+  ).textContent='';
+
+  document.getElementById(
+    'meetingAudioStatus'
+  ).textContent='';
 
 }
 
@@ -4183,25 +6575,24 @@ async function deleteMeeting(id){
 
   if(
     !confirm(
-      'Delete this meeting?'
+      'Delete this meeting and its media?'
     )
   ) return;
-
 
   const {data} =
     await supabaseClient
       .from('meetings')
-      .select('photo_url')
+      .select(
+        'photo_url,video_url,audio_url'
+      )
       .eq('id',id)
       .single();
-
 
   const {error} =
     await supabaseClient
       .from('meetings')
       .delete()
       .eq('id',id);
-
 
   if(error){
 
@@ -4215,15 +6606,17 @@ async function deleteMeeting(id){
 
   }
 
-
   if(data?.photo_url){
-
-    await deleteStoredPhoto(
-      data.photo_url
-    );
-
+    await deleteStoredPhoto(data.photo_url);
   }
 
+  if(data?.video_url){
+    await deleteStoredPhoto(data.video_url);
+  }
+
+  if(data?.audio_url){
+    await deleteStoredPhoto(data.audio_url);
+  }
 
   loadMeetings();
 
@@ -4234,54 +6627,48 @@ async function deleteMeeting(id){
    EVENTS
 ========================= */
 
-async function saveEvent(){
+async function saveEvent(event){
 
-  const file =
+  if(event) event.preventDefault();
+
+  const galleryPhoto =
     document
-      .getElementById(
-        'eventPhoto'
-      )
+      .getElementById('eventPhoto')
       .files?.[0];
 
+  const photoFile =
+    selectedEventPhotoFile ||
+    galleryPhoto;
 
-  const record = {
+  const record={
 
     title:
       document
-        .getElementById(
-          'eventTitle'
-        )
+        .getElementById('eventTitle')
         .value
         .trim(),
 
     date:
       document
-        .getElementById(
-          'eventDate'
-        )
+        .getElementById('eventDate')
         .value,
 
     location:
       document
-        .getElementById(
-          'eventLocation'
-        )
+        .getElementById('eventLocation')
         .value
         .trim(),
 
     description:
       document
-        .getElementById(
-          'eventDescription'
-        )
+        .getElementById('eventDescription')
         .value
         .trim()
 
   };
 
-
   if(
-    !record.title ||
+    !record.title||
     !record.date
   ){
 
@@ -4295,66 +6682,98 @@ async function saveEvent(){
 
   }
 
-
   try{
 
     let photo =
-      editingEventOldPhoto ||
-      null;
+      editingEventOldPhoto||null;
 
+    let video =
+      editingEventOldVideo||null;
 
-    if(file){
+    let audio =
+      editingEventOldAudio||null;
+
+    if(photoFile){
 
       photo =
         await uploadPersonPhoto(
-          file,
+          photoFile,
           'event-photos',
           'event'
         );
 
     }
 
+    if(eventVideoFile){
 
-    record.photo_url =
-      photo;
-
-
-    const {error} =
-      editingEventId
-
-        ? await supabaseClient
-            .from('events')
-            .update(record)
-            .eq(
-              'id',
-              editingEventId
-            )
-
-        : await supabaseClient
-            .from('events')
-            .insert([record]);
-
-
-    if(error){
-
-      if(file && photo){
-
-        await deleteStoredPhoto(
-          photo
+      video =
+        await uploadActivityMedia(
+          eventVideoFile,
+          'event-videos',
+          'event-video'
         );
-
-      }
-
-      throw error;
 
     }
 
+    if(eventAudioFile){
+
+      audio =
+        await uploadActivityMedia(
+          eventAudioFile,
+          'event-audio',
+          'event-audio'
+        );
+
+    }
+
+    record.photo_url=photo;
+    record.video_url=video;
+    record.audio_url=audio;
+
+    let result;
+
+    if(editingEventId){
+
+      result =
+        await supabaseClient
+          .from('events')
+          .update(record)
+          .eq(
+            'id',
+            editingEventId
+          );
+
+    }else{
+
+      result =
+        await supabaseClient
+          .from('events')
+          .insert([record]);
+
+    }
+
+    if(result.error){
+
+      if(photoFile&&photo){
+        await deleteStoredPhoto(photo);
+      }
+
+      if(eventVideoFile&&video){
+        await deleteStoredPhoto(video);
+      }
+
+      if(eventAudioFile&&audio){
+        await deleteStoredPhoto(audio);
+      }
+
+      throw result.error;
+
+    }
 
     if(
-      file &&
+      photoFile &&
       editingEventOldPhoto &&
-      editingEventOldPhoto !==
-      photo
+      editingEventOldPhoto!==photo
     ){
 
       await deleteStoredPhoto(
@@ -4363,6 +6782,29 @@ async function saveEvent(){
 
     }
 
+    if(
+      eventVideoFile &&
+      editingEventOldVideo &&
+      editingEventOldVideo!==video
+    ){
+
+      await deleteStoredPhoto(
+        editingEventOldVideo
+      );
+
+    }
+
+    if(
+      eventAudioFile &&
+      editingEventOldAudio &&
+      editingEventOldAudio!==audio
+    ){
+
+      await deleteStoredPhoto(
+        editingEventOldAudio
+      );
+
+    }
 
     showMessage(
       'eventMessage',
@@ -4370,18 +6812,15 @@ async function saveEvent(){
       'success'
     );
 
-
     resetEventForm();
 
-    loadEvents();
-
+    await loadEvents();
 
   }catch(e){
 
     showMessage(
       'eventMessage',
-      'Could not save event: '+
-      e.message,
+      'Could not save event: '+e.message,
       'error'
     );
 
@@ -4397,10 +6836,8 @@ async function loadEvents(){
       'eventsList'
     );
 
-
-  list.innerHTML =
+  list.innerHTML=
     'Loading events...';
-
 
   const {data,error} =
     await supabaseClient
@@ -4411,10 +6848,9 @@ async function loadEvents(){
         {ascending:false}
       );
 
-
   if(error){
 
-    list.innerHTML =
+    list.innerHTML=
       '<div class="message error">'+
       escapeHtml(error.message)+
       '</div>';
@@ -4423,68 +6859,86 @@ async function loadEvents(){
 
   }
 
-
   if(!data?.length){
 
-    list.innerHTML =
+    list.innerHTML=
       '<p>No events found.</p>';
 
     return;
 
   }
 
-
   const cards =
     await Promise.all(
-
       data.map(
-        async x => {
+        async x=>{
 
-          const url =
+          const photoUrl =
             await getPhotoUrl(
               x.photo_url
             );
 
+          const videoUrl =
+            await getPhotoUrl(
+              x.video_url
+            );
 
-          return (
+          const audioUrl =
+            await getPhotoUrl(
+              x.audio_url
+            );
+
+          return(
 
             '<div class="event-card">'+
 
             (
-              url
-              ?
-              '<div style="text-align:center">'+
-              '<img class="activity-photo-preview" src="'+
-              escapeHtml(url)+
-              '" alt="Event photo">'+
-              '</div>'
-              :
-              ''
+              photoUrl
+                ? '<div style="text-align:center">'+
+                  '<img class="activity-photo-preview" src="'+
+                  escapeHtml(photoUrl)+
+                  '" alt="Event photo">'+
+                  '</div>'
+                : ''
             )+
 
             '<h3>'+
-            escapeHtml(
-              read(x.title)
-            )+
+            escapeHtml(read(x.title))+
             '</h3>'+
 
             '<p><strong>Date:</strong> '+
-            escapeHtml(
-              read(x.date)
-            )+
+            escapeHtml(read(x.date))+
             '</p>'+
 
             '<p><strong>Location:</strong> '+
-            escapeHtml(
-              read(x.location)
-            )+
+            escapeHtml(read(x.location))+
             '</p>'+
 
             '<p><strong>Description:</strong> '+
-            escapeHtml(
-              read(x.description)
-            )+
+            escapeHtml(read(x.description))+
             '</p>'+
+
+            (
+              videoUrl
+                ? '<div class="media-existing">'+
+                  '<strong>🎥 Event Video</strong>'+
+                  '<video class="media-preview" controls src="'+
+                  escapeHtml(videoUrl)+
+                  '"></video>'+
+                  '</div>'
+                : ''
+            )+
+
+            (
+              audioUrl
+                ? '<div class="media-existing">'+
+                  '<strong>🎙️ Event Voice</strong>'+
+                  '<audio class="media-preview" controls src="'+
+                  escapeHtml(audioUrl)+
+                  '"></audio>'+
+                  '</div>'
+                : ''
+            )+
 
             '<button class="edit-button" onclick="editEvent('+
             JSON.stringify(x.id)+
@@ -4500,11 +6954,9 @@ async function loadEvents(){
 
         }
       )
-
     );
 
-
-  list.innerHTML =
+  list.innerHTML=
     cards.join('');
 
 }
@@ -4519,7 +6971,6 @@ async function editEvent(id){
       .eq('id',id)
       .single();
 
-
   if(error){
 
     showMessage(
@@ -4532,75 +6983,162 @@ async function editEvent(id){
 
   }
 
-
-  editingEventId =
-    id;
+  editingEventId=id;
 
   editingEventOldPhoto =
-    data.photo_url ||
-    null;
+    data.photo_url||null;
 
+  editingEventOldVideo =
+    data.video_url||null;
+
+  editingEventOldAudio =
+    data.audio_url||null;
+
+  selectedEventPhotoFile=null;
+
+  eventVideoFile=null;
+  eventAudioFile=null;
+
+  closeEventCamera();
+  closeEventVideoCamera();
 
   document.getElementById(
     'eventTitle'
-  ).value =
-    read(data.title);
-
+  ).value=read(data.title);
 
   document.getElementById(
     'eventDate'
-  ).value =
-    read(data.date);
-
+  ).value=read(data.date);
 
   document.getElementById(
     'eventLocation'
-  ).value =
-    read(data.location);
-
+  ).value=read(data.location);
 
   document.getElementById(
     'eventDescription'
-  ).value =
-    read(data.description);
-
+  ).value=read(data.description);
 
   document.getElementById(
     'eventPhoto'
-  ).value = '';
+  ).value='';
 
+  document.getElementById(
+    'eventVideo'
+  ).value='';
 
-  const url =
+  document.getElementById(
+    'eventAudio'
+  ).value='';
+
+  const photoUrl =
     await getPhotoUrl(
       data.photo_url
     );
 
-
   document.getElementById(
     'eventPhotoPreview'
-  ).innerHTML =
-
-    url
-
+  ).innerHTML=
+    photoUrl
       ? '<img class="activity-photo-preview" src="'+
-        escapeHtml(url)+
+        escapeHtml(photoUrl)+
         '" alt="Event photo">'
+      : '<span class="activity-photo-placeholder">Event Photo</span>';
 
-      : '<span class="activity-photo-placeholder">'+
-        'Event Photo'+
-        '</span>';
+  const videoUrl =
+    await getPhotoUrl(
+      data.video_url
+    );
+
+  const videoPreview =
+    document.getElementById(
+      'eventVideoPreview'
+    );
+
+  if(videoUrl){
+
+    videoPreview.src=videoUrl;
+    videoPreview.style.display='block';
+
+    document.getElementById(
+      'eventVideoStatus'
+    ).textContent=
+      'Existing event video loaded.';
+
+  }else{
+
+    videoPreview.removeAttribute('src');
+    videoPreview.style.display='none';
+
+  }
+
+  const audioUrl =
+    await getPhotoUrl(
+      data.audio_url
+    );
+
+  const audioPreview =
+    document.getElementById(
+      'eventAudioPreview'
+    );
+
+  if(audioUrl){
+
+    audioPreview.src=audioUrl;
+    audioPreview.style.display='block';
+
+    document.getElementById(
+      'eventAudioStatus'
+    ).textContent=
+      'Existing event voice loaded.';
+
+  }else{
+
+    audioPreview.removeAttribute('src');
+    audioPreview.style.display='none';
+
+  }
 
 }
 
 
 function resetEventForm(){
 
-  editingEventId =
-    null;
+  closeEventCamera();
+  closeEventVideoCamera();
 
-  editingEventOldPhoto =
-    null;
+  if(
+    eventMediaRecorder &&
+    eventMediaRecorder.state!=='inactive'
+  ){
 
+    eventMediaRecorder.stop();
+
+  }
+
+  if(
+    eventVideoRecorder &&
+    eventVideoRecorder.state!=='inactive'
+  ){
+
+    eventVideoRecorder.stop();
+
+  }
+
+  eventMediaRecorder=null;
+  eventVideoRecorder=null;
+
+  selectedEventPhotoFile=null;
+
+  eventVideoFile=null;
+  eventAudioFile=null;
+
+  eventAudioChunks=[];
+  eventVideoChunks=[];
+
+  editingEventId=null;
+  editingEventOldPhoto=null;
+  editingEventOldVideo=null;
+  editingEventOldAudio=null;
 
   [
     'eventTitle',
@@ -4608,24 +7146,52 @@ function resetEventForm(){
     'eventLocation',
     'eventDescription'
   ].forEach(
-    id =>
-      document.getElementById(
-        id
-      ).value=''
+    id=>
+      document.getElementById(id).value=''
   );
-
 
   document.getElementById(
     'eventPhoto'
   ).value='';
 
+  document.getElementById(
+    'eventVideo'
+  ).value='';
+
+  document.getElementById(
+    'eventAudio'
+  ).value='';
 
   document.getElementById(
     'eventPhotoPreview'
-  ).innerHTML =
-    '<span class="activity-photo-placeholder">'+
-    'Event Photo'+
-    '</span>';
+  ).innerHTML=
+    '<span class="activity-photo-placeholder">Event Photo</span>';
+
+  const vp =
+    document.getElementById(
+      'eventVideoPreview'
+    );
+
+  vp.pause();
+  vp.removeAttribute('src');
+  vp.style.display='none';
+
+  const ap =
+    document.getElementById(
+      'eventAudioPreview'
+    );
+
+  ap.pause();
+  ap.removeAttribute('src');
+  ap.style.display='none';
+
+  document.getElementById(
+    'eventVideoStatus'
+  ).textContent='';
+
+  document.getElementById(
+    'eventAudioStatus'
+  ).textContent='';
 
 }
 
@@ -4634,25 +7200,24 @@ async function deleteEvent(id){
 
   if(
     !confirm(
-      'Delete this event?'
+      'Delete this event and its media?'
     )
   ) return;
-
 
   const {data} =
     await supabaseClient
       .from('events')
-      .select('photo_url')
+      .select(
+        'photo_url,video_url,audio_url'
+      )
       .eq('id',id)
       .single();
-
 
   const {error} =
     await supabaseClient
       .from('events')
       .delete()
       .eq('id',id);
-
 
   if(error){
 
@@ -4666,15 +7231,17 @@ async function deleteEvent(id){
 
   }
 
-
   if(data?.photo_url){
-
-    await deleteStoredPhoto(
-      data.photo_url
-    );
-
+    await deleteStoredPhoto(data.photo_url);
   }
 
+  if(data?.video_url){
+    await deleteStoredPhoto(data.video_url);
+  }
+
+  if(data?.audio_url){
+    await deleteStoredPhoto(data.audio_url);
+  }
 
   loadEvents();
 
@@ -4692,10 +7259,8 @@ async function loadDocuments(){
       'documentsList'
     );
 
-
-  list.innerHTML =
+  list.innerHTML=
     'Loading documents...';
-
 
   const {data,error} =
     await supabaseClient
@@ -4712,10 +7277,9 @@ async function loadDocuments(){
         }
       );
 
-
   if(error){
 
-    list.innerHTML =
+    list.innerHTML=
       '<div class="message error">'+
       'Error loading documents: '+
       escapeHtml(error.message)+
@@ -4725,20 +7289,18 @@ async function loadDocuments(){
 
   }
 
-
   if(!data?.length){
 
-    list.innerHTML =
+    list.innerHTML=
       '<p>No documents uploaded yet.</p>';
 
     return;
 
   }
 
-
-  list.innerHTML =
+  list.innerHTML=
     data.map(
-      f =>
+      f=>
 
       '<div class="document-card">'+
 
@@ -4748,8 +7310,7 @@ async function loadDocuments(){
 
       '<p class="small-text">'+
       escapeHtml(
-        f.metadata?.mimetype ||
-        'File'
+        f.metadata?.mimetype||'File'
       )+
       '</p>'+
 
@@ -4775,10 +7336,8 @@ async function uploadDocument(){
       'documentFile'
     );
 
-
   const file =
     input.files?.[0];
-
 
   if(!file){
 
@@ -4792,9 +7351,8 @@ async function uploadDocument(){
 
   }
 
-
   if(
-    file.size >
+    file.size>
     50*1024*1024
   ){
 
@@ -4808,15 +7366,13 @@ async function uploadDocument(){
 
   }
 
-
   const name =
     Date.now()+
-    '_' +
+    '_'+
     file.name.replace(
       /[^a-zA-Z0-9._-]/g,
       '_'
     );
-
 
   const {error} =
     await supabaseClient
@@ -4831,13 +7387,11 @@ async function uploadDocument(){
         }
       );
 
-
   if(error){
 
     showMessage(
       'documentMessage',
-      'Upload failed: '+
-      error.message,
+      'Upload failed: '+error.message,
       'error'
     );
 
@@ -4845,16 +7399,13 @@ async function uploadDocument(){
 
   }
 
-
   input.value='';
-
 
   showMessage(
     'documentMessage',
     'Document uploaded successfully.',
     'success'
   );
-
 
   loadDocuments();
 
@@ -4871,7 +7422,6 @@ async function saveTypedDocument(){
       .value
       .trim();
 
-
   const content =
     document
       .getElementById(
@@ -4880,8 +7430,7 @@ async function saveTypedDocument(){
       .value
       .trim();
 
-
-  if(!title || !content){
+  if(!title||!content){
 
     showMessage(
       'typedDocumentMessage',
@@ -4893,16 +7442,14 @@ async function saveTypedDocument(){
 
   }
 
-
   const name =
     Date.now()+
-    '_' +
+    '_'+
     title.replace(
       /[^a-zA-Z0-9._-]/g,
       '_'
     )+
     '.txt';
-
 
   const blob =
     new Blob(
@@ -4919,7 +7466,6 @@ async function saveTypedDocument(){
       }
     );
 
-
   const {error} =
     await supabaseClient
       .storage
@@ -4933,13 +7479,11 @@ async function saveTypedDocument(){
         }
       );
 
-
   if(error){
 
     showMessage(
       'typedDocumentMessage',
-      'Could not save document: '+
-      error.message,
+      'Could not save document: '+error.message,
       'error'
     );
 
@@ -4947,23 +7491,19 @@ async function saveTypedDocument(){
 
   }
 
-
   document.getElementById(
     'typedDocumentTitle'
   ).value='';
 
-
   document.getElementById(
     'typedDocumentContent'
   ).value='';
-
 
   showMessage(
     'typedDocumentMessage',
     'Document saved successfully.',
     'success'
   );
-
 
   loadDocuments();
 
@@ -4981,7 +7521,6 @@ async function openDocument(name){
         3600
       );
 
-
   if(error){
 
     alert(
@@ -4992,7 +7531,6 @@ async function openDocument(name){
     return;
 
   }
-
 
   window.open(
     data.signedUrl,
@@ -5010,27 +7548,23 @@ async function deleteDocument(name){
     )
   ) return;
 
-
   const {error} =
     await supabaseClient
       .storage
       .from(DOCUMENT_BUCKET)
       .remove([name]);
 
-
   if(error){
 
     showMessage(
       'documentMessage',
-      'Could not delete document: '+
-      error.message,
+      'Could not delete document: '+error.message,
       'error'
     );
 
     return;
 
   }
-
 
   loadDocuments();
 
@@ -5051,20 +7585,12 @@ supabaseClient.auth.onAuthStateChange(
     }else{
 
       document
-        .getElementById(
-          'appSection'
-        )
-        .classList.add(
-          'hidden'
-        );
+        .getElementById('appSection')
+        .classList.add('hidden');
 
       document
-        .getElementById(
-          'loginSection'
-        )
-        .classList.remove(
-          'hidden'
-        );
+        .getElementById('loginSection')
+        .classList.remove('hidden');
 
     }
 
@@ -5080,7 +7606,6 @@ supabaseClient.auth.onAuthStateChange(
       await supabaseClient
         .auth
         .getSession();
-
 
     if(data.session){
 
@@ -5099,7 +7624,9 @@ supabaseClient.auth.onAuthStateChange(
 </script>
 
 
-<!-- ID CARD MODAL -->
+<!-- =========================
+     ID CARD MODAL
+========================= -->
 
 <div
   id="idCardModal"
@@ -5143,7 +7670,7 @@ YONA • UNITY AND DEVELOPMENT
     color:#777;
   "
 >
-  NO PHOTO
+NO PHOTO
 </div>
 
 
@@ -5212,6 +7739,7 @@ Official YONA Membership Identification Card
 >
 🖨️ Print ID Card
 </button>
+
 
 <button
   type="button"
