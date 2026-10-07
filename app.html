@@ -435,7 +435,61 @@ audio.media-preview{
   padding:10px;
   margin-top:10px;
 }
+/* DOCUMENT SCANNER */
 
+.scanner-box{
+  background:#f8fafc;
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:15px;
+  margin:15px 0;
+}
+
+.scanner-box h3{
+  color:#075aaa;
+  margin-top:0;
+}
+
+.scanner-camera{
+  width:100%;
+  max-width:600px;
+  background:#111;
+  border-radius:12px;
+  display:block;
+  margin:10px auto;
+}
+
+.scanner-preview{
+  width:100%;
+  max-width:600px;
+  max-height:600px;
+  object-fit:contain;
+  background:#eee;
+  border-radius:12px;
+  display:block;
+  margin:10px auto;
+  border:2px solid #075aaa;
+}
+
+.scanner-actions{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+
+.scanner-actions button{
+  margin:0;
+}
+
+.scanner-status{
+  text-align:center;
+  font-size:13px;
+  font-weight:bold;
+  margin:8px 0;
+}
+  
 /* ID CARD */
 
 .id-modal{
@@ -2148,7 +2202,106 @@ Back to Dashboard
   id="documentsSection"
   class="hidden card"
 >
+<!-- DOCUMENT SCANNER -->
 
+<div class="scanner-box">
+
+  <h3>📷 Document Scanner</h3>
+
+  <p class="small-text">
+    Use your phone camera to scan and save a YONA document.
+  </p>
+
+  <button
+    type="button"
+    onclick="openDocumentScanner()"
+  >
+    📷 Scan Document
+  </button>
+
+  <div
+    id="documentScannerBox"
+    style="display:none"
+  >
+
+    <video
+      id="documentScannerCamera"
+      class="scanner-camera"
+      autoplay
+      playsinline
+    ></video>
+
+    <div class="scanner-actions">
+
+      <button
+        type="button"
+        onclick="captureDocumentScan()"
+      >
+        📸 Capture Scan
+      </button>
+
+      <button
+        type="button"
+        class="cancel-button"
+        onclick="closeDocumentScanner()"
+      >
+        Cancel
+      </button>
+
+    </div>
+
+    <p
+      id="documentScannerStatus"
+      class="scanner-status"
+    >
+      Position the document inside the camera.
+    </p>
+
+  </div>
+
+  <canvas
+    id="documentScannerCanvas"
+    style="display:none"
+  ></canvas>
+
+  <img
+    id="documentScannerPreview"
+    class="scanner-preview"
+    style="display:none"
+    alt="Scanned document preview"
+  >
+
+  <div
+    id="documentScannerActions"
+    class="scanner-actions"
+    style="display:none"
+  >
+
+    <button
+      type="button"
+      onclick="retakeDocumentScan()"
+    >
+      🔄 Retake
+    </button>
+
+    <button
+      type="button"
+      class="delete-button"
+      onclick="removeDocumentScan()"
+    >
+      ❌ Remove
+    </button>
+
+    <button
+      type="button"
+      onclick="useDocumentScan()"
+    >
+      ✅ Use This Scan
+    </button>
+
+  </div>
+
+</div>
 <h2 class="section-title">
 Documents
 </h2>
@@ -8588,7 +8741,321 @@ async function deleteEvent(id){
 
 }
 
+/* =========================
+   DOCUMENT SCANNER
+========================= */
 
+let documentScannerStream = null;
+let documentScanFile = null;
+
+async function openDocumentScanner(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia
+  ){
+
+    alert(
+      'Document scanning is not supported by this browser.'
+    );
+
+    return;
+  }
+
+  try{
+
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+        video:{
+          facingMode:{
+            ideal:'environment'
+          }
+        },
+        audio:false
+      });
+
+    documentScannerStream = stream;
+
+    const camera =
+      document.getElementById(
+        'documentScannerCamera'
+      );
+
+    camera.srcObject = stream;
+
+    document
+      .getElementById(
+        'documentScannerBox'
+      )
+      .style.display='block';
+
+    document
+      .getElementById(
+        'documentScannerPreview'
+      )
+      .style.display='none';
+
+    document
+      .getElementById(
+        'documentScannerActions'
+      )
+      .style.display='none';
+
+    document
+      .getElementById(
+        'documentScannerStatus'
+      )
+      .textContent =
+        'Position the document inside the camera.';
+
+  }catch(e){
+
+    alert(
+      'Could not open document camera: '+
+      e.message
+    );
+
+  }
+
+}
+
+function captureDocumentScan(){
+
+  const camera =
+    document.getElementById(
+      'documentScannerCamera'
+    );
+
+  if(
+    !camera ||
+    !camera.videoWidth ||
+    !camera.videoHeight
+  ){
+
+    alert(
+      'Camera is not ready yet. Please wait a moment.'
+    );
+
+    return;
+  }
+
+  const canvas =
+    document.getElementById(
+      'documentScannerCanvas'
+    );
+
+  canvas.width =
+    camera.videoWidth;
+
+  canvas.height =
+    camera.videoHeight;
+
+  const ctx =
+    canvas.getContext('2d');
+
+  ctx.drawImage(
+    camera,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  canvas.toBlob(
+    blob => {
+
+      if(!blob){
+
+        alert(
+          'Could not capture the document.'
+        );
+
+        return;
+      }
+
+      documentScanFile =
+        new File(
+          [blob],
+          'YONA_document_scan_'+
+          Date.now()+
+          '.jpg',
+          {
+            type:'image/jpeg'
+          }
+        );
+
+      const url =
+        URL.createObjectURL(
+          documentScanFile
+        );
+
+      const preview =
+        document.getElementById(
+          'documentScannerPreview'
+        );
+
+      preview.src=url;
+      preview.style.display='block';
+
+      document
+        .getElementById(
+          'documentScannerActions'
+        )
+        .style.display='flex';
+
+      document
+        .getElementById(
+          'documentScannerStatus'
+        )
+        .textContent =
+          'Document captured successfully.';
+
+      closeDocumentScanner();
+
+    },
+    'image/jpeg',
+    0.92
+  );
+
+}
+
+function closeDocumentScanner(){
+
+  if(documentScannerStream){
+
+    documentScannerStream
+      .getTracks()
+      .forEach(
+        track => track.stop()
+      );
+
+    documentScannerStream=null;
+
+  }
+
+  const camera =
+    document.getElementById(
+      'documentScannerCamera'
+    );
+
+  if(camera){
+    camera.srcObject=null;
+  }
+
+  const box =
+    document.getElementById(
+      'documentScannerBox'
+    );
+
+  if(box){
+    box.style.display='none';
+  }
+
+}
+
+function retakeDocumentScan(){
+
+  removeDocumentScan();
+
+  openDocumentScanner();
+
+}
+
+function removeDocumentScan(){
+
+  documentScanFile=null;
+
+  const preview =
+    document.getElementById(
+      'documentScannerPreview'
+    );
+
+  if(preview){
+
+    preview.removeAttribute('src');
+
+    preview.style.display='none';
+
+  }
+
+  const actions =
+    document.getElementById(
+      'documentScannerActions'
+    );
+
+  if(actions){
+
+    actions.style.display='none';
+
+  }
+
+  const status =
+    document.getElementById(
+      'documentScannerStatus'
+    );
+
+  if(status){
+
+    status.textContent =
+      'No document scan selected.';
+
+  }
+
+}
+
+function useDocumentScan(){
+
+  if(!documentScanFile){
+
+    alert(
+      'Please scan a document first.'
+    );
+
+    return;
+
+  }
+
+  const fileInput =
+    document.getElementById(
+      'documentFile'
+    );
+
+  if(!fileInput){
+
+    alert(
+      'The existing document file input was not found.'
+    );
+
+    return;
+
+  }
+
+  try{
+
+    const transfer =
+      new DataTransfer();
+
+    transfer.items.add(
+      documentScanFile
+    );
+
+    fileInput.files =
+      transfer.files;
+
+    alert(
+      'Scan added to the document form. Now save the document.'
+    );
+
+  }catch(e){
+
+    alert(
+      'Could not add scanned document: '+
+      e.message
+    );
+
+  }
+
+}
 /* =========================
    DOCUMENTS
 ========================= */
