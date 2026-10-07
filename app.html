@@ -1,1 +1,9185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>YONA App</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f2f5f8;
+  color:#222;
+}
+
+header{
+  background:#075aaa;
+  color:#fff;
+  padding:20px;
+  text-align:center;
+}
+
+header h1{
+  margin:0;
+  font-size:25px;
+}
+
+header p{
+  margin:6px 0 0;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
+}
+
+.card{
+  background:#fff;
+  padding:20px;
+  border-radius:16px;
+  margin-bottom:20px;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.hidden{
+  display:none!important;
+}
+
+.section-title{
+  color:#075aaa;
+  margin-top:0;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:12px;
+  margin:7px 0;
+  border:1px solid #ccc;
+  border-radius:8px;
+  font-size:15px;
+}
+
+textarea{
+  min-height:110px;
+  resize:vertical;
+}
+
+button{
+  padding:11px 16px;
+  border:0;
+  border-radius:8px;
+  background:#075aaa;
+  color:#fff;
+  cursor:pointer;
+  margin:5px 4px 5px 0;
+  font-size:15px;
+}
+
+button:hover{
+  background:#064a8d;
+}
+
+button:disabled{
+  opacity:.65;
+  cursor:not-allowed;
+}
+
+.delete-button{
+  background:#d93025;
+}
+
+.cancel-button{
+  background:#777;
+}
+
+.back-button{
+  background:#444;
+}
+
+.edit-button{
+  background:#198754;
+}
+
+.record-button{
+  background:#d93025;
+}
+
+.stop-button{
+  background:#555;
+}
+
+.remove-media-button{
+  background:#777;
+}
+
+.message{
+  padding:12px;
+  border-radius:8px;
+  background:#eef5ff;
+  margin-top:12px;
+  white-space:pre-wrap;
+}
+
+.success{
+  color:#087f23;
+}
+
+.error{
+  color:#c62828;
+}
+
+.small-text{
+  font-size:13px;
+  color:#666;
+  word-break:break-word;
+}
+
+.dashboard{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+  margin-bottom:25px;
+}
+
+.dashboard-card{
+  background:#fff;
+  border-radius:16px;
+  padding:24px 18px;
+  min-height:155px;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.dashboard-icon{
+  font-size:38px;
+  margin-bottom:8px;
+}
+
+.dashboard-card h3{
+  margin:4px 0 8px;
+  color:#075aaa;
+}
+
+.dashboard-card p{
+  font-size:14px;
+  color:#666;
+  margin:0 0 14px;
+}
+
+.dashboard-card button{
+  width:100%;
+  margin:0;
+}
+
+.item-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+
+.item-card,
+.meeting-card,
+.event-card,
+.document-card{
+  background:#f8fafc;
+  border:1px solid #ddd;
+  border-radius:10px;
+  padding:15px;
+  margin-bottom:14px;
+}
+
+.item-card h3,
+.meeting-card h3,
+.event-card h3,
+.document-card h3{
+  margin-top:0;
+  color:#075aaa;
+}
+
+.member-photo-wrap{
+  text-align:center;
+  margin:10px 0 18px;
+}
+
+.member-photo-preview,
+.person-photo{
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid #075aaa;
+  background:#e9eef5;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:#777;
+}
+
+.person-photo{
+  width:80px;
+  height:80px;
+}
+
+.photo-placeholder{
+  font-size:12px;
+}
+
+.member-form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+.document-upload-box{
+  background:#f8fafc;
+  border:1px solid #ddd;
+  border-radius:10px;
+  padding:15px;
+  margin-bottom:18px;
+}
+
+.document-file-name{
+  font-weight:bold;
+  color:#075aaa;
+  word-break:break-word;
+}
+
+.activity-photo-wrap{
+  text-align:center;
+  margin:10px 0 18px;
+}
+
+.activity-photo-preview{
+  width:180px;
+  height:110px;
+  object-fit:cover;
+  border-radius:10px;
+  border:3px solid #075aaa;
+  background:#e9eef5;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:#777;
+}
+
+.activity-photo-placeholder{
+  font-size:12px;
+}
+
+.auth-box{
+  max-width:430px;
+  margin:30px auto;
+}
+
+.logout{
+  float:right;
+  background:#d93025;
+}
+
+.topbar{
+  overflow:auto;
+  margin-bottom:12px;
+}
+
+.stats-dashboard .stat-card{
+  min-height:125px;
+}
+
+.stat-number{
+  font-size:34px;
+  font-weight:700;
+  color:#075aaa;
+  line-height:1;
+}
+
+.member-search-box{
+  background:#f8fafc;
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:12px;
+  margin:0 0 18px;
+}
+
+.member-search-box input{
+  margin:0;
+}
+
+.member-result .member-photo-wrap{
+  margin:0 0 10px;
+}
+
+.member-result button{
+  font-size:13px;
+  padding:9px 11px;
+}
+
+/* CAMERA */
+
+.camera-buttons{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:8px;
+}
+
+.camera-buttons button{
+  margin:0;
+}
+
+.camera-box{
+  background:#111;
+  border-radius:12px;
+  padding:10px;
+  margin-top:12px;
+  text-align:center;
+}
+
+.camera-video{
+  width:100%;
+  max-width:430px;
+  max-height:430px;
+  border-radius:10px;
+  background:#000;
+  object-fit:cover;
+}
+
+.camera-actions{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+
+.camera-actions button{
+  margin:0;
+}
+
+.camera-help{
+  color:#fff;
+  font-size:12px;
+  margin:5px 0 0;
+}
+
+/* MEDIA */
+
+.media-box{
+  background:#f8fafc;
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:15px;
+  margin:15px 0;
+}
+
+.media-box h3{
+  color:#075aaa;
+  margin-top:0;
+}
+
+.media-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:8px;
+}
+
+.media-buttons button{
+  margin:0;
+}
+
+.media-status{
+  margin:8px 0;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.recording{
+  color:#d93025;
+}
+
+.media-preview{
+  width:100%;
+  max-width:600px;
+  border-radius:10px;
+  margin-top:10px;
+  background:#111;
+}
+
+audio.media-preview{
+  height:50px;
+}
+
+.media-existing{
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:10px;
+  padding:10px;
+  margin-top:10px;
+}
+
+/* ID CARD */
+
+.id-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+  overflow:auto;
+}
+
+.id-modal.hidden{
+  display:none;
+}
+
+.id-modal>div{
+  max-width:430px;
+  width:100%;
+}
+
+.id-card{
+  background:#fff;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 10px 40px rgba(0,0,0,.3);
+  text-align:center;
+}
+
+.id-card-header{
+  background:#075aaa;
+  color:#fff;
+  padding:16px;
+}
+
+.id-card-header h2{
+  font-size:18px;
+  margin:0;
+}
+
+.id-card-header p{
+  margin:5px 0 0;
+  font-size:12px;
+}
+
+.id-card-body{
+  padding:18px;
+}
+
+.id-card-photo{
+  width:105px;
+  height:105px;
+  border-radius:50%;
+  object-fit:cover;
+  border:4px solid #075aaa;
+  background:#eee;
+}
+
+.id-card-name{
+  font-size:22px;
+  font-weight:700;
+  margin-top:10px;
+}
+
+.id-card-position{
+  color:#075aaa;
+  font-weight:600;
+  margin:4px;
+}
+
+.id-info{
+  background:#f4f7fa;
+  border-radius:10px;
+  padding:12px;
+  text-align:left;
+  margin:12px 0;
+  font-size:13px;
+  line-height:1.8;
+}
+
+.id-qr{
+  display:flex;
+  justify-content:center;
+  margin:10px;
+}
+
+.id-card-footer{
+  background:#075aaa;
+  color:#fff;
+  padding:9px;
+  font-size:11px;
+}
+
+.modal-actions{
+  text-align:center;
+  padding:10px;
+}
+
+.modal-actions button{
+  margin:3px;
+}
+
+@media(max-width:800px){
+
+  .dashboard{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .item-grid{
+    grid-template-columns:1fr;
+  }
+
+  .member-form-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:500px){
+
+  .container{
+    padding:12px;
+  }
+
+  .dashboard{
+    grid-template-columns:1fr;
+  }
+
+  .dashboard-card{
+    min-height:135px;
+  }
+
+  .topbar button{
+    width:100%;
+    margin:4px 0;
+  }
+
+  .logout{
+    float:none;
+  }
+
+  .camera-buttons button{
+    width:100%;
+  }
+
+}
+
+@media print{
+
+  body>*:not(#idCardModal){
+    display:none!important;
+  }
+
+  .id-modal{
+    position:static;
+    background:#fff;
+    padding:0;
+  }
+
+  .id-modal>div{
+    max-width:430px;
+  }
+
+  .modal-actions{
+    display:none;
+  }
+
+  .id-card{
+    box-shadow:none;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>YONA App</h1>
+
+<p>Youths of Ndasei Association</p>
+
+<p>
+<strong>Unity and Development</strong>
+</p>
+
+</header>
+
+
+<div class="container">
+
+
+<!-- LOGIN -->
+
+<section
+  id="loginSection"
+  class="card auth-box"
+>
+
+<h2 class="section-title">
+YONA Login
+</h2>
+
+<p class="small-text">
+Sign in with the YONA Supabase account.
+</p>
+
+<input
+  id="loginEmail"
+  type="email"
+  placeholder="Email"
+>
+
+<input
+  id="loginPassword"
+  type="password"
+  placeholder="Password"
+>
+
+<button
+  id="loginButton"
+  onclick="login()"
+>
+Login
+</button>
+
+<div id="loginMessage"></div>
+
+</section>
+
+
+<!-- APP -->
+
+<section
+  id="appSection"
+  class="hidden"
+>
+
+
+<div class="topbar">
+
+<button
+  class="logout"
+  onclick="logout()"
+>
+Logout
+</button>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<div id="dashboardSection">
+
+
+<div class="dashboard stats-dashboard">
+
+
+<div class="dashboard-card stat-card">
+
+<div
+  id="totalMembers"
+  class="stat-number"
+>
+0
+</div>
+
+<h3>Total Members</h3>
+
+<p>
+All registered YONA members.
+</p>
+
+</div>
+
+
+<div class="dashboard-card stat-card">
+
+<div
+  id="activeMembers"
+  class="stat-number"
+>
+0
+</div>
+
+<h3>Active Members</h3>
+
+<p>
+Members with valid cards.
+</p>
+
+</div>
+
+
+<div class="dashboard-card stat-card">
+
+<div
+  id="expiredMembers"
+  class="stat-number"
+>
+0
+</div>
+
+<h3>Expired Cards</h3>
+
+<p>
+Cards past their expiry date.
+</p>
+
+</div>
+
+
+<div class="dashboard-card stat-card">
+
+<div
+  id="executiveMembers"
+  class="stat-number"
+>
+0
+</div>
+
+<h3>Executives</h3>
+
+<p>
+Executive leadership records.
+</p>
+
+</div>
+
+
+</div>
+
+
+<div class="dashboard">
+
+
+<div class="dashboard-card">
+
+<div class="dashboard-icon">
+👥
+</div>
+
+<h3>Members</h3>
+
+<p>
+Manage YONA members and membership records.
+</p>
+
+<button
+  onclick="showSection('membersSection');loadMembers()"
+>
+Members
+</button>
+
+</div>
+
+
+<div class="dashboard-card">
+
+<div class="dashboard-icon">
+👔
+</div>
+
+<h3>Executive</h3>
+
+<p>
+Manage executive leadership and periods.
+</p>
+
+<button
+  onclick="showSection('executiveSection');loadExecutive()"
+>
+Executive
+</button>
+
+</div>
+
+
+<div class="dashboard-card">
+
+<div class="dashboard-icon">
+💰
+</div>
+
+<h3>Finance</h3>
+
+<p>
+Manage contributions and financial records.
+</p>
+
+<button
+  onclick="showSection('financeSection');loadFinance()"
+>
+Finance
+</button>
+
+</div>
+
+
+<div class="dashboard-card">
+
+<div class="dashboard-icon">
+📝
+</div>
+
+<h3>Meetings</h3>
+
+<p>
+Photos, videos and voice recordings.
+</p>
+
+<button
+  onclick="showSection('meetingsSection');loadMeetings()"
+>
+Meetings
+</button>
+
+</div>
+
+
+<div class="dashboard-card">
+
+<div class="dashboard-icon">
+📅
+</div>
+
+<h3>Events</h3>
+
+<p>
+Photos, videos and voice recordings.
+</p>
+
+<button
+  onclick="showSection('eventsSection');loadEvents()"
+>
+Events
+</button>
+
+</div>
+
+
+<div class="dashboard-card">
+
+<div class="dashboard-icon">
+📁
+</div>
+
+<h3>Documents</h3>
+
+<p>
+Store important YONA documents.
+</p>
+
+<button
+  onclick="showSection('documentsSection');loadDocuments()"
+>
+Documents
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     MEMBERS
+========================= -->
+
+<section
+  id="membersSection"
+  class="hidden card"
+>
+
+<h2 class="section-title">
+Members
+</h2>
+
+
+<div class="member-search-box">
+
+<input
+  id="memberSearch"
+  type="search"
+  placeholder="🔎 Search members by name, phone, position, category or member number"
+  oninput="renderMembers()"
+>
+
+<div
+  id="memberSearchStatus"
+  class="small-text"
+></div>
+
+</div>
+
+
+<form onsubmit="saveMember(event)">
+
+
+<div class="member-form-grid">
+
+
+<div>
+
+<label>Name</label>
+
+<input
+  id="memberName"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label>Phone</label>
+
+<input
+  id="memberPhone"
+>
+
+</div>
+
+
+<div>
+
+<label>Member Category</label>
+
+<select
+  id="memberType"
+  required
+>
+
+<option value="">
+Select category
+</option>
+
+<option>
+Old Member
+</option>
+
+<option>
+Current Member
+</option>
+
+<option>
+Probationary Member
+</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>Position</label>
+
+<input
+  id="memberPosition"
+>
+
+</div>
+
+
+<div>
+
+<label>Member Number</label>
+
+<input
+  id="memberNumber"
+  type="number"
+  min="1"
+  max="999"
+  placeholder="Example: 001"
+>
+
+</div>
+
+
+<div>
+
+<label>Card Expiry Date</label>
+
+<input
+  id="expiryDate"
+  type="date"
+>
+
+</div>
+
+
+<!-- MEMBER PHOTO -->
+
+<div class="full member-photo-wrap">
+
+<label>
+<strong>Profile Photo</strong>
+</label>
+
+
+<div
+  id="memberPhotoPreview"
+  class="member-photo-preview"
+>
+
+<span class="photo-placeholder">
+Profile Photo
+</span>
+
+</div>
+
+
+<div class="camera-buttons">
+
+<button
+  type="button"
+  onclick="openMemberCamera()"
+>
+📷 Take Photo
+</button>
+
+
+<button
+  type="button"
+  onclick="document.getElementById('memberPhoto').click()"
+>
+🖼️ Add Photo
+</button>
+
+</div>
+
+
+<input
+  id="memberPhoto"
+  type="file"
+  accept="image/*"
+  onchange="previewMemberPhoto(event)"
+  style="display:none"
+>
+
+
+<div
+  id="memberCameraBox"
+  class="camera-box"
+  style="display:none"
+>
+
+<video
+  id="memberCamera"
+  class="camera-video"
+  autoplay
+  playsinline
+></video>
+
+
+<div class="camera-actions">
+
+<button
+  type="button"
+  onclick="takeMemberPhoto()"
+>
+📸 Capture Photo
+</button>
+
+
+<button
+  type="button"
+  class="cancel-button"
+  onclick="closeMemberCamera()"
+>
+Cancel
+</button>
+
+</div>
+
+
+<p class="camera-help">
+Position the member's face inside the camera and tap Capture Photo.
+</p>
+
+
+<canvas
+  id="memberCameraCanvas"
+  style="display:none"
+></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+
+<button
+  id="memberSaveButton"
+  type="submit"
+>
+Save Member
+</button>
+
+
+<button
+  type="button"
+  class="cancel-button"
+  onclick="resetMemberForm()"
+>
+Cancel
+</button>
+
+</form>
+
+
+<div id="memberMessage"></div>
+
+
+<div
+  id="qrCard"
+  class="card hidden"
+  style="margin-top:15px"
+>
+
+<h3 class="section-title">
+Member QR Code
+</h3>
+
+<p class="small-text">
+Scan this QR code to open the public YONA member verification page.
+</p>
+
+
+<div
+  style="text-align:center;padding:15px"
+>
+
+<div id="qrcode"></div>
+
+<div
+  id="qrLink"
+  class="small-text"
+  style="word-break:break-all;margin-top:10px"
+></div>
+
+</div>
+
+
+<button
+  type="button"
+  onclick="openQrLink()"
+>
+Open Verification
+</button>
+
+</div>
+
+
+<div id="membersList"></div>
+
+
+<button
+  class="back-button"
+  onclick="backToDashboard()"
+>
+Back to Dashboard
+</button>
+
+</section>
+
+
+<!-- =========================
+     EXECUTIVE
+========================= -->
+
+<section
+  id="executiveSection"
+  class="hidden card"
+>
+
+<h2 class="section-title">
+Executive
+</h2>
+
+
+<div class="member-form-grid">
+
+
+<div>
+
+<label>Period</label>
+
+<input
+  id="executivePeriod"
+  placeholder="e.g. 2026-2029"
+>
+
+</div>
+
+
+<div>
+
+<label>Name</label>
+
+<input
+  id="executiveName"
+>
+
+</div>
+
+
+<div>
+
+<label>Position</label>
+
+<input
+  id="executivePosition"
+>
+
+</div>
+
+
+<div>
+
+<label>Phone</label>
+
+<input
+  id="executivePhone"
+>
+
+</div>
+
+
+<!-- EXECUTIVE PHOTO -->
+
+<div class="full member-photo-wrap">
+
+<label>
+<strong>Executive Photo</strong>
+</label>
+
+
+<div
+  id="executivePhotoPreview"
+  class="member-photo-preview"
+>
+
+<span class="photo-placeholder">
+Executive Photo
+</span>
+
+</div>
+
+
+<div class="camera-buttons">
+
+<button
+  type="button"
+  onclick="openExecutiveCamera()"
+>
+📷 Take Photo
+</button>
+
+
+<button
+  type="button"
+  onclick="document.getElementById('executivePhoto').click()"
+>
+🖼️ Add Photo
+</button>
+
+</div>
+
+
+<input
+  id="executivePhoto"
+  type="file"
+  accept="image/*"
+  onchange="previewExecutivePhoto(event)"
+  style="display:none"
+>
+
+
+<div
+  id="executiveCameraBox"
+  class="camera-box"
+  style="display:none"
+>
+
+<video
+  id="executiveCamera"
+  class="camera-video"
+  autoplay
+  playsinline
+></video>
+
+
+<div class="camera-actions">
+
+<button
+  type="button"
+  onclick="takeExecutivePhoto()"
+>
+📸 Capture Photo
+</button>
+
+
+<button
+  type="button"
+  class="cancel-button"
+  onclick="closeExecutiveCamera()"
+>
+Cancel
+</button>
+
+</div>
+
+
+<canvas
+  id="executiveCameraCanvas"
+  style="display:none"
+></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+
+<button
+  id="executiveSaveButton"
+  onclick="saveExecutive(event)"
+>
+Save Executive
+</button>
+
+
+<button
+  class="cancel-button"
+  onclick="resetExecutiveForm()"
+>
+Cancel
+</button>
+
+
+<div id="executiveMessage"></div>
+
+
+<div id="executiveList"></div>
+
+
+<button
+  class="back-button"
+  onclick="backToDashboard()"
+>
+Back to Dashboard
+</button>
+
+</section>
+
+
+<!-- =========================
+     FINANCE
+========================= -->
+
+<section
+  id="financeSection"
+  class="hidden card"
+>
+
+<h2 class="section-title">
+Finance
+</h2>
+
+
+<input
+  id="financeName"
+  placeholder="Name"
+>
+
+
+<select id="financeType">
+
+<option value="">
+Select transaction type
+</option>
+
+<option>
+Registration
+</option>
+
+<option>
+Annual Contribution
+</option>
+
+<option>
+End of year Contribution
+</option>
+
+<option>
+Loan
+</option>
+
+<option>
+Loan Repayment
+</option>
+
+<option>
+Loan Interest
+</option>
+
+<option>
+Welfare
+</option>
+
+<option>
+Other
+</option>
+
+</select>
+
+
+<input
+  id="financeAmount"
+  type="number"
+  step="0.01"
+  placeholder="Amount"
+>
+
+
+<textarea
+  id="financeDescription"
+  placeholder="Description"
+></textarea>
+
+
+<button
+  onclick="saveFinance(event)"
+>
+Save Transaction
+</button>
+
+
+<button
+  class="cancel-button"
+  onclick="resetFinanceForm()"
+>
+Cancel
+</button>
+
+
+<div id="financeMessage"></div>
+
+<div id="financeList"></div>
+
+
+<button
+  class="back-button"
+  onclick="backToDashboard()"
+>
+Back to Dashboard
+</button>
+
+</section>
+
+
+<!-- =========================
+     MEETINGS
+========================= -->
+
+<section
+  id="meetingsSection"
+  class="hidden card"
+>
+
+<h2 class="section-title">
+Meetings
+</h2>
+
+
+<input
+  id="meetingDate"
+  type="date"
+  placeholder="Meeting Date"
+>
+
+
+<input
+  id="meetingTitle"
+  placeholder="Meeting Title"
+>
+
+
+<input
+  id="meetingLocation"
+  placeholder="Location"
+>
+
+
+<textarea
+  id="meetingDescription"
+  placeholder="Minutes / Description"
+></textarea>
+
+
+<!-- MEETING PHOTO -->
+
+<div class="activity-photo-wrap">
+
+<label>
+<strong>Meeting Photo</strong>
+</label>
+
+
+<div
+  id="meetingPhotoPreview"
+  class="activity-photo-preview"
+>
+
+<span class="activity-photo-placeholder">
+Meeting Photo
+</span>
+
+</div>
+
+
+<div class="camera-buttons">
+
+<button
+  type="button"
+  onclick="openMeetingCamera()"
+>
+📷 Take Photo
+</button>
+
+
+<button
+  type="button"
+  onclick="document.getElementById('meetingPhoto').click()"
+>
+🖼️ Add Photo
+</button>
+
+</div>
+
+
+<input
+  id="meetingPhoto"
+  type="file"
+  accept="image/*"
+  onchange="previewMeetingPhoto(event)"
+  style="display:none"
+>
+
+
+<div
+  id="meetingCameraBox"
+  class="camera-box"
+  style="display:none"
+>
+
+<video
+  id="meetingCamera"
+  class="camera-video"
+  autoplay
+  playsinline
+></video>
+
+
+<div class="camera-actions">
+
+<button
+  type="button"
+  onclick="takeMeetingPhoto()"
+>
+📸 Capture Photo
+</button>
+
+
+<button
+  type="button"
+  class="cancel-button"
+  onclick="closeMeetingCamera()"
+>
+Cancel
+</button>
+
+</div>
+
+
+<canvas
+  id="meetingCameraCanvas"
+  style="display:none"
+></canvas>
+
+</div>
+
+</div>
+
+
+<!-- MEETING VIDEO -->
+
+<div class="media-box">
+
+<h3>
+🎥 Meeting Video
+</h3>
+
+<p class="small-text">
+Record a meeting video using the camera or select an existing video.
+</p>
+
+
+<input
+  id="meetingVideo"
+  type="file"
+  accept="video/*"
+  onchange="previewMeetingVideoFile(event)"
+>
+
+
+<div class="media-buttons">
+
+<button
+  type="button"
+  onclick="startMeetingVideoRecording()"
+>
+🎥 Start Video
+</button>
+
+
+<button
+  type="button"
+  class="stop-button"
+  onclick="stopMeetingVideoRecording()"
+>
+⏹ Stop Video
+</button>
+
+
+<button
+  type="button"
+  class="remove-media-button"
+  onclick="removeMeetingVideo()"
+>
+🗑️ Remove Video
+</button>
+
+</div>
+
+
+<div
+  id="meetingVideoStatus"
+  class="media-status"
+></div>
+
+
+<video
+  id="meetingVideoPreview"
+  class="media-preview"
+  controls
+  style="display:none"
+></video>
+
+
+<div
+  id="meetingVideoCameraBox"
+  class="camera-box"
+  style="display:none"
+>
+
+<video
+  id="meetingVideoCamera"
+  class="camera-video"
+  autoplay
+  muted
+  playsinline
+></video>
+
+</div>
+
+</div>
+
+
+<!-- MEETING AUDIO -->
+
+<div class="media-box">
+
+<h3>
+🎙️ Meeting Voice Recording
+</h3>
+
+<p class="small-text">
+Record meeting voice/audio and save it with the meeting.
+</p>
+
+
+<input
+  id="meetingAudio"
+  type="file"
+  accept="audio/*"
+  onchange="previewMeetingAudioFile(event)"
+>
+
+
+<div class="media-buttons">
+
+<button
+  type="button"
+  class="record-button"
+  onclick="startMeetingRecording()"
+>
+🎙️ Start Recording
+</button>
+
+
+<button
+  type="button"
+  class="stop-button"
+  onclick="stopMeetingRecording()"
+>
+⏹ Stop Recording
+</button>
+
+
+<button
+  type="button"
+  class="remove-media-button"
+  onclick="removeMeetingAudio()"
+>
+🗑️ Remove Audio
+</button>
+
+</div>
+
+
+<div
+  id="meetingAudioStatus"
+  class="media-status"
+></div>
+
+
+<audio
+  id="meetingAudioPreview"
+  class="media-preview"
+  controls
+  style="display:none"
+></audio>
+
+</div>
+
+
+<button
+  onclick="saveMeeting(event)"
+>
+Save Meeting
+</button>
+
+
+<button
+  class="cancel-button"
+  onclick="resetMeetingForm()"
+>
+Cancel
+</button>
+
+
+<div id="meetingMessage"></div>
+
+<div id="meetingsList"></div>
+
+
+<button
+  class="back-button"
+  onclick="backToDashboard()"
+>
+Back to Dashboard
+</button>
+
+</section>
+
+
+<!-- =========================
+     EVENTS
+========================= -->
+
+<section
+  id="eventsSection"
+  class="hidden card"
+>
+
+<h2 class="section-title">
+Events
+</h2>
+
+
+<input
+  id="eventTitle"
+  placeholder="Event Title"
+>
+
+
+<input
+  id="eventDate"
+  type="date"
+>
+
+
+<input
+  id="eventLocation"
+  placeholder="Location"
+>
+
+
+<textarea
+  id="eventDescription"
+  placeholder="Description"
+></textarea>
+
+
+<!-- EVENT PHOTO -->
+
+<div class="activity-photo-wrap">
+
+<label>
+<strong>Event Photo</strong>
+</label>
+
+
+<div
+  id="eventPhotoPreview"
+  class="activity-photo-preview"
+>
+
+<span class="activity-photo-placeholder">
+Event Photo
+</span>
+
+</div>
+
+
+<div class="camera-buttons">
+
+<button
+  type="button"
+  onclick="openEventCamera()"
+>
+📷 Take Photo
+</button>
+
+
+<button
+  type="button"
+  onclick="document.getElementById('eventPhoto').click()"
+>
+🖼️ Add Photo
+</button>
+
+</div>
+
+
+<input
+  id="eventPhoto"
+  type="file"
+  accept="image/*"
+  onchange="previewEventPhoto(event)"
+  style="display:none"
+>
+
+
+<div
+  id="eventCameraBox"
+  class="camera-box"
+  style="display:none"
+>
+
+<video
+  id="eventCamera"
+  class="camera-video"
+  autoplay
+  playsinline
+></video>
+
+
+<div class="camera-actions">
+
+<button
+  type="button"
+  onclick="takeEventPhoto()"
+>
+📸 Capture Photo
+</button>
+
+
+<button
+  type="button"
+  class="cancel-button"
+  onclick="closeEventCamera()"
+>
+Cancel
+</button>
+
+</div>
+
+
+<canvas
+  id="eventCameraCanvas"
+  style="display:none"
+></canvas>
+
+</div>
+
+</div>
+
+
+<!-- EVENT VIDEO -->
+
+<div class="media-box">
+
+<h3>
+🎥 Event Video
+</h3>
+
+<p class="small-text">
+Record an event video using the camera or select an existing video.
+</p>
+
+
+<input
+  id="eventVideo"
+  type="file"
+  accept="video/*"
+  onchange="previewEventVideoFile(event)"
+>
+
+
+<div class="media-buttons">
+
+<button
+  type="button"
+  onclick="startEventVideoRecording()"
+>
+🎥 Start Video
+</button>
+
+
+<button
+  type="button"
+  class="stop-button"
+  onclick="stopEventVideoRecording()"
+>
+⏹ Stop Video
+</button>
+
+
+<button
+  type="button"
+  class="remove-media-button"
+  onclick="removeEventVideo()"
+>
+🗑️ Remove Video
+</button>
+
+</div>
+
+
+<div
+  id="eventVideoStatus"
+  class="media-status"
+></div>
+
+
+<video
+  id="eventVideoPreview"
+  class="media-preview"
+  controls
+  style="display:none"
+></video>
+
+
+<div
+  id="eventVideoCameraBox"
+  class="camera-box"
+  style="display:none"
+>
+
+<video
+  id="eventVideoCamera"
+  class="camera-video"
+  autoplay
+  muted
+  playsinline
+></video>
+
+</div>
+
+</div>
+
+
+<!-- EVENT AUDIO -->
+
+<div class="media-box">
+
+<h3>
+🎙️ Event Voice Recording
+</h3>
+
+<p class="small-text">
+Record event voice/audio and save it with the event.
+</p>
+
+
+<input
+  id="eventAudio"
+  type="file"
+  accept="audio/*"
+  onchange="previewEventAudioFile(event)"
+>
+
+
+<div class="media-buttons">
+
+<button
+  type="button"
+  class="record-button"
+  onclick="startEventRecording()"
+>
+🎙️ Start Recording
+</button>
+
+
+<button
+  type="button"
+  class="stop-button"
+  onclick="stopEventRecording()"
+>
+⏹ Stop Recording
+</button>
+
+
+<button
+  type="button"
+  class="remove-media-button"
+  onclick="removeEventAudio()"
+>
+🗑️ Remove Audio
+</button>
+
+</div>
+
+
+<div
+  id="eventAudioStatus"
+  class="media-status"
+></div>
+
+
+<audio
+  id="eventAudioPreview"
+  class="media-preview"
+  controls
+  style="display:none"
+></audio>
+
+</div>
+
+
+<button
+  onclick="saveEvent(event)"
+>
+Save Event
+</button>
+
+
+<button
+  class="cancel-button"
+  onclick="resetEventForm()"
+>
+Cancel
+</button>
+
+
+<div id="eventMessage"></div>
+
+<div id="eventsList"></div>
+
+
+<button
+  class="back-button"
+  onclick="backToDashboard()"
+>
+Back to Dashboard
+</button>
+
+</section>
+
+
+<!-- =========================
+     DOCUMENTS
+========================= -->
+
+<section
+  id="documentsSection"
+  class="hidden card"
+>
+
+<h2 class="section-title">
+Documents
+</h2>
+
+
+<div class="document-upload-box">
+
+<h3>
+Create Document
+</h3>
+
+
+<input
+  id="typedDocumentTitle"
+  placeholder="Document Title"
+>
+
+
+<textarea
+  id="typedDocumentContent"
+  placeholder="Type document content..."
+></textarea>
+
+
+<button
+  onclick="saveTypedDocument()"
+>
+Save Document
+</button>
+
+
+<div id="typedDocumentMessage"></div>
+
+</div>
+
+
+<div class="document-upload-box">
+
+<h3>
+Upload Document
+</h3>
+
+
+<input
+  id="documentFile"
+  type="file"
+>
+
+
+<button
+  onclick="uploadDocument()"
+>
+Upload Document
+</button>
+
+
+<div id="documentMessage"></div>
+
+</div>
+
+
+<div id="documentsList"></div>
+
+
+<button
+  class="back-button"
+  onclick="backToDashboard()"
+>
+Back to Dashboard
+</button>
+
+</section>
+
+
+</section>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+
+<script>
+
+const SUPABASE_URL =
+"https://atxeeymireukwbbsczbv.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
+
+const DOCUMENT_BUCKET =
+"yona-documents";
+
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY,
+  {
+    auth:{
+      persistSession:true,
+      autoRefreshToken:true,
+      detectSessionInUrl:true
+    }
+  }
+);
+
+
+/* =========================
+   EDITING STATES
+========================= */
+
+let editingMemberId=null;
+let editingMemberOldPhoto=null;
+
+let editingExecutiveId=null;
+let editingExecutiveOldPhoto=null;
+
+let editingFinanceId=null;
+
+let editingMeetingId=null;
+let editingMeetingOldPhoto=null;
+let editingMeetingOldVideo=null;
+let editingMeetingOldAudio=null;
+
+let editingEventId=null;
+let editingEventOldPhoto=null;
+let editingEventOldVideo=null;
+let editingEventOldAudio=null;
+
+
+/* =========================
+   MEDIA REMOVAL STATES
+========================= */
+
+let editingMeetingOldAudioRemoved=false;
+let editingMeetingOldVideoRemoved=false;
+
+let editingEventOldAudioRemoved=false;
+let editingEventOldVideoRemoved=false;
+
+
+/* =========================
+   PHOTO CAMERAS
+========================= */
+
+let selectedMemberPhotoFile=null;
+let memberCameraStream=null;
+
+let selectedExecutivePhotoFile=null;
+let executiveCameraStream=null;
+
+let selectedMeetingPhotoFile=null;
+let meetingCameraStream=null;
+
+let selectedEventPhotoFile=null;
+let eventCameraStream=null;
+
+
+/* =========================
+   AUDIO
+========================= */
+
+let meetingMediaRecorder=null;
+let meetingAudioChunks=[];
+let meetingAudioFile=null;
+
+let eventMediaRecorder=null;
+let eventAudioChunks=[];
+let eventAudioFile=null;
+
+
+/* =========================
+   VIDEO
+========================= */
+
+let meetingVideoRecorder=null;
+let meetingVideoChunks=[];
+let meetingVideoFile=null;
+let meetingVideoStream=null;
+
+let eventVideoRecorder=null;
+let eventVideoChunks=[];
+let eventVideoFile=null;
+let eventVideoStream=null;
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function escapeHtml(v){
+
+  return String(v ?? '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+
+}
+
+
+function read(v){
+
+  return v==null
+    ? ''
+    : String(v);
+
+}
+
+
+function showMessage(
+  id,
+  msg,
+  type=''
+){
+
+  const e =
+    document.getElementById(id);
+
+  if(e){
+
+    e.innerHTML =
+      '<div class="message '+type+'">'+
+      escapeHtml(msg)+
+      '</div>';
+
+  }
+
+}
+
+
+function showSection(id){
+
+  document
+    .getElementById('dashboardSection')
+    .classList.add('hidden');
+
+  document
+    .querySelectorAll(
+      '#appSection>section'
+    )
+    .forEach(
+      s=>s.classList.add('hidden')
+    );
+
+  document
+    .getElementById(id)
+    .classList.remove('hidden');
+
+}
+
+
+function backToDashboard(){
+
+  document
+    .querySelectorAll(
+      '#appSection>section'
+    )
+    .forEach(
+      s=>s.classList.add('hidden')
+    );
+
+  document
+    .getElementById('dashboardSection')
+    .classList.remove('hidden');
+
+}
+
+
+/* =========================
+   AUTH
+========================= */
+
+async function login(){
+
+  const email =
+    document
+      .getElementById('loginEmail')
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById('loginPassword')
+      .value;
+
+  const button =
+    document.getElementById(
+      'loginButton'
+    );
+
+  button.disabled=true;
+  button.textContent='Logging in...';
+
+  try{
+
+    const {error} =
+      await supabaseClient.auth
+        .signInWithPassword({
+          email,
+          password
+        });
+
+    if(error){
+      throw error;
+    }
+
+    showApp();
+
+  }catch(e){
+
+    showMessage(
+      'loginMessage',
+      'Login failed: '+e.message,
+      'error'
+    );
+
+  }finally{
+
+    button.disabled=false;
+    button.textContent='Login';
+
+  }
+
+}
+
+
+async function logout(){
+
+  await supabaseClient.auth.signOut();
+
+  document
+    .getElementById('appSection')
+    .classList.add('hidden');
+
+  document
+    .getElementById('loginSection')
+    .classList.remove('hidden');
+
+}
+
+
+function showApp(){
+
+  document
+    .getElementById('loginSection')
+    .classList.add('hidden');
+
+  document
+    .getElementById('appSection')
+    .classList.remove('hidden');
+
+  backToDashboard();
+
+  updateMemberTotals();
+
+}
+
+
+async function requireSession(){
+
+  const {data,error} =
+    await supabaseClient.auth
+      .getSession();
+
+  if(error){
+    throw error;
+  }
+
+  if(!data.session){
+
+    throw new Error(
+      'Your login session has expired. Please log in again.'
+    );
+
+  }
+
+  return data.session;
+
+}
+
+
+/* =========================
+   STORAGE
+========================= */
+
+function validatePhoto(file){
+
+  if(!file){
+    return true;
+  }
+
+  if(!file.type.startsWith('image/')){
+
+    alert(
+      'Please select an image file.'
+    );
+
+    return false;
+
+  }
+
+  if(file.size>5*1024*1024){
+
+    alert(
+      'Profile photo must be 5 MB or smaller.'
+    );
+
+    return false;
+
+  }
+
+  return true;
+
+}
+
+
+async function uploadPersonPhoto(
+  file,
+  folder,
+  prefix
+){
+
+  if(!file){
+    return null;
+  }
+
+  if(!validatePhoto(file)){
+
+    throw new Error(
+      'Invalid photo.'
+    );
+
+  }
+
+  const safe =
+    file.name.replace(
+      /[^a-zA-Z0-9._-]/g,
+      '_'
+    );
+
+  const path =
+    folder+'/' +
+    prefix+'_' +
+    Date.now()+'_' +
+    Math.random()
+      .toString(36)
+      .slice(2,8)+'_' +
+    safe;
+
+
+  const {error} =
+    await supabaseClient
+      .storage
+      .from(DOCUMENT_BUCKET)
+      .upload(
+        path,
+        file,
+        {
+          upsert:false,
+          cacheControl:'3600',
+          contentType:file.type
+        }
+      );
+
+  if(error){
+    throw error;
+  }
+
+  return path;
+
+}
+
+
+async function uploadActivityMedia(
+  file,
+  folder,
+  prefix
+){
+
+  if(!file){
+    return null;
+  }
+
+  if(file.size>100*1024*1024){
+
+    throw new Error(
+      'Media file is larger than 100 MB.'
+    );
+
+  }
+
+  const safe =
+    file.name.replace(
+      /[^a-zA-Z0-9._-]/g,
+      '_'
+    );
+
+  const path =
+    folder+'/' +
+    prefix+'_' +
+    Date.now()+'_' +
+    Math.random()
+      .toString(36)
+      .slice(2,8)+'_' +
+    safe;
+
+
+  const {error} =
+    await supabaseClient
+      .storage
+      .from(DOCUMENT_BUCKET)
+      .upload(
+        path,
+        file,
+        {
+          upsert:false,
+          cacheControl:'3600',
+          contentType:file.type
+        }
+      );
+
+  if(error){
+    throw error;
+  }
+
+  return path;
+
+}
+
+
+async function deleteStoredPhoto(path){
+
+  if(!path){
+    return;
+  }
+
+  try{
+
+    await supabaseClient
+      .storage
+      .from(DOCUMENT_BUCKET)
+      .remove([path]);
+
+  }catch(e){
+
+    console.error(
+      'Storage delete error:',
+      e
+    );
+
+  }
+
+}
+
+
+async function getPhotoUrl(path){
+
+  if(!path){
+    return null;
+  }
+
+  const {data,error} =
+    await supabaseClient
+      .storage
+      .from(DOCUMENT_BUCKET)
+      .createSignedUrl(
+        path,
+        3600
+      );
+
+  if(error){
+
+    console.error(
+      'Signed URL error:',
+      error
+    );
+
+    return null;
+
+  }
+
+  return data?.signedUrl || null;
+
+}
+
+
+/* =========================
+   MEMBER PHOTO
+========================= */
+
+function previewMemberPhoto(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file){
+    return;
+  }
+
+  if(!validatePhoto(file)){
+    event.target.value='';
+    return;
+  }
+
+  selectedMemberPhotoFile=file;
+
+  const url =
+    URL.createObjectURL(file);
+
+  document
+    .getElementById(
+      'memberPhotoPreview'
+    )
+    .innerHTML =
+      '<img class="member-photo-preview" src="'+
+      url+
+      '" alt="Member photo">';
+
+}
+
+
+async function openMemberCamera(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia
+  ){
+
+    alert(
+      'Camera is not available in this browser.'
+    );
+
+    return;
+
+  }
+
+  try{
+
+    closeMemberCamera();
+
+    memberCameraStream =
+      await navigator.mediaDevices
+        .getUserMedia({
+          video:{
+            facingMode:{
+              ideal:'environment'
+            }
+          },
+          audio:false
+        });
+
+    const video =
+      document.getElementById(
+        'memberCamera'
+      );
+
+    video.srcObject =
+      memberCameraStream;
+
+    document
+      .getElementById(
+        'memberCameraBox'
+      )
+      .style.display='block';
+
+    try{
+      await video.play();
+    }catch(e){}
+
+  }catch(e){
+
+    alert(
+      'Camera access was not allowed.'
+    );
+
+  }
+
+}
+
+
+function takeMemberPhoto(){
+
+  const video =
+    document.getElementById(
+      'memberCamera'
+    );
+
+  const canvas =
+    document.getElementById(
+      'memberCameraCanvas'
+    );
+
+  if(
+    !video.videoWidth ||
+    !video.videoHeight
+  ){
+
+    alert(
+      'Camera is not ready yet.'
+    );
+
+    return;
+
+  }
+
+  canvas.width=
+    video.videoWidth;
+
+  canvas.height=
+    video.videoHeight;
+
+  canvas
+    .getContext('2d')
+    .drawImage(
+      video,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+  canvas.toBlob(
+    blob=>{
+
+      if(!blob){
+        return;
+      }
+
+      selectedMemberPhotoFile =
+        new File(
+          [blob],
+          'member_camera_'+
+          Date.now()+'.jpg',
+          {
+            type:'image/jpeg'
+          }
+        );
+
+      const url =
+        URL.createObjectURL(
+          selectedMemberPhotoFile
+        );
+
+      document
+        .getElementById(
+          'memberPhotoPreview'
+        )
+        .innerHTML =
+          '<img class="member-photo-preview" src="'+
+          url+
+          '" alt="Member photo">';
+
+      document
+        .getElementById(
+          'memberPhoto'
+        )
+        .value='';
+
+      closeMemberCamera();
+
+    },
+    'image/jpeg',
+    .90
+  );
+
+}
+
+
+function closeMemberCamera(){
+
+  if(memberCameraStream){
+
+    memberCameraStream
+      .getTracks()
+      .forEach(
+        t=>t.stop()
+      );
+
+    memberCameraStream=null;
+
+  }
+
+  const video =
+    document.getElementById(
+      'memberCamera'
+    );
+
+  if(video){
+    video.srcObject=null;
+  }
+
+  const box =
+    document.getElementById(
+      'memberCameraBox'
+    );
+
+  if(box){
+    box.style.display='none';
+  }
+
+}
+
+
+/* =========================
+   EXECUTIVE CAMERA
+========================= */
+
+function previewExecutivePhoto(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file){
+    return;
+  }
+
+  if(!validatePhoto(file)){
+
+    event.target.value='';
+    return;
+
+  }
+
+  selectedExecutivePhotoFile=file;
+
+  const url =
+    URL.createObjectURL(file);
+
+  document
+    .getElementById(
+      'executivePhotoPreview'
+    )
+    .innerHTML =
+      '<img class="member-photo-preview" src="'+
+      url+
+      '" alt="Executive photo">';
+
+}
+
+
+async function openExecutiveCamera(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia
+  ){
+
+    alert(
+      'Camera is not available.'
+    );
+
+    return;
+
+  }
+
+  try{
+
+    closeExecutiveCamera();
+
+    executiveCameraStream =
+      await navigator.mediaDevices
+        .getUserMedia({
+          video:{
+            facingMode:{
+              ideal:'environment'
+            }
+          },
+          audio:false
+        });
+
+    const video =
+      document.getElementById(
+        'executiveCamera'
+      );
+
+    video.srcObject=
+      executiveCameraStream;
+
+    document
+      .getElementById(
+        'executiveCameraBox'
+      )
+      .style.display='block';
+
+    try{
+      await video.play();
+    }catch(e){}
+
+  }catch(e){
+
+    alert(
+      'Camera access was not allowed.'
+    );
+
+  }
+
+}
+
+
+function takeExecutivePhoto(){
+
+  const video =
+    document.getElementById(
+      'executiveCamera'
+    );
+
+  const canvas =
+    document.getElementById(
+      'executiveCameraCanvas'
+    );
+
+  if(
+    !video.videoWidth ||
+    !video.videoHeight
+  ){
+
+    alert(
+      'Camera is not ready yet.'
+    );
+
+    return;
+
+  }
+
+  canvas.width=
+    video.videoWidth;
+
+  canvas.height=
+    video.videoHeight;
+
+  canvas
+    .getContext('2d')
+    .drawImage(
+      video,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+  canvas.toBlob(
+    blob=>{
+
+      if(!blob){
+        return;
+      }
+
+      selectedExecutivePhotoFile =
+        new File(
+          [blob],
+          'executive_camera_'+
+          Date.now()+'.jpg',
+          {
+            type:'image/jpeg'
+          }
+        );
+
+      const url =
+        URL.createObjectURL(
+          selectedExecutivePhotoFile
+        );
+
+      document
+        .getElementById(
+          'executivePhotoPreview'
+        )
+        .innerHTML =
+          '<img class="member-photo-preview" src="'+
+          url+
+          '" alt="Executive photo">';
+
+      document
+        .getElementById(
+          'executivePhoto'
+        )
+        .value='';
+
+      closeExecutiveCamera();
+
+    },
+    'image/jpeg',
+    .90
+  );
+
+}
+
+
+function closeExecutiveCamera(){
+
+  if(executiveCameraStream){
+
+    executiveCameraStream
+      .getTracks()
+      .forEach(
+        t=>t.stop()
+      );
+
+    executiveCameraStream=null;
+
+  }
+
+  const video =
+    document.getElementById(
+      'executiveCamera'
+    );
+
+  if(video){
+    video.srcObject=null;
+  }
+
+  const box =
+    document.getElementById(
+      'executiveCameraBox'
+    );
+
+  if(box){
+    box.style.display='none';
+  }
+
+}
+
+
+/* =========================
+   MEETING PHOTO CAMERA
+========================= */
+
+function previewMeetingPhoto(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file){
+    return;
+  }
+
+  if(!validatePhoto(file)){
+
+    event.target.value='';
+    return;
+
+  }
+
+  selectedMeetingPhotoFile=file;
+
+  const url =
+    URL.createObjectURL(file);
+
+  document
+    .getElementById(
+      'meetingPhotoPreview'
+    )
+    .innerHTML =
+      '<img class="activity-photo-preview" src="'+
+      url+
+      '" alt="Meeting photo">';
+
+}
+
+
+async function openMeetingCamera(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia
+  ){
+
+    alert(
+      'Camera is not available.'
+    );
+
+    return;
+
+  }
+
+  try{
+
+    closeMeetingCamera();
+
+    meetingCameraStream =
+      await navigator.mediaDevices
+        .getUserMedia({
+          video:{
+            facingMode:{
+              ideal:'environment'
+            }
+          },
+          audio:false
+        });
+
+    const video =
+      document.getElementById(
+        'meetingCamera'
+      );
+
+    video.srcObject=
+      meetingCameraStream;
+
+    document
+      .getElementById(
+        'meetingCameraBox'
+      )
+      .style.display='block';
+
+    try{
+      await video.play();
+    }catch(e){}
+
+  }catch(e){
+
+    alert(
+      'Camera access was not allowed.'
+    );
+
+  }
+
+}
+
+
+function takeMeetingPhoto(){
+
+  const video =
+    document.getElementById(
+      'meetingCamera'
+    );
+
+  const canvas =
+    document.getElementById(
+      'meetingCameraCanvas'
+    );
+
+  if(
+    !video.videoWidth ||
+    !video.videoHeight
+  ){
+
+    alert(
+      'Camera is not ready yet.'
+    );
+
+    return;
+
+  }
+
+  canvas.width=
+    video.videoWidth;
+
+  canvas.height=
+    video.videoHeight;
+
+  canvas
+    .getContext('2d')
+    .drawImage(
+      video,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+  canvas.toBlob(
+    blob=>{
+
+      if(!blob){
+        return;
+      }
+
+      selectedMeetingPhotoFile =
+        new File(
+          [blob],
+          'meeting_camera_'+
+          Date.now()+'.jpg',
+          {
+            type:'image/jpeg'
+          }
+        );
+
+      const url =
+        URL.createObjectURL(
+          selectedMeetingPhotoFile
+        );
+
+      document
+        .getElementById(
+          'meetingPhotoPreview'
+        )
+        .innerHTML =
+          '<img class="activity-photo-preview" src="'+
+          url+
+          '" alt="Meeting photo">';
+
+      document
+        .getElementById(
+          'meetingPhoto'
+        )
+        .value='';
+
+      closeMeetingCamera();
+
+    },
+    'image/jpeg',
+    .90
+  );
+
+}
+
+
+function closeMeetingCamera(){
+
+  if(meetingCameraStream){
+
+    meetingCameraStream
+      .getTracks()
+      .forEach(
+        t=>t.stop()
+      );
+
+    meetingCameraStream=null;
+
+  }
+
+  const video =
+    document.getElementById(
+      'meetingCamera'
+    );
+
+  if(video){
+    video.srcObject=null;
+  }
+
+  const box =
+    document.getElementById(
+      'meetingCameraBox'
+    );
+
+  if(box){
+    box.style.display='none';
+  }
+
+}
+
+
+/* =========================
+   EVENT PHOTO CAMERA
+========================= */
+
+function previewEventPhoto(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file){
+    return;
+  }
+
+  if(!validatePhoto(file)){
+
+    event.target.value='';
+    return;
+
+  }
+
+  selectedEventPhotoFile=file;
+
+  const url =
+    URL.createObjectURL(file);
+
+  document
+    .getElementById(
+      'eventPhotoPreview'
+    )
+    .innerHTML =
+      '<img class="activity-photo-preview" src="'+
+      url+
+      '" alt="Event photo">';
+
+}
+
+
+async function openEventCamera(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia
+  ){
+
+    alert(
+      'Camera is not available.'
+    );
+
+    return;
+
+  }
+
+  try{
+
+    closeEventCamera();
+
+    eventCameraStream =
+      await navigator.mediaDevices
+        .getUserMedia({
+          video:{
+            facingMode:{
+              ideal:'environment'
+            }
+          },
+          audio:false
+        });
+
+    const video =
+      document.getElementById(
+        'eventCamera'
+      );
+
+    video.srcObject=
+      eventCameraStream;
+
+    document
+      .getElementById(
+        'eventCameraBox'
+      )
+      .style.display='block';
+
+    try{
+      await video.play();
+    }catch(e){}
+
+  }catch(e){
+
+    alert(
+      'Camera access was not allowed.'
+    );
+
+  }
+
+}
+
+
+function takeEventPhoto(){
+
+  const video =
+    document.getElementById(
+      'eventCamera'
+    );
+
+  const canvas =
+    document.getElementById(
+      'eventCameraCanvas'
+    );
+
+  if(
+    !video.videoWidth ||
+    !video.videoHeight
+  ){
+
+    alert(
+      'Camera is not ready yet.'
+    );
+
+    return;
+
+  }
+
+  canvas.width=
+    video.videoWidth;
+
+  canvas.height=
+    video.videoHeight;
+
+  canvas
+    .getContext('2d')
+    .drawImage(
+      video,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+  canvas.toBlob(
+    blob=>{
+
+      if(!blob){
+        return;
+      }
+
+      selectedEventPhotoFile =
+        new File(
+          [blob],
+          'event_camera_'+
+          Date.now()+'.jpg',
+          {
+            type:'image/jpeg'
+          }
+        );
+
+      const url =
+        URL.createObjectURL(
+          selectedEventPhotoFile
+        );
+
+      document
+        .getElementById(
+          'eventPhotoPreview'
+        )
+        .innerHTML =
+          '<img class="activity-photo-preview" src="'+
+          url+
+          '" alt="Event photo">';
+
+      document
+        .getElementById(
+          'eventPhoto'
+        )
+        .value='';
+
+      closeEventCamera();
+
+    },
+    'image/jpeg',
+    .90
+  );
+
+}
+
+
+function closeEventCamera(){
+
+  if(eventCameraStream){
+
+    eventCameraStream
+      .getTracks()
+      .forEach(
+        t=>t.stop()
+      );
+
+    eventCameraStream=null;
+
+  }
+
+  const video =
+    document.getElementById(
+      'eventCamera'
+    );
+
+  if(video){
+    video.srcObject=null;
+  }
+
+  const box =
+    document.getElementById(
+      'eventCameraBox'
+    );
+
+  if(box){
+    box.style.display='none';
+  }
+
+}
+
+
+/* =========================
+   AUDIO HELPERS
+========================= */
+
+function getAudioMimeType(){
+
+  if(
+    typeof MediaRecorder==='undefined'
+  ){
+    return '';
+  }
+
+  const types=[
+
+    'audio/webm;codecs=opus',
+
+    'audio/webm',
+
+    'audio/ogg;codecs=opus',
+
+    'audio/mp4'
+
+  ];
+
+  return types.find(
+    t=>MediaRecorder.isTypeSupported(t)
+  ) || '';
+
+}
+
+
+/* =========================
+   MEETING AUDIO
+========================= */
+
+async function startMeetingRecording(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia ||
+    typeof MediaRecorder==='undefined'
+  ){
+
+    alert(
+      'Audio recording is not supported in this browser.'
+    );
+
+    return;
+
+  }
+
+  try{
+
+    if(meetingMediaRecorder){
+      return;
+    }
+
+    const stream =
+      await navigator.mediaDevices
+        .getUserMedia({
+          audio:true
+        });
+
+    meetingAudioChunks=[];
+
+    const mime =
+      getAudioMimeType();
+
+    meetingMediaRecorder =
+      mime
+        ? new MediaRecorder(
+            stream,
+            {
+              mimeType:mime
+            }
+          )
+        : new MediaRecorder(stream);
+
+
+    meetingMediaRecorder.ondataavailable =
+      e=>{
+
+        if(
+          e.data &&
+          e.data.size
+        ){
+
+          meetingAudioChunks.push(
+            e.data
+          );
+
+        }
+
+      };
+
+
+    meetingMediaRecorder.onstop =
+      ()=>{
+
+        const type =
+          meetingMediaRecorder.mimeType ||
+          'audio/webm';
+
+        const blob =
+          new Blob(
+            meetingAudioChunks,
+            {
+              type
+            }
+          );
+
+        const extension =
+          type.includes('mp4')
+            ? 'm4a'
+            : type.includes('ogg')
+              ? 'ogg'
+              : 'webm';
+
+
+        editingMeetingOldAudioRemoved=false;
+
+        meetingAudioFile =
+          new File(
+            [blob],
+            'meeting_audio_'+
+            Date.now()+'.'+
+            extension,
+            {
+              type
+            }
+          );
+
+
+        const url =
+          URL.createObjectURL(
+            meetingAudioFile
+          );
+
+
+        const player =
+          document.getElementById(
+            'meetingAudioPreview'
+          );
+
+        player.src=url;
+        player.style.display='block';
+
+
+        document
+          .getElementById(
+            'meetingAudioStatus'
+          )
+          .textContent=
+            'Voice recording ready.';
+
+
+        document
+          .getElementById(
+            'meetingAudioStatus'
+          )
+          .className=
+            'media-status success';
+
+
+        stream
+          .getTracks()
+          .forEach(
+            t=>t.stop()
+          );
+
+
+        meetingMediaRecorder=null;
+
+      };
+
+
+    meetingMediaRecorder.start();
+
+
+    const status =
+      document.getElementById(
+        'meetingAudioStatus'
+      );
+
+    status.textContent =
+      '🔴 Recording meeting voice...';
+
+    status.className =
+      'media-status recording';
+
+  }catch(e){
+
+    meetingMediaRecorder=null;
+
+    alert(
+      'Could not start microphone: '+
+      e.message
+    );
+
+  }
+
+}
+
+
+function stopMeetingRecording(){
+
+  if(
+    meetingMediaRecorder &&
+    meetingMediaRecorder.state!=='inactive'
+  ){
+
+    meetingMediaRecorder.stop();
+
+  }
+
+}
+
+
+function previewMeetingAudioFile(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file){
+    return;
+  }
+
+  meetingAudioFile=file;
+
+  editingMeetingOldAudioRemoved=false;
+
+  const url =
+    URL.createObjectURL(file);
+
+  const player =
+    document.getElementById(
+      'meetingAudioPreview'
+    );
+
+  player.src=url;
+  player.style.display='block';
+
+  document
+    .getElementById(
+      'meetingAudioStatus'
+    )
+    .textContent=
+      'Audio file selected.';
+
+}
+
+
+function removeMeetingAudio(){
+
+  meetingAudioFile=null;
+
+  meetingAudioChunks=[];
+
+
+  if(
+    editingMeetingId &&
+    editingMeetingOldAudio
+  ){
+
+    editingMeetingOldAudioRemoved=true;
+
+  }
+
+
+  document
+    .getElementById(
+      'meetingAudio'
+    )
+    .value='';
+
+
+  const player =
+    document.getElementById(
+      'meetingAudioPreview'
+    );
+
+  player.pause();
+
+  player.removeAttribute('src');
+
+  player.style.display='none';
+
+
+  document
+    .getElementById(
+      'meetingAudioStatus'
+    )
+    .textContent=
+      'Audio removed from this form.';
+
+}
+
+
+/* =========================
+   EVENT AUDIO
+========================= */
+
+async function startEventRecording(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia ||
+    typeof MediaRecorder==='undefined'
+  ){
+
+    alert(
+      'Audio recording is not supported in this browser.'
+    );
+
+    return;
+
+  }
+
+  try{
+
+    if(eventMediaRecorder){
+      return;
+    }
+
+    const stream =
+      await navigator.mediaDevices
+        .getUserMedia({
+          audio:true
+        });
+
+    eventAudioChunks=[];
+
+    const mime =
+      getAudioMimeType();
+
+    eventMediaRecorder =
+      mime
+        ? new MediaRecorder(
+            stream,
+            {
+              mimeType:mime
+            }
+          )
+        : new MediaRecorder(stream);
+
+
+    eventMediaRecorder.ondataavailable =
+      e=>{
+
+        if(
+          e.data &&
+          e.data.size
+        ){
+
+          eventAudioChunks.push(
+            e.data
+          );
+
+        }
+
+      };
+
+
+    eventMediaRecorder.onstop =
+      ()=>{
+
+        const type =
+          eventMediaRecorder.mimeType ||
+          'audio/webm';
+
+        const blob =
+          new Blob(
+            eventAudioChunks,
+            {
+              type
+            }
+          );
+
+        const extension =
+          type.includes('mp4')
+            ? 'm4a'
+            : type.includes('ogg')
+              ? 'ogg'
+              : 'webm';
+
+
+        editingEventOldAudioRemoved=false;
+
+
+        eventAudioFile =
+          new File(
+            [blob],
+            'event_audio_'+
+            Date.now()+'.'+
+            extension,
+            {
+              type
+            }
+          );
+
+
+        const url =
+          URL.createObjectURL(
+            eventAudioFile
+          );
+
+
+        const player =
+          document.getElementById(
+            'eventAudioPreview'
+          );
+
+        player.src=url;
+        player.style.display='block';
+
+
+        document
+          .getElementById(
+            'eventAudioStatus'
+          )
+          .textContent=
+            'Voice recording ready.';
+
+
+        document
+          .getElementById(
+            'eventAudioStatus'
+          )
+          .className=
+            'media-status success';
+
+
+        stream
+          .getTracks()
+          .forEach(
+            t=>t.stop()
+          );
+
+
+        eventMediaRecorder=null;
+
+      };
+
+
+    eventMediaRecorder.start();
+
+
+    const status =
+      document.getElementById(
+        'eventAudioStatus'
+      );
+
+    status.textContent =
+      '🔴 Recording event voice...';
+
+    status.className =
+      'media-status recording';
+
+  }catch(e){
+
+    eventMediaRecorder=null;
+
+    alert(
+      'Could not start microphone: '+
+      e.message
+    );
+
+  }
+
+}
+
+
+function stopEventRecording(){
+
+  if(
+    eventMediaRecorder &&
+    eventMediaRecorder.state!=='inactive'
+  ){
+
+    eventMediaRecorder.stop();
+
+  }
+
+}
+
+
+function previewEventAudioFile(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file){
+    return;
+  }
+
+  eventAudioFile=file;
+
+  editingEventOldAudioRemoved=false;
+
+  const url =
+    URL.createObjectURL(file);
+
+  const player =
+    document.getElementById(
+      'eventAudioPreview'
+    );
+
+  player.src=url;
+  player.style.display='block';
+
+  document
+    .getElementById(
+      'eventAudioStatus'
+    )
+    .textContent=
+      'Audio file selected.';
+
+}
+
+
+function removeEventAudio(){
+
+  eventAudioFile=null;
+
+  eventAudioChunks=[];
+
+
+  if(
+    editingEventId &&
+    editingEventOldAudio
+  ){
+
+    editingEventOldAudioRemoved=true;
+
+  }
+
+
+  document
+    .getElementById(
+      'eventAudio'
+    )
+    .value='';
+
+
+  const player =
+    document.getElementById(
+      'eventAudioPreview'
+    );
+
+  player.pause();
+
+  player.removeAttribute('src');
+
+  player.style.display='none';
+
+
+  document
+    .getElementById(
+      'eventAudioStatus'
+    )
+    .textContent=
+      'Audio removed from this form.';
+
+}
+
+
+/* =========================
+   VIDEO HELPERS
+========================= */
+
+function getVideoMimeType(){
+
+  if(
+    typeof MediaRecorder==='undefined'
+  ){
+    return '';
+  }
+
+  const types=[
+
+    'video/webm;codecs=vp9,opus',
+
+    'video/webm;codecs=vp8,opus',
+
+    'video/webm',
+
+    'video/mp4'
+
+  ];
+
+  return types.find(
+    t=>MediaRecorder.isTypeSupported(t)
+  ) || '';
+
+}
+
+
+/* =========================
+   MEETING VIDEO
+========================= */
+
+function previewMeetingVideoFile(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file){
+    return;
+  }
+
+  meetingVideoFile=file;
+
+  editingMeetingOldVideoRemoved=false;
+
+  const url =
+    URL.createObjectURL(file);
+
+  const player =
+    document.getElementById(
+      'meetingVideoPreview'
+    );
+
+  player.src=url;
+  player.style.display='block';
+
+  document
+    .getElementById(
+      'meetingVideoStatus'
+    )
+    .textContent=
+      'Video file selected.';
+
+}
+
+
+async function startMeetingVideoRecording(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia ||
+    typeof MediaRecorder==='undefined'
+  ){
+
+    alert(
+      'Video recording is not supported in this browser.'
+    );
+
+    return;
+
+  }
+
+  try{
+
+    if(meetingVideoRecorder){
+      return;
+    }
+
+    const stream =
+      await navigator.mediaDevices
+        .getUserMedia({
+          video:{
+            facingMode:{
+              ideal:'environment'
+            }
+          },
+          audio:true
+        });
+
+    meetingVideoStream=stream;
+
+    meetingVideoChunks=[];
+
+    const mime =
+      getVideoMimeType();
+
+    meetingVideoRecorder =
+      mime
+        ? new MediaRecorder(
+            stream,
+            {
+              mimeType:mime
+            }
+          )
+        : new MediaRecorder(stream);
+
+
+    const camera =
+      document.getElementById(
+        'meetingVideoCamera'
+      );
+
+    camera.srcObject=stream;
+
+    document
+      .getElementById(
+        'meetingVideoCameraBox'
+      )
+      .style.display='block';
+
+
+    meetingVideoRecorder.ondataavailable =
+      e=>{
+
+        if(
+          e.data &&
+          e.data.size
+        ){
+
+          meetingVideoChunks.push(
+            e.data
+          );
+
+        }
+
+      };
+
+
+    meetingVideoRecorder.onstop =
+      ()=>{
+
+        const type =
+          meetingVideoRecorder.mimeType ||
+          'video/webm';
+
+        const blob =
+          new Blob(
+            meetingVideoChunks,
+            {
+              type
+            }
+          );
+
+
+        const extension =
+          type.includes('mp4')
+            ? 'mp4'
+            : 'webm';
+
+
+        editingMeetingOldVideoRemoved=false;
+
+
+        meetingVideoFile =
+          new File(
+            [blob],
+            'meeting_video_'+
+            Date.now()+'.'+
+            extension,
+            {
+              type
+            }
+          );
+
+
+        const url =
+          URL.createObjectURL(
+            meetingVideoFile
+          );
+
+
+        const player =
+          document.getElementById(
+            'meetingVideoPreview'
+          );
+
+        player.src=url;
+        player.style.display='block';
+
+
+        document
+          .getElementById(
+            'meetingVideoStatus'
+          )
+          .textContent=
+            'Video recording ready.';
+
+
+        document
+          .getElementById(
+            'meetingVideoStatus'
+          )
+          .className=
+            'media-status success';
+
+
+        closeMeetingVideoCamera();
+
+        meetingVideoRecorder=null;
+
+      };
+
+
+    meetingVideoRecorder.start();
+
+
+    document
+      .getElementById(
+        'meetingVideoStatus'
+      )
+      .textContent=
+        '🔴 Recording meeting video...';
+
+    document
+      .getElementById(
+        'meetingVideoStatus'
+      )
+      .className=
+        'media-status recording';
+
+  }catch(e){
+
+    meetingVideoRecorder=null;
+
+    closeMeetingVideoCamera();
+
+    alert(
+      'Could not start video camera: '+
+      e.message
+    );
+
+  }
+
+}
+
+
+function stopMeetingVideoRecording(){
+
+  if(
+    meetingVideoRecorder &&
+    meetingVideoRecorder.state!=='inactive'
+  ){
+
+    meetingVideoRecorder.stop();
+
+  }
+
+}
+
+
+function closeMeetingVideoCamera(){
+
+  if(meetingVideoStream){
+
+    meetingVideoStream
+      .getTracks()
+      .forEach(
+        t=>t.stop()
+      );
+
+    meetingVideoStream=null;
+
+  }
+
+  const camera =
+    document.getElementById(
+      'meetingVideoCamera'
+    );
+
+  if(camera){
+
+    camera.srcObject=null;
+
+  }
+
+  const box =
+    document.getElementById(
+      'meetingVideoCameraBox'
+    );
+
+  if(box){
+
+    box.style.display='none';
+
+  }
+
+}
+
+
+function removeMeetingVideo(){
+
+  meetingVideoFile=null;
+
+  meetingVideoChunks=[];
+
+
+  if(
+    editingMeetingId &&
+    editingMeetingOldVideo
+  ){
+
+    editingMeetingOldVideoRemoved=true;
+
+  }
+
+
+  document
+    .getElementById(
+      'meetingVideo'
+    )
+    .value='';
+
+
+  const player =
+    document.getElementById(
+      'meetingVideoPreview'
+    );
+
+  player.pause();
+
+  player.removeAttribute('src');
+
+  player.style.display='none';
+
+
+  document
+    .getElementById(
+      'meetingVideoStatus'
+    )
+    .textContent=
+      'Video removed from this form.';
+
+}
+
+
+/* =========================
+   EVENT VIDEO
+========================= */
+
+function previewEventVideoFile(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file){
+    return;
+  }
+
+  eventVideoFile=file;
+
+  editingEventOldVideoRemoved=false;
+
+  const url =
+    URL.createObjectURL(file);
+
+  const player =
+    document.getElementById(
+      'eventVideoPreview'
+    );
+
+  player.src=url;
+  player.style.display='block';
+
+  document
+    .getElementById(
+      'eventVideoStatus'
+    )
+    .textContent=
+      'Video file selected.';
+
+}
+
+
+async function startEventVideoRecording(){
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia ||
+    typeof MediaRecorder==='undefined'
+  ){
+
+    alert(
+      'Video recording is not supported in this browser.'
+    );
+
+    return;
+
+  }
+
+  try{
+
+    if(eventVideoRecorder){
+      return;
+    }
+
+    const stream =
+      await navigator.mediaDevices
+        .getUserMedia({
+          video:{
+            facingMode:{
+              ideal:'environment'
+            }
+          },
+          audio:true
+        });
+
+    eventVideoStream=stream;
+
+    eventVideoChunks=[];
+
+    const mime =
+      getVideoMimeType();
+
+    eventVideoRecorder =
+      mime
+        ? new MediaRecorder(
+            stream,
+            {
+              mimeType:mime
+            }
+          )
+        : new MediaRecorder(stream);
+
+
+    const camera =
+      document.getElementById(
+        'eventVideoCamera'
+      );
+
+    camera.srcObject=stream;
+
+    document
+      .getElementById(
+        'eventVideoCameraBox'
+      )
+      .style.display='block';
+
+
+    eventVideoRecorder.ondataavailable =
+      e=>{
+
+        if(
+          e.data &&
+          e.data.size
+        ){
+
+          eventVideoChunks.push(
+            e.data
+          );
+
+        }
+
+      };
+
+
+    eventVideoRecorder.onstop =
+      ()=>{
+
+        const type =
+          eventVideoRecorder.mimeType ||
+          'video/webm';
+
+        const blob =
+          new Blob(
+            eventVideoChunks,
+            {
+              type
+            }
+          );
+
+
+        const extension =
+          type.includes('mp4')
+            ? 'mp4'
+            : 'webm';
+
+
+        editingEventOldVideoRemoved=false;
+
+
+        eventVideoFile =
+          new File(
+            [blob],
+            'event_video_'+
+            Date.now()+'.'+
+            extension,
+            {
+              type
+            }
+          );
+
+
+        const url =
+          URL.createObjectURL(
+            eventVideoFile
+          );
+
+
+        const player =
+          document.getElementById(
+            'eventVideoPreview'
+          );
+
+        player.src=url;
+        player.style.display='block';
+
+
+        document
+          .getElementById(
+            'eventVideoStatus'
+          )
+          .textContent=
+            'Video recording ready.';
+
+
+        document
+          .getElementById(
+            'eventVideoStatus'
+          )
+          .className=
+            'media-status success';
+
+
+        closeEventVideoCamera();
+
+        eventVideoRecorder=null;
+
+      };
+
+
+    eventVideoRecorder.start();
+
+
+    document
+      .getElementById(
+        'eventVideoStatus'
+      )
+      .textContent=
+        '🔴 Recording event video...';
+
+    document
+      .getElementById(
+        'eventVideoStatus'
+      )
+      .className=
+        'media-status recording';
+
+  }catch(e){
+
+    eventVideoRecorder=null;
+
+    closeEventVideoCamera();
+
+    alert(
+      'Could not start video camera: '+
+      e.message
+    );
+
+  }
+
+}
+
+
+function stopEventVideoRecording(){
+
+  if(
+    eventVideoRecorder &&
+    eventVideoRecorder.state!=='inactive'
+  ){
+
+    eventVideoRecorder.stop();
+
+  }
+
+}
+
+
+function closeEventVideoCamera(){
+
+  if(eventVideoStream){
+
+    eventVideoStream
+      .getTracks()
+      .forEach(
+        t=>t.stop()
+      );
+
+    eventVideoStream=null;
+
+  }
+
+  const camera =
+    document.getElementById(
+      'eventVideoCamera'
+    );
+
+  if(camera){
+
+    camera.srcObject=null;
+
+  }
+
+  const box =
+    document.getElementById(
+      'eventVideoCameraBox'
+    );
+
+  if(box){
+
+    box.style.display='none';
+
+  }
+
+}
+
+
+function removeEventVideo(){
+
+  eventVideoFile=null;
+
+  eventVideoChunks=[];
+
+
+  if(
+    editingEventId &&
+    editingEventOldVideo
+  ){
+
+    editingEventOldVideoRemoved=true;
+
+  }
+
+
+  document
+    .getElementById(
+      'eventVideo'
+    )
+    .value='';
+
+
+  const player =
+    document.getElementById(
+      'eventVideoPreview'
+    );
+
+  player.pause();
+
+  player.removeAttribute('src');
+
+  player.style.display='none';
+
+
+  document
+    .getElementById(
+      'eventVideoStatus'
+    )
+    .textContent=
+      'Video removed from this form.';
+
+}
+
+
+/* =========================
+   MEMBER FUNCTIONS
+========================= */
+
+function previewMemberPhotoFromData(
+  url
+){
+
+  document
+    .getElementById(
+      'memberPhotoPreview'
+    )
+    .innerHTML =
+      url
+        ? '<img class="member-photo-preview" src="'+
+          escapeHtml(url)+
+          '" alt="Member photo">'
+        : '<span class="photo-placeholder">Profile Photo</span>';
+
+}
+
+
+async function saveMember(event){
+
+  event.preventDefault();
+
+  const name =
+    document
+      .getElementById('memberName')
+      .value
+      .trim();
+
+  const phone =
+    document
+      .getElementById('memberPhone')
+      .value
+      .trim();
+
+  const memberType =
+    document
+      .getElementById('memberType')
+      .value;
+
+  const position =
+    document
+      .getElementById('memberPosition')
+      .value
+      .trim();
+
+  const memberNumber =
+    document
+      .getElementById('memberNumber')
+      .value;
+
+  const expiryDate =
+    document
+      .getElementById('expiryDate')
+      .value;
+
+  const galleryFile =
+    document
+      .getElementById('memberPhoto')
+      .files?.[0];
+
+  const photoFile =
+    selectedMemberPhotoFile ||
+    galleryFile;
+
+
+  if(!name){
+
+    showMessage(
+      'memberMessage',
+      'Please enter the member name.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    let photo =
+      editingMemberOldPhoto ||
+      null;
+
+
+    if(photoFile){
+
+      photo =
+        await uploadPersonPhoto(
+          photoFile,
+          'member-photos',
+          'member'
+        );
+
+    }
+
+
+    const record={
+
+      name,
+
+      phone,
+
+      position,
+
+      member_type:memberType,
+
+      member_number:
+        memberNumber
+          ? Number(memberNumber)
+          : null,
+
+      expiry_date:
+        expiryDate ||
+        null,
+
+      photo_url:photo
+
+    };
+
+
+    let result;
+
+
+    if(editingMemberId){
+
+      result =
+        await supabaseClient
+          .from('members')
+          .update(record)
+          .eq(
+            'id',
+            editingMemberId
+          );
+
+    }else{
+
+      result =
+        await supabaseClient
+          .from('members')
+          .insert([record]);
+
+    }
+
+
+    if(result.error){
+
+      if(
+        photoFile &&
+        photo
+      ){
+
+        await deleteStoredPhoto(
+          photo
+        );
+
+      }
+
+      throw result.error;
+
+    }
+
+
+    if(
+      photoFile &&
+      editingMemberOldPhoto &&
+      editingMemberOldPhoto!==photo
+    ){
+
+      await deleteStoredPhoto(
+        editingMemberOldPhoto
+      );
+
+    }
+
+
+    showMessage(
+      'memberMessage',
+      'Member saved successfully.',
+      'success'
+    );
+
+
+    const savedId =
+      editingMemberId ||
+      result.data?.[0]?.id;
+
+
+    resetMemberForm();
+
+
+    await loadMembers();
+
+
+    if(savedId){
+
+      generateQr(savedId);
+
+    }
+
+
+  }catch(e){
+
+    showMessage(
+      'memberMessage',
+      'Could not save member: '+
+      e.message,
+      'error'
+    );
+
+  }
+
+}
+
+
+function isExpiredDate(date){
+
+  if(!date){
+    return false;
+  }
+
+  const today =
+    new Date();
+
+  today.setHours(
+    0,0,0,0
+  );
+
+  const d =
+    new Date(
+      date+'T00:00:00'
+    );
+
+  return d<today;
+
+}
+
+
+async function updateMemberTotals(){
+
+  try{
+
+    const {data,error} =
+      await supabaseClient
+        .from('members')
+        .select(
+          'id,expiry_date'
+        );
+
+    if(error){
+      return;
+    }
+
+    const total =
+      data?.length || 0;
+
+    const expired =
+      data?.filter(
+        m=>isExpiredDate(
+          m.expiry_date
+        )
+      ).length || 0;
+
+    const active =
+      total-expired;
+
+
+    document
+      .getElementById(
+        'totalMembers'
+      )
+      .textContent=
+        total;
+
+    document
+      .getElementById(
+        'activeMembers'
+      )
+      .textContent=
+        active;
+
+    document
+      .getElementById(
+        'expiredMembers'
+      )
+      .textContent=
+        expired;
+
+
+    const {count} =
+      await supabaseClient
+        .from('executive')
+        .select(
+          'id',
+          {
+            count:'exact',
+            head:true
+          }
+        );
+
+    document
+      .getElementById(
+        'executiveMembers'
+      )
+      .textContent=
+        count || 0;
+
+  }catch(e){
+
+    console.error(e);
+
+  }
+
+}
+
+
+let currentMembers=[];
+
+
+function renderMembers(){
+
+  const list =
+    document.getElementById(
+      'membersList'
+    );
+
+  const search =
+    document
+      .getElementById(
+        'memberSearch'
+      )
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  const filtered =
+    currentMembers.filter(
+      m=>{
+
+        if(!search){
+          return true;
+        }
+
+        const text =
+          [
+            m.name,
+            m.phone,
+            m.position,
+            m.member_type,
+            m.member_number
+          ]
+          .map(read)
+          .join(' ')
+          .toLowerCase();
+
+        return text.includes(
+          search
+        );
+
+      }
+    );
+
+
+  document
+    .getElementById(
+      'memberSearchStatus'
+    )
+    .textContent=
+      search
+        ? filtered.length+
+          ' member(s) found.'
+        : currentMembers.length+
+          ' member(s) total.';
+
+
+  if(!filtered.length){
+
+    list.innerHTML=
+      '<p>No members found.</p>';
+
+    return;
+
+  }
+
+
+  const cards =
+    filtered.map(
+      m=>{
+
+        const expired =
+          isExpiredDate(
+            m.expiry_date
+          );
+
+
+        return(
+
+          '<div class="item-card member-result">'+
+
+          '<div class="member-photo-wrap">'+
+
+          (
+            m.photo_url
+              ? '<img class="person-photo" data-member-photo="'+
+                escapeHtml(m.id)+
+                '" alt="Member photo">'
+              : '<div class="person-photo">NO PHOTO</div>'
+          )+
+
+          '</div>'+
+
+          '<h3>'+
+          escapeHtml(
+            read(m.name)
+          )+
+          '</h3>'+
+
+          '<p><strong>Phone:</strong> '+
+          escapeHtml(
+            read(m.phone)
+          )+
+          '</p>'+
+
+          '<p><strong>Position:</strong> '+
+          escapeHtml(
+            read(m.position)
+          )+
+          '</p>'+
+
+          '<p><strong>Category:</strong> '+
+          escapeHtml(
+            read(m.member_type)
+          )+
+          '</p>'+
+
+          '<p><strong>Member No.:</strong> '+
+          escapeHtml(
+            read(m.member_number)
+          )+
+          '</p>'+
+
+          '<p><strong>Expiry:</strong> '+
+          escapeHtml(
+            read(m.expiry_date)
+          )+
+          (expired
+            ? ' <span class="error"><strong>Expired</strong></span>'
+            : '')+
+          '</p>'+
+
+          '<button class="edit-button" onclick="editMember('+JSON.stringify(m.id)+')">Edit</button>'+
+
+          '<button onclick="showIdCard('+JSON.stringify(m.id)+')">🪪 ID Card</button>'+
+
+          '<button onclick="generateQr('+JSON.stringify(m.id)+')">🔳 QR Code</button>'+
+
+          '<button class="delete-button" onclick="deleteMember('+JSON.stringify(m.id)+')">Delete</button>'+
+
+          '</div>'
+
+        );
+
+      }
+    );
+
+
+  list.innerHTML =
+    '<div class="item-grid">'+
+    cards.join('')+
+    '</div>';
+
+
+  filtered.forEach(
+    async m=>{
+
+      if(!m.photo_url){
+        return;
+      }
+
+      const img =
+        list.querySelector(
+          '[data-member-photo="'+
+          CSS.escape(String(m.id))+
+          '"]'
+        );
+
+      if(!img){
+        return;
+      }
+
+      const url =
+        await getPhotoUrl(
+          m.photo_url
+        );
+
+      if(url){
+        img.src=url;
+      }
+
+    }
+  );
+
+}
+
+
+async function loadMembers(){
+
+  const list =
+    document.getElementById(
+      'membersList'
+    );
+
+  list.innerHTML=
+    'Loading members...';
+
+
+  const {data,error} =
+    await supabaseClient
+      .from('members')
+      .select('*')
+      .order(
+        'id',
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    list.innerHTML=
+      '<div class="message error">'+
+      escapeHtml(error.message)+
+      '</div>';
+
+    return;
+
+  }
+
+
+  currentMembers =
+    data || [];
+
+
+  renderMembers();
+
+  await updateMemberTotals();
+
+}
+
+
+async function editMember(id){
+
+  const {data,error} =
+    await supabaseClient
+      .from('members')
+      .select('*')
+      .eq(
+        'id',
+        id
+      )
+      .single();
+
+
+  if(error){
+
+    showMessage(
+      'memberMessage',
+      error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  editingMemberId=id;
+
+  editingMemberOldPhoto =
+    data.photo_url || null;
+
+  selectedMemberPhotoFile=null;
+
+
+  document
+    .getElementById(
+      'memberName'
+    )
+    .value=
+      read(data.name);
+
+  document
+    .getElementById(
+      'memberPhone'
+    )
+    .value=
+      read(data.phone);
+
+  document
+    .getElementById(
+      'memberType'
+    )
+    .value=
+      read(data.member_type);
+
+  document
+    .getElementById(
+      'memberPosition'
+    )
+    .value=
+      read(data.position);
+
+  document
+    .getElementById(
+      'memberNumber'
+    )
+    .value=
+      read(data.member_number);
+
+  document
+    .getElementById(
+      'expiryDate'
+    )
+    .value=
+      read(data.expiry_date);
+
+
+  document
+    .getElementById(
+      'memberPhoto'
+    )
+    .value='';
+
+
+  const url =
+    await getPhotoUrl(
+      data.photo_url
+    );
+
+
+  previewMemberPhotoFromData(
+    url
+  );
+
+
+  document
+    .getElementById(
+      'memberSaveButton'
+    )
+    .textContent=
+      'Update Member';
+
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+
+}
+
+
+function resetMemberForm(){
+
+  closeMemberCamera();
+
+  editingMemberId=null;
+  editingMemberOldPhoto=null;
+  selectedMemberPhotoFile=null;
+
+
+  [
+    'memberName',
+    'memberPhone',
+    'memberType',
+    'memberPosition',
+    'memberNumber',
+    'expiryDate'
+  ]
+  .forEach(
+    id=>{
+      document
+        .getElementById(id)
+        .value='';
+    }
+  );
+
+
+  document
+    .getElementById(
+      'memberPhoto'
+    )
+    .value='';
+
+
+  document
+    .getElementById(
+      'memberPhotoPreview'
+    )
+    .innerHTML=
+      '<span class="photo-placeholder">Profile Photo</span>';
+
+
+  document
+    .getElementById(
+      'memberSaveButton'
+    )
+    .textContent=
+      'Save Member';
+
+}
+
+
+async function deleteMember(id){
+
+  if(
+    !confirm(
+      'Delete this member and their profile photo?'
+    )
+  ){
+    return;
+  }
+
+
+  const {data} =
+    await supabaseClient
+      .from('members')
+      .select(
+        'photo_url'
+      )
+      .eq(
+        'id',
+        id
+      )
+      .single();
+
+
+  const {error} =
+    await supabaseClient
+      .from('members')
+      .delete()
+      .eq(
+        'id',
+        id
+      );
+
+
+  if(error){
+
+    showMessage(
+      'memberMessage',
+      error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  if(data?.photo_url){
+
+    await deleteStoredPhoto(
+      data.photo_url
+    );
+
+  }
+
+
+  await loadMembers();
+
+}
+
+
+/* =========================
+   QR
+========================= */
+
+let currentQrLink='';
+
+
+function getMemberVerificationUrl(
+  id
+){
+
+  const base =
+    window.location.origin+
+    window.location.pathname
+      .replace(
+        'app.html',
+        'member.html'
+      );
+
+  return(
+    base+
+    '?id='+
+    encodeURIComponent(id)
+  );
+
+}
+
+
+function generateQr(id){
+
+  currentQrLink =
+    getMemberVerificationUrl(
+      id
+    );
+
+
+  const card =
+    document.getElementById(
+      'qrCard'
+    );
+
+  const box =
+    document.getElementById(
+      'qrcode'
+    );
+
+
+  card.classList.remove(
+    'hidden'
+  );
+
+  box.innerHTML='';
+
+
+  if(
+    typeof QRCode==='undefined'
+  ){
+
+    box.textContent=
+      'QR code library unavailable.';
+
+    return;
+
+  }
+
+
+  new QRCode(
+    box,
+    {
+      text:currentQrLink,
+      width:220,
+      height:220,
+      correctLevel:
+        QRCode.CorrectLevel.H
+    }
+  );
+
+
+  document
+    .getElementById(
+      'qrLink'
+    )
+    .textContent=
+      currentQrLink;
+
+
+  card.scrollIntoView({
+    behavior:'smooth'
+  });
+
+}
+
+
+function openQrLink(){
+
+  if(!currentQrLink){
+
+    alert(
+      'No QR code has been generated yet.'
+    );
+
+    return;
+
+  }
+
+  window.open(
+    currentQrLink,
+    '_blank'
+  );
+
+}
+
+
+/* =========================
+   ID CARD
+========================= */
+
+async function showIdCard(
+  memberId
+){
+
+  try{
+
+    const {data,error} =
+      await supabaseClient
+        .from('members')
+        .select(
+          'id,name,phone,position,member_type,member_number,expiry_date,photo_url'
+        )
+        .eq(
+          'id',
+          memberId
+        )
+        .single();
+
+
+    if(error){
+      throw error;
+    }
+
+
+    document
+      .getElementById(
+        'idCardName'
+      )
+      .textContent=
+        read(data.name) ||
+        'Unnamed Member';
+
+
+    document
+      .getElementById(
+        'idCardPosition'
+      )
+      .textContent=
+        read(data.position) ||
+        'Member';
+
+
+    document
+      .getElementById(
+        'idCardNumber'
+      )
+      .textContent=
+        read(data.member_number) ||
+        'Not assigned';
+
+
+    document
+      .getElementById(
+        'idCardType'
+      )
+      .textContent=
+        read(data.member_type) ||
+        'Member';
+
+
+    document
+      .getElementById(
+        'idCardExpiry'
+      )
+      .textContent=
+        read(data.expiry_date) ||
+        'Not set';
+
+
+    const img =
+      document.getElementById(
+        'idCardPhoto'
+      );
+
+    const fallback =
+      document.getElementById(
+        'idCardPhotoFallback'
+      );
+
+
+    const url =
+      await getPhotoUrl(
+        data.photo_url
+      );
+
+
+    if(url){
+
+      img.src=url;
+
+      img.style.display=
+        'inline-block';
+
+      fallback.style.display=
+        'none';
+
+    }else{
+
+      img.style.display=
+        'none';
+
+      fallback.style.display=
+        'inline-flex';
+
+    }
+
+
+    const qr =
+      document.getElementById(
+        'memberQrCode'
+      );
+
+    qr.innerHTML='';
+
+
+    const verifyUrl =
+      getMemberVerificationUrl(
+        data.id
+      );
+
+
+    if(
+      typeof QRCode!=='undefined'
+    ){
+
+      new QRCode(
+        qr,
+        {
+          text:verifyUrl,
+          width:105,
+          height:105,
+          correctLevel:
+            QRCode.CorrectLevel.M
+        }
+      );
+
+    }
+
+
+    document
+      .getElementById(
+        'idCardModal'
+      )
+      .classList
+      .remove('hidden');
+
+
+  }catch(e){
+
+    alert(
+      'Could not open ID card: '+
+      e.message
+    );
+
+  }
+
+}
+
+
+function closeIdCard(){
+
+  document
+    .getElementById(
+      'idCardModal'
+    )
+    .classList
+    .add('hidden');
+
+}
+
+
+/* =========================
+   EXECUTIVE
+========================= */
+
+async function saveExecutive(
+  event
+){
+
+  event.preventDefault();
+
+
+  const period =
+    document
+      .getElementById(
+        'executivePeriod'
+      )
+      .value
+      .trim();
+
+
+  const name =
+    document
+      .getElementById(
+        'executiveName'
+      )
+      .value
+      .trim();
+
+
+  const position =
+    document
+      .getElementById(
+        'executivePosition'
+      )
+      .value
+      .trim();
+
+
+  const phone =
+    document
+      .getElementById(
+        'executivePhone'
+      )
+      .value
+      .trim();
+
+
+  const galleryFile =
+    document
+      .getElementById(
+        'executivePhoto'
+      )
+      .files?.[0];
+
+
+  const photoFile =
+    selectedExecutivePhotoFile ||
+    galleryFile;
+
+
+  if(!name){
+
+    showMessage(
+      'executiveMessage',
+      'Please enter the executive name.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    let photo =
+      editingExecutiveOldPhoto ||
+      null;
+
+
+    if(photoFile){
+
+      photo =
+        await uploadPersonPhoto(
+          photoFile,
+          'executive-photos',
+          'executive'
+        );
+
+    }
+
+
+    const record={
+
+      period,
+
+      name,
+
+      position,
+
+      phone,
+
+      photo
+
+    };
+
+
+    let result;
+
+
+    if(editingExecutiveId){
+
+      result =
+        await supabaseClient
+          .from('executive')
+          .update(record)
+          .eq(
+            'id',
+            editingExecutiveId
+          );
+
+    }else{
+
+      result =
+        await supabaseClient
+          .from('executive')
+          .insert([record]);
+
+    }
+
+
+    if(result.error){
+
+      if(
+        photoFile &&
+        photo
+      ){
+
+        await deleteStoredPhoto(
+          photo
+        );
+
+      }
+
+      throw result.error;
+
+    }
+
+
+    if(
+      photoFile &&
+      editingExecutiveOldPhoto &&
+      editingExecutiveOldPhoto!==photo
+    ){
+
+      await deleteStoredPhoto(
+        editingExecutiveOldPhoto
+      );
+
+    }
+
+
+    showMessage(
+      'executiveMessage',
+      'Executive saved successfully.',
+      'success'
+    );
+
+
+    resetExecutiveForm();
+
+    await loadExecutive();
+
+  }catch(e){
+
+    showMessage(
+      'executiveMessage',
+      'Could not save executive: '+
+      e.message,
+      'error'
+    );
+
+  }
+
+}
+
+
+async function loadExecutive(){
+
+  const list =
+    document.getElementById(
+      'executiveList'
+    );
+
+  list.innerHTML=
+    'Loading executive...';
+
+
+  const {data,error} =
+    await supabaseClient
+      .from('executive')
+      .select(
+        'id,period,name,position,phone,photo'
+      )
+      .order(
+        'id',
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    list.innerHTML=
+      '<div class="message error">'+
+      escapeHtml(error.message)+
+      '</div>';
+
+    return;
+
+  }
+
+
+  if(!data?.length){
+
+    list.innerHTML=
+      '<p>No executive records found.</p>';
+
+    return;
+
+  }
+
+
+  const cards =
+    await Promise.all(
+      data.map(
+        async x=>{
+
+          const url =
+            await getPhotoUrl(
+              x.photo
+            );
+
+
+          return(
+
+            '<div class="item-card">'+
+
+            (
+              url
+                ? '<div style="text-align:center">'+
+                  '<img class="person-photo" src="'+
+                  escapeHtml(url)+
+                  '" alt="Executive photo">'+
+                  '</div>'
+                : ''
+            )+
+
+            '<h3>'+
+            escapeHtml(
+              read(x.name)
+            )+
+            '</h3>'+
+
+            '<p><strong>Period:</strong> '+
+            escapeHtml(
+              read(x.period)
+            )+
+            '</p>'+
+
+            '<p><strong>Position:</strong> '+
+            escapeHtml(
+              read(x.position)
+            )+
+            '</p>'+
+
+            '<p><strong>Phone:</strong> '+
+            escapeHtml(
+              read(x.phone)
+            )+
+            '</p>'+
+
+            '<button class="edit-button" onclick="editExecutive('+JSON.stringify(x.id)+')">Edit</button>'+
+
+            '<button class="delete-button" onclick="deleteExecutive('+JSON.stringify(x.id)+')">Delete</button>'+
+
+            '</div>'
+
+          );
+
+        }
+      )
+    );
+
+
+  list.innerHTML=
+    '<div class="item-grid">'+
+    cards.join('')+
+    '</div>';
+
+}
+
+
+async function editExecutive(id){
+
+  const {data,error} =
+    await supabaseClient
+      .from('executive')
+      .select('*')
+      .eq(
+        'id',
+        id
+      )
+      .single();
+
+
+  if(error){
+
+    showMessage(
+      'executiveMessage',
+      error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  editingExecutiveId=id;
+
+  editingExecutiveOldPhoto =
+    data.photo ||
+    null;
+
+  selectedExecutivePhotoFile=
+    null;
+
+
+  document
+    .getElementById(
+      'executivePeriod'
+    )
+    .value=
+      read(data.period);
+
+  document
+    .getElementById(
+      'executiveName'
+    )
+    .value=
+      read(data.name);
+
+  document
+    .getElementById(
+      'executivePosition'
+    )
+    .value=
+      read(data.position);
+
+  document
+    .getElementById(
+      'executivePhone'
+    )
+    .value=
+      read(data.phone);
+
+
+  document
+    .getElementById(
+      'executivePhoto'
+    )
+    .value='';
+
+
+  const url =
+    await getPhotoUrl(
+      data.photo
+    );
+
+
+  document
+    .getElementById(
+      'executivePhotoPreview'
+    )
+    .innerHTML =
+      url
+        ? '<img class="member-photo-preview" src="'+
+          escapeHtml(url)+
+          '" alt="Executive photo">'
+        : '<span class="photo-placeholder">Executive Photo</span>';
+
+
+  document
+    .getElementById(
+      'executiveSaveButton'
+    )
+    .textContent=
+      'Update Executive';
+
+}
+
+
+function resetExecutiveForm(){
+
+  closeExecutiveCamera();
+
+  editingExecutiveId=null;
+
+  editingExecutiveOldPhoto=null;
+
+  selectedExecutivePhotoFile=null;
+
+
+  [
+    'executivePeriod',
+    'executiveName',
+    'executivePosition',
+    'executivePhone'
+  ]
+  .forEach(
+    id=>
+      document
+        .getElementById(id)
+        .value=''
+  );
+
+
+  document
+    .getElementById(
+      'executivePhoto'
+    )
+    .value='';
+
+
+  document
+    .getElementById(
+      'executivePhotoPreview'
+    )
+    .innerHTML =
+      '<span class="photo-placeholder">Executive Photo</span>';
+
+
+  document
+    .getElementById(
+      'executiveSaveButton'
+    )
+    .textContent=
+      'Save Executive';
+
+}
+
+
+async function deleteExecutive(id){
+
+  if(
+    !confirm(
+      'Delete this executive record?'
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const {data} =
+    await supabaseClient
+      .from('executive')
+      .select('photo')
+      .eq(
+        'id',
+        id
+      )
+      .single();
+
+
+  const {error} =
+    await supabaseClient
+      .from('executive')
+      .delete()
+      .eq(
+        'id',
+        id
+      );
+
+
+  if(error){
+
+    showMessage(
+      'executiveMessage',
+      error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  if(data?.photo){
+
+    await deleteStoredPhoto(
+      data.photo
+    );
+
+  }
+
+
+  await loadExecutive();
+
+}
+
+
+/* =========================
+   FINANCE
+========================= */
+
+async function saveFinance(){
+
+  const name =
+    document
+      .getElementById(
+        'financeName'
+      )
+      .value
+      .trim();
+
+  const type =
+    document
+      .getElementById(
+        'financeType'
+      )
+      .value;
+
+  const amount =
+    document
+      .getElementById(
+        'financeAmount'
+      )
+      .value;
+
+  const description =
+    document
+      .getElementById(
+        'financeDescription'
+      )
+      .value
+      .trim();
+
+
+  if(
+    !name ||
+    !type ||
+    !amount
+  ){
+
+    showMessage(
+      'financeMessage',
+      'Name, transaction type and amount are required.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  const record={
+
+    name,
+
+    type,
+
+    amount:Number(amount),
+
+    description
+
+  };
+
+
+  const result =
+    editingFinanceId
+      ? await supabaseClient
+          .from('finance')
+          .update(record)
+          .eq(
+            'id',
+            editingFinanceId
+          )
+      : await supabaseClient
+          .from('finance')
+          .insert([record]);
+
+
+  if(result.error){
+
+    showMessage(
+      'financeMessage',
+      'Could not save finance record: '+
+      result.error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  showMessage(
+    'financeMessage',
+    'Finance record saved successfully.',
+    'success'
+  );
+
+
+  resetFinanceForm();
+
+  loadFinance();
+
+}
+
+
+async function loadFinance(){
+
+  const list =
+    document.getElementById(
+      'financeList'
+    );
+
+  list.innerHTML=
+    'Loading finance records...';
+
+
+  const {data,error} =
+    await supabaseClient
+      .from('finance')
+      .select('*')
+      .order(
+        'id',
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    list.innerHTML=
+      '<div class="message error">'+
+      escapeHtml(error.message)+
+      '</div>';
+
+    return;
+
+  }
+
+
+  if(!data?.length){
+
+    list.innerHTML=
+      '<p>No finance records found.</p>';
+
+    return;
+
+  }
+
+
+  list.innerHTML =
+    '<div class="item-grid">'+
+
+    data
+      .map(
+        x=>
+
+          '<div class="item-card">'+
+
+          '<h3>'+
+          escapeHtml(
+            read(x.name)
+          )+
+          '</h3>'+
+
+          '<p><strong>Type:</strong> '+
+          escapeHtml(
+            read(
+              x.type ||
+              x.category
+            )
+          )+
+          '</p>'+
+
+          '<p><strong>Amount:</strong> '+
+          escapeHtml(
+            read(x.amount)
+          )+
+          '</p>'+
+
+          '<p><strong>Description:</strong> '+
+          escapeHtml(
+            read(x.description)
+          )+
+          '</p>'+
+
+          '<button class="edit-button" onclick="editFinance('+JSON.stringify(x.id)+')">Edit</button>'+
+
+          '<button class="delete-button" onclick="deleteFinance('+JSON.stringify(x.id)+')">Delete</button>'+
+
+          '</div>'
+
+      )
+      .join('')+
+
+    '</div>';
+
+}
+
+
+async function editFinance(id){
+
+  const {data,error} =
+    await supabaseClient
+      .from('finance')
+      .select('*')
+      .eq(
+        'id',
+        id
+      )
+      .single();
+
+
+  if(error){
+
+    showMessage(
+      'financeMessage',
+      error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  editingFinanceId=id;
+
+
+  document
+    .getElementById(
+      'financeName'
+    )
+    .value=
+      read(data.name);
+
+
+  document
+    .getElementById(
+      'financeType'
+    )
+    .value=
+      read(
+        data.type ||
+        data.category
+      );
+
+
+  document
+    .getElementById(
+      'financeAmount'
+    )
+    .value=
+      read(data.amount);
+
+
+  document
+    .getElementById(
+      'financeDescription'
+    )
+    .value=
+      read(data.description);
+
+}
+
+
+function resetFinanceForm(){
+
+  editingFinanceId=null;
+
+
+  [
+    'financeName',
+    'financeType',
+    'financeAmount',
+    'financeDescription'
+  ]
+  .forEach(
+    id=>
+      document
+        .getElementById(id)
+        .value=''
+  );
+
+}
+
+
+async function deleteFinance(id){
+
+  if(
+    !confirm(
+      'Delete this finance record?'
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const {error} =
+    await supabaseClient
+      .from('finance')
+      .delete()
+      .eq(
+        'id',
+        id
+      );
+
+
+  if(error){
+
+    showMessage(
+      'financeMessage',
+      error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  loadFinance();
+
+}
+
+
+/* =========================
+   MEETINGS
+========================= */
+
+async function saveMeeting(event){
+
+  if(event){
+    event.preventDefault();
+  }
+
+
+  const galleryPhoto =
+    document
+      .getElementById(
+        'meetingPhoto'
+      )
+      .files?.[0];
+
+
+  const photoFile =
+    selectedMeetingPhotoFile ||
+    galleryPhoto;
+
+
+  const record={
+
+    meeting_date:
+      document
+        .getElementById(
+          'meetingDate'
+        )
+        .value,
+
+    meeting_title:
+      document
+        .getElementById(
+          'meetingTitle'
+        )
+        .value
+        .trim(),
+
+    location:
+      document
+        .getElementById(
+          'meetingLocation'
+        )
+        .value
+        .trim(),
+
+    description:
+      document
+        .getElementById(
+          'meetingDescription'
+        )
+        .value
+        .trim()
+
+  };
+
+
+  if(
+    !record.meeting_date ||
+    !record.meeting_title
+  ){
+
+    showMessage(
+      'meetingMessage',
+      'Meeting date and title are required.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    let photo =
+      editingMeetingOldPhoto ||
+      null;
+
+
+    let video =
+      editingMeetingOldVideoRemoved
+        ? null
+        : (
+          editingMeetingOldVideo ||
+          null
+        );
+
+
+    let audio =
+      editingMeetingOldAudioRemoved
+        ? null
+        : (
+          editingMeetingOldAudio ||
+          null
+        );
+
+
+    if(photoFile){
+
+      photo =
+        await uploadPersonPhoto(
+          photoFile,
+          'meeting-photos',
+          'meeting'
+        );
+
+    }
+
+
+    if(meetingVideoFile){
+
+      video =
+        await uploadActivityMedia(
+          meetingVideoFile,
+          'meeting-videos',
+          'meeting-video'
+        );
+
+    }
+
+
+    if(meetingAudioFile){
+
+      audio =
+        await uploadActivityMedia(
+          meetingAudioFile,
+          'meeting-audio',
+          'meeting-audio'
+        );
+
+    }
+
+
+    record.photo_url=photo;
+
+    record.video_url=video;
+
+    record.audio_url=audio;
+
+
+    let result;
+
+
+    if(editingMeetingId){
+
+      result =
+        await supabaseClient
+          .from('meetings')
+          .update(record)
+          .eq(
+            'id',
+            editingMeetingId
+          );
+
+    }else{
+
+      result =
+        await supabaseClient
+          .from('meetings')
+          .insert([
+            record
+          ]);
+
+    }
+
+
+    if(result.error){
+
+      if(
+        photoFile &&
+        photo
+      ){
+
+        await deleteStoredPhoto(
+          photo
+        );
+
+      }
+
+
+      if(
+        meetingVideoFile &&
+        video
+      ){
+
+        await deleteStoredPhoto(
+          video
+        );
+
+      }
+
+
+      if(
+        meetingAudioFile &&
+        audio
+      ){
+
+        await deleteStoredPhoto(
+          audio
+        );
+
+      }
+
+
+      throw result.error;
+
+    }
+
+
+    if(
+      photoFile &&
+      editingMeetingOldPhoto &&
+      editingMeetingOldPhoto!==photo
+    ){
+
+      await deleteStoredPhoto(
+        editingMeetingOldPhoto
+      );
+
+    }
+
+
+    if(
+      editingMeetingOldVideo &&
+      (
+        editingMeetingOldVideoRemoved ||
+        (
+          meetingVideoFile &&
+          editingMeetingOldVideo!==video
+        )
+      )
+    ){
+
+      await deleteStoredPhoto(
+        editingMeetingOldVideo
+      );
+
+    }
+
+
+    if(
+      editingMeetingOldAudio &&
+      (
+        editingMeetingOldAudioRemoved ||
+        (
+          meetingAudioFile &&
+          editingMeetingOldAudio!==audio
+        )
+      )
+    ){
+
+      await deleteStoredPhoto(
+        editingMeetingOldAudio
+      );
+
+    }
+
+
+    showMessage(
+      'meetingMessage',
+      'Meeting saved successfully.',
+      'success'
+    );
+
+
+    resetMeetingForm();
+
+    await loadMeetings();
+
+  }catch(e){
+
+    showMessage(
+      'meetingMessage',
+      'Could not save meeting: '+
+      e.message,
+      'error'
+    );
+
+  }
+
+}
+
+
+async function loadMeetings(){
+
+  const list =
+    document.getElementById(
+      'meetingsList'
+    );
+
+  list.innerHTML=
+    'Loading meetings...';
+
+
+  const {data,error} =
+    await supabaseClient
+      .from('meetings')
+      .select('*')
+      .order(
+        'meeting_date',
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    list.innerHTML=
+      '<div class="message error">'+
+      escapeHtml(error.message)+
+      '</div>';
+
+    return;
+
+  }
+
+
+  if(!data?.length){
+
+    list.innerHTML=
+      '<p>No meetings found.</p>';
+
+    return;
+
+  }
+
+
+  const cards =
+    await Promise.all(
+
+      data.map(
+        async x=>{
+
+          const photoUrl =
+            await getPhotoUrl(
+              x.photo_url
+            );
+
+
+          const videoUrl =
+            await getPhotoUrl(
+              x.video_url
+            );
+
+
+          const audioUrl =
+            await getPhotoUrl(
+              x.audio_url
+            );
+
+
+          return(
+
+            '<div class="meeting-card">'+
+
+
+            (
+              photoUrl
+
+                ? '<div style="text-align:center">'+
+
+                  '<img class="activity-photo-preview" src="'+
+                  escapeHtml(photoUrl)+
+                  '" alt="Meeting photo">'+
+
+                  '</div>'
+
+                : ''
+            )+
+
+
+            '<h3>'+
+            escapeHtml(
+              read(x.meeting_title)
+            )+
+            '</h3>'+
+
+
+            '<p><strong>Date:</strong> '+
+            escapeHtml(
+              read(x.meeting_date)
+            )+
+            '</p>'+
+
+
+            '<p><strong>Location:</strong> '+
+            escapeHtml(
+              read(x.location)
+            )+
+            '</p>'+
+
+
+            '<p><strong>Minutes:</strong> '+
+            escapeHtml(
+              read(
+                x.description ||
+                x.minutes
+              )
+            )+
+            '</p>'+
+
+
+            (
+              videoUrl
+
+                ? '<div class="media-existing">'+
+
+                  '<strong>🎥 Meeting Video</strong>'+
+
+                  '<video class="media-preview" controls src="'+
+                  escapeHtml(videoUrl)+
+                  '"></video>'+
+
+                  '</div>'
+
+                : ''
+            )+
+
+
+            (
+              audioUrl
+
+                ? '<div class="media-existing">'+
+
+                  '<strong>🎙️ Meeting Voice</strong>'+
+
+                  '<audio class="media-preview" controls src="'+
+                  escapeHtml(audioUrl)+
+                  '"></audio>'+
+
+                  '</div>'
+
+                : ''
+            )+
+
+
+            '<button class="edit-button" onclick="editMeeting('+JSON.stringify(x.id)+')">Edit</button>'+
+
+            '<button class="delete-button" onclick="deleteMeeting('+JSON.stringify(x.id)+')">Delete</button>'+
+
+            '</div>'
+
+          );
+
+        }
+      )
+
+    );
+
+
+  list.innerHTML=
+    cards.join('');
+
+}
+
+
+async function editMeeting(id){
+
+  const {data,error} =
+    await supabaseClient
+      .from('meetings')
+      .select('*')
+      .eq(
+        'id',
+        id
+      )
+      .single();
+
+
+  if(error){
+
+    showMessage(
+      'meetingMessage',
+      error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  editingMeetingId=id;
+
+
+  editingMeetingOldPhoto =
+    data.photo_url ||
+    null;
+
+
+  editingMeetingOldVideo =
+    data.video_url ||
+    null;
+
+
+  editingMeetingOldAudio =
+    data.audio_url ||
+    null;
+
+
+  editingMeetingOldAudioRemoved=false;
+
+  editingMeetingOldVideoRemoved=false;
+
+
+  selectedMeetingPhotoFile=null;
+
+  meetingVideoFile=null;
+
+  meetingAudioFile=null;
+
+
+  closeMeetingCamera();
+
+  closeMeetingVideoCamera();
+
+
+  document
+    .getElementById(
+      'meetingDate'
+    )
+    .value=
+      read(
+        data.meeting_date
+      );
+
+
+  document
+    .getElementById(
+      'meetingTitle'
+    )
+    .value=
+      read(
+        data.meeting_title
+      );
+
+
+  document
+    .getElementById(
+      'meetingLocation'
+    )
+    .value=
+      read(
+        data.location
+      );
+
+
+  document
+    .getElementById(
+      'meetingDescription'
+    )
+    .value=
+      read(
+        data.description ||
+        data.minutes
+      );
+
+
+  document
+    .getElementById(
+      'meetingPhoto'
+    )
+    .value='';
+
+
+  document
+    .getElementById(
+      'meetingVideo'
+    )
+    .value='';
+
+
+  document
+    .getElementById(
+      'meetingAudio'
+    )
+    .value='';
+
+
+  const photoUrl =
+    await getPhotoUrl(
+      data.photo_url
+    );
+
+
+  document
+    .getElementById(
+      'meetingPhotoPreview'
+    )
+    .innerHTML =
+      photoUrl
+
+        ? '<img class="activity-photo-preview" src="'+
+          escapeHtml(photoUrl)+
+          '" alt="Meeting photo">'
+
+        : '<span class="activity-photo-placeholder">Meeting Photo</span>';
+
+
+  const videoUrl =
+    await getPhotoUrl(
+      data.video_url
+    );
+
+
+  const videoPreview =
+    document.getElementById(
+      'meetingVideoPreview'
+    );
+
+
+  if(videoUrl){
+
+    videoPreview.src=
+      videoUrl;
+
+    videoPreview.style.display=
+      'block';
+
+
+    document
+      .getElementById(
+        'meetingVideoStatus'
+      )
+      .textContent=
+        'Existing meeting video loaded.';
+
+  }else{
+
+    videoPreview.removeAttribute(
+      'src'
+    );
+
+    videoPreview.style.display=
+      'none';
+
+  }
+
+
+  const audioUrl =
+    await getPhotoUrl(
+      data.audio_url
+    );
+
+
+  const audioPreview =
+    document.getElementById(
+      'meetingAudioPreview'
+    );
+
+
+  if(audioUrl){
+
+    audioPreview.src=
+      audioUrl;
+
+    audioPreview.style.display=
+      'block';
+
+
+    document
+      .getElementById(
+        'meetingAudioStatus'
+      )
+      .textContent=
+        'Existing meeting voice loaded.';
+
+  }else{
+
+    audioPreview.removeAttribute(
+      'src'
+    );
+
+    audioPreview.style.display=
+      'none';
+
+  }
+
+}
+
+
+function resetMeetingForm(){
+
+  closeMeetingCamera();
+
+  closeMeetingVideoCamera();
+
+
+  if(
+    meetingMediaRecorder &&
+    meetingMediaRecorder.state!=='inactive'
+  ){
+
+    meetingMediaRecorder.stop();
+
+  }
+
+
+  if(
+    meetingVideoRecorder &&
+    meetingVideoRecorder.state!=='inactive'
+  ){
+
+    meetingVideoRecorder.stop();
+
+  }
+
+
+  meetingMediaRecorder=null;
+
+  meetingVideoRecorder=null;
+
+
+  selectedMeetingPhotoFile=null;
+
+  meetingVideoFile=null;
+
+  meetingAudioFile=null;
+
+
+  meetingAudioChunks=[];
+
+  meetingVideoChunks=[];
+
+
+  editingMeetingId=null;
+
+  editingMeetingOldPhoto=null;
+
+  editingMeetingOldVideo=null;
+
+  editingMeetingOldAudio=null;
+
+  editingMeetingOldAudioRemoved=false;
+
+  editingMeetingOldVideoRemoved=false;
+
+
+  [
+    'meetingDate',
+    'meetingTitle',
+    'meetingLocation',
+    'meetingDescription'
+  ]
+  .forEach(
+    id=>
+      document
+        .getElementById(id)
+        .value=''
+  );
+
+
+  document
+    .getElementById(
+      'meetingPhoto'
+    )
+    .value='';
+
+
+  document
+    .getElementById(
+      'meetingVideo'
+    )
+    .value='';
+
+
+  document
+    .getElementById(
+      'meetingAudio'
+    )
+    .value='';
+
+
+  document
+    .getElementById(
+      'meetingPhotoPreview'
+    )
+    .innerHTML=
+      '<span class="activity-photo-placeholder">Meeting Photo</span>';
+
+
+  const vp =
+    document.getElementById(
+      'meetingVideoPreview'
+    );
+
+  vp.pause();
+
+  vp.removeAttribute(
+    'src'
+  );
+
+  vp.style.display='none';
+
+
+  const ap =
+    document.getElementById(
+      'meetingAudioPreview'
+    );
+
+  ap.pause();
+
+  ap.removeAttribute(
+    'src'
+  );
+
+  ap.style.display='none';
+
+
+  document
+    .getElementById(
+      'meetingVideoStatus'
+    )
+    .textContent='';
+
+
+  document
+    .getElementById(
+      'meetingAudioStatus'
+    )
+    .textContent='';
+
+}
+
+
+async function deleteMeeting(id){
+
+  if(
+    !confirm(
+      'Delete this meeting and its media?'
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const {data} =
+    await supabaseClient
+      .from('meetings')
+      .select(
+        'photo_url,video_url,audio_url'
+      )
+      .eq(
+        'id',
+        id
+      )
+      .single();
+
+
+  const {error} =
+    await supabaseClient
+      .from('meetings')
+      .delete()
+      .eq(
+        'id',
+        id
+      );
+
+
+  if(error){
+
+    showMessage(
+      'meetingMessage',
+      error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  if(data?.photo_url){
+
+    await deleteStoredPhoto(
+      data.photo_url
+    );
+
+  }
+
+
+  if(data?.video_url){
+
+    await deleteStoredPhoto(
+      data.video_url
+    );
+
+  }
+
+
+  if(data?.audio_url){
+
+    await deleteStoredPhoto(
+      data.audio_url
+    );
+
+  }
+
+
+  loadMeetings();
+
+}
+
+
+/* =========================
+   EVENTS
+========================= */
+
+async function saveEvent(event){
+
+  if(event){
+    event.preventDefault();
+  }
+
+
+  const galleryPhoto =
+    document
+      .getElementById(
+        'eventPhoto'
+      )
+      .files?.[0];
+
+
+  const photoFile =
+    selectedEventPhotoFile ||
+    galleryPhoto;
+
+
+  const record={
+
+    title:
+      document
+        .getElementById(
+          'eventTitle'
+        )
+        .value
+        .trim(),
+
+    date:
+      document
+        .getElementById(
+          'eventDate'
+        )
+        .value,
+
+    location:
+      document
+        .getElementById(
+          'eventLocation'
+        )
+        .value
+        .trim(),
+
+    description:
+      document
+        .getElementById(
+          'eventDescription'
+        )
+        .value
+        .trim()
+
+  };
+
+
+  if(
+    !record.title ||
+    !record.date
+  ){
+
+    showMessage(
+      'eventMessage',
+      'Event title and date are required.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    let photo =
+      editingEventOldPhoto ||
+      null;
+
+
+    let video =
+      editingEventOldVideoRemoved
+        ? null
+        : (
+          editingEventOldVideo ||
+          null
+        );
+
+
+    let audio =
+      editingEventOldAudioRemoved
+        ? null
+        : (
+          editingEventOldAudio ||
+          null
+        );
+
+
+    if(photoFile){
+
+      photo =
+        await uploadPersonPhoto(
+          photoFile,
+          'event-photos',
+          'event'
+        );
+
+    }
+
+
+    if(eventVideoFile){
+
+      video =
+        await uploadActivityMedia(
+          eventVideoFile,
+          'event-videos',
+          'event-video'
+        );
+
+    }
+
+
+    if(eventAudioFile){
+
+      audio =
+        await uploadActivityMedia(
+          eventAudioFile,
+          'event-audio',
+          'event-audio'
+        );
+
+    }
+
+
+    record.photo_url=photo;
+
+    record.video_url=video;
+
+    record.audio_url=audio;
+
+
+    let result;
+
+
+    if(editingEventId){
+
+      result =
+        await supabaseClient
+          .from('events')
+          .update(record)
+          .eq(
+            'id',
+            editingEventId
+          );
+
+    }else{
+
+      result =
+        await supabaseClient
+          .from('events')
+          .insert([
+            record
+          ]);
+
+    }
+
+
+    if(result.error){
+
+      if(
+        photoFile &&
+        photo
+      ){
+
+        await deleteStoredPhoto(
+          photo
+        );
+
+      }
+
+
+      if(
+        eventVideoFile &&
+        video
+      ){
+
+        await deleteStoredPhoto(
+          video
+        );
+
+      }
+
+
+      if(
+        eventAudioFile &&
+        audio
+      ){
+
+        await deleteStoredPhoto(
+          audio
+        );
+
+      }
+
+
+      throw result.error;
+
+    }
+
+
+    if(
+      photoFile &&
+      editingEventOldPhoto &&
+      editingEventOldPhoto!==photo
+    ){
+
+      await deleteStoredPhoto(
+        editingEventOldPhoto
+      );
+
+    }
+
+
+    if(
+      editingEventOldVideo &&
+      (
+        editingEventOldVideoRemoved ||
+        (
+          eventVideoFile &&
+          editingEventOldVideo!==video
+        )
+      )
+    ){
+
+      await deleteStoredPhoto(
+        editingEventOldVideo
+      );
+
+    }
+
+
+    if(
+      editingEventOldAudio &&
+      (
+        editingEventOldAudioRemoved ||
+        (
+          eventAudioFile &&
+          editingEventOldAudio!==audio
+        )
+      )
+    ){
+
+      await deleteStoredPhoto(
+        editingEventOldAudio
+      );
+
+    }
+
+
+    showMessage(
+      'eventMessage',
+      'Event saved successfully.',
+      'success'
+    );
+
+
+    resetEventForm();
+
+    await loadEvents();
+
+  }catch(e){
+
+    showMessage(
+      'eventMessage',
+      'Could not save event: '+
+      e.message,
+      'error'
+    );
+
+  }
+
+}
+
+
+async function loadEvents(){
+
+  const list =
+    document.getElementById(
+      'eventsList'
+    );
+
+  list.innerHTML=
+    'Loading events...';
+
+
+  const {data,error} =
+    await supabaseClient
+      .from('events')
+      .select('*')
+      .order(
+        'date',
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    list.innerHTML=
+      '<div class="message error">'+
+      escapeHtml(error.message)+
+      '</div>';
+
+    return;
+
+  }
+
+
+  if(!data?.length){
+
+    list.innerHTML=
+      '<p>No events found.</p>';
+
+    return;
+
+  }
+
+
+  const cards =
+    await Promise.all(
+
+      data.map(
+        async x=>{
+
+          const photoUrl =
+            await getPhotoUrl(
+              x.photo_url
+            );
+
+
+          const videoUrl =
+            await getPhotoUrl(
+              x.video_url
+            );
+
+
+          const audioUrl =
+            await getPhotoUrl(
+              x.audio_url
+            );
+
+
+          return(
+
+            '<div class="event-card">'+
+
+
+            (
+              photoUrl
+
+                ? '<div style="text-align:center">'+
+
+                  '<img class="activity-photo-preview" src="'+
+                  escapeHtml(photoUrl)+
+                  '" alt="Event photo">'+
+
+                  '</div>'
+
+                : ''
+            )+
+
+
+            '<h3>'+
+            escapeHtml(
+              read(x.title)
+            )+
+            '</h3>'+
+
+
+            '<p><strong>Date:</strong> '+
+            escapeHtml(
+              read(x.date)
+            )+
+            '</p>'+
+
+
+            '<p><strong>Location:</strong> '+
+            escapeHtml(
+              read(x.location)
+            )+
+            '</p>'+
+
+
+            '<p><strong>Description:</strong> '+
+            escapeHtml(
+              read(x.description)
+            )+
+            '</p>'+
+
+
+            (
+              videoUrl
+
+                ? '<div class="media-existing">'+
+
+                  '<strong>🎥 Event Video</strong>'+
+
+                  '<video class="media-preview" controls src="'+
+                  escapeHtml(videoUrl)+
+                  '"></video>'+
+
+                  '</div>'
+
+                : ''
+            )+
+
+
+            (
+              audioUrl
+
+                ? '<div class="media-existing">'+
+
+                  '<strong>🎙️ Event Voice</strong>'+
+
+                  '<audio class="media-preview" controls src="'+
+                  escapeHtml(audioUrl)+
+                  '"></audio>'+
+
+                  '</div>'
+
+                : ''
+            )+
+
+
+            '<button class="edit-button" onclick="editEvent('+JSON.stringify(x.id)+')">Edit</button>'+
+
+            '<button class="delete-button" onclick="deleteEvent('+JSON.stringify(x.id)+')">Delete</button>'+
+
+            '</div>'
+
+          );
+
+        }
+      )
+
+    );
+
+
+  list.innerHTML=
+    cards.join('');
+
+}
+
+
+async function editEvent(id){
+
+  const {data,error} =
+    await supabaseClient
+      .from('events')
+      .select('*')
+      .eq(
+        'id',
+        id
+      )
+      .single();
+
+
+  if(error){
+
+    showMessage(
+      'eventMessage',
+      error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  editingEventId=id;
+
+
+  editingEventOldPhoto =
+    data.photo_url ||
+    null;
+
+
+  editingEventOldVideo =
+    data.video_url ||
+    null;
+
+
+  editingEventOldAudio =
+    data.audio_url ||
+    null;
+
+
+  editingEventOldAudioRemoved=false;
+
+  editingEventOldVideoRemoved=false;
+
+
+  selectedEventPhotoFile=null;
+
+  eventVideoFile=null;
+
+  eventAudioFile=null;
+
+
+  closeEventCamera();
+
+  closeEventVideoCamera();
+
+
+  document
+    .getElementById(
+      'eventTitle'
+    )
+    .value=
+      read(data.title);
+
+
+  document
+    .getElementById(
+      'eventDate'
+    )
+    .value=
+      read(data.date);
+
+
+  document
+    .getElementById(
+      'eventLocation'
+    )
+    .value=
+      read(data.location);
+
+
+  document
+    .getElementById(
+      'eventDescription'
+    )
+    .value=
+      read(data.description);
+
+
+  document
+    .getElementById(
+      'eventPhoto'
+    )
+    .value='';
+
+
+  document
+    .getElementById(
+      'eventVideo'
+    )
+    .value='';
+
+
+  document
+    .getElementById(
+      'eventAudio'
+    )
+    .value='';
+
+
+  const photoUrl =
+    await getPhotoUrl(
+      data.photo_url
+    );
+
+
+  document
+    .getElementById(
+      'eventPhotoPreview'
+    )
+    .innerHTML =
+      photoUrl
+
+        ? '<img class="activity-photo-preview" src="'+
+          escapeHtml(photoUrl)+
+          '" alt="Event photo">'
+
+        : '<span class="activity-photo-placeholder">Event Photo</span>';
+
+
+  const videoUrl =
+    await getPhotoUrl(
+      data.video_url
+    );
+
+
+  const videoPreview =
+    document.getElementById(
+      'eventVideoPreview'
+    );
+
+
+  if(videoUrl){
+
+    videoPreview.src=
+      videoUrl;
+
+    videoPreview.style.display=
+      'block';
+
+
+    document
+      .getElementById(
+        'eventVideoStatus'
+      )
+      .textContent=
+        'Existing event video loaded.';
+
+  }else{
+
+    videoPreview.removeAttribute(
+      'src'
+    );
+
+    videoPreview.style.display=
+      'none';
+
+  }
+
+
+  const audioUrl =
+    await getPhotoUrl(
+      data.audio_url
+    );
+
+
+  const audioPreview =
+    document.getElementById(
+      'eventAudioPreview'
+    );
+
+
+  if(audioUrl){
+
+    audioPreview.src=
+      audioUrl;
+
+    audioPreview.style.display=
+      'block';
+
+
+    document
+      .getElementById(
+        'eventAudioStatus'
+      )
+      .textContent=
+        'Existing event voice loaded.';
+
+  }else{
+
+    audioPreview.removeAttribute(
+      'src'
+    );
+
+    audioPreview.style.display=
+      'none';
+
+  }
+
+}
+
+
+function resetEventForm(){
+
+  closeEventCamera();
+
+  closeEventVideoCamera();
+
+
+  if(
+    eventMediaRecorder &&
+    eventMediaRecorder.state!=='inactive'
+  ){
+
+    eventMediaRecorder.stop();
+
+  }
+
+
+  if(
+    eventVideoRecorder &&
+    eventVideoRecorder.state!=='inactive'
+  ){
+
+    eventVideoRecorder.stop();
+
+  }
+
+
+  eventMediaRecorder=null;
+
+  eventVideoRecorder=null;
+
+
+  selectedEventPhotoFile=null;
+
+  eventVideoFile=null;
+
+  eventAudioFile=null;
+
+
+  eventAudioChunks=[];
+
+  eventVideoChunks=[];
+
+
+  editingEventId=null;
+
+  editingEventOldPhoto=null;
+
+  editingEventOldVideo=null;
+
+  editingEventOldAudio=null;
+
+  editingEventOldAudioRemoved=false;
+
+  editingEventOldVideoRemoved=false;
+
+
+  [
+    'eventTitle',
+    'eventDate',
+    'eventLocation',
+    'eventDescription'
+  ]
+  .forEach(
+    id=>
+      document
+        .getElementById(id)
+        .value=''
+  );
+
+
+  document
+    .getElementById(
+      'eventPhoto'
+    )
+    .value='';
+
+
+  document
+    .getElementById(
+      'eventVideo'
+    )
+    .value='';
+
+
+  document
+    .getElementById(
+      'eventAudio'
+    )
+    .value='';
+
+
+  document
+    .getElementById(
+      'eventPhotoPreview'
+    )
+    .innerHTML=
+      '<span class="activity-photo-placeholder">Event Photo</span>';
+
+
+  const vp =
+    document.getElementById(
+      'eventVideoPreview'
+    );
+
+  vp.pause();
+
+  vp.removeAttribute(
+    'src'
+  );
+
+  vp.style.display='none';
+
+
+  const ap =
+    document.getElementById(
+      'eventAudioPreview'
+    );
+
+  ap.pause();
+
+  ap.removeAttribute(
+    'src'
+  );
+
+  ap.style.display='none';
+
+
+  document
+    .getElementById(
+      'eventVideoStatus'
+    )
+    .textContent='';
+
+
+  document
+    .getElementById(
+      'eventAudioStatus'
+    )
+    .textContent='';
+
+}
+
+
+async function deleteEvent(id){
+
+  if(
+    !confirm(
+      'Delete this event and its media?'
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const {data} =
+    await supabaseClient
+      .from('events')
+      .select(
+        'photo_url,video_url,audio_url'
+      )
+      .eq(
+        'id',
+        id
+      )
+      .single();
+
+
+  const {error} =
+    await supabaseClient
+      .from('events')
+      .delete()
+      .eq(
+        'id',
+        id
+      );
+
+
+  if(error){
+
+    showMessage(
+      'eventMessage',
+      error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  if(data?.photo_url){
+
+    await deleteStoredPhoto(
+      data.photo_url
+    );
+
+  }
+
+
+  if(data?.video_url){
+
+    await deleteStoredPhoto(
+      data.video_url
+    );
+
+  }
+
+
+  if(data?.audio_url){
+
+    await deleteStoredPhoto(
+      data.audio_url
+    );
+
+  }
+
+
+  loadEvents();
+
+}
+
+
+/* =========================
+   DOCUMENTS
+========================= */
+
+async function loadDocuments(){
+
+  const list =
+    document.getElementById(
+      'documentsList'
+    );
+
+  list.innerHTML=
+    'Loading documents...';
+
+
+  const {data,error} =
+    await supabaseClient
+      .storage
+      .from(DOCUMENT_BUCKET)
+      .list(
+        '',
+        {
+          limit:100,
+          sortBy:{
+            column:'created_at',
+            order:'desc'
+          }
+        }
+      );
+
+
+  if(error){
+
+    list.innerHTML=
+      '<div class="message error">'+
+      escapeHtml(error.message)+
+      '</div>';
+
+    return;
+
+  }
+
+
+  if(!data?.length){
+
+    list.innerHTML=
+      '<p>No documents uploaded yet.</p>';
+
+    return;
+
+  }
+
+
+  list.innerHTML =
+    data
+      .map(
+        f=>
+
+          '<div class="document-card">'+
+
+          '<div class="document-file-name">'+
+          escapeHtml(
+            f.name
+          )+
+          '</div>'+
+
+          '<p class="small-text">'+
+          escapeHtml(
+            f.metadata?.mimetype ||
+            'File'
+          )+
+          '</p>'+
+
+          '<button onclick="openDocument('+JSON.stringify(f.name)+')">Open / Download</button>'+
+
+          '<button class="delete-button" onclick="deleteDocument('+JSON.stringify(f.name)+')">Delete</button>'+
+
+          '</div>'
+
+      )
+      .join('');
+
+}
+
+
+async function uploadDocument(){
+
+  const input =
+    document.getElementById(
+      'documentFile'
+    );
+
+  const file =
+    input.files?.[0];
+
+
+  if(!file){
+
+    showMessage(
+      'documentMessage',
+      'Please select a document first.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  if(
+    file.size>
+    50*1024*1024
+  ){
+
+    showMessage(
+      'documentMessage',
+      'The file is larger than the 50 MB limit.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  const name =
+    Date.now()+'_'+
+    file.name.replace(
+      /[^a-zA-Z0-9._-]/g,
+      '_'
+    );
+
+
+  const {error} =
+    await supabaseClient
+      .storage
+      .from(DOCUMENT_BUCKET)
+      .upload(
+        name,
+        file,
+        {
+          cacheControl:'3600',
+          upsert:false
+        }
+      );
+
+
+  if(error){
+
+    showMessage(
+      'documentMessage',
+      'Upload failed: '+
+      error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  input.value='';
+
+
+  showMessage(
+    'documentMessage',
+    'Document uploaded successfully.',
+    'success'
+  );
+
+
+  loadDocuments();
+
+}
+
+
+async function saveTypedDocument(){
+
+  const title =
+    document
+      .getElementById(
+        'typedDocumentTitle'
+      )
+      .value
+      .trim();
+
+
+  const content =
+    document
+      .getElementById(
+        'typedDocumentContent'
+      )
+      .value
+      .trim();
+
+
+  if(
+    !title ||
+    !content
+  ){
+
+    showMessage(
+      'typedDocumentMessage',
+      'Document title and content are required.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  const name =
+    Date.now()+'_'+
+    title.replace(
+      /[^a-zA-Z0-9._-]/g,
+      '_'
+    )+
+    '.txt';
+
+
+  const blob =
+    new Blob(
+      [
+        'YOUTHS OF NDASEI ASSOCIATION (YONA)\n'+
+        'Unity and Development\n\n'+
+        'DOCUMENT TITLE: '+
+        title+
+        '\n\n'+
+        content
+      ],
+      {
+        type:'text/plain'
+      }
+    );
+
+
+  const {error} =
+    await supabaseClient
+      .storage
+      .from(DOCUMENT_BUCKET)
+      .upload(
+        name,
+        blob,
+        {
+          cacheControl:'3600',
+          upsert:false
+        }
+      );
+
+
+  if(error){
+
+    showMessage(
+      'typedDocumentMessage',
+      'Could not save document: '+
+      error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  document
+    .getElementById(
+      'typedDocumentTitle'
+    )
+    .value='';
+
+
+  document
+    .getElementById(
+      'typedDocumentContent'
+    )
+    .value='';
+
+
+  showMessage(
+    'typedDocumentMessage',
+    'Document saved successfully.',
+    'success'
+  );
+
+
+  loadDocuments();
+
+}
+
+
+async function openDocument(name){
+
+  const {data,error} =
+    await supabaseClient
+      .storage
+      .from(DOCUMENT_BUCKET)
+      .createSignedUrl(
+        name,
+        3600
+      );
+
+
+  if(error){
+
+    alert(
+      'Could not open document: '+
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  window.open(
+    data.signedUrl,
+    '_blank'
+  );
+
+}
+
+
+async function deleteDocument(name){
+
+  if(
+    !confirm(
+      'Delete this document?'
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const {error} =
+    await supabaseClient
+      .storage
+      .from(DOCUMENT_BUCKET)
+      .remove([
+        name
+      ]);
+
+
+  if(error){
+
+    showMessage(
+      'documentMessage',
+      'Could not delete document: '+
+      error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  loadDocuments();
+
+}
+
+
+/* =========================
+   AUTH STATE
+========================= */
+
+supabaseClient.auth.onAuthStateChange(
+  (event,session)=>{
+
+    if(session){
+
+      showApp();
+
+    }else{
+
+      document
+        .getElementById(
+          'appSection'
+        )
+        .classList
+        .add('hidden');
+
+      document
+        .getElementById(
+          'loginSection'
+        )
+        .classList
+        .remove('hidden');
+
+    }
+
+  }
+);
+
+
+(async()=>{
+
+  try{
+
+    const {data} =
+      await supabaseClient
+        .auth
+        .getSession();
+
+    if(data.session){
+
+      showApp();
+
+    }
+
+  }catch(e){
+
+    console.error(e);
+
+  }
+
+})();
+
+</script>
+
+
+<!-- =========================
+     ID CARD MODAL
+========================= -->
+
+<div
+  id="idCardModal"
+  class="id-modal hidden"
+>
+
+
+<div>
+
+
+<div class="id-card">
+
+
+<div class="id-card-header">
+
+<h2>
+YOUTHS OF NDASEI ASSOCIATION
+</h2>
+
+<p>
+YONA • UNITY AND DEVELOPMENT
+</p>
+
+</div>
+
+
+<div class="id-card-body">
+
+
+<img
+  id="idCardPhoto"
+  class="id-card-photo"
+  alt="Member photo"
+>
+
+
+<div
+  id="idCardPhotoFallback"
+  class="id-card-photo"
+  style="
+    display:none;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    color:#777;
+  "
+>
+NO PHOTO
+</div>
+
+
+<div
+  id="idCardName"
+  class="id-card-name"
+></div>
+
+
+<div
+  id="idCardPosition"
+  class="id-card-position"
+></div>
+
+
+<div class="id-info">
+
+
+<div>
+
+<strong>
+Member No.:
+</strong>
+
+<span
+  id="idCardNumber"
+></span>
+
+</div>
+
+
+<div>
+
+<strong>
+Category:
+</strong>
+
+<span
+  id="idCardType"
+></span>
+
+</div>
+
+
+<div>
+
+<strong>
+Expiry:
+</strong>
+
+<span
+  id="idCardExpiry"
+></span>
+
+</div>
+
+
+</div>
+
+
+<div
+  id="memberQrCode"
+  class="id-qr"
+></div>
+
+
+<div
+  style="
+    font-size:10px;
+    color:#666;
+  "
+>
+SCAN TO VERIFY YONA MEMBERSHIP
+</div>
+
+
+</div>
+
+
+<div class="id-card-footer">
+
+Official YONA Membership Identification Card
+
+</div>
+
+
+</div>
+
+
+<div class="modal-actions">
+
+
+<button
+  type="button"
+  onclick="window.print()"
+>
+🖨️ Print ID Card
+</button>
+
+
+<button
+  type="button"
+  class="cancel-button"
+  onclick="closeIdCard()"
+>
+Close
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</body>
+</html>
