@@ -8745,11 +8745,82 @@ async function deleteEvent(id){
    DOCUMENT SCANNER
 ========================= */
 
-let documentScannerStream = null;
-let documentScanFile = null;
-
 async function openDocumentScanner(){
 
+  const camera =
+    document.getElementById('documentScannerCamera');
+
+  const box =
+    document.getElementById('documentScannerBox');
+
+  const status =
+    document.getElementById('documentScannerStatus');
+
+  if(!camera || !box || !status){
+
+    alert('Document scanner elements are missing.');
+
+    return;
+  }
+
+  try{
+
+    if(
+      !navigator.mediaDevices ||
+      !navigator.mediaDevices.getUserMedia
+    ){
+
+      alert(
+        'Camera access is not available in this browser.'
+      );
+
+      return;
+    }
+
+    status.textContent =
+      'Opening camera...';
+
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+        video:{
+          facingMode:{
+            ideal:'environment'
+          }
+        },
+        audio:false
+      });
+
+    documentScannerStream = stream;
+
+    camera.srcObject = stream;
+
+    box.style.display='block';
+
+    await camera.play();
+
+    status.textContent =
+      'Camera ready. Position the document inside the camera.';
+
+  }catch(e){
+
+    console.error(
+      'Document camera error:',
+      e
+    );
+
+    status.textContent =
+      'Camera could not be opened.';
+
+    alert(
+      'Camera error: '+
+      e.name+
+      '\n'+
+      e.message
+    );
+
+  }
+
+}
   const camera =
     document.getElementById('documentScannerCamera');
 
