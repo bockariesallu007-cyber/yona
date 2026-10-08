@@ -8750,6 +8750,77 @@ let documentScanFile = null;
 
 async function openDocumentScanner(){
 
+  const camera =
+    document.getElementById('documentScannerCamera');
+
+  const box =
+    document.getElementById('documentScannerBox');
+
+  const status =
+    document.getElementById('documentScannerStatus');
+
+  if(!camera || !box){
+    alert('Document scanner camera area was not found.');
+    return;
+  }
+
+  try{
+
+    if(
+      !navigator.mediaDevices ||
+      !navigator.mediaDevices.getUserMedia
+    ){
+
+      alert(
+        'Your browser does not allow camera access on this page.'
+      );
+
+      return;
+    }
+
+    status.textContent =
+      'Opening camera...';
+
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+        video:{
+          facingMode:'environment'
+        },
+        audio:false
+      });
+
+    documentScannerStream = stream;
+
+    camera.srcObject = stream;
+
+    box.style.display='block';
+
+    await camera.play();
+
+    status.textContent =
+      'Camera ready. Position the document inside the camera.';
+
+  }catch(error){
+
+    console.error(
+      'Document camera error:',
+      error
+    );
+
+    status.textContent =
+      'Camera could not be opened.';
+
+    alert(
+      'Camera error: '+
+      error.name+
+      '\n'+
+      error.message
+    );
+
+  }
+
+}
+
   if(
     !navigator.mediaDevices ||
     !navigator.mediaDevices.getUserMedia
