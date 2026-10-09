@@ -8747,215 +8747,66 @@ async function deleteEvent(id){
 
 async function openDocumentScanner(){
 
-  const camera =
-    document.getElementById('documentScannerCamera');
-
-  const box =
-    document.getElementById('documentScannerBox');
-
-  const status =
-    document.getElementById('documentScannerStatus');
+  const camera = document.getElementById('documentScannerCamera');
+  const box = document.getElementById('documentScannerBox');
+  const status = document.getElementById('documentScannerStatus');
+  const preview = document.getElementById('documentScannerPreview');
+  const actions = document.getElementById('documentScannerActions');
 
   if(!camera || !box || !status){
-
     alert('Document scanner elements are missing.');
+    return;
+  }
 
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    alert('Camera access is not available in this browser.');
     return;
   }
 
   try{
 
-    if(
-      !navigator.mediaDevices ||
-      !navigator.mediaDevices.getUserMedia
-    ){
+    status.textContent = 'Opening camera...';
 
-      alert(
-        'Camera access is not available in this browser.'
-      );
-
-      return;
-    }
-
-    status.textContent =
-      'Opening camera...';
-
-    const stream =
-      await navigator.mediaDevices.getUserMedia({
-        video:{
-          facingMode:{
-            ideal:'environment'
-          }
-        },
-        audio:false
-      });
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: {
+          ideal: 'environment'
+        }
+      },
+      audio: false
+    });
 
     documentScannerStream = stream;
-
     camera.srcObject = stream;
+    box.style.display = 'block';
 
-    box.style.display='block';
+    if(preview){
+      preview.style.display = 'none';
+    }
+
+    if(actions){
+      actions.style.display = 'none';
+    }
 
     await camera.play();
 
-    status.textContent =
-      'Camera ready. Position the document inside the camera.';
-
-  }catch(e){
-
-    console.error(
-      'Document camera error:',
-      e
-    );
-
-    status.textContent =
-      'Camera could not be opened.';
-
-    alert(
-      'Camera error: '+
-      e.name+
-      '\n'+
-      e.message
-    );
-
-  }
-
-}
-  const camera =
-    document.getElementById('documentScannerCamera');
-
-  const box =
-    document.getElementById('documentScannerBox');
-
-  const status =
-    document.getElementById('documentScannerStatus');
-
-  if(!camera || !box){
-    alert('Document scanner camera area was not found.');
-    return;
-  }
-
-  try{
-
-    if(
-      !navigator.mediaDevices ||
-      !navigator.mediaDevices.getUserMedia
-    ){
-
-      alert(
-        'Your browser does not allow camera access on this page.'
-      );
-
-      return;
-    }
-
-    status.textContent =
-      'Opening camera...';
-
-    const stream =
-      await navigator.mediaDevices.getUserMedia({
-        video:{
-          facingMode:'environment'
-        },
-        audio:false
-      });
-
-    documentScannerStream = stream;
-
-    camera.srcObject = stream;
-
-    box.style.display='block';
-
-    await camera.play();
-
-    status.textContent =
-      'Camera ready. Position the document inside the camera.';
+    status.textContent = 'Camera ready. Position the document inside the camera.';
 
   }catch(error){
 
-    console.error(
-      'Document camera error:',
-      error
-    );
+    console.error('Document camera error:', error);
 
-    status.textContent =
-      'Camera could not be opened.';
+    status.textContent = 'Camera could not be opened.';
 
-    alert(
-      'Camera error: '+
-      error.name+
-      '\n'+
-      error.message
-    );
+    alert('Camera error: ' + error.name + '\n' + error.message);
 
-  }
-
-}
-
-  if(
-    !navigator.mediaDevices ||
-    !navigator.mediaDevices.getUserMedia
-  ){
-
-    alert(
-      'Document scanning is not supported by this browser.'
-    );
-
-    return;
-  }
-
-  try{
-
-    const stream =
-      await navigator.mediaDevices.getUserMedia({
-        video:{
-          facingMode:{
-            ideal:'environment'
-          }
-        },
-        audio:false
+    if(documentScannerStream){
+      documentScannerStream.getTracks().forEach(function(track){
+        track.stop();
       });
 
-    documentScannerStream = stream;
-
-    const camera =
-      document.getElementById(
-        'documentScannerCamera'
-      );
-
-    camera.srcObject = stream;
-
-    document
-      .getElementById(
-        'documentScannerBox'
-      )
-      .style.display='block';
-
-    document
-      .getElementById(
-        'documentScannerPreview'
-      )
-      .style.display='none';
-
-    document
-      .getElementById(
-        'documentScannerActions'
-      )
-      .style.display='none';
-
-    document
-      .getElementById(
-        'documentScannerStatus'
-      )
-      .textContent =
-        'Position the document inside the camera.';
-
-  }catch(e){
-
-    alert(
-      'Could not open document camera: '+
-      e.message
-    );
+      documentScannerStream = null;
+    }
 
   }
 
