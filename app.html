@@ -665,6 +665,12 @@ audio.media-preview{
 
 }
 
+/* Hide dashboard statistics cards */
+.stats-dashboard {
+display: none !important;
+}
+
+  
 </style>
 </head>
 
@@ -2548,21 +2554,27 @@ function showMessage(
 
 function showSection(id){
 
-  document
-    .getElementById('dashboardSection')
-    .classList.add('hidden');
+  const dashboard =
+    document.getElementById('dashboardSection');
+
+  const target =
+    document.getElementById(id);
+
+  if(dashboard){
+    dashboard.classList.add('hidden');
+  }
 
   document
-    .querySelectorAll(
-      '#appSection>section'
-    )
-    .forEach(
-      s=>s.classList.add('hidden')
-    );
+    .querySelectorAll('#appSection section')
+    .forEach(section => {
+      section.classList.add('hidden');
+    });
 
-  document
-    .getElementById(id)
-    .classList.remove('hidden');
+  if(target){
+    target.classList.remove('hidden');
+  }else{
+    alert('Section not found: ' + id);
+  }
 
 }
 
@@ -2570,19 +2582,19 @@ function showSection(id){
 function backToDashboard(){
 
   document
-    .querySelectorAll(
-      '#appSection>section'
-    )
-    .forEach(
-      s=>s.classList.add('hidden')
-    );
+    .querySelectorAll('#appSection section')
+    .forEach(section => {
+      section.classList.add('hidden');
+    });
 
-  document
-    .getElementById('dashboardSection')
-    .classList.remove('hidden');
+  const dashboard =
+    document.getElementById('dashboardSection');
+
+  if(dashboard){
+    dashboard.classList.remove('hidden');
+  }
 
 }
-
 
 /* =========================
    AUTH
@@ -5580,13 +5592,13 @@ function renderMembers(){
 
 async function loadMembers(){
 
-  const list =
-    document.getElementById(
-      'membersList'
+  const list =List'
     );
 
   list.innerHTML=
-    'Loading members...';
+    'Loading mem
+    document.getElementById(
+      'membersbers...';
 
 
   const {data,error} =
@@ -5622,7 +5634,6 @@ async function loadMembers(){
   await updateMemberTotals();
 
 }
-
 
 async function editMember(id){
 
