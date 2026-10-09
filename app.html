@@ -1478,7 +1478,15 @@ Finance
   placeholder="Name"
 >
 
+<label for="financeDirection">
+  Transaction Direction
+</label>
 
+<select id="financeDirection">
+  <option value="">Select direction</option>
+  <option value="income">Money Received</option>
+  <option value="expense">Money Spent</option>
+</select>
 <select id="financeType">
 
 <option value="">
@@ -6656,10 +6664,17 @@ async function saveFinance(){
       .value
       .trim();
 
-  const type =
+ const type =
     document
       .getElementById(
         'financeType'
+      )
+      .value;
+
+  const direction =
+    document
+      .getElementById(
+        'financeDirection'
       )
       .value;
 
@@ -6682,19 +6697,19 @@ async function saveFinance(){
   if(
     !name ||
     !type ||
+    !direction ||
     !amount
   ){
 
     showMessage(
       'financeMessage',
-      'Name, transaction type and amount are required.',
+      'Name, transaction type, direction and amount are required.',
       'error'
     );
 
     return;
 
   }
-
 
   const record={
 
