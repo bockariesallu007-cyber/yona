@@ -5592,49 +5592,33 @@ function renderMembers(){
 
 async function loadMembers(){
 
-  const list =List'
-    );
+  const list =
+    document.getElementById('membersList');
 
-  list.innerHTML=
-    'Loading mem
-    document.getElementById(
-      'membersbers...';
+  if(!list) return;
 
+  list.innerHTML = 'Loading members...';
 
-  const {data,error} =
-    await supabaseClient
-      .from('members')
-      .select('*')
-      .order(
-        'id',
-        {
-          ascending:false
-        }
-      );
-
+  const {data, error} = await supabaseClient
+    .from('members')
+    .select('*')
+    .order('id', {ascending:false});
 
   if(error){
-
-    list.innerHTML=
-      '<div class="message error">'+
-      escapeHtml(error.message)+
+    list.innerHTML =
+      '<div class="message error">' +
+      escapeHtml(error.message) +
       '</div>';
-
     return;
-
   }
 
-
-  currentMembers =
-    data || [];
-
+  currentMembers = data || [];
 
   renderMembers();
 
   await updateMemberTotals();
 
 }
-
 async function editMember(id){
 
   const {data,error} =
