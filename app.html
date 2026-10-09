@@ -843,6 +843,8 @@ Executive leadership records.
 Manage YONA members and membership records.
 </p>
 
+<p>Total Members: <strong id="dashboardMembersTotal">0</strong></p>
+  
 <button
   onclick="showSection('membersSection');loadMembers()"
 >
@@ -864,6 +866,8 @@ Members
 Manage executive leadership and periods.
 </p>
 
+<p>Total Executives: <strong id="dashboardExecutiveTotal">0</strong></p>
+  
 <button
   onclick="showSection('executiveSection');loadExecutive()"
 >
@@ -885,6 +889,8 @@ Executive
 Manage contributions and financial records.
 </p>
 
+<p>Total Finance Records: <strong id="dashboardFinanceTotal">0</strong></p>
+  
 <button
   onclick="showSection('financeSection');loadFinance()"
 >
@@ -905,7 +911,8 @@ Finance
 <p>
 Photos, videos and voice recordings.
 </p>
-
+<p>Total Meetings: <strong id="dashboardMeetingsTotal">0</strong></p>
+  
 <button
   onclick="showSection('meetingsSection');loadMeetings()"
 >
@@ -927,6 +934,8 @@ Meetings
 Photos, videos and voice recordings.
 </p>
 
+<p>Total Events: <strong id="dashboardEventsTotal">0</strong></p>
+  
 <button
   onclick="showSection('eventsSection');loadEvents()"
 >
@@ -948,6 +957,8 @@ Events
 Store important YONA documents.
 </p>
 
+<p>Total Documents: <strong id="dashboardDocumentsTotal">0</strong></p>
+  
 <button
   onclick="showSection('documentsSection');loadDocuments()"
 >
@@ -2661,7 +2672,7 @@ function showApp(){
   backToDashboard();
 
   updateMemberTotals();
-
+  updateDashboardCardTotals();
 }
 
 
@@ -5337,7 +5348,49 @@ async function updateMemberTotals(){
 
 }
 
+async function updateDashboardCardTotals() {
+  try {
+    const tables = [
+      ['members', 'dashboardMembersTotal'],
+      ['executive', 'dashboardExecutiveTotal'],
+      ['finance', 'dashboardFinanceTotal'],
+      ['meetings', 'dashboardMeetingsTotal'],
+      ['events', 'dashboardEventsTotal']
+    ];
 
+    for (const [table, elementId] of tables) {
+      const { count, error } = await supabaseClient
+        .from(table)
+        .select('id', { count: 'exact', head: true });
+
+      const element = document.getElementById(elementId);
+
+      if (!error && element) {
+        element.textContent = count ?? 0;
+      } else if (error) {
+        console.error('Could not count ' + table, error);
+      }
+    }
+
+    const { data, error } = await supabaseClient
+      .storage
+      .from(DOCUMENT_BUCKET)
+      .list('', { limit: 1000 });
+
+    const documentsElement =
+      document.getElementById('dashboardDocumentsTotal');
+
+    if (!error && documentsElement) {
+      documentsElement.textContent = data.length;
+    } else if (error) {
+      console.error('Could not count documents', error);
+    }
+
+  } catch (error) {
+    console.error('Dashboard totals error:', error);
+  }
+}
+  
 let currentMembers=[];
 
 
