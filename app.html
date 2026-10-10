@@ -6828,9 +6828,13 @@ await loadFinance();
 ```
 
 } catch (error) {
-alert('Finance error: ' + error.message);
+alert(
+'Finance error: ' +
+(error.stack || error.message || String(error))
+);
 }
 }
+
 
 
 async function loadFinance(){
