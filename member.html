@@ -161,6 +161,22 @@
         Verifying YONA member...
       </div>
 
+      <!-- MEMBER QR SCANNER -->
+
+<div id="scannerPanel" style="margin:20px 0;">
+  <h3>Scan YONA Membership Card</h3>
+  <p>Point your camera at the QR code on a member's ID card.</p>
+
+<button
+ type="button"
+ onclick="startMemberScanner()"
+ style="padding:12px 18px;background:#075eaa;color:white;border:0;border-radius:8px;font-size:16px;">
+📷 Scan Member ID Card </button>
+
+  <div id="memberQrScanner" style="width:100%;margin-top:15px;"></div>
+  <div id="scannerMessage" role="status"></div>
+</div>
+
 
       <!-- MEMBER DETAILS -->
       <div id="memberContent" class="hidden">
@@ -252,8 +268,13 @@
   </div>
 
 
-  <!-- SUPABASE -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- QR SCANNER -->
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
   <script>
@@ -305,39 +326,109 @@
 
     }
 
+```
+/* =========================
+   YONA MEMBER QR SCANNER
+========================= */
 
+let memberQrCamera = null;
+
+async function startMemberScanner() {
+
+  const message =
+    document.getElementById('scannerMessage');
+
+  if (typeof Html5Qrcode === 'undefined') {
+    message.textContent =
+      'Scanner failed to load. Check your internet connection and reload the page.';
+    return;
+  }
+
+  try {
+
+    if (!memberQrCamera) {
+      memberQrCamera =
+        new Html5Qrcode('memberQrScanner');
+    }
+
+    message.textContent =
+      'Starting camera... Please allow camera access.';
+
+    await memberQrCamera.start(
+      { facingMode: 'environment' },
+      { fps: 10, qrbox: { width: 250, height: 250 } },
+
+      async function (decodedText) {
+
+        message.textContent =
+          'QR code found. Verifying member...';
+
+        try {
+          await memberQrCamera.stop();
+        } catch (error) {
+          console.log('Camera already stopped.');
+        }
+
+        await verifyMember(decodedText);
+
+      },
+
+      function () {
+        // Ignore QR codes not yet detected.
+      }
+    );
+
+    message.textContent =
+      'Camera is ready. Point it at the member QR code.';
+
+  } catch (error) {
+
+    console.error('Scanner error:', error);
+
+    message.textContent =
+      'Could not open the camera. Allow camera permission and try again.';
+
+  }
+}
+```
+
+    
     /* =========================
        VERIFY MEMBER
     ========================= */
 
-    async function verifyMember() {
+    ```
+async function verifyMember(scannedValue = null) {
 
+  try {
+
+    let memberId = null;
+
+    if (scannedValue) {
       try {
+        const scannedUrl = new URL(scannedValue);
+        memberId = scannedUrl.searchParams.get('id');
+      } catch (error) {
+        memberId = scannedValue.trim();
+      }
+    } else {
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
 
-        const params =
-          new URLSearchParams(
-            window.location.search
-          );
+      memberId = params.get('id');
+    }
 
+    if (!memberId) {
+      showError(
+        'No member ID was provided. Open a member QR link or use the scanner below.'
+      );
+      return;
+    }
 
-        const memberId =
-          params.get('id');
-
-
-        /* No ID in QR link */
-
-        if (!memberId) {
-
-          showError(
-            'No member ID was provided. Please scan a valid YONA member QR code.'
-          );
-
-          return;
-
-        }
-
-
-        /* Get member from Supabase */
+    /* Get member from Supabase */
+```
 
         const result =
           await supabaseClient
