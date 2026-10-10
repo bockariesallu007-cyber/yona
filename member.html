@@ -1,9 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>YONA Member Verification</title>
 
   <style>
@@ -90,6 +90,7 @@
     .info p {
       margin: 13px 0;
       line-height: 1.4;
+      overflow-wrap: anywhere;
     }
 
     .label {
@@ -121,6 +122,33 @@
       line-height: 1.5;
     }
 
+    .scanner-button {
+      padding: 12px 18px;
+      background: #075eaa;
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .scanner-button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    #scannerMessage {
+      margin-top: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    #memberQrScanner {
+      width: 100%;
+      margin-top: 15px;
+    }
+
     .footer {
       text-align: center;
       color: #777;
@@ -132,6 +160,7 @@
       display: none !important;
     }
   </style>
+
 </head>
 
 <body>
@@ -142,143 +171,103 @@
     <p>Unity and Development</p>
   </div>
 
-
   <div class="container">
-
     <div class="card">
 
-      <!-- YONA LOGO -->
-      <img
-        src="LOGO"
-        class="logo"
-        alt="YONA Logo"
-        onerror="this.style.display='none'"
-      >
+```
+  <img
+    src="LOGO"
+    class="logo"
+    alt="YONA Logo"
+    onerror="this.style.display='none'"
+  >
 
+  <div id="loading" class="loading">
+    Verifying YONA member...
+  </div>
 
-      <!-- LOADING -->
-      <div id="loading" class="loading">
-        Verifying YONA member...
-      </div>
+  <!-- MEMBER QR SCANNER -->
+  <div id="scannerPanel" style="margin:20px 0;">
+    <h3>Scan YONA Membership Card</h3>
+    <p>Point your camera at the QR code on a member's ID card.</p>
 
-      <!-- MEMBER QR SCANNER -->
+    <button
+      id="scanButton"
+      type="button"
+      class="scanner-button"
+      onclick="startMemberScanner()"
+    >
+      📷 Scan Member ID Card
+    </button>
 
-<div id="scannerPanel" style="margin:20px 0;">
-  <h3>Scan YONA Membership Card</h3>
-  <p>Point your camera at the QR code on a member's ID card.</p>
+    <div id="memberQrScanner"></div>
+    <div id="scannerMessage" role="status" aria-live="polite"></div>
+  </div>
 
-<button
- type="button"
- onclick="startMemberScanner()"
- style="padding:12px 18px;background:#075eaa;color:white;border:0;border-radius:8px;font-size:16px;">
-📷 Scan Member ID Card </button>
+  <!-- MEMBER DETAILS -->
+  <div id="memberContent" class="hidden">
 
-  <div id="memberQrScanner" style="width:100%;margin-top:15px;"></div>
-  <div id="scannerMessage" role="status"></div>
-</div>
+    <img
+      id="memberPhoto"
+      class="photo"
+      alt="Member Photo"
+    >
 
+    <div id="memberName" class="member-name"></div>
+    <div id="memberPosition" class="position"></div>
 
-      <!-- MEMBER DETAILS -->
-      <div id="memberContent" class="hidden">
+    <div class="info">
 
-        <img
-          id="memberPhoto"
-          class="photo"
-          alt="Member Photo"
-        >
+      <p>
+        <span class="label">Member Number:</span>
+        <span id="memberNumber">N/A</span>
+      </p>
 
+      <p>
+        <span class="label">Phone:</span>
+        <span id="memberPhone">N/A</span>
+      </p>
 
-        <div
-          id="memberName"
-          class="member-name">
-        </div>
+      <p>
+        <span class="label">Member Type:</span>
+        <span id="memberType">N/A</span>
+      </p>
 
-
-        <div
-          id="memberPosition"
-          class="position">
-        </div>
-
-
-        <div class="info">
-
-          <p>
-            <span class="label">
-              Member Number:
-            </span>
-            <span id="memberNumber">
-              N/A
-            </span>
-          </p>
-
-
-          <p>
-            <span class="label">
-              Phone:
-            </span>
-            <span id="memberPhone">
-              N/A
-            </span>
-          </p>
-
-
-          <p>
-            <span class="label">
-              Member Type:
-            </span>
-            <span id="memberType">
-              N/A
-            </span>
-          </p>
-
-
-          <p>
-            <span class="label">
-              Expiry Date:
-            </span>
-            <span id="expiryDate">
-              N/A
-            </span>
-          </p>
-
-        </div>
-
-
-        <div class="verified">
-          ✓ YONA MEMBER VERIFIED
-        </div>
-
-      </div>
-
-
-      <!-- ERROR -->
-      <div
-        id="error"
-        class="error hidden">
-      </div>
+      <p>
+        <span class="label">Expiry Date:</span>
+        <span id="expiryDate">N/A</span>
+      </p>
 
     </div>
 
-
-    <div class="footer">
-      YOUTHS OF NDASEI ASSOCIATION<br>
-      Unity and Development
+    <div class="verified">
+      ✓ YONA MEMBER VERIFIED
     </div>
 
   </div>
 
+  <!-- ERROR -->
+  <div id="error" class="error hidden"></div>
 
-  <!-- QR SCANNER -->
+</div>
 
-<script src="https://unpkg.com/html5-qrcode"></script>
+<div class="footer">
+  YOUTHS OF NDASEI ASSOCIATION<br>
+  Unity and Development
+</div>
+```
 
-<!-- SUPABASE -->
+  </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- QR SCANNER LIBRARY -->
 
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+  <!-- SUPABASE LIBRARY -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-
     /* =========================
        SUPABASE CONFIGURATION
     ========================= */
@@ -289,329 +278,292 @@
     const SUPABASE_KEY =
       'sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc';
 
-
     const supabaseClient =
-      supabase.createClient(
+      window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
       );
-
 
     /* =========================
        SHOW ERROR
     ========================= */
 
     function showError(message) {
+      document.getElementById('loading')
+        .classList.add('hidden');
 
-      const loading =
-        document.getElementById(
-          'loading'
-        );
+      const errorBox = document.getElementById('error');
 
-      const error =
-        document.getElementById(
-          'error'
-        );
-
-      loading.classList.add(
-        'hidden'
-      );
-
-      error.textContent =
-        message;
-
-      error.classList.remove(
-        'hidden'
-      );
-
+      errorBox.textContent = message;
+      errorBox.classList.remove('hidden');
     }
 
-```
-/* =========================
-   YONA MEMBER QR SCANNER
-========================= */
+    /* =========================
+       MEMBER QR SCANNER
+    ========================= */
 
-let memberQrCamera = null;
+    let memberQrCamera = null;
+    let scannerBusy = false;
 
-async function startMemberScanner() {
+    async function startMemberScanner() {
+      const message =
+        document.getElementById('scannerMessage');
 
-  const message =
-    document.getElementById('scannerMessage');
+      const button =
+        document.getElementById('scanButton');
 
-  if (typeof Html5Qrcode === 'undefined') {
-    message.textContent =
-      'Scanner failed to load. Check your internet connection and reload the page.';
-    return;
-  }
-
-  try {
-
-    if (!memberQrCamera) {
-      memberQrCamera =
-        new Html5Qrcode('memberQrScanner');
-    }
-
-    message.textContent =
-      'Starting camera... Please allow camera access.';
-
-    await memberQrCamera.start(
-      { facingMode: 'environment' },
-      { fps: 10, qrbox: { width: 250, height: 250 } },
-
-      async function (decodedText) {
-
+      if (scannerBusy) {
         message.textContent =
-          'QR code found. Verifying member...';
+          'Please wait for the current scan to finish.';
+        return;
+      }
 
-        try {
-          await memberQrCamera.stop();
-        } catch (error) {
-          console.log('Camera already stopped.');
+      if (typeof window.Html5Qrcode === 'undefined') {
+        message.textContent =
+          'The scanner library did not load. Check your internet connection and reload this page.';
+        return;
+      }
+
+      if (!window.isSecureContext) {
+        message.textContent =
+          'Camera access requires a secure HTTPS page.';
+        return;
+      }
+
+      button.disabled = true;
+
+      try {
+        if (!memberQrCamera) {
+          memberQrCamera =
+            new window.Html5Qrcode('memberQrScanner');
         }
 
-        await verifyMember(decodedText);
+        message.textContent =
+          'Starting camera. Please allow camera access.';
 
-      },
+        await memberQrCamera.start(
+          { facingMode: 'environment' },
+          {
+            fps: 10,
+            qrbox: {
+              width: 220,
+              height: 220
+            }
+          },
 
-      function () {
-        // Ignore QR codes not yet detected.
+          async function (decodedText) {
+            if (scannerBusy) return;
+
+            scannerBusy = true;
+
+            message.textContent =
+              'QR code found. Verifying member...';
+
+            try {
+              await memberQrCamera.stop();
+            } catch (stopError) {
+              console.log('Camera stop:', stopError);
+            }
+
+            button.disabled = false;
+
+            await verifyMember(decodedText);
+          },
+
+          function () {
+            // Wait quietly while searching for a QR code.
+          }
+        );
+
+        message.textContent =
+          'Camera is ready. Point it at the member QR code.';
+
+      } catch (error) {
+        console.error('Scanner error:', error);
+
+        message.textContent =
+          'Could not open the camera. Allow camera access in your browser settings and try again.';
+
+        button.disabled = false;
+        scannerBusy = false;
       }
-    );
+    }
 
-    message.textContent =
-      'Camera is ready. Point it at the member QR code.';
+    /* =========================
+       EXTRACT MEMBER ID
+    ========================= */
 
-  } catch (error) {
+    function extractMemberId(value) {
+      if (!value) return null;
 
-    console.error('Scanner error:', error);
+      const scannedValue = value.trim();
 
-    message.textContent =
-      'Could not open the camera. Allow camera permission and try again.';
+      try {
+        const scannedUrl = new URL(scannedValue);
 
-  }
-}
-```
+        const idFromUrl =
+          scannedUrl.searchParams.get('id');
 
-    
+        if (idFromUrl) return idFromUrl;
+
+        // Also accept a QR URL whose last path segment is the ID.
+        const segments =
+          scannedUrl.pathname.split('/').filter(Boolean);
+
+        if (
+          segments.length &&
+          !segments[segments.length - 1].endsWith('.html')
+        ) {
+          return decodeURIComponent(
+            segments[segments.length - 1]
+          );
+        }
+
+        return null;
+
+      } catch (error) {
+        // The QR code may contain the raw member ID.
+        return scannedValue;
+      }
+    }
+
     /* =========================
        VERIFY MEMBER
     ========================= */
 
-    ```
-async function verifyMember(scannedValue = null) {
+    async function verifyMember(scannedValue = null) {
+      const loading =
+        document.getElementById('loading');
 
-  try {
+      const errorBox =
+        document.getElementById('error');
 
-    let memberId = null;
+      const memberContent =
+        document.getElementById('memberContent');
 
-    if (scannedValue) {
+      const photo =
+        document.getElementById('memberPhoto');
+
       try {
-        const scannedUrl = new URL(scannedValue);
-        memberId = scannedUrl.searchParams.get('id');
-      } catch (error) {
-        memberId = scannedValue.trim();
-      }
-    } else {
-      const params =
-        new URLSearchParams(
-          window.location.search
-        );
+        errorBox.classList.add('hidden');
+        memberContent.classList.add('hidden');
 
-      memberId = params.get('id');
-    }
+        photo.removeAttribute('src');
+        photo.style.display = 'none';
 
-    if (!memberId) {
-      showError(
-        'No member ID was provided. Open a member QR link or use the scanner below.'
-      );
-      return;
-    }
+        loading.classList.remove('hidden');
+        loading.textContent = 'Verifying YONA member...';
 
-    /* Get member from Supabase */
-```
+        let value = scannedValue;
 
-        const result =
-          await supabaseClient
-            .from('members')
-            .select(
-              'id,name,phone,position,member_type,member_number,expiry_date,photo_url'
-            )
-            .eq(
-              'id',
-              memberId
-            )
-            .single();
+        if (!value) {
+          const params =
+            new URLSearchParams(window.location.search);
 
+          value = params.get('id');
+        }
 
-        const data =
-          result.data;
+        const memberId = extractMemberId(value);
 
-        const error =
-          result.error;
+        if (!memberId) {
+          showError(
+            'No member ID was provided. Use the scanner below or open a valid member QR link.'
+          );
+          return;
+        }
 
+        /* GET MEMBER FROM SUPABASE */
 
-        /* Supabase error */
+        const result = await supabaseClient
+          .from('members')
+          .select(
+            'id,name,phone,position,member_type,member_number,expiry_date,photo_url'
+          )
+          .eq('id', memberId)
+          .maybeSingle();
 
-        if (error) {
-
+        if (result.error) {
           console.error(
-            'Supabase error:',
-            error
+            'Supabase verification error:',
+            result.error
           );
 
           showError(
-            'Member could not be verified. The member record may not exist or cannot be accessed.'
+            'Member could not be verified. Please check your connection or contact the YONA administrator.'
           );
-
           return;
-
         }
 
-
-        /* No member */
+        const data = result.data;
 
         if (!data) {
-
           showError(
-            'Member record was not found.'
+            'Member record was not found. Please scan a valid YONA membership QR code.'
           );
-
           return;
-
         }
 
+        /* SHOW VERIFIED MEMBER */
 
-        /* Hide loading */
+        document.getElementById('memberName')
+          .textContent = data.name || 'N/A';
 
-        document
-          .getElementById(
-            'loading'
-          )
-          .classList.add(
-            'hidden'
-          );
+        document.getElementById('memberPosition')
+          .textContent = data.position || 'Member';
 
+        document.getElementById('memberNumber')
+          .textContent = data.member_number || 'N/A';
 
-        /* Show member */
+        document.getElementById('memberPhone')
+          .textContent = data.phone || 'N/A';
 
-        document
-          .getElementById(
-            'memberContent'
-          )
-          .classList.remove(
-            'hidden'
-          );
+        document.getElementById('memberType')
+          .textContent = data.member_type || 'Member';
 
+        document.getElementById('expiryDate')
+          .textContent = data.expiry_date || 'N/A';
 
-        /* Name */
+        if (data.photo_url) {
+          photo.onload = function () {
+            photo.style.display = 'block';
+          };
 
-        document
-          .getElementById(
-            'memberName'
-          )
-          .textContent =
-            data.name ||
-            'N/A';
+          photo.onerror = function () {
+            photo.style.display = 'none';
+          };
 
-
-        /* Position */
-
-        document
-          .getElementById(
-            'memberPosition'
-          )
-          .textContent =
-            data.position ||
-            'Member';
-
-
-        /* Member number */
-
-        document
-          .getElementById(
-            'memberNumber'
-          )
-          .textContent =
-            data.member_number ||
-            'N/A';
-
-
-        /* Phone */
-
-        document
-          .getElementById(
-            'memberPhone'
-          )
-          .textContent =
-            data.phone ||
-            'N/A';
-
-
-        /* Member type */
-
-        document
-          .getElementById(
-            'memberType'
-          )
-          .textContent =
-            data.member_type ||
-            'Member';
-
-
-        /* Expiry */
-
-        document
-          .getElementById(
-            'expiryDate'
-          )
-          .textContent =
-            data.expiry_date ||
-            'N/A';
-
-
-        /* Member photo */
-
-        if (
-          data.photo_url &&
-          data.photo_url.trim() !== ''
-        ) {
-
-          const photo =
-            document.getElementById(
-              'memberPhoto'
-            );
-
-          photo.src =
-            data.photo_url;
-
-          photo.style.display =
-            'block';
-
+          photo.src = data.photo_url;
         }
 
+        loading.classList.add('hidden');
+        memberContent.classList.remove('hidden');
+
+        document.getElementById('scannerMessage')
+          .textContent = 'Member verified successfully.';
 
       } catch (error) {
-
         console.error(
           'Verification error:',
           error
         );
 
         showError(
-          'Unable to connect to the YONA verification system.'
+          'Unable to connect to the YONA verification system. Please try again.'
         );
 
+      } finally {
+        scannerBusy = false;
+
+        document.getElementById('scanButton')
+          .disabled = false;
       }
-
     }
-
 
     /* =========================
        START VERIFICATION
     ========================= */
 
     verifyMember();
-
   </script>
 
 </body>
