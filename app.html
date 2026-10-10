@@ -6761,32 +6761,107 @@ async function saveFinance(){
 }
 
 async function openFinanceGate() {
+function askFinancePassword(title) {
+return new Promise(function (resolve) {
+const overlay = document.createElement('div');
+
+```
+  overlay.style.cssText =
+    'position:fixed;inset:0;background:rgba(0,0,0,.75);' +
+    'z-index:99999;display:flex;align-items:center;' +
+    'justify-content:center;padding:20px;';
+
+  const box = document.createElement('div');
+
+  box.style.cssText =
+    'background:white;color:#222;padding:24px;' +
+    'border-radius:12px;width:100%;max-width:360px;' +
+    'box-sizing:border-box;font-family:Arial,sans-serif;';
+
+  const heading = document.createElement('h3');
+  heading.textContent = title;
+
+  const input = document.createElement('input');
+  input.type = 'password';
+  input.placeholder = 'Enter password';
+  input.autocomplete = 'new-password';
+  input.style.cssText =
+    'width:100%;box-sizing:border-box;padding:12px;' +
+    'margin:12px 0;border:1px solid #aaa;border-radius:6px;';
+
+  const buttons = document.createElement('div');
+  buttons.style.cssText =
+    'display:flex;gap:10px;margin-top:10px;';
+
+  const cancel = document.createElement('button');
+  cancel.textContent = 'Cancel';
+
+  const submit = document.createElement('button');
+  submit.textContent = 'Continue';
+
+  cancel.style.cssText = 'padding:10px;flex:1;';
+  submit.style.cssText = 'padding:10px;flex:1;';
+
+  function finish(value) {
+    overlay.remove();
+    resolve(value);
+  }
+
+  cancel.onclick = function () {
+    finish(null);
+  };
+
+  submit.onclick = function () {
+    finish(input.value);
+  };
+
+  input.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+      finish(input.value);
+    }
+  });
+
+  buttons.append(cancel, submit);
+  box.append(heading, input, buttons);
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  input.focus();
+});
+```
+
+}
+
 try {
 const { data: isSet, error: checkError } =
 await supabaseClient.rpc('finance_password_is_set');
 
-
+```
 if (checkError) {
   alert('Could not check Finance password: ' + checkError.message);
   return;
 }
 
 if (isSet !== true) {
-  const password = prompt(
-    'Create your Finance password (at least 8 characters):'
+  const password = await askFinancePassword(
+    'Create Finance Password'
   );
 
-  if (!password) return;
+  if (password === null) return;
 
   if (password.length < 8) {
-    alert('Use at least 8 characters.');
+    alert('Your password must contain at least 8 characters.');
     return;
   }
 
-  const confirmation = prompt('Enter the password again:');
+  const confirmation = await askFinancePassword(
+    'Confirm Finance Password'
+  );
+
+  if (confirmation === null) return;
 
   if (password !== confirmation) {
-    alert('Passwords do not match.');
+    alert('Passwords do not match. Please try again.');
     return;
   }
 
@@ -6805,9 +6880,11 @@ if (isSet !== true) {
 
   alert('Finance password created successfully.');
 } else {
-  const password = prompt('Enter Finance security password:');
+  const password = await askFinancePassword(
+    'Enter Finance Password'
+  );
 
-  if (!password) return;
+  if (password === null) return;
 
   const { data, error } = await supabaseClient.rpc(
     'verify_finance_password',
@@ -6827,12 +6904,12 @@ if (isSet !== true) {
 
 showSection('financeSection');
 await loadFinance();
-
+```
 
 } catch (error) {
 alert(
 'Finance error: ' +
-(error.stack || error.message || String(error))
+(error.message || String(error))
 );
 }
 }
