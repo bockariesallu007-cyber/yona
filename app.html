@@ -6760,7 +6760,7 @@ async function saveFinance(){
 
 }
 
-  async function openFinanceGate() {
+async function openFinanceGate() {
 try {
 const { data: isSet, error: checkError } =
 await supabaseClient.rpc('finance_password_is_set');
@@ -6796,8 +6796,10 @@ if (isSet !== true) {
   );
 
   if (error || data !== true) {
-    alert('Could not set password: ' +
-      (error ? error.message : 'Please try again.'));
+    alert(
+      'Could not set password: ' +
+      (error ? error.message : 'Please try again.')
+    );
     return;
   }
 
@@ -6834,7 +6836,6 @@ alert(
 );
 }
 }
-
 
 
 async function loadFinance(){
