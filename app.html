@@ -6765,7 +6765,7 @@ try {
 const { data: isSet, error: checkError } =
 await supabaseClient.rpc('finance_password_is_set');
 
-```
+
 if (checkError) {
   alert('Could not check Finance password: ' + checkError.message);
   return;
@@ -6827,7 +6827,7 @@ if (isSet !== true) {
 
 showSection('financeSection');
 await loadFinance();
-```
+
 
 } catch (error) {
 alert(
