@@ -6760,6 +6760,29 @@ async function saveFinance(){
 
 }
 
+  async function openFinanceGate() {
+  const password = prompt('Enter Finance security password:');
+
+  if (!password) return;
+
+  const { data, error } = await supabaseClient.rpc(
+    'verify_finance_password',
+    { p_password: password }
+  );
+
+  if (error) {
+    alert('Security error: ' + error.message);
+    return;
+  }
+
+  if (data === true) {
+    showSection('financeSection');
+    await loadFinance();
+  } else {
+    alert('Incorrect password or password not set.');
+  }
+}
+
 
 async function loadFinance(){
 
