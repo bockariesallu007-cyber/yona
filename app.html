@@ -6761,6 +6761,48 @@ async function saveFinance(){
 }
 
   async function openFinanceGate() {
+try {
+const { data: isSet, error: checkError } =
+await supabaseClient.rpc('finance_password_is_set');
+
+```
+if (checkError) {
+  alert('Could not check Finance password: ' + checkError.message);
+  return;
+}
+
+if (isSet !== true) {
+  const password = prompt(
+    'Create your Finance password (at least 8 characters):'
+  );
+
+  if (!password) return;
+
+  if (password.length < 8) {
+    alert('Use at least 8 characters.');
+    return;
+  }
+
+  const confirmation = prompt('Enter the password again:');
+
+  if (password !== confirmation) {
+    alert('Passwords do not match.');
+    return;
+  }
+
+  const { data, error } = await supabaseClient.rpc(
+    'set_finance_password',
+    { p_password: password }
+  );
+
+  if (error || data !== true) {
+    alert('Could not set password: ' +
+      (error ? error.message : 'Please try again.'));
+    return;
+  }
+
+  alert('Finance password created successfully.');
+} else {
   const password = prompt('Enter Finance security password:');
 
   if (!password) return;
@@ -6771,16 +6813,23 @@ async function saveFinance(){
   );
 
   if (error) {
-    alert('Security error: ' + error.message);
+    alert('Verification error: ' + error.message);
     return;
   }
 
-  if (data === true) {
-    showSection('financeSection');
-    await loadFinance();
-  } else {
-    alert('Incorrect password or password not set.');
+  if (data !== true) {
+    alert('Incorrect Finance password.');
+    return;
   }
+}
+
+showSection('financeSection');
+await loadFinance();
+```
+
+} catch (error) {
+alert('Finance error: ' + error.message);
+}
 }
 
 
