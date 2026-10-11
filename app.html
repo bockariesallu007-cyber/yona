@@ -6657,48 +6657,30 @@ async function deleteExecutive(id){
    FINANCE
 ========================= */
 
+  ```javascript
 async function saveFinance(){
 
   const name =
-    document
-      .getElementById(
-        'financeName'
-      )
-      .value
-      .trim();
+    document.getElementById('financeName').value.trim();
 
- const type =
-    document
-      .getElementById(
-        'financeType'
-      )
-      .value;
+  const memberPhone =
+    document.getElementById('financePhone').value.trim();
+
+  const type =
+    document.getElementById('financeType').value;
 
   const direction =
-    document
-      .getElementById(
-        'financeDirection'
-      )
-      .value;
+    document.getElementById('financeDirection').value;
 
   const amount =
-    document
-      .getElementById(
-        'financeAmount'
-      )
-      .value;
+    document.getElementById('financeAmount').value;
 
   const description =
-    document
-      .getElementById(
-        'financeDescription'
-      )
-      .value
-      .trim();
-
+    document.getElementById('financeDescription').value.trim();
 
   if(
     !name ||
+    !memberPhone ||
     !type ||
     !direction ||
     !amount
@@ -6706,54 +6688,42 @@ async function saveFinance(){
 
     showMessage(
       'financeMessage',
-      'Name, transaction type, direction and amount are required.',
+      'Member name, phone number, transaction type, direction and amount are required.',
       'error'
     );
 
     return;
-
   }
 
-  const record={
-
-    name,
-
-    type,
-
-    amount:Number(amount),
-
-    description
-
+  const record = {
+    name: name,
+    member_phone: memberPhone,
+    type: type,
+    amount: Number(amount),
+    description: description
   };
-
 
   const result =
     editingFinanceId
       ? await supabaseClient
           .from('finance')
           .update(record)
-          .eq(
-            'id',
-            editingFinanceId
-          )
+          .eq('id', editingFinanceId)
       : await supabaseClient
           .from('finance')
           .insert([record]);
-
 
   if(result.error){
 
     showMessage(
       'financeMessage',
-      'Could not save finance record: '+
+      'Could not save finance record: ' +
       result.error.message,
       'error'
     );
 
     return;
-
   }
-
 
   showMessage(
     'financeMessage',
@@ -6761,12 +6731,12 @@ async function saveFinance(){
     'success'
   );
 
-
   resetFinanceForm();
-
   loadFinance();
 
 }
+
+
 
 async function openFinanceGate() {
 function askFinancePassword(title) {
