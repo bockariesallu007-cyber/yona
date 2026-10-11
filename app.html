@@ -7056,23 +7056,24 @@ async function editFinance(id){
 
 function resetFinanceForm(){
 
-  editingFinanceId=null;
+editingFinanceId = null;
 
-
-  [
-    'financeName',
-    'financeType',
-    'financeAmount',
-    'financeDescription'
-  ]
-  .forEach(
-    id=>
-      document
-        .getElementById(id)
-        .value=''
-  );
+[
+'financeName',
+'financePhone',
+'financeType',
+'financeAmount',
+'financeDescription',
+'financeDirection'
+].forEach(id => {
+const field = document.getElementById(id);
+if(field){
+field.value = '';
+}
+});
 
 }
+
 
 
 async function deleteFinance(id){
