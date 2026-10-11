@@ -6657,7 +6657,7 @@ async function deleteExecutive(id){
    FINANCE
 ========================= */
 
- javascript
+  
 async function saveFinance(){
 
   const name =
@@ -6899,10 +6899,10 @@ const list = document.getElementById('financeList');
 
 list.innerHTML = 'Loading finance records...';
 
-const {data,error} = await supabaseClient
+const {data, error} = await supabaseClient
 .from('finance')
 .select('*')
-.order('id', {ascending:false});
+.order('id', {ascending: false});
 
 if(error){
 list.innerHTML =
@@ -6912,7 +6912,7 @@ escapeHtml(error.message) +
 return;
 }
 
-if(!data?.length){
+if(!data || data.length === 0){
 list.innerHTML = '<p>No finance records found.</p>';
 return;
 }
@@ -6958,7 +6958,7 @@ data.map(x =>
 
 }
 
-
+  
 async function editFinance(id){
 
 const {data,error} = await supabaseClient
