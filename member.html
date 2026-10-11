@@ -174,7 +174,6 @@
   <div class="container">
     <div class="card">
 
-```
   <img
     src="LOGO"
     class="logo"
@@ -255,7 +254,6 @@
   YOUTHS OF NDASEI ASSOCIATION<br>
   Unity and Development
 </div>
-```
 
   </div>
 
@@ -466,9 +464,17 @@
         const memberId = extractMemberId(value);
 
         if (!memberId) {
-          showError(
-            'No member ID was provided. Use the scanner below or open a valid member QR link.'
-          );
+          loading.classList.add('hidden');
+
+          if (!scannedValue) {
+            document.getElementById('scannerMessage').textContent =
+              'No member ID in this link. Tap Scan Member ID Card to scan a YONA QR code.';
+          } else {
+            showError(
+              'No member ID was found in that QR code. Please scan a valid YONA membership QR code.'
+            );
+          }
+
           return;
         }
 
