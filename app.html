@@ -6990,66 +6990,44 @@ async function loadFinance(){
 
 async function editFinance(id){
 
-  const {data,error} =
-    await supabaseClient
-      .from('finance')
-      .select('*')
-      .eq(
-        'id',
-        id
-      )
-      .single();
+const {data,error} = await supabaseClient
+.from('finance')
+.select('*')
+.eq('id', id)
+.single();
 
+if(error){
+showMessage(
+'financeMessage',
+error.message,
+'error'
+);
+return;
+}
 
-  if(error){
+editingFinanceId = id;
 
-    showMessage(
-      'financeMessage',
-      error.message,
-      'error'
-    );
+document.getElementById('financeName').value =
+read(data.name);
 
-    return;
+document.getElementById('financePhone').value =
+read(data.member_phone);
 
-  }
+document.getElementById('financeType').value =
+read(data.type || data.category);
 
+document.getElementById('financeAmount').value =
+read(data.amount);
 
-  editingFinanceId=id;
+document.getElementById('financeDescription').value =
+read(data.description);
 
+const direction =
+document.getElementById('financeDirection');
 
-  document
-    .getElementById(
-      'financeName'
-    )
-    .value=
-      read(data.name);
-
-
-  document
-    .getElementById(
-      'financeType'
-    )
-    .value=
-      read(
-        data.type ||
-        data.category
-      );
-
-
-  document
-    .getElementById(
-      'financeAmount'
-    )
-    .value=
-      read(data.amount);
-
-
-  document
-    .getElementById(
-      'financeDescription'
-    )
-    .value=
-      read(data.description);
+if(direction){
+direction.value = read(data.direction);
+}
 
 }
 
