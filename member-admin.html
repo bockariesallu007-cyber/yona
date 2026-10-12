@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>YONA Member Password Manager</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #f1f5f9;
+  color: #172554;
+}
+
+.container {
+  max-width: 500px;
+  margin: 35px auto;
+  padding: 24px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 3px 15px #00000012;
+}
+
+h1 {
+  font-size: 24px;
+  margin-top: 0;
+}
+
+p {
+  line-height: 1.5;
+}
+
+label {
+  display: block;
+  margin-top: 18px;
+  font-weight: bold;
+}
+
+input, button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 7px;
+  border-radius: 7px;
+  font-size: 16px;
+}
+
+input {
+  border: 1px solid #cbd5e1;
+}
+
+button {
+  border: 0;
+  background: #1d4ed8;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.secondary {
+  background: #475569;
+}
+
+#message {
+  margin-top: 18px;
+  padding: 12px;
+  border-radius: 7px;
+  overflow-wrap: anywhere;
+  display: none;
+}
+
+.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.note {
+  color: #475569;
+  font-size: 14px;
+}
+
+.hidden {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>YONA Member Password Manager</h1>
+
+  <p class="note">
+    Youths of Ndasei Association<br>
+    Unity and Development
+  </p>
+
+  <div id="checking">
+    Checking administrator login...
+  </div>
+
+  <div id="manager" class="hidden">
+
+    <p id="adminInfo"></p>
+
+    <label for="memberNumber">
+      Membership Number
+    </label>
+
+    <input
+      id="memberNumber"
+      type="text"
+      placeholder="Example: 22"
+      autocomplete="off"
+    >
+
+    <label for="temporaryPassword">
+      Temporary Password
+    </label>
+
+    <input
+      id="temporaryPassword"
+      type="password"
+      minlength="8"
+      maxlength="72"
+      placeholder="At least 8 characters"
+      autocomplete="new-password"
+    >
+
+    <button id="createButton" onclick="createPassword()">
+      Create Temporary Password
+    </button>
+
+    <p class="note">
+      Give the temporary password privately to the correct member.
+      Never share it publicly.
+    </p>
+
+    <button class="secondary" onclick="signOut()">
+      Sign Out
+    </button>
+
+  </div>
+
+  <div id="message"></div>
+
+</div>
+
+<script>
+const SUPABASE_URL =
+  "https://atxeeymireukwbbsczbv.supabase.co";
+
+const SUPABASE_KEY =
+  "PASTE_YOUR_SUPABASE_ANON_KEY_HERE";
+
+const FUNCTION_URL =
+  SUPABASE_URL + "/functions/v1/yona-member-login";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
+    }
+  );
+
+function showMessage(message, type) {
+  const box = document.getElementById("message");
+
+  box.textContent = message;
+  box.className = type;
+  box.style.display = "block";
+}
+
+async function checkAdmin() {
+  const checking = document.getElementById("checking");
+  const manager = document.getElementById("manager");
+
+  try {
+    const { data, error } =
+      await supabaseClient.auth.getSession();
+
+    if (error) throw error;
+
+    const session = data.session;
+
+    if (!session) {
+      checking.textContent =
+        "No active login found. Open the YONA Admin App and log in first.";
+      return;
+    }
+
+    const { data: userData, error: userError } =
+      await supabaseClient.auth.getUser();
+
+    if (userError || !userData.user) {
+      checking.textContent =
+        "Your session could not be verified. Log in again to the YONA Admin App.";
+      return;
+    }
+
+    if (
+      userData.user.email?.toLowerCase() !==
+      "bockariesallu007@gmail.com"
+    ) {
+      checking.textContent =
+        "Access denied. Only the authorized YONA administrator can use this page.";
+      return;
+    }
+
+    checking.classList.add("hidden");
+    manager.classList.remove("hidden");
+
+    document.getElementById("adminInfo").textContent =
+      "Signed in as: " + userData.user.email;
+
+  } catch (error) {
+    checking.textContent =
+      "Could not verify your login. Please sign in again.";
+  }
+}
+
+async function createPassword() {
+  const number =
+    document.getElementById("memberNumber").value.trim();
+
+  const password =
+    document.getElementById("temporaryPassword").value;
+
+  const button =
+    document.getElementById("createButton");
+
+  if (!number) {
+    showMessage("Enter the membership number.", "error");
+    return;
+  }
+
+  if (password.length < 8 || password.length > 72) {
+    showMessage(
+      "The temporary password must contain 8 to 72 characters.",
+      "error"
+    );
+    return;
+  }
+
+  const confirmed = confirm(
+    "Create or reset the password for membership number " +
+    number + "?"
+  );
+
+  if (!confirmed) return;
+
+  button.disabled = true;
+  button.textContent = "Creating password...";
+
+  try {
+    const { data: sessionData, error: sessionError } =
+      await supabaseClient.auth.getSession();
+
+    if (sessionError) throw sessionError;
+
+    const session = sessionData.session;
+
+    if (!session) {
+      throw new Error("Your login session has expired. Log in again.");
+    }
+
+    const response = await fetch(FUNCTION_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + session.access_token
+      },
+      body: JSON.stringify({
+        action: "create_temp_password",
+        member_number: number,
+        temporary_password: password
+      })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.error || "Could not create the temporary password."
+      );
+    }
+
+    document.getElementById("temporaryPassword").value = "";
+
+    showMessage(
+      result.message ||
+      "Temporary password created successfully.",
+      "success"
+    );
+
+  } catch (error) {
+    showMessage(
+      error.message || "An unexpected error occurred.",
+      "error"
+    );
+  } finally {
+    button.disabled = false;
+    button.textContent = "Create Temporary Password";
+  }
+}
+
+async function signOut() {
+  if (!confirm("Sign out of the YONA account on this browser?")) {
+    return;
+  }
+
+  await supabaseClient.auth.signOut();
+
+  location.reload();
+}
+
+checkAdmin();
+</script>
+
+</body>
+</html>
