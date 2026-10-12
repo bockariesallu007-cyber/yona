@@ -9704,7 +9704,7 @@ async function installMemberPasswordTool() {
             method: "POST",
             headers: {
               "Authorization": "Bearer " + token,
-              "apikey": supabaseClient.supabaseKey,
+              "apikey": SUPABASE_KEY,
               "Content-Type": "application/json"
             },
             body: JSON.stringify({
