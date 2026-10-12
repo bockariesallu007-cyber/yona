@@ -9687,33 +9687,39 @@ async function installMemberPasswordTool() {
       button.textContent = "Please wait...";
       message.textContent = "";
 
-      try {
-        const { data, error } =
-          await supabaseClient.functions.invoke(
-            "yona-member-login",
-            {
-              body: {
-                action: "create_temp_password",
-                member_number: number,
-                temporary_password: password
-              }
-            }
+      try {        const { data: sessionData } =
+          await supabaseClient.auth.getSession();
+
+        const token = sessionData.session?.access_token;
+
+        if (!token) {
+          throw new Error(
+            "Your session has expired. Please sign in again."
           );
-
-        if (error) {
-          let detail = error.message;
-
-          try {
-            const response = await error.context.json();
-            if (response.error) detail = response.error;
-          } catch (_) {}
-
-          throw new Error(detail);
         }
 
-        if (!data || !data.success) {
+        const response = await fetch(
+          "https://atxeeymireukwbbsczbv.supabase.co/functions/v1/yona-member-login",
+          {
+            method: "POST",
+            headers: {
+              "Authorization": "Bearer " + token,
+              "apikey": supabaseClient.supabaseKey,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              action: "create_temp_password",
+              member_number: number,
+              temporary_password: password
+            })
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
           throw new Error(
-            data?.error || "The password could not be created."
+            data.error || "Request failed: " + response.status
           );
         }
 
