@@ -6583,117 +6583,130 @@ async function saveExecutive(
 
 async function loadExecutive(){
 
-  const list =
-    document.getElementById(
-      'executiveList'
-    );
+const list = document.getElementById('executiveList');
 
-  list.innerHTML=
-    'Loading executive...';
+if(!list) return;
 
+list.innerHTML = 'Loading executive...';
 
-  const {data,error} =
-    await supabaseClient
-      .from('executive')
-      .select(
-        'id,period,name,position,phone,photo'
-      )
-      .order(
-        'id',
-        {
-          ascending:false
-        }
-      );
+try {
 
+```
+const { data, error } = await supabaseClient
+  .from('executive')
+  .select('id,period,name,position,phone,photo')
+  .order('id', { ascending: false });
 
-  if(error){
+if(error){
+  list.innerHTML =
+    '<div class="message error">' +
+    escapeHtml(error.message) +
+    '</div>';
+  return;
+}
 
-    list.innerHTML=
-      '<div class="message error">'+
-      escapeHtml(error.message)+
+if(!data || !data.length){
+  list.innerHTML = '<p>No executive records found.</p>';
+  return;
+}
+
+// Group executives by their period.
+const periods = {};
+
+data.forEach(x => {
+
+  const period = String(read(x.period) || '').trim()
+    || 'Period Not Specified';
+
+  if(!periods[period]){
+    periods[period] = [];
+  }
+
+  periods[period].push(x);
+
+});
+
+let html = '';
+
+for(const period of Object.keys(periods)){
+
+  const executives = periods[period];
+
+  html +=
+    '<div class="executive-period-group">' +
+      '<h2 class="section-title">' +
+        'Executive Period: ' +
+        escapeHtml(period) +
+        ' (' + executives.length + ')' +
+      '</h2>' +
+      '<div class="item-grid">';
+
+  for(const x of executives){
+
+    let url = '';
+
+    try {
+      url = await getPhotoUrl(x.photo) || '';
+    } catch(photoError) {
+      console.error('Executive photo could not load:', photoError);
+    }
+
+    html +=
+      '<div class="item-card">' +
+
+        (
+          url
+            ? '<div style="text-align:center">' +
+                '<img class="person-photo" src="' +
+                escapeHtml(url) +
+                '" alt="Executive photo">' +
+              '</div>'
+            : '<div class="person-photo">NO PHOTO</div>'
+        ) +
+
+        '<h3>' +
+          escapeHtml(read(x.name)) +
+        '</h3>' +
+
+        '<p><strong>Position:</strong> ' +
+          escapeHtml(read(x.position)) +
+        '</p>' +
+
+        '<p><strong>Phone:</strong> ' +
+          escapeHtml(read(x.phone)) +
+        '</p>' +
+
+        '<button class="edit-button" onclick="editExecutive(' +
+          JSON.stringify(x.id) +
+        ')">Edit</button>' +
+
+        '<button class="delete-button" onclick="deleteExecutive(' +
+          JSON.stringify(x.id) +
+        ')">Delete</button>' +
+
       '</div>';
 
-    return;
-
   }
 
-
-  if(!data?.length){
-
-    list.innerHTML=
-      '<p>No executive records found.</p>';
-
-    return;
-
-  }
-
-
-  const cards =
-    await Promise.all(
-      data.map(
-        async x=>{
-
-          const url =
-            await getPhotoUrl(
-              x.photo
-            );
-
-
-          return(
-
-            '<div class="item-card">'+
-
-            (
-              url
-                ? '<div style="text-align:center">'+
-                  '<img class="person-photo" src="'+
-                  escapeHtml(url)+
-                  '" alt="Executive photo">'+
-                  '</div>'
-                : ''
-            )+
-
-            '<h3>'+
-            escapeHtml(
-              read(x.name)
-            )+
-            '</h3>'+
-
-            '<p><strong>Period:</strong> '+
-            escapeHtml(
-              read(x.period)
-            )+
-            '</p>'+
-
-            '<p><strong>Position:</strong> '+
-            escapeHtml(
-              read(x.position)
-            )+
-            '</p>'+
-
-            '<p><strong>Phone:</strong> '+
-            escapeHtml(
-              read(x.phone)
-            )+
-            '</p>'+
-
-            '<button class="edit-button" onclick="editExecutive('+JSON.stringify(x.id)+')">Edit</button>'+
-
-            '<button class="delete-button" onclick="deleteExecutive('+JSON.stringify(x.id)+')">Delete</button>'+
-
-            '</div>'
-
-          );
-
-        }
-      )
-    );
-
-
-  list.innerHTML=
-    '<div class="item-grid">'+
-    cards.join('')+
+  html +=
+      '</div>' +
     '</div>';
+
+}
+
+list.innerHTML = html;
+```
+
+} catch(error) {
+
+```
+list.innerHTML =
+  '<div class="message error">' +
+  escapeHtml(error.message || String(error)) +
+  '</div>';
+```
+
+}
 
 }
 
