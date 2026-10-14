@@ -202,6 +202,28 @@ button:disabled{
   margin-bottom:14px;
 }
 
+.profile-description{
+  margin-top:14px;
+  padding:12px;
+  background:#eef5ff;
+  border-left:4px solid #075aaa;
+  border-radius:8px;
+  text-align:left;
+  overflow-wrap:anywhere;
+}
+
+.profile-description strong{
+  color:#075aaa;
+  display:block;
+  margin-bottom:6px;
+}
+
+.profile-description p{
+  margin:0;
+  line-height:1.6;
+  white-space:pre-wrap;
+}
+  
 .item-card h3,
 .meeting-card h3,
 .event-card h3,
@@ -1109,6 +1131,16 @@ id="memberPosition"
 
 </div>
 
+  <!-- MEMBER DESCRIPTION -->
+<div class="full">
+  <label for="memberDescription">
+    <strong>About This Member</strong>
+  </label>
+  <textarea
+    id="memberDescription"
+    placeholder="Write information about this member, their contributions, responsibilities, or activities..."
+  ></textarea>
+</div>
 
 <!-- MEMBER PHOTO -->
 
@@ -5301,6 +5333,12 @@ async function saveMember(event){
       .value
       .trim();
 
+const description =
+  document
+    .getElementById('memberDescription')
+    .value
+    .trim();
+  
   const memberNumber =
     document
       .getElementById('memberNumber')
@@ -5360,7 +5398,9 @@ async function saveMember(event){
       phone,
 
       position,
-
+     
+      description,
+      
       member_type:memberType,
 
       member_number:
@@ -5703,45 +5743,51 @@ return (
       escapeHtml(read(m.position)) +
     '</p>' +
 
-    '<p><strong>Category:</strong> ' +
-      escapeHtml(read(m.member_type)) +
-    '</p>' +
+ '<p><strong>Category:</strong> ' +
+  escapeHtml(read(m.member_type)) +
+'</p>' +
 
-    '<p><strong>Member No.:</strong> ' +
-      escapeHtml(read(m.member_number)) +
-    '</p>' +
+'<div class="profile-description">' +
+  '<strong>About This Member</strong>' +
+  '<p>' +
+    escapeHtml(read(m.description) || 'No description added yet.') +
+  '</p>' +
+'</div>' +
 
-    '<p><strong>Expiry:</strong> ' +
-      escapeHtml(read(m.expiry_date)) +
-      (
-        expired
-          ? ' <span class="error"><strong>Expired</strong></span>'
-          : ''
-      ) +
-    '</p>' +
+'<p><strong>Member No.:</strong> ' +
+  escapeHtml(read(m.member_number)) +
+'</p>' +
 
-    '<button class="edit-button" onclick="editMember(' +
-      JSON.stringify(m.id) +
-    ')">Edit</button>' +
+'<p><strong>Expiry:</strong> ' +
+  escapeHtml(read(m.expiry_date)) +
+  (
+    expired
+      ? ' <span class="error"><strong>Expired</strong></span>'
+      : ''
+  ) +
+'</p>' +
 
-    '<button onclick="showIdCard(' +
-      JSON.stringify(m.id) +
-    ')">🪪 ID Card</button>' +
+'<button class="edit-button" onclick="editMember(' +
+  JSON.stringify(m.id) +
+')">Edit</button>' +
 
-    '<button onclick="generateQr(' +
-      JSON.stringify(m.id) +
-    ')">🔳 QR Code</button>' +
+'<button onclick="showIdCard(' +
+  JSON.stringify(m.id) +
+')">🪪 ID Card</button>' +
 
-    '<button class="delete-button" onclick="deleteMember(' +
-      JSON.stringify(m.id) +
-    ')">Delete</button>' +
+'<button onclick="generateQr(' +
+  JSON.stringify(m.id) +
+')">🔳 QR Code</button>' +
 
-  '</div>'
+'<button class="delete-button" onclick="deleteMember(' +
+  JSON.stringify(m.id) +
+')">Delete</button>' +
+
+'</div>'
 );
 
 
 }
-
 let html = '';
 
 groups.forEach(group => {
@@ -5943,8 +5989,13 @@ async function editMember(id){
       'memberPosition'
     )
     .value=
-      read(data.position);
-
+      read(data.position);   document
+    .getElementById(
+      'memberDescription'
+    )
+    .value=
+      read(data.description);
+  
   document
     .getElementById(
       'memberNumber'
@@ -6003,14 +6054,15 @@ function resetMemberForm(){
   selectedMemberPhotoFile=null;
 
 
-  [
-    'memberName',
-    'memberPhone',
-    'memberType',
-    'memberPosition',
-    'memberNumber',
-    'expiryDate'
-  ]
+ [
+  'memberName',
+  'memberPhone',
+  'memberType',
+  'memberPosition',
+  'memberDescription',
+  'memberNumber',
+  'expiryDate'
+]
   .forEach(
     id=>{
       document
