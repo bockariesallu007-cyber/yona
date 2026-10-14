@@ -1519,90 +1519,19 @@ Finance
   <option value="income">Money Received</option>
   <option value="expense">Money Spent</option>
 </select>
-<select id="financeType">
 
-<option value="">
-Select transaction type
-</option>
-
-<option>
-Registration
-</option>
-
-<option>
-Annual Contribution
-</option>
-
-<option>
-End of year Contribution
-</option>
-
-<option>
-Loan
-</option>
-
-<option>
-Loan Repayment
-</option>
-
-<option>
-Loan Interest
-</option>
-
-<option>
-Welfare
-</option>
-
-<option>
-Other
-</option>
-
+<select id="financeType" required>
+  <option value="">Select transaction type</option>
+  <option value="Registration Fee">Registration Fee</option>
+  <option value="Monthly Contributions">Monthly Contributions</option>
+  <option value="End-of-Year Contributions">End-of-Year Contributions</option>
+  <option value="Welfare">Welfare</option>
+  <option value="Loan Taken">Loan Taken</option>
+  <option value="Loan Interest">Loan Interest</option>
+  <option value="Loan Payment">Loan Payment</option>
+  <option value="Expenses">Expenses</option>
+  <option value="Other Income">Other Income</option>
 </select>
-
-
-<input
-  id="financeAmount"
-  type="number"
-  step="0.01"
-  placeholder="Amount"
->
-
-
-<textarea
-  id="financeDescription"
-  placeholder="Description"
-></textarea>
-
-
-<button
-  onclick="saveFinance(event)"
->
-Save Transaction
-</button>
-
-
-<button
-  class="cancel-button"
-  onclick="resetFinanceForm()"
->
-Cancel
-</button>
-
-
-<div id="financeMessage"></div>
-
-<div id="financeList"></div>
-
-
-<button
-  class="back-button"
-  onclick="backToDashboard()"
->
-Back to Dashboard
-</button>
-
-</section>
-
 
 <!-- =========================
      MEETINGS
