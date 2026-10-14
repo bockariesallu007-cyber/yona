@@ -2487,26 +2487,75 @@ Back to Dashboard
 
   </div>
 
-<div id="organizationAdminControls" class="hidden">
+<!-- ABOUT THE ORGANIZATION -->
 
-  <button type="button" onclick="editOrganizationInfo()">
-    Edit Organization Information
-  </button>
+<section id="aboutOrganizationSection" class="hidden card">
 
-</div>
+  <h2 class="section-title">About the Organization</h2>
 
-<button type="button" onclick="backToDashboard()">
-  Back to Dashboard
-</button>
+  <div id="organizationView">
+    <h3>Who We Are</h3>
+    <p id="orgWhoView"></p>
 
-</section>
-  
+```
+<h3>Our Motto</h3>
+<p id="orgMottoView"></p>
+
+<h3>Our Vision</h3>
+<p id="orgVisionView"></p>
+
+<h3>Our Mission</h3>
+<p id="orgMissionView"></p>
+
+<h3>Our Objectives</h3>
+<ul id="orgObjectivesView"></ul>
+
+<h3>Contact Information</h3>
+<p id="orgAddressView"></p>
+<p id="orgEmailView"></p>
+```
+
+  </div>
+
+  <div id="organizationEditor" class="hidden">
+    <h3>Edit Organization Information</h3>
+
+```
+<label>Who We Are</label>
+<textarea id="orgWhoInput" rows="4"></textarea>
+
+<label>Our Motto</label>
+<textarea id="orgMottoInput" rows="2"></textarea>
+
+<label>Our Vision</label>
+<textarea id="orgVisionInput" rows="4"></textarea>
+
+<label>Our Mission</label>
+<textarea id="orgMissionInput" rows="4"></textarea>
+
+<label>Our Objectives (one objective per line)</label>
+<textarea id="orgObjectivesInput" rows="6"></textarea>
+
+<label>Address</label>
+<textarea id="orgAddressInput" rows="2"></textarea>
+
+<label>Email</label>
+<input id="orgEmailInput" type="email">
+
+<button type="button" id="saveOrganizationButton"
+  onclick="saveOrganizationInfo()">Save Changes</button>
+
+<button type="button" onclick="cancelOrganizationEdit()">Cancel</button>
+
+<p id="organizationSaveMessage" role="status"></p>
+```
+
+  </div>
+
   <div id="organizationAdminControls" class="hidden">
-
     <button type="button" onclick="editOrganizationInfo()">
       Edit Organization Information
     </button>
-
   </div>
 
   <button type="button" onclick="backToDashboard()">
@@ -2515,55 +2564,65 @@ Back to Dashboard
 
 </section>
 
+<!-- ABOUT OUR SECTIONS -->
+
+<section id="aboutSectionsSection" class="hidden card">
+
   <h2 class="section-title">About Our Sections</h2>
 
   <div id="sectionsView">
     <h3>👥 Members</h3>
     <p id="sectionMembersView"></p>
 
-    <h3>👔 Executive</h3>
-    <p id="sectionExecutiveView"></p>
+```
+<h3>👔 Executive</h3>
+<p id="sectionExecutiveView"></p>
 
-    <h3>💰 Finance</h3>
-    <p id="sectionFinanceView"></p>
+<h3>💰 Finance</h3>
+<p id="sectionFinanceView"></p>
 
-    <h3>📝 Meetings</h3>
-    <p id="sectionMeetingsView"></p>
+<h3>📝 Meetings</h3>
+<p id="sectionMeetingsView"></p>
 
-    <h3>📅 Events</h3>
-    <p id="sectionEventsView"></p>
+<h3>📅 Events</h3>
+<p id="sectionEventsView"></p>
 
-    <h3>📁 Documents</h3>
-    <p id="sectionDocumentsView"></p>
+<h3>📁 Documents</h3>
+<p id="sectionDocumentsView"></p>
+```
+
   </div>
 
   <div id="sectionsEditor" class="hidden">
     <h3>Edit Section Descriptions</h3>
 
-    <label>Members</label>
-    <textarea id="sectionMembersInput" rows="3"></textarea>
+```
+<label>Members</label>
+<textarea id="sectionMembersInput" rows="3"></textarea>
 
-    <label>Executive</label>
-    <textarea id="sectionExecutiveInput" rows="3"></textarea>
+<label>Executive</label>
+<textarea id="sectionExecutiveInput" rows="3"></textarea>
 
-    <label>Finance</label>
-    <textarea id="sectionFinanceInput" rows="3"></textarea>
+<label>Finance</label>
+<textarea id="sectionFinanceInput" rows="3"></textarea>
 
-    <label>Meetings</label>
-    <textarea id="sectionMeetingsInput" rows="3"></textarea>
+<label>Meetings</label>
+<textarea id="sectionMeetingsInput" rows="3"></textarea>
 
-    <label>Events</label>
-    <textarea id="sectionEventsInput" rows="3"></textarea>
+<label>Events</label>
+<textarea id="sectionEventsInput" rows="3"></textarea>
 
-    <label>Documents</label>
-    <textarea id="sectionDocumentsInput" rows="3"></textarea>
+<label>Documents</label>
+<textarea id="sectionDocumentsInput" rows="3"></textarea>
 
-    <button type="button" id="saveSectionsButton"
-      onclick="saveSectionsInfo()">Save Changes</button>
+<button type="button" id="saveSectionsButton"
+  onclick="saveSectionsInfo()">Save Changes</button>
 
-    <button type="button" onclick="cancelSectionsEdit()">Cancel</button>
+<button type="button" onclick="cancelSectionsEdit()">Cancel</button>
 
-    <p id="sectionsSaveMessage" role="status"></p>
+<p id="sectionsSaveMessage" role="status"></p>
+```
+
   </div>
 
   <div id="sectionsAdminControls" class="hidden">
@@ -2577,10 +2636,6 @@ Back to Dashboard
   </button>
 
 </section>
-  
-</section>
-
-</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
