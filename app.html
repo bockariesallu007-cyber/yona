@@ -5633,7 +5633,7 @@ const allMembers = Array.isArray(currentMembers)
 
 const filtered = allMembers.filter(m => {
 
-```
+
 if(!search) return true;
 
 const text = [
@@ -5648,7 +5648,7 @@ const text = [
 .toLowerCase();
 
 return text.includes(search);
-```
+
 
 });
 
@@ -5677,7 +5677,7 @@ matches: ['probationary member', 'probationary']
 
 function createMemberCard(m){
 
-```
+
 const expired = isExpiredDate(m.expiry_date);
 
 return (
@@ -5738,7 +5738,7 @@ return (
 
   '</div>'
 );
-```
+
 
 }
 
@@ -5746,7 +5746,7 @@ let html = '';
 
 groups.forEach(group => {
 
-```
+
 const groupMembers = filtered.filter(m => {
 
   const category = String(read(m.member_type) || '')
@@ -5778,7 +5778,7 @@ if(groupMembers.length){
 }
 
 html += '</div>';
-```
+
 
 });
 
@@ -5786,19 +5786,19 @@ const knownCategories = groups.flatMap(g => g.matches);
 
 const otherMembers = filtered.filter(m => {
 
-```
+
 const category = String(read(m.member_type) || '')
   .trim()
   .toLowerCase();
 
 return !knownCategories.includes(category);
-```
+
 
 });
 
 if(otherMembers.length){
 
-```
+
 html +=
   '<div class="member-category-group">' +
     '<h2 class="section-title">Other / Unclassified Members (' +
@@ -5808,16 +5808,16 @@ html +=
       otherMembers.map(createMemberCard).join('') +
     '</div>' +
   '</div>';
-```
+
 
 }
 
 if(!filtered.length){
 
-```
+
 list.innerHTML = '<p>No members found.</p>';
 return;
-```
+
 
 }
 
@@ -5825,7 +5825,7 @@ list.innerHTML = html;
 
 filtered.forEach(async m => {
 
-```
+
 if(!m.photo_url) return;
 
 const img = list.querySelector(
@@ -5847,7 +5847,7 @@ try {
   console.error('Could not load member photo:', error);
 
 }
-```
+
 
 });
 
@@ -6591,7 +6591,7 @@ list.innerHTML = 'Loading executive...';
 
 try {
 
-```
+
 const { data, error } = await supabaseClient
   .from('executive')
   .select('id,period,name,position,phone,photo')
@@ -6695,16 +6695,16 @@ for(const period of Object.keys(periods)){
 }
 
 list.innerHTML = html;
-```
+
 
 } catch(error) {
 
-```
+
 list.innerHTML =
   '<div class="message error">' +
   escapeHtml(error.message || String(error)) +
   '</div>';
-```
+
 
 }
 
