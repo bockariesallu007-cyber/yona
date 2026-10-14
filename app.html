@@ -2418,95 +2418,70 @@ Back to Dashboard
 
 <!-- ABOUT THE ORGANIZATION -->
 
-<section id="aboutOrganizationSection" class="hidden card">
-
-  <h2 class="section-title">About the Organization</h2>
-
-  <h3>Who We Are</h3>
-  <p>
-    Youths of Ndasei Association (YONA) is an association committed to
-    unity, cooperation and development among its members.
-  </p>
-
-  <h3>Our Motto</h3>
-  <p>Unity and Development.</p>
-
-  <h3>Our Vision</h3>
-  <p>
-    To build a united and supportive association that encourages the
-    development and well-being of its members.
-  </p>
-
-  <h3>Our Mission</h3>
-  <p>
-    To promote unity, cooperation, participation and collective
-    responsibility among members.
-  </p>
-
-  <h3>Our Objectives</h3>
-  <ul>
-    <li>Promote unity and understanding among members.</li>
-    <li>Encourage members to participate in association activities.</li>
-    <li>Support members through welfare and cooperation.</li>
-    <li>Promote accountability and responsible leadership.</li>
-  </ul>
-
-  <h3>Contact Information</h3>
-  <p>Address: 12 Berry Street, Back of Albert Academy.</p>
-  <p>Email: yonabk3@gmail.com</p>
-
-  <button type="button" onclick="backToDashboard()">
-    Back to Dashboard
-  </button>
-
-</section>
-
-<!-- ABOUT OUR SECTIONS -->
-
 <section id="aboutSectionsSection" class="hidden card">
 
   <h2 class="section-title">About Our Sections</h2>
 
-  <h3>👥 Members</h3>
-  <p>
-    Register members and manage their contact details, categories,
-    membership numbers and card expiry dates.
-  </p>
+  <div id="sectionsView">
+    <h3>👥 Members</h3>
+    <p id="sectionMembersView"></p>
 
-  <h3>👔 Executive</h3>
-  <p>
-    Keep records of executive officers, their positions and leadership periods.
-  </p>
+    <h3>👔 Executive</h3>
+    <p id="sectionExecutiveView"></p>
 
-  <h3>💰 Finance</h3>
-  <p>
-    Record contributions and other financial transactions to support
-    proper financial tracking and accountability.
-  </p>
+    <h3>💰 Finance</h3>
+    <p id="sectionFinanceView"></p>
 
-  <h3>📝 Meetings</h3>
-  <p>
-    Keep meeting records, including dates, venues, minutes and relevant
-    photos, videos and voice recordings.
-  </p>
+    <h3>📝 Meetings</h3>
+    <p id="sectionMeetingsView"></p>
 
-  <h3>📅 Events</h3>
-  <p>
-    Record association events, their dates, locations and descriptions,
-    together with relevant media.
-  </p>
+    <h3>📅 Events</h3>
+    <p id="sectionEventsView"></p>
 
-  <h3>📁 Documents</h3>
-  <p>
-    Create, upload and store important association documents for reference.
-  </p>
+    <h3>📁 Documents</h3>
+    <p id="sectionDocumentsView"></p>
+  </div>
+
+  <div id="sectionsEditor" class="hidden">
+    <h3>Edit Section Descriptions</h3>
+
+    <label>Members</label>
+    <textarea id="sectionMembersInput" rows="3"></textarea>
+
+    <label>Executive</label>
+    <textarea id="sectionExecutiveInput" rows="3"></textarea>
+
+    <label>Finance</label>
+    <textarea id="sectionFinanceInput" rows="3"></textarea>
+
+    <label>Meetings</label>
+    <textarea id="sectionMeetingsInput" rows="3"></textarea>
+
+    <label>Events</label>
+    <textarea id="sectionEventsInput" rows="3"></textarea>
+
+    <label>Documents</label>
+    <textarea id="sectionDocumentsInput" rows="3"></textarea>
+
+    <button type="button" id="saveSectionsButton"
+      onclick="saveSectionsInfo()">Save Changes</button>
+
+    <button type="button" onclick="cancelSectionsEdit()">Cancel</button>
+
+    <p id="sectionsSaveMessage" role="status"></p>
+  </div>
+
+  <div id="sectionsAdminControls" class="hidden">
+    <button type="button" onclick="editSectionsInfo()">
+      Edit Section Descriptions
+    </button>
+  </div>
 
   <button type="button" onclick="backToDashboard()">
     Back to Dashboard
   </button>
 
 </section>
-
   
 </section>
 
@@ -2784,9 +2759,9 @@ async function logout(){
     .classList.remove('hidden');
 
 }
-
-
 function showApp(){
+
+
 
   document
     .getElementById('loginSection')
@@ -2799,8 +2774,9 @@ function showApp(){
   backToDashboard();
 
   updateMemberTotals();
-}
 
+  loadYonaInfoPages();
+}
 
 async function requireSession(){
 
@@ -9854,6 +9830,390 @@ supabaseClient.auth.onAuthStateChange(function (event, session) {
 });
 
 setTimeout(installMemberPasswordTool, 500);
+
+// ========================================
+// YONA INFORMATION PAGES
+// ========================================
+
+const YONA_INFO_ADMIN = "bockariesallu007@gmail.com";
+
+const YONA_ORG_DEFAULTS = {
+  who_we_are: "Youths of Ndasei Association (YONA) is an association committed to unity, cooperation and development among its members.",
+  motto: "Unity and Development.",
+  vision: "To build a united and supportive association that encourages the development and well-being of its members.",
+  mission: "To promote unity, cooperation, participation and collective responsibility among members.",
+  objectives: [
+    "Promote unity and understanding among members.",
+    "Encourage members to participate in association activities.",
+    "Support members through welfare and cooperation.",
+    "Promote accountability and responsible leadership."
+  ],
+  address: "12 Berry Street, Back of Albert Academy.",
+  email: "yonabk3@gmail.com"
+};
+
+const YONA_SECTION_DEFAULTS = {
+  members: "Register members and manage their contact details, categories, membership numbers and card expiry dates.",
+  executive: "Keep records of executive officers, their positions and leadership periods.",
+  finance: "Record contributions and other financial transactions to support proper financial tracking and accountability.",
+  meetings: "Keep meeting records, including dates, venues, minutes and relevant photos, videos and voice recordings.",
+  events: "Record association events, their dates, locations and descriptions, together with relevant media.",
+  documents: "Create, upload and store important association documents for reference."
+};
+
+let yonaOrgContent = { ...YONA_ORG_DEFAULTS };
+let yonaSectionsContent = { ...YONA_SECTION_DEFAULTS };
+let yonaInfoLoading = false;
+
+
+// ========================================
+// HELPER FUNCTIONS
+// ========================================
+
+function yonaSetText(id, value) {
+  const element = document.getElementById(id);
+  if (element) element.textContent = value ?? "";
+}
+
+function yonaSetInput(id, value) {
+  const element = document.getElementById(id);
+  if (element) element.value = value ?? "";
+}
+
+function yonaSetHidden(id, hidden) {
+  const element = document.getElementById(id);
+  if (element) element.classList.toggle("hidden", hidden);
+}
+
+
+// ========================================
+// LOAD INFORMATION FROM SUPABASE
+// ========================================
+
+async function loadYonaInfoPages() {
+  if (yonaInfoLoading) return;
+
+  yonaInfoLoading = true;
+
+  try {
+    const { data: authData, error: authError } =
+      await supabaseClient.auth.getUser();
+
+    if (authError) throw authError;
+
+    const isAdmin =
+      authData.user?.email?.toLowerCase() === YONA_INFO_ADMIN;
+
+    yonaSetHidden("organizationAdminControls", !isAdmin);
+    yonaSetHidden("sectionsAdminControls", !isAdmin);
+
+    const { data, error } = await supabaseClient
+      .from("yona_info_pages")
+      .select("page_key, content");
+
+    if (error) throw error;
+
+    const rows = data || [];
+
+    const orgRow = rows.find(
+      row => row.page_key === "organization"
+    );
+
+    const sectionsRow = rows.find(
+      row => row.page_key === "sections"
+    );
+
+    yonaOrgContent = {
+      ...YONA_ORG_DEFAULTS,
+      ...(orgRow?.content || {})
+    };
+
+    yonaSectionsContent = {
+      ...YONA_SECTION_DEFAULTS,
+      ...(sectionsRow?.content || {})
+    };
+
+    if (!Array.isArray(yonaOrgContent.objectives)) {
+      yonaOrgContent.objectives =
+        YONA_ORG_DEFAULTS.objectives;
+    }
+
+    yonaRenderOrganization();
+    yonaRenderSections();
+
+  } catch (error) {
+    console.error("YONA information pages:", error);
+
+    alert(
+      "Could not load YONA information pages: " +
+      error.message
+    );
+
+  } finally {
+    yonaInfoLoading = false;
+  }
+}
+
+
+// ========================================
+// DISPLAY ORGANIZATION INFORMATION
+// ========================================
+
+function yonaRenderOrganization() {
+  yonaSetText("orgWhoView", yonaOrgContent.who_we_are);
+  yonaSetText("orgMottoView", yonaOrgContent.motto);
+  yonaSetText("orgVisionView", yonaOrgContent.vision);
+  yonaSetText("orgMissionView", yonaOrgContent.mission);
+
+  yonaSetText(
+    "orgAddressView",
+    "Address: " + yonaOrgContent.address
+  );
+
+  yonaSetText(
+    "orgEmailView",
+    "Email: " + yonaOrgContent.email
+  );
+
+  const list = document.getElementById("orgObjectivesView");
+
+  if (list) {
+    list.replaceChildren();
+
+    yonaOrgContent.objectives.forEach(objective => {
+      const item = document.createElement("li");
+      item.textContent = objective;
+      list.appendChild(item);
+    });
+  }
+}
+
+
+// ========================================
+// DISPLAY SECTION DESCRIPTIONS
+// ========================================
+
+function yonaRenderSections() {
+  yonaSetText("sectionMembersView", yonaSectionsContent.members);
+  yonaSetText("sectionExecutiveView", yonaSectionsContent.executive);
+  yonaSetText("sectionFinanceView", yonaSectionsContent.finance);
+  yonaSetText("sectionMeetingsView", yonaSectionsContent.meetings);
+  yonaSetText("sectionEventsView", yonaSectionsContent.events);
+  yonaSetText("sectionDocumentsView", yonaSectionsContent.documents);
+}
+
+
+// ========================================
+// EDIT ORGANIZATION INFORMATION
+// ========================================
+
+function editOrganizationInfo() {
+  yonaSetInput("orgWhoInput", yonaOrgContent.who_we_are);
+  yonaSetInput("orgMottoInput", yonaOrgContent.motto);
+  yonaSetInput("orgVisionInput", yonaOrgContent.vision);
+  yonaSetInput("orgMissionInput", yonaOrgContent.mission);
+
+  yonaSetInput(
+    "orgObjectivesInput",
+    yonaOrgContent.objectives.join("\n")
+  );
+
+  yonaSetInput("orgAddressInput", yonaOrgContent.address);
+  yonaSetInput("orgEmailInput", yonaOrgContent.email);
+
+  yonaSetHidden("organizationView", true);
+  yonaSetHidden("organizationEditor", false);
+  yonaSetHidden("organizationAdminControls", true);
+
+  yonaSetText("organizationSaveMessage", "");
+}
+
+function cancelOrganizationEdit() {
+  yonaSetHidden("organizationEditor", true);
+  yonaSetHidden("organizationView", false);
+  yonaSetHidden("organizationAdminControls", false);
+}
+
+
+// ========================================
+// EDIT SECTION DESCRIPTIONS
+// ========================================
+
+function editSectionsInfo() {
+  Object.keys(YONA_SECTION_DEFAULTS).forEach(key => {
+    const inputId =
+      "section" +
+      key.charAt(0).toUpperCase() +
+      key.slice(1) +
+      "Input";
+
+    yonaSetInput(inputId, yonaSectionsContent[key]);
+  });
+
+  yonaSetHidden("sectionsView", true);
+  yonaSetHidden("sectionsEditor", false);
+  yonaSetHidden("sectionsAdminControls", true);
+
+  yonaSetText("sectionsSaveMessage", "");
+}
+
+function cancelSectionsEdit() {
+  yonaSetHidden("sectionsEditor", true);
+  yonaSetHidden("sectionsView", false);
+  yonaSetHidden("sectionsAdminControls", false);
+}
+
+
+// ========================================
+// SAVE INFORMATION TO SUPABASE
+// ========================================
+
+async function yonaSaveInfoPage(
+  pageKey,
+  title,
+  content,
+  buttonId,
+  messageId
+) {
+  const button = document.getElementById(buttonId);
+  const message = document.getElementById(messageId);
+
+  try {
+    const { data: authData, error: authError } =
+      await supabaseClient.auth.getUser();
+
+    if (authError) throw authError;
+
+    if (
+      !authData.user ||
+      authData.user.email?.toLowerCase() !== YONA_INFO_ADMIN
+    ) {
+      throw new Error(
+        "Only the YONA administrator can save these changes."
+      );
+    }
+
+    button.disabled = true;
+    button.textContent = "Saving...";
+
+    const { error } = await supabaseClient
+      .from("yona_info_pages")
+      .upsert(
+        {
+          page_key: pageKey,
+          title: title,
+          content: content,
+          updated_at: new Date().toISOString()
+        },
+        { onConflict: "page_key" }
+      );
+
+    if (error) throw error;
+
+    message.textContent = "Changes saved successfully.";
+    message.style.color = "green";
+
+    return true;
+
+  } catch (error) {
+    message.textContent = "Save failed: " + error.message;
+    message.style.color = "red";
+
+    return false;
+
+  } finally {
+    button.disabled = false;
+    button.textContent = "Save Changes";
+  }
+}
+
+
+// ========================================
+// SAVE ORGANIZATION INFORMATION
+// ========================================
+
+async function saveOrganizationInfo() {
+  const content = {
+    who_we_are:
+      document.getElementById("orgWhoInput").value.trim(),
+
+    motto:
+      document.getElementById("orgMottoInput").value.trim(),
+
+    vision:
+      document.getElementById("orgVisionInput").value.trim(),
+
+    mission:
+      document.getElementById("orgMissionInput").value.trim(),
+
+    objectives:
+      document.getElementById("orgObjectivesInput").value
+        .split("\n")
+        .map(value => value.trim())
+        .filter(Boolean),
+
+    address:
+      document.getElementById("orgAddressInput").value.trim(),
+
+    email:
+      document.getElementById("orgEmailInput").value.trim()
+  };
+
+  const saved = await yonaSaveInfoPage(
+    "organization",
+    "About the Organization",
+    content,
+    "saveOrganizationButton",
+    "organizationSaveMessage"
+  );
+
+  if (saved) {
+    yonaOrgContent = content;
+    yonaRenderOrganization();
+    cancelOrganizationEdit();
+  }
+}
+
+
+// ========================================
+// SAVE SECTION DESCRIPTIONS
+// ========================================
+
+async function saveSectionsInfo() {
+  const content = {
+    members:
+      document.getElementById("sectionMembersInput").value.trim(),
+
+    executive:
+      document.getElementById("sectionExecutiveInput").value.trim(),
+
+    finance:
+      document.getElementById("sectionFinanceInput").value.trim(),
+
+    meetings:
+      document.getElementById("sectionMeetingsInput").value.trim(),
+
+    events:
+      document.getElementById("sectionEventsInput").value.trim(),
+
+    documents:
+      document.getElementById("sectionDocumentsInput").value.trim()
+  };
+
+  const saved = await yonaSaveInfoPage(
+    "sections",
+    "About Our Sections",
+    content,
+    "saveSectionsButton",
+    "sectionsSaveMessage"
+  );
+
+  if (saved) {
+    yonaSectionsContent = content;
+    yonaRenderSections();
+    cancelSectionsEdit();
+  }
+}
   
 </script>
 
