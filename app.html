@@ -5619,187 +5619,237 @@ let currentMembers=[];
 
 function renderMembers(){
 
-  const list =
-    document.getElementById(
-      'membersList'
-    );
+const list = document.getElementById('membersList');
+const searchInput = document.getElementById('memberSearch');
+const status = document.getElementById('memberSearchStatus');
 
-  const search =
-    document
-      .getElementById(
-        'memberSearch'
-      )
-      .value
-      .trim()
-      .toLowerCase();
+const search = searchInput
+? searchInput.value.trim().toLowerCase()
+: '';
 
+const allMembers = Array.isArray(currentMembers)
+? currentMembers
+: [];
 
-  const filtered =
-    currentMembers.filter(
-      m=>{
+const filtered = allMembers.filter(m => {
 
-        if(!search){
-          return true;
-        }
+```
+if(!search) return true;
 
-        const text =
-          [
-            m.name,
-            m.phone,
-            m.position,
-            m.member_type,
-            m.member_number
-          ]
-          .map(read)
-          .join(' ')
-          .toLowerCase();
+const text = [
+  m.name,
+  m.phone,
+  m.position,
+  m.member_type,
+  m.member_number
+]
+.map(read)
+.join(' ')
+.toLowerCase();
 
-        return text.includes(
-          search
-        );
+return text.includes(search);
+```
 
-      }
-    );
+});
 
+if(status){
+status.textContent = search
+? filtered.length + ' member(s) found.'
+: allMembers.length + ' member(s) total.';
+}
 
-  document
-    .getElementById(
-      'memberSearchStatus'
-    )
-    .textContent=
-      search
-        ? filtered.length+
-          ' member(s) found.'
-        : currentMembers.length+
-          ' member(s) total.';
+if(!list) return;
 
+const groups = [
+{
+title: 'Active Members',
+matches: ['active member', 'active']
+},
+{
+title: 'Inactive Members',
+matches: ['inactive member', 'inactive']
+},
+{
+title: 'Probationary Members',
+matches: ['probationary member', 'probationary']
+}
+];
 
-  if(!filtered.length){
+function createMemberCard(m){
 
-    list.innerHTML=
-      '<p>No members found.</p>';
+```
+const expired = isExpiredDate(m.expiry_date);
 
-    return;
+return (
+  '<div class="item-card member-result">' +
 
-  }
+    '<div class="member-photo-wrap">' +
+      (
+        m.photo_url
+          ? '<img class="person-photo" data-member-photo="' +
+              escapeHtml(m.id) +
+              '" alt="Member photo">'
+          : '<div class="person-photo">NO PHOTO</div>'
+      ) +
+    '</div>' +
 
+    '<h3>' + escapeHtml(read(m.name)) + '</h3>' +
 
-  const cards =
-    filtered.map(
-      m=>{
+    '<p><strong>Phone:</strong> ' +
+      escapeHtml(read(m.phone)) +
+    '</p>' +
 
-        const expired =
-          isExpiredDate(
-            m.expiry_date
-          );
+    '<p><strong>Position:</strong> ' +
+      escapeHtml(read(m.position)) +
+    '</p>' +
 
+    '<p><strong>Category:</strong> ' +
+      escapeHtml(read(m.member_type)) +
+    '</p>' +
 
-        return(
+    '<p><strong>Member No.:</strong> ' +
+      escapeHtml(read(m.member_number)) +
+    '</p>' +
 
-          '<div class="item-card member-result">'+
+    '<p><strong>Expiry:</strong> ' +
+      escapeHtml(read(m.expiry_date)) +
+      (
+        expired
+          ? ' <span class="error"><strong>Expired</strong></span>'
+          : ''
+      ) +
+    '</p>' +
 
-          '<div class="member-photo-wrap">'+
+    '<button class="edit-button" onclick="editMember(' +
+      JSON.stringify(m.id) +
+    ')">Edit</button>' +
 
-          (
-            m.photo_url
-              ? '<img class="person-photo" data-member-photo="'+
-                escapeHtml(m.id)+
-                '" alt="Member photo">'
-              : '<div class="person-photo">NO PHOTO</div>'
-          )+
+    '<button onclick="showIdCard(' +
+      JSON.stringify(m.id) +
+    ')">🪪 ID Card</button>' +
 
-          '</div>'+
+    '<button onclick="generateQr(' +
+      JSON.stringify(m.id) +
+    ')">🔳 QR Code</button>' +
 
-          '<h3>'+
-          escapeHtml(
-            read(m.name)
-          )+
-          '</h3>'+
+    '<button class="delete-button" onclick="deleteMember(' +
+      JSON.stringify(m.id) +
+    ')">Delete</button>' +
 
-          '<p><strong>Phone:</strong> '+
-          escapeHtml(
-            read(m.phone)
-          )+
-          '</p>'+
+  '</div>'
+);
+```
 
-          '<p><strong>Position:</strong> '+
-          escapeHtml(
-            read(m.position)
-          )+
-          '</p>'+
+}
 
-          '<p><strong>Category:</strong> '+
-          escapeHtml(
-            read(m.member_type)
-          )+
-          '</p>'+
+let html = '';
 
-          '<p><strong>Member No.:</strong> '+
-          escapeHtml(
-            read(m.member_number)
-          )+
-          '</p>'+
+groups.forEach(group => {
 
-          '<p><strong>Expiry:</strong> '+
-          escapeHtml(
-            read(m.expiry_date)
-          )+
-          (expired
-            ? ' <span class="error"><strong>Expired</strong></span>'
-            : '')+
-          '</p>'+
+```
+const groupMembers = filtered.filter(m => {
 
-          '<button class="edit-button" onclick="editMember('+JSON.stringify(m.id)+')">Edit</button>'+
+  const category = String(read(m.member_type) || '')
+    .trim()
+    .toLowerCase();
 
-          '<button onclick="showIdCard('+JSON.stringify(m.id)+')">🪪 ID Card</button>'+
+  return group.matches.includes(category);
 
-          '<button onclick="generateQr('+JSON.stringify(m.id)+')">🔳 QR Code</button>'+
+});
 
-          '<button class="delete-button" onclick="deleteMember('+JSON.stringify(m.id)+')">Delete</button>'+
+html +=
+  '<div class="member-category-group">' +
+    '<h2 class="section-title">' +
+      group.title +
+      ' (' + groupMembers.length + ')' +
+    '</h2>';
 
-          '</div>'
+if(groupMembers.length){
 
-        );
-
-      }
-    );
-
-
-  list.innerHTML =
-    '<div class="item-grid">'+
-    cards.join('')+
+  html +=
+    '<div class="item-grid">' +
+      groupMembers.map(createMemberCard).join('') +
     '</div>';
 
+} else {
 
-  filtered.forEach(
-    async m=>{
+  html += '<p>No members in this category.</p>';
 
-      if(!m.photo_url){
-        return;
-      }
+}
 
-      const img =
-        list.querySelector(
-          '[data-member-photo="'+
-          CSS.escape(String(m.id))+
-          '"]'
-        );
+html += '</div>';
+```
 
-      if(!img){
-        return;
-      }
+});
 
-      const url =
-        await getPhotoUrl(
-          m.photo_url
-        );
+const knownCategories = groups.flatMap(g => g.matches);
 
-      if(url){
-        img.src=url;
-      }
+const otherMembers = filtered.filter(m => {
 
-    }
-  );
+```
+const category = String(read(m.member_type) || '')
+  .trim()
+  .toLowerCase();
+
+return !knownCategories.includes(category);
+```
+
+});
+
+if(otherMembers.length){
+
+```
+html +=
+  '<div class="member-category-group">' +
+    '<h2 class="section-title">Other / Unclassified Members (' +
+      otherMembers.length +
+    ')</h2>' +
+    '<div class="item-grid">' +
+      otherMembers.map(createMemberCard).join('') +
+    '</div>' +
+  '</div>';
+```
+
+}
+
+if(!filtered.length){
+
+```
+list.innerHTML = '<p>No members found.</p>';
+return;
+```
+
+}
+
+list.innerHTML = html;
+
+filtered.forEach(async m => {
+
+```
+if(!m.photo_url) return;
+
+const img = list.querySelector(
+  '[data-member-photo="' +
+  CSS.escape(String(m.id)) +
+  '"]'
+);
+
+if(!img) return;
+
+try {
+
+  const url = await getPhotoUrl(m.photo_url);
+
+  if(url) img.src = url;
+
+} catch(error) {
+
+  console.error('Could not load member photo:', error);
+
+}
+```
+
+});
 
 }
 
