@@ -7099,71 +7099,156 @@ alert(
 }
 
 
-async function loadFinance(){
+async function loadFinance() {
+  const list = document.getElementById('financeList');
 
-const list = document.getElementById('financeList');
+  if (!list) {
+    console.error('Finance list element is missing.');
+    return;
+  }
 
-list.innerHTML = 'Loading finance records...';
+  list.innerHTML = 'Loading finance records...';
 
-const {data, error} = await supabaseClient
-.from('finance')
-.select('*')
-.order('id', {ascending: false});
+  try {
+    const { data, error } = await supabaseClient
+      .from('finance')
+      .select('*')
+      .order('id', { ascending: false });
 
-if(error){
-list.innerHTML =
-'<div class="message error">' +
-escapeHtml(error.message) +
-'</div>';
-return;
+    if (error) {
+      list.innerHTML =
+        '<div class="message error">' +
+        escapeHtml(error.message) +
+        '</div>';
+      return;
+    }
+
+    const categories = [
+      'Registration Fee',
+      'Monthly Contributions',
+      'End-of-Year Contributions',
+      'Welfare',
+      'Loan Taken',
+      'Loan Interest',
+      'Loan Payment',
+      'Expenses',
+      'Other Income'
+    ];
+
+    const grouped = {};
+
+    categories.forEach(category => {
+      grouped[category] = [];
+    });
+
+    (data || []).forEach(record => {
+      const category = read(record.type || record.category) || 'Other';
+
+      if (!grouped[category]) {
+        grouped[category] = [];
+      }
+
+      grouped[category].push(record);
+    });
+
+    const money = amount =>
+      'Le ' + Number(amount || 0).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+
+    list.innerHTML = Object.keys(grouped).map(category => {
+      const records = grouped[category];
+
+      let received = 0;
+      let spent = 0;
+
+      records.forEach(record => {
+        const amount = Number(record.amount) || 0;
+
+        if (record.direction === 'income') {
+          received += amount;
+        } else if (record.direction === 'expense') {
+          spent += amount;
+        }
+      });
+
+      const transactions = records.length
+        ? '<div class="item-grid">' +
+          records.map(record =>
+            '<div class="item-card">' +
+              '<h4>' +
+                escapeHtml(read(record.name) || 'Member not named') +
+              '</h4>' +
+
+              '<p><strong>Registered Phone:</strong> ' +
+                escapeHtml(read(record.member_phone) || 'Not provided') +
+              '</p>' +
+
+              '<p><strong>Amount:</strong> ' +
+                escapeHtml(money(record.amount)) +
+              '</p>' +
+
+              '<p><strong>Direction:</strong> ' +
+                escapeHtml(
+                  record.direction === 'income'
+                    ? 'Money Received'
+                    : record.direction === 'expense'
+                      ? 'Money Spent'
+                      : 'Not specified'
+                ) +
+              '</p>' +
+
+              '<p><strong>Description:</strong> ' +
+                escapeHtml(read(record.description) || 'None') +
+              '</p>' +
+
+              '<button class="edit-button" onclick="editFinance(' +
+                JSON.stringify(record.id) +
+              ')">Edit</button>' +
+
+              '<button class="delete-button" onclick="deleteFinance(' +
+                JSON.stringify(record.id) +
+              ')">Delete</button>' +
+            '</div>'
+          ).join('') +
+          '</div>'
+        : '<p>No transactions recorded in this category yet.</p>';
+
+      return (
+        '<div class="card">' +
+          '<h3 class="section-title">' +
+            escapeHtml(category) +
+          '</h3>' +
+
+          '<p><strong>Number of transactions:</strong> ' +
+            records.length +
+          '</p>' +
+
+          '<p><strong>Total Received:</strong> ' +
+            escapeHtml(money(received)) +
+          '</p>' +
+
+          '<p><strong>Total Spent:</strong> ' +
+            escapeHtml(money(spent)) +
+          '</p>' +
+
+          '<p><strong>Net Total:</strong> ' +
+            escapeHtml(money(received - spent)) +
+          '</p>' +
+
+          transactions +
+        '</div>'
+      );
+    }).join('');
+
+  } catch (error) {
+    list.innerHTML =
+      '<div class="message error">' +
+      escapeHtml(error.message || String(error)) +
+      '</div>';
+  }
 }
-
-if(!data || data.length === 0){
-list.innerHTML = '<p>No finance records found.</p>';
-return;
-}
-
-list.innerHTML =
-'<div class="item-grid">' +
-data.map(x =>
-'<div class="item-card">' +
-
-
-  '<h3>' +
-  escapeHtml(read(x.name)) +
-  '</h3>' +
-
-  '<p><strong>Registered Phone:</strong> ' +
-  escapeHtml(read(x.member_phone)) +
-  '</p>' +
-
-  '<p><strong>Type:</strong> ' +
-  escapeHtml(read(x.type || x.category)) +
-  '</p>' +
-
-  '<p><strong>Amount:</strong> ' +
-  escapeHtml(read(x.amount)) +
-  '</p>' +
-
-  '<p><strong>Description:</strong> ' +
-  escapeHtml(read(x.description)) +
-  '</p>' +
-
-  '<button class="edit-button" onclick="editFinance(' +
-  JSON.stringify(x.id) +
-  ')">Edit</button>' +
-
-  '<button class="delete-button" onclick="deleteFinance(' +
-  JSON.stringify(x.id) +
-  ')">Delete</button>' +
-
-  '</div>'
-).join('') +
-'</div>';
-
-
-}
-
   
 async function editFinance(id){
 
