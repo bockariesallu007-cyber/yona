@@ -6824,84 +6824,80 @@ async function deleteExecutive(id){
 ========================= */
 
   
-async function saveFinance(){
+async function saveFinance(event) {
+if (event) event.preventDefault();
 
-  const name =
-    document.getElementById('financeName').value.trim();
+const name = document.getElementById('financeName').value.trim();
+const memberPhone = document.getElementById('financePhone').value.trim();
+const type = document.getElementById('financeType').value;
+const direction = document.getElementById('financeDirection').value;
+const amount = document.getElementById('financeAmount').value;
+const description = document.getElementById('financeDescription').value.trim();
 
-  const memberPhone =
-    document.getElementById('financePhone').value.trim();
-
-  const type =
-    document.getElementById('financeType').value;
-
-  const direction =
-    document.getElementById('financeDirection').value;
-
-  const amount =
-    document.getElementById('financeAmount').value;
-
-  const description =
-    document.getElementById('financeDescription').value.trim();
-
-  if(
-    !name ||
-    !memberPhone ||
-    !type ||
-    !direction ||
-    !amount
-  ){
-
-    showMessage(
-      'financeMessage',
-      'Member name, phone number, transaction type, direction and amount are required.',
-      'error'
-    );
-
-    return;
-  }
-
-  const record = {
-    name: name,
-    member_phone: memberPhone,
-    type: type,
-    amount: Number(amount),
-    description: description
-  };
-
-  const result =
-    editingFinanceId
-      ? await supabaseClient
-          .from('finance')
-          .update(record)
-          .eq('id', editingFinanceId)
-      : await supabaseClient
-          .from('finance')
-          .insert([record]);
-
-  if(result.error){
-
-    showMessage(
-      'financeMessage',
-      'Could not save finance record: ' +
-      result.error.message,
-      'error'
-    );
-
-    return;
-  }
-
-  showMessage(
-    'financeMessage',
-    'Finance record saved successfully.',
-    'success'
-  );
-
-  resetFinanceForm();
-  loadFinance();
-
+if (
+!name ||
+!memberPhone ||
+!type ||
+!direction ||
+amount === '' ||
+!Number.isFinite(Number(amount)) ||
+Number(amount) <= 0
+) {
+showMessage(
+'financeMessage',
+'Enter the member name, phone number, transaction type, direction, and a valid amount.',
+'error'
+);
+return;
 }
 
+const record = {
+name: name,
+member_phone: memberPhone,
+type: type,
+direction: direction,
+amount: Number(amount),
+description: description
+};
+
+try {
+const result = editingFinanceId
+? await supabaseClient
+.from('finance')
+.update(record)
+.eq('id', editingFinanceId)
+: await supabaseClient
+.from('finance')
+.insert([record]);
+
+
+if (result.error) {
+  showMessage(
+    'financeMessage',
+    'Could not save finance record: ' + result.error.message,
+    'error'
+  );
+  return;
+}
+
+showMessage(
+  'financeMessage',
+  'Finance record saved successfully.',
+  'success'
+);
+
+resetFinanceForm();
+await loadFinance();
+```
+
+} catch (error) {
+showMessage(
+'financeMessage',
+'Finance error: ' + (error.message || String(error)),
+'error'
+);
+}
+}
 
 
 async function openFinanceGate() {
