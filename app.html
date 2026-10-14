@@ -1380,6 +1380,20 @@ Executive
 
 </div>
 
+  <!-- EXECUTIVE DESCRIPTION -->
+
+<div class="full">
+
+  <label for="executiveDescription">
+    <strong>About This Executive</strong>
+  </label>
+
+  <textarea
+    id="executiveDescription"
+    placeholder="Describe this executive's responsibilities, contributions, achievements, or activities..."
+  ></textarea>
+
+</div>
 
 <!-- EXECUTIVE PHOTO -->
 
@@ -6483,6 +6497,13 @@ async function saveExecutive(
       .value
       .trim();
 
+  const description =
+  document
+    .getElementById(
+      'executiveDescription'
+    )
+    .value
+    .trim();
 
   const phone =
     document
@@ -6545,6 +6566,8 @@ async function saveExecutive(
       name,
 
       position,
+      
+      description,
 
       phone,
 
@@ -6646,7 +6669,7 @@ try {
 
 const { data, error } = await supabaseClient
   .from('executive')
-  .select('id,period,name,position,phone,photo')
+  .select('id,period,name,position,phone,photo,description')
   .order('id', { ascending: false });
 
 if(error){
@@ -6720,9 +6743,16 @@ for(const period of Object.keys(periods)){
           escapeHtml(read(x.name)) +
         '</h3>' +
 
-        '<p><strong>Position:</strong> ' +
+               '<p><strong>Position:</strong> ' +
           escapeHtml(read(x.position)) +
         '</p>' +
+
+        '<div class="profile-description">' +
+          '<strong>About This Executive</strong>' +
+          '<p>' +
+            escapeHtml(read(x.description) || 'No description added yet.') +
+          '</p>' +
+        '</div>' +
 
         '<p><strong>Phone:</strong> ' +
           escapeHtml(read(x.phone)) +
@@ -6818,7 +6848,14 @@ async function editExecutive(id){
       'executivePosition'
     )
     .value=
-      read(data.position);
+      read(data.position); 
+  
+  document
+    .getElementById(
+      'executiveDescription'
+    )
+    .value=
+      read(data.description);
 
   document
     .getElementById(
@@ -6878,6 +6915,7 @@ function resetExecutiveForm(){
     'executivePeriod',
     'executiveName',
     'executivePosition',
+    'executiveDescription',
     'executivePhone'
   ]
   .forEach(
