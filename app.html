@@ -531,80 +531,147 @@ audio.media-preview{
 }
 
 .id-modal>div{
-  max-width:430px;
+  max-width:540px;
   width:100%;
+  margin:auto;
 }
 
 .id-card{
+  width:100%;
+  aspect-ratio:1.586 / 1;
   background:#fff;
-  border-radius:16px;
+  border:2px solid #075aaa;
+  border-radius:12px;
   overflow:hidden;
-  box-shadow:0 10px 40px rgba(0,0,0,.3);
+  box-shadow:0 8px 25px rgba(0,0,0,.25);
   text-align:center;
+  display:flex;
+  flex-direction:column;
 }
 
 .id-card-header{
   background:#075aaa;
   color:#fff;
-  padding:16px;
+  padding:10px 12px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
 .id-card-header h2{
-  font-size:18px;
+  font-size:17px;
   margin:0;
+  line-height:1.3;
 }
 
 .id-card-header p{
-  margin:5px 0 0;
-  font-size:12px;
+  margin:4px 0 0;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:1px;
+}
+  .id-card-logo-space{
+  width:60px;
+  height:60px;
+  border:1px dashed rgba(255,255,255,.7);
+  border-radius:6px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
+.id-card-heading{
+  flex:1;
+  min-width:0;
+}
+
+.id-card-heading h2{
+  overflow-wrap:anywhere;
+}
+
+.id-card-heading p{
+  margin:4px 0 0;
+}
 .id-card-body{
-  padding:18px;
+  padding:12px;
+  display:grid;
+  grid-template-columns:95px minmax(0,1fr) 90px;
+  grid-template-rows:auto auto minmax(0,1fr);
+  column-gap:12px;
+  row-gap:4px;
+  flex:1;
+  min-height:0;
+  align-items:center;
+  text-align:left;
 }
 
 .id-card-photo{
-  width:105px;
-  height:105px;
-  border-radius:50%;
+  grid-column:1;
+  grid-row:1 / span 3;
+  width:90px;
+  height:110px;
+  border-radius:8px;
   object-fit:cover;
-  border:4px solid #075aaa;
+  border:3px solid #075aaa;
   background:#eee;
 }
 
 .id-card-name{
-  font-size:22px;
+  grid-column:2;
+  grid-row:1;
+  font-size:17px;
   font-weight:700;
-  margin-top:10px;
+  margin:0;
+  overflow-wrap:anywhere;
 }
 
 .id-card-position{
+  grid-column:2;
+  grid-row:2;
   color:#075aaa;
   font-weight:600;
-  margin:4px;
+  font-size:12px;
+  margin:0;
+  overflow-wrap:anywhere;
 }
 
 .id-info{
+  grid-column:2;
+  grid-row:3;
   background:#f4f7fa;
-  border-radius:10px;
-  padding:12px;
+  border-radius:7px;
+  padding:7px;
   text-align:left;
-  margin:12px 0;
-  font-size:13px;
-  line-height:1.8;
+  margin:0;
+  font-size:11px;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+.id-qr{
+  grid-column:3;
+  grid-row:1 / span 3;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  margin:0;
+  min-width:0;
 }
 
-.id-qr{
-  display:flex;
-  justify-content:center;
-  margin:10px;
+.id-qr canvas,
+.id-qr img{
+  max-width:85px;
+  height:auto;
 }
 
 .id-card-footer{
   background:#075aaa;
   color:#fff;
-  padding:9px;
-  font-size:11px;
+  padding:6px;
+  font-size:10px;
+  flex-shrink:0;
 }
 
 .modal-actions{
@@ -614,6 +681,86 @@ audio.media-preview{
 
 .modal-actions button{
   margin:3px;
+}
+
+@media(max-width:420px){
+
+  .id-modal{
+    padding:8px;
+  }
+
+  .id-card-header{
+    padding:7px;
+  }
+
+  .id-card-header h2{
+    font-size:13px;
+  }
+
+  .id-card-header p{
+    font-size:9px;
+  }
+
+  .id-card-body{
+    grid-template-columns:65px minmax(0,1fr) 55px;
+    column-gap:6px;
+    padding:6px;
+  }
+
+  ```css
+@media(max-width:420px){
+
+  .id-modal{
+    padding:8px;
+  }
+
+  .id-card-header{
+    padding:7px;
+  }
+
+  .id-card-header h2{
+    font-size:13px;
+  }
+
+  .id-card-header p{
+    font-size:9px;
+  }
+
+  .id-card-body{
+    grid-template-columns:65px minmax(0,1fr) 55px;
+    column-gap:6px;
+    padding:6px;
+  }
+
+  .id-card-photo{
+    width:60px;
+    height:75px;
+  }
+
+  .id-card-name{
+    font-size:12px;
+  }
+
+  .id-card-position{
+    font-size:10px;
+  }
+
+  .id-info{
+    padding:4px;
+    font-size:9px;
+    line-height:1.4;
+  }
+
+  .id-qr canvas,
+  .id-qr img{
+    max-width:52px;
+  }
+
+  .id-card-footer{
+    padding:4px;
+    font-size:9px;
+  }
+
 }
 
 @media(max-width:800px){
@@ -663,36 +810,65 @@ audio.media-preview{
 
 @media print{
 
+  @page{
+    size:landscape;
+    margin:5mm;
+  }
+
   body>*:not(#idCardModal){
     display:none!important;
   }
 
   .id-modal{
     position:static;
+    inset:auto;
     background:#fff;
     padding:0;
+    margin:0;
+    display:flex!important;
+    align-items:flex-start;
+    justify-content:flex-start;
+    overflow:visible;
+    width:auto;
+    height:auto;
   }
 
   .id-modal>div{
-    max-width:430px;
+    width:85.6mm;
+    max-width:85.6mm;
+    margin:0;
   }
 
   .modal-actions{
-    display:none;
+    display:none!important;
   }
 
   .id-card{
+    width:85.6mm;
+    height:54mm;
+    aspect-ratio:auto;
+    border:1px solid #075aaa;
+    border-radius:3mm;
     box-shadow:none;
+    break-inside:avoid;
+    page-break-inside:avoid;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+
+  .id-card-header,
+  .id-card-footer{
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
   }
 
 }
 
 /* Hide dashboard statistics cards */
-.stats-dashboard {
-display: none !important;
+.stats-dashboard{
+  display:none!important;
 }
 
-  
 </style>
 </head>
 
@@ -709,7 +885,6 @@ display: none !important;
 </p>
 
 </header>
-
 
 <div class="container">
 
@@ -10588,15 +10763,28 @@ async function saveSectionsInfo() {
 <div class="id-card">
 
 
+html
 <div class="id-card-header">
 
-<h2>
-YOUTHS OF NDASEI ASSOCIATION
-</h2>
+  <div class="id-card-logo-space">
+    <!-- YONA logo will be added here later -->
+  </div>
 
-<p>
-YONA • UNITY AND DEVELOPMENT
-</p>
+  <div class="id-card-heading">
+
+    <h2>
+      YOUTHS OF NDASEI ASSOCIATION
+    </h2>
+
+    <p>
+      UNITY AND DEVELOPMENT
+    </p>
+
+    <p>
+      MEMBERSHIP IDENTIFICATION CARD
+    </p>
+
+  </div>
 
 </div>
 
