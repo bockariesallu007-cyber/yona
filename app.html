@@ -565,17 +565,20 @@ audio.media-preview{
   line-height:1.3;
 }
 
-.id-card-header p{
-  margin:4px 0 0;
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:1px;
+.id-card-header{
+  background:#075aaa;
+  color:#fff;
+  padding:6px 10px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
-  .id-card-logo-space{
-  width:60px;
-  height:60px;
+ .id-card-logo-space{
+  width:42px;
+  height:42px;
   border:1px dashed rgba(255,255,255,.7);
-  border-radius:6px;
+  border-radius:5px;
   flex-shrink:0;
   display:flex;
   align-items:center;
@@ -595,11 +598,11 @@ audio.media-preview{
   margin:4px 0 0;
 }
 .id-card-body{
-  padding:12px;
+  padding:8px;
   display:grid;
-  grid-template-columns:95px minmax(0,1fr) 90px;
+  grid-template-columns:78px minmax(0,1fr) 70px;
   grid-template-rows:auto auto minmax(0,1fr);
-  column-gap:12px;
+  column-gap:8px;
   row-gap:4px;
   flex:1;
   min-height:0;
@@ -610,22 +613,29 @@ audio.media-preview{
 .id-card-photo{
   grid-column:1;
   grid-row:1 / span 3;
-  width:90px;
-  height:110px;
-  border-radius:8px;
+  width:72px;
+  height:88px;
+  border-radius:6px;
   object-fit:cover;
-  border:3px solid #075aaa;
+  border:2px solid #075aaa;
   background:#eee;
 }
 
+css
 .id-card-name{
   grid-column:2;
   grid-row:1;
-  font-size:17px;
+  font-size:15px;
   font-weight:700;
   margin:0;
+  min-width:0;
   overflow-wrap:anywhere;
+  word-break:normal;
+  line-height:1.25;
+  position:relative;
+  z-index:1;
 }
+
 
 .id-card-position{
   grid-column:2;
@@ -641,12 +651,12 @@ audio.media-preview{
   grid-column:2;
   grid-row:3;
   background:#f4f7fa;
-  border-radius:7px;
-  padding:7px;
+  border-radius:5px;
+  padding:5px;
   text-align:left;
   margin:0;
-  font-size:11px;
-  line-height:1.6;
+  font-size:10px;
+  line-height:1.5;
   overflow-wrap:anywhere;
 }
 .id-qr{
