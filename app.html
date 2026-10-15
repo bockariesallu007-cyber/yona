@@ -26,6 +26,17 @@ header{
   text-align:center;
 }
 
+.yona-app-logo{
+  width:85px;
+  height:85px;
+  object-fit:contain;
+  display:block;
+  margin:0 auto 10px;
+  background:#fff;
+  border-radius:10px;
+  padding:4px;
+}
+
 header h1{
   margin:0;
   font-size:25px;
@@ -869,6 +880,12 @@ audio.media-preview{
     print-color-adjust:exact;
   }
 
+  .id-card-logo{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+  border-radius:4px;
 }
 
 /* Hide dashboard statistics cards */
@@ -883,15 +900,23 @@ audio.media-preview{
 
 <header>
 
+<img
+src="yona-logo.jpg"
+alt="YONA Official Logo"
+class="yona-app-logo"
+
+>
+
 <h1>YONA App</h1>
 
 <p>Youths of Ndasei Association</p>
 
 <p>
-<strong>Unity and Development</strong>
+  <strong>Unity and Development</strong>
 </p>
 
 </header>
+
 
 <div class="container">
 
@@ -10773,8 +10798,12 @@ async function saveSectionsInfo() {
 <div class="id-card-header">
 
   <div class="id-card-logo-space">
-    <!-- YONA logo will be added here later -->
-  </div>
+  <img
+    src="yona-logo.jpg"
+    alt="YONA Official Logo"
+    class="id-card-logo"
+  >
+</div>
 
   <div class="id-card-heading">
 
