@@ -1174,223 +1174,85 @@ Members
 
 <form onsubmit="saveMember(event)">
 
-
 <div class="member-form-grid">
 
+  <div>
+    <label for="memberName">Name</label>
+    <input id="memberName" type="text" required>
+  </div>
 
-<div>
+  <div>
+    <label for="memberPhone">Phone</label>
+    <input id="memberPhone" type="tel">
+  </div>
 
-<label>Name</label>
+  <div>
+    <label for="memberType">Member Category</label>
+    <select id="memberType" required>
+      <option value="">Select category</option>
+      <option value="Active Member">Active Member</option>
+      <option value="Inactive Member">Inactive Member</option>
+      <option value="Probationary Member">Probationary Member</option>
+    </select>
+  </div>
 
-<input
-  id="memberName"
-  required
->
+  <div>
+    <label for="memberPosition">Position</label>
+    <input id="memberPosition" type="text">
+  </div>
 
-</div>
+  <div>
+    <label for="memberNumber">Member Number</label>
+    <input id="memberNumber" type="number" min="1" max="999" placeholder="Example: 001">
+  </div>
 
+  <div>
+    <label for="expiryDate">Card Expiry Date</label>
+    <input id="expiryDate" type="date">
+  </div>
 
-<div>
+  <div class="full">
+    <label for="memberDescription"><strong>About This Member</strong></label>
+    <textarea id="memberDescription" placeholder="Write information about this member, their contributions, responsibilities, or activities..."></textarea>
+  </div>
 
-<label>Phone</label>
+  <div class="full member-photo-wrap">
 
-<input
-  id="memberPhone"
->
+    <label><strong>Profile Photo</strong></label>
 
-</div>
+    <div id="memberPhotoPreview" class="member-photo-preview">
+      <span class="photo-placeholder">Profile Photo</span>
+    </div>
 
+    <div class="camera-buttons">
+      <button type="button" onclick="openMemberCamera()">📷 Take Photo</button>
+      <button type="button" onclick="document.getElementById('memberPhoto').click()">🖼️ Add Photo</button>
+    </div>
 
-<div>
+    <input id="memberPhoto" type="file" accept="image/*" onchange="previewMemberPhoto(event)" style="display:none">
 
-<label>Member Category</label>
+    <div id="memberCameraBox" class="camera-box" style="display:none">
 
-<select
-id="memberType"
-required
+      <video id="memberCamera" class="camera-video" autoplay playsinline></video>
 
->
+      <div class="camera-actions">
+        <button type="button" onclick="takeMemberPhoto()">📸 Capture Photo</button>
+        <button type="button" class="cancel-button" onclick="closeMemberCamera()">Cancel</button>
+      </div>
 
-  <option value="">Select category</option>
+      <p class="camera-help">Position the member's face inside the camera and tap Capture Photo.</p>
 
-  <option value="Active Member">
-    Active Member
-  </option>
+      <canvas id="memberCameraCanvas" style="display:none"></canvas>
 
-  <option value="Inactive Member">
-    Inactive Member
-  </option>
+    </div>
 
-  <option value="Probationary Member">
-    Probationary Member
-  </option>
-</select>
-
-</div>
-
-<div>
-
-<label>Position</label>
-
-<input
-id="memberPosition"
-
->
-
-</div>
-
-<label>Member Number</label>
-
-<input
-  id="memberNumber"
-  type="number"
-  min="1"
-  max="999"
-  placeholder="Example: 001"
->
-
-</div>
-
-
-<div>
-
-<label>Card Expiry Date</label>
-
-<input
-  id="expiryDate"
-  type="date"
->
+  </div>
 
 </div>
 
-  <!-- MEMBER DESCRIPTION -->
-<div class="full">
-  <label for="memberDescription">
-    <strong>About This Member</strong>
-  </label>
-  <textarea
-    id="memberDescription"
-    placeholder="Write information about this member, their contributions, responsibilities, or activities..."
-  ></textarea>
-</div>
+<button id="memberSaveButton" type="submit">Save Member</button>
 
-<!-- MEMBER PHOTO -->
-
-<div class="full member-photo-wrap">
-
-<label>
-<strong>Profile Photo</strong>
-</label>
-
-
-<div
-  id="memberPhotoPreview"
-  class="member-photo-preview"
->
-
-<span class="photo-placeholder">
-Profile Photo
-</span>
-
-</div>
-
-
-<div class="camera-buttons">
-
-<button
-  type="button"
-  onclick="openMemberCamera()"
->
-📷 Take Photo
-</button>
-
-
-<button
-  type="button"
-  onclick="document.getElementById('memberPhoto').click()"
->
-🖼️ Add Photo
-</button>
-
-</div>
-
-
-<input
-  id="memberPhoto"
-  type="file"
-  accept="image/*"
-  onchange="previewMemberPhoto(event)"
-  style="display:none"
->
-
-
-<div
-  id="memberCameraBox"
-  class="camera-box"
-  style="display:none"
->
-
-<video
-  id="memberCamera"
-  class="camera-video"
-  autoplay
-  playsinline
-></video>
-
-
-<div class="camera-actions">
-
-<button
-  type="button"
-  onclick="takeMemberPhoto()"
->
-📸 Capture Photo
-</button>
-
-
-<button
-  type="button"
-  class="cancel-button"
-  onclick="closeMemberCamera()"
->
-Cancel
-</button>
-
-</div>
-
-
-<p class="camera-help">
-Position the member's face inside the camera and tap Capture Photo.
-</p>
-
-
-<canvas
-  id="memberCameraCanvas"
-  style="display:none"
-></canvas>
-
-</div>
-
-</div>
-
-</div>
-
-
-<button
-  id="memberSaveButton"
-  type="submit"
->
-Save Member
-</button>
-
-
-<button
-  type="button"
-  class="cancel-button"
-  onclick="resetMemberForm()"
->
-Cancel
-</button>
+<button type="button" class="cancel-button" onclick="resetMemberForm()">Cancel</button>
 
 </form>
 
