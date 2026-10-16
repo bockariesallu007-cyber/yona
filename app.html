@@ -7147,7 +7147,6 @@ async function saveFinance(event) {
 if (event) event.preventDefault();
 
 const name = document.getElementById('financeName').value.trim();
-const memberPhone = document.getElementById('financePhone').value.trim();
 const type = document.getElementById('financeType').value;
 const direction = document.getElementById('financeDirection').value;
 const amount = document.getElementById('financeAmount').value;
@@ -7172,12 +7171,12 @@ return;
 
 const record = {
 name: name,
-member_phone: memberPhone,
 type: type,
 direction: direction,
 amount: Number(amount),
 description: description
 };
+
 
 try {
 const result = editingFinanceId
@@ -7546,9 +7545,6 @@ editingFinanceId = id;
 document.getElementById('financeName').value =
 read(data.name);
 
-document.getElementById('financePhone').value =
-read(data.member_phone);
-
 document.getElementById('financeType').value =
 read(data.type || data.category);
 
@@ -7574,20 +7570,18 @@ editingFinanceId = null;
 
 [
 'financeName',
-'financePhone',
 'financeType',
 'financeAmount',
 'financeDescription',
 'financeDirection'
 ].forEach(id => {
 const field = document.getElementById(id);
-if(field){
+if (field) {
 field.value = '';
 }
 });
 
 }
-
 
 
 async function deleteFinance(id){
