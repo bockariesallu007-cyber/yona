@@ -1,1 +1,619 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YONA Member Finance Portal</title>
 
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 18px;
+  font-family: Arial, sans-serif;
+  background: #f1f5f9;
+  color: #172554;
+}
+
+.container {
+  max-width: 850px;
+  margin: 25px auto;
+}
+
+.card {
+  background: white;
+  padding: 22px;
+  margin-bottom: 18px;
+  border-radius: 12px;
+  box-shadow: 0 3px 14px #00000010;
+}
+
+h1 { font-size: 25px; }
+h2 { font-size: 19px; margin-top: 0; }
+
+.subtitle {
+  color: #475569;
+  line-height: 1.6;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+input, button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 7px;
+  border-radius: 7px;
+  font-size: 16px;
+}
+
+input { border: 1px solid #cbd5e1; }
+
+button {
+  border: 0;
+  background: #1d4ed8;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.secondary { background: #475569; }
+
+.hidden { display: none !important; }
+
+.message {
+  display: none;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 7px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.success {
+  display: block;
+  background: #dcfce7;
+  color: #166534;
+}
+
+.error {
+  display: block;
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.info {
+  display: block;
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.stat {
+  background: #eff6ff;
+  padding: 14px;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.stat strong {
+  display: block;
+  font-size: 20px;
+  margin-top: 8px;
+}
+
+.small {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 580px;
+}
+
+th, td {
+  padding: 11px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 14px;
+}
+
+th { background: #eff6ff; }
+
+.empty {
+  padding: 20px;
+  text-align: center;
+  color: #64748b;
+}
+
+@media (max-width: 550px) {
+  body { padding: 10px; }
+  .card { padding: 16px; }
+  .stats { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <div class="card">
+    <h1>YONA Member Finance Portal</h1>
+    <div class="subtitle">
+      <strong>Youths of Ndasei Association</strong><br>
+      Unity and Development
+    </div>
+  </div>
+
+  <section id="loginSection" class="card">
+    <h2>Member Login</h2>
+    <p class="subtitle">
+      Sign in with your Membership Number and password
+      to view your financial records.
+    </p>
+
+    <form id="loginForm">
+      <label for="memberNumber">Membership Number</label>
+      <input id="memberNumber" type="text"
+        autocomplete="username" required
+        placeholder="Enter your Membership Number">
+
+      <label for="loginPassword">Password</label>
+      <input id="loginPassword" type="password"
+        autocomplete="current-password" required
+        placeholder="Enter your password">
+
+      <button id="loginButton" type="submit">Log In</button>
+    </form>
+
+    <div id="loginMessage" class="message" role="status"></div>
+  </section>
+
+  <section id="dashboardSection" class="hidden">
+
+    <div class="card">
+      <h2>Welcome, <span id="memberName">Member</span></h2>
+      <p class="subtitle">
+        Membership Number:
+        <strong id="memberNumberDisplay"></strong>
+      </p>
+
+      <button id="refreshButton" type="button">
+        Refresh Financial Records
+      </button>
+
+      <button id="logoutButton" class="secondary" type="button">
+        Log Out
+      </button>
+
+      <div id="dashboardMessage" class="message" role="status"></div>
+    </div>
+
+    <div id="passwordSection" class="card hidden">
+      <h2>Change Your Password</h2>
+      <p class="subtitle">
+        Change your temporary password before viewing your records.
+        Use at least 10 characters.
+      </p>
+
+      <form id="passwordForm">
+        <label for="newPassword">New Password</label>
+        <input id="newPassword" type="password"
+          minlength="10" maxlength="128"
+          autocomplete="new-password" required>
+
+        <label for="confirmPassword">Confirm New Password</label>
+        <input id="confirmPassword" type="password"
+          minlength="10" maxlength="128"
+          autocomplete="new-password" required>
+
+        <button id="changePasswordButton" type="submit">
+          Change Password
+        </button>
+      </form>
+
+      <div id="passwordMessage" class="message" role="status"></div>
+    </div>
+
+    <div id="financeSection" class="card hidden">
+      <h2>My Financial Summary</h2>
+
+      <div class="stats">
+        <div class="stat">
+          Total Received
+          <strong id="totalReceived">0.00</strong>
+        </div>
+
+        <div class="stat">
+          Total Paid
+          <strong id="totalPaid">0.00</strong>
+        </div>
+
+        <div class="stat">
+          Net Recorded Amount
+          <strong id="netBalance">0.00</strong>
+        </div>
+      </div>
+
+      <p class="small">
+        These figures summarize records returned for your member account.
+        They are not an official bank statement.
+      </p>
+    </div>
+
+    <div id="historySection" class="card hidden">
+      <h2>My Financial History</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Direction</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody id="financeRows"></tbody>
+        </table>
+      </div>
+
+      <div id="emptyRecords" class="empty hidden">
+        No financial records have been linked to your account yet.
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+"use strict";
+
+const SUPABASE_URL =
+  "https://atxeeymireukwbbsczbv.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
+
+const FUNCTION_URL =
+  SUPABASE_URL + "/functions/v1/yona-member-login";
+
+let memberSession = null;
+let memberDetails = null;
+let busy = false;
+
+const $ = id => document.getElementById(id);
+
+function showMessage(id, message, type = "info") {
+  const box = $(id);
+  box.textContent = message;
+  box.className = "message " + type;
+}
+
+function hideMessage(id) {
+  const box = $(id);
+  box.textContent = "";
+  box.className = "message";
+}
+
+function formatAmount(value) {
+  const amount = Number(value);
+  if (!Number.isFinite(amount)) return "0.00";
+
+  return amount.toLocaleString("en", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+function formatDate(value) {
+  if (!value) return "—";
+  const date = new Date(value);
+  return Number.isNaN(date.getTime())
+    ? String(value)
+    : date.toLocaleDateString();
+}
+
+function setButton(button, disabled, text) {
+  button.disabled = disabled;
+  button.textContent = text;
+}
+
+async function callPortal(action, extra = {}) {
+  const headers = {
+    "Content-Type": "application/json",
+    "apikey": SUPABASE_KEY
+  };
+
+  if (memberSession) {
+    headers["Authorization"] = "Bearer " + memberSession;
+  }
+
+  const response = await fetch(FUNCTION_URL, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ action, ...extra })
+  });
+
+  const raw = await response.text();
+  let result;
+
+  try {
+    result = JSON.parse(raw);
+  } catch {
+    throw new Error(
+      "The server returned an unexpected response. Please try again."
+    );
+  }
+
+  if (!response.ok || result.success === false) {
+    throw new Error(
+      result.error || result.message || "The request failed."
+    );
+  }
+
+  return result;
+}
+
+function showDashboard(member) {
+  memberDetails = member;
+
+  $("loginSection").classList.add("hidden");
+  $("dashboardSection").classList.remove("hidden");
+
+  $("memberName").textContent = member.name || "Member";
+  $("memberNumberDisplay").textContent =
+    member.member_number || "";
+
+  const mustChange = Boolean(member.must_change_password);
+
+  $("passwordSection").classList.toggle("hidden", !mustChange);
+  $("financeSection").classList.toggle("hidden", mustChange);
+  $("historySection").classList.toggle("hidden", mustChange);
+
+  if (mustChange) {
+    showMessage(
+      "passwordMessage",
+      "Please change your temporary password before viewing your financial records.",
+      "info"
+    );
+  } else {
+    loadRecords();
+  }
+}
+
+function clearSession() {
+  memberSession = null;
+  memberDetails = null;
+
+  $("dashboardSection").classList.add("hidden");
+  $("loginSection").classList.remove("hidden");
+
+  $("loginForm").reset();
+  $("passwordForm").reset();
+  $("financeRows").replaceChildren();
+
+  hideMessage("loginMessage");
+  hideMessage("dashboardMessage");
+  hideMessage("passwordMessage");
+}
+
+$("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  if (busy) return;
+  busy = true;
+
+  const button = $("loginButton");
+  hideMessage("loginMessage");
+  setButton(button, true, "Signing In...");
+
+  try {
+    const member_number = $("memberNumber").value.trim();
+    const password = $("loginPassword").value;
+
+    const result = await callPortal("login", {
+      member_number,
+      password
+    });
+
+    if (!result.token || !result.member) {
+      throw new Error(
+        "The server response is missing the member session."
+      );
+    }
+
+    memberSession = result.token;
+    $("loginPassword").value = "";
+    showDashboard(result.member);
+
+  } catch (error) {
+    showMessage(
+      "loginMessage",
+      error.message || "Login failed.",
+      "error"
+    );
+  } finally {
+    busy = false;
+    setButton(button, false, "Log In");
+  }
+});
+
+$("passwordForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  if (busy) return;
+  busy = true;
+
+  const button = $("changePasswordButton");
+  hideMessage("passwordMessage");
+  setButton(button, true, "Changing Password...");
+
+  try {
+    if (!memberSession || !memberDetails) {
+      throw new Error("Please log in again.");
+    }
+
+    const newPassword = $("newPassword").value;
+    const confirmPassword = $("confirmPassword").value;
+
+    if (newPassword.length < 10 || newPassword.length > 128) {
+      throw new Error(
+        "Your new password must contain 10 to 128 characters."
+      );
+    }
+
+    if (newPassword !== confirmPassword) {
+      throw new Error("The passwords do not match.");
+    }
+
+    const result = await callPortal("change_password", {
+      member_id: memberDetails.id,
+      new_password: newPassword
+    });
+
+    if (result.success === false) {
+      throw new Error(
+        result.error || "Could not change your password."
+      );
+    }
+
+    memberDetails.must_change_password = false;
+    $("passwordForm").reset();
+
+    $("passwordSection").classList.add("hidden");
+    $("financeSection").classList.remove("hidden");
+    $("historySection").classList.remove("hidden");
+
+    showMessage(
+      "dashboardMessage",
+      "Your password has been changed successfully.",
+      "success"
+    );
+
+    await loadRecords();
+
+  } catch (error) {
+    showMessage(
+      "passwordMessage",
+      error.message || "Could not change your password.",
+      "error"
+    );
+  } finally {
+    busy = false;
+    setButton(button, false, "Change Password");
+  }
+});
+
+async function loadRecords() {
+  if (!memberSession) return;
+
+  const button = $("refreshButton");
+  setButton(button, true, "Loading Records...");
+  hideMessage("dashboardMessage");
+
+  try {
+    const result = await callPortal("records");
+    const records = Array.isArray(result.records)
+      ? result.records
+      : [];
+
+    renderRecords(records);
+
+  } catch (error) {
+    showMessage(
+      "dashboardMessage",
+      "Could not load your records: " +
+      (error.message || "Please try again."),
+      "error"
+    );
+  } finally {
+    setButton(button, false, "Refresh Financial Records");
+  }
+}
+
+function getDirection(record) {
+  const value = String(record.direction || "")
+    .toLowerCase().trim();
+
+  if (["income", "in", "received", "credit"].includes(value)) {
+    return "Received";
+  }
+
+  if (["expense", "out", "paid", "debit"].includes(value)) {
+    return "Paid";
+  }
+
+  return "Unspecified";
+}
+
+function renderRecords(records) {
+  const tbody = $("financeRows");
+  tbody.replaceChildren();
+
+  let received = 0;
+  let paid = 0;
+
+  for (const record of records) {
+    const amount = Number(record.amount) || 0;
+    const direction = getDirection(record);
+
+    if (direction === "Received") received += amount;
+    if (direction === "Paid") paid += amount;
+
+    const row = document.createElement("tr");
+
+    const values = [
+      formatDate(record.created_at),
+      record.type || record.category || "Other",
+      record.description || record.name || "—",
+      direction,
+      formatAmount(amount)
+    ];
+
+    for (const value of values) {
+      const cell = document.createElement("td");
+      cell.textContent = String(value);
+      row.appendChild(cell);
+    }
+
+    tbody.appendChild(row);
+  }
+
+  $("totalReceived").textContent = formatAmount(received);
+  $("totalPaid").textContent = formatAmount(paid);
+  $("netBalance").textContent = formatAmount(received - paid);
+
+  $("emptyRecords").classList.toggle(
+    "hidden",
+    records.length > 0
+  );
+}
+
+$("refreshButton").addEventListener("click", loadRecords);
+
+$("logoutButton").addEventListener("click", clearSession);
+</script>
+</body>
+</html>
+```
