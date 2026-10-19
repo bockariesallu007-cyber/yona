@@ -6,6 +6,18 @@
 <link rel="manifest" href="/yona/manifest.json">
 <meta name="theme-color" content="#123456">
 
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("/yona/service-worker.js")
+      .catch(function (error) {
+        console.error("YONA service worker registration failed:", error);
+      });
+  });
+}
+</script>
+
+  
 <title>YONA App</title>
 
 <style>
