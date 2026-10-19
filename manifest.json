@@ -1,20 +1,22 @@
+json
 {
-"id": "/yona/app.html",
-"name": "Youths of Ndasei Association",
-"short_name": "YONA",
-"description": "Official mobile app of the Youths of Ndasei Association — Unity and Development.",
-"start_url": "/yona/app.html",
-"scope": "/yona/",
-"display": "standalone",
-"orientation": "portrait",
-"background_color": "#ffffff",
-"theme_color": "#123456",
-"icons": [
-{
-"src": "/yona/yona-logo.jpg",
-"sizes": "512x512",
-"type": "image/jpeg",
-"purpose": "any"
+  "id": "/yona/app.html",
+  "name": "Youths of Ndasei Association",
+  "short_name": "YONA",
+  "description": "Official mobile app of the Youths of Ndasei Association — Unity and Development.",
+  "start_url": "/yona/app.html",
+  "scope": "/yona/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#123456",
+  "icons": [
+    {
+      "src": "/yona/yona-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
 }
-]
-}
+
