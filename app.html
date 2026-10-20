@@ -5470,166 +5470,82 @@ function previewMemberPhotoFromData(
 }
 
 
-async function saveMember(event){
-
+javascript
+async function saveMember(event) {
   event.preventDefault();
 
-  const name =
-    document
-      .getElementById('memberName')
-      .value
-      .trim();
+  const name = document.getElementById('memberName').value.trim();
+  const phone = document.getElementById('memberPhone').value.trim();
+  const memberType = document.getElementById('memberType').value;
+  const position = document.getElementById('memberPosition').value.trim();
+  const description = document.getElementById('memberDescription').value.trim();
+  const memberNumber = document.getElementById('memberNumber').value;
+  const expiryDate = document.getElementById('expiryDate').value;
 
-  const phone =
-    document
-      .getElementById('memberPhone')
-      .value
-      .trim();
+  const galleryFile = document.getElementById('memberPhoto').files?.[0];
+  const photoFile = selectedMemberPhotoFile || galleryFile;
 
-  const memberType =
-    document
-      .getElementById('memberType')
-      .value;
-
-  const position =
-    document
-      .getElementById('memberPosition')
-      .value
-      .trim();
-
-const description =
-  document
-    .getElementById('memberDescription')
-    .value
-    .trim();
-  
-  const memberNumber =
-    document
-      .getElementById('memberNumber')
-      .value;
-
-  const expiryDate =
-    document
-      .getElementById('expiryDate')
-      .value;
-
-  const galleryFile =
-    document
-      .getElementById('memberPhoto')
-      .files?.[0];
-
-  const photoFile =
-    selectedMemberPhotoFile ||
-    galleryFile;
-
-
-  if(!name){
-
-    showMessage(
-      'memberMessage',
-      'Please enter the member name.',
-      'error'
-    );
-
+  if (!name) {
+    showMessage('memberMessage', 'Please enter the member name.', 'error');
     return;
-
   }
 
+  try {
+    let photo = editingMemberOldPhoto || null;
 
-  try{
-
-    let photo =
-      editingMemberOldPhoto ||
-      null;
-
-
-    if(photoFile){
-
-      photo =
-        await uploadPersonPhoto(
-          photoFile,
-          'member-photos',
-          'member'
-        );
-
+    if (photoFile) {
+      photo = await uploadPersonPhoto(
+        photoFile,
+        'member-photos',
+        'member'
+      );
     }
 
-
-    const record={
-
+    const record = {
       name,
-
       phone,
-
       position,
-     
       description,
-      
-      member_type:memberType,
-
-      member_number:
-        memberNumber
-          ? Number(memberNumber)
-          : null,
-
-      expiry_date:
-        expiryDate ||
-        null,
-
-      photo_url:photo
-
+      member_type: memberType,
+      member_number: memberNumber ? Number(memberNumber) : null,
+      expiry_date: expiryDate || null,
+      photo_url: photo
     };
-
 
     let result;
 
-
     if (editingMemberId) {
+      result = await supabaseClient
+        .from('members')
+        .update(record)
+        .eq('id', editingMemberId)
+        .select('id')
+        .single();
+    } else {
+      result = await supabaseClient
+        .from('members')
+        .insert([record])
+        .select('id')
+        .single();
+    }
 
-  result = await supabaseClient
-    .from('members')
-    .update(record)
-    .eq('id', editingMemberId)
-    .select('id')
-    .single();
-
-} else {
-
-  result = await supabaseClient
-    .from('members')
-    .insert([record])
-    .select('id')
-    .single();
-
-}
-      if(
-        photoFile &&
-        photo
-      ){
-
-        await deleteStoredPhoto(
-          photo
-        );
-
+    if (result.error) {
+      if (photoFile && photo) {
+        await deleteStoredPhoto(photo);
       }
 
       throw result.error;
-
     }
 
-
-    if(
+    if (
       photoFile &&
       editingMemberOldPhoto &&
-      editingMemberOldPhoto!==photo
-    ){
-
-      await deleteStoredPhoto(
-        editingMemberOldPhoto
-      );
-
+      editingMemberOldPhoto !== photo
+    ) {
+      await deleteStoredPhoto(editingMemberOldPhoto);
     }
 
+    const savedId = editingMemberId || result.data?.id;
 
     showMessage(
       'memberMessage',
@@ -5637,36 +5553,20 @@ const description =
       'success'
     );
 
-
-    const savedId =
-      editingMemberId ||
-      result.data?.[0]?.id;
-
-
     resetMemberForm();
-
-
     await loadMembers();
 
-
-    if(savedId){
-
+    if (savedId) {
       generateQr(savedId);
-
     }
 
-
-  }catch(e){
-
+  } catch (e) {
     showMessage(
       'memberMessage',
-      'Could not save member: '+
-      e.message,
+      'Could not save member: ' + e.message,
       'error'
     );
-
   }
-
 }
 
 
