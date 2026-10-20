@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -8,7 +7,13 @@
   <title>YONA | Public Information</title>
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
@@ -34,8 +39,13 @@
       padding: 4px;
     }
 
-    header h1 { margin: 8px 0 0; }
-    header p { margin: 4px 0; }
+    header h1 {
+      margin: 8px 0 0;
+    }
+
+    header p {
+      margin: 4px 0;
+    }
 
     nav {
       display: flex;
@@ -46,6 +56,7 @@
       background: white;
       position: sticky;
       top: 0;
+      z-index: 10;
       box-shadow: 0 2px 5px #00000010;
     }
 
@@ -57,10 +68,12 @@
       border-radius: 6px;
     }
 
-    nav a:hover { background: #e8f1fc; }
+    nav a:hover {
+      background: #e8f1fc;
+    }
 
     main {
-      max-width: 900px;
+      max-width: 1000px;
       margin: auto;
       padding: 16px;
     }
@@ -74,8 +87,13 @@
       scroll-margin-top: 100px;
     }
 
-    h2, h3 { color: #075aaa; }
-    h2 { margin-top: 0; }
+    h2, h3 {
+      color: #075aaa;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
 
     .section-grid {
       display: grid;
@@ -89,13 +107,20 @@
       border-radius: 9px;
       background: #fbfdff;
       scroll-margin-top: 100px;
+      overflow-wrap: anywhere;
     }
 
-    .section-card h3 { margin-top: 0; }
+    .section-card h3 {
+      margin-top: 0;
+    }
 
     .status {
       color: #555;
       font-size: 14px;
+    }
+
+    .member-number {
+      font-weight: bold;
     }
 
     footer {
@@ -104,8 +129,26 @@
       color: #626d78;
       font-size: 13px;
     }
-  </style>
 
+    @media (max-width: 480px) {
+      nav {
+        gap: 4px;
+      }
+
+      nav a {
+        padding: 6px 8px;
+        font-size: 14px;
+      }
+
+      main {
+        padding: 10px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -124,7 +167,7 @@
 <nav>
   <a href="#organization">About YONA</a>
   <a href="#sections">Our Sections</a>
-  <a href="#members">Members</a>
+  <a href="#member-list">Members</a>
   <a href="#executive">Executive</a>
   <a href="#finance">Finance</a>
   <a href="#meetings">Meetings</a>
@@ -138,85 +181,110 @@
     Loading YONA information...
   </p>
 
+  <!-- ORGANISATION INFORMATION -->
+
   <section class="card" id="organization">
     <h2>About the Organization</h2>
 
-```
-<h3>Who We Are</h3>
-<p id="orgWhoView"></p>
+    <h3>Who We Are</h3>
+    <p id="orgWhoView"></p>
 
-<h3>Our Motto</h3>
-<p id="orgMottoView"></p>
+    <h3>Our Motto</h3>
+    <p id="orgMottoView"></p>
 
-<h3>Our Vision</h3>
-<p id="orgVisionView"></p>
+    <h3>Our Vision</h3>
+    <p id="orgVisionView"></p>
 
-<h3>Our Mission</h3>
-<p id="orgMissionView"></p>
+    <h3>Our Mission</h3>
+    <p id="orgMissionView"></p>
 
-<h3>Our Objectives</h3>
-<ul id="orgObjectivesView"></ul>
+    <h3>Our Objectives</h3>
+    <ul id="orgObjectivesView"></ul>
 
-<h3>Contact Information</h3>
-<p id="orgAddressView"></p>
-<p id="orgEmailView"></p>
-```
-
+    <h3>Contact Information</h3>
+    <p id="orgAddressView"></p>
+    <p id="orgEmailView"></p>
   </section>
+
+  <!-- ABOUT THE ASSOCIATION'S SECTIONS -->
 
   <section class="card" id="sections">
     <h2>About Our Sections</h2>
+
     <p>
       Learn about the purpose of each section of the association.
     </p>
 
-```
-<div class="section-grid">
+    <div class="section-grid">
 
-  <article class="section-card" id="members">
-    <h3>👥 Members</h3>
-    <p id="sectionMembersView"></p>
-  </article>
+      <article class="section-card" id="members-description">
+        <h3>👥 Members</h3>
+        <p id="sectionMembersView"></p>
+      </article>
 
-  <article class="section-card" id="executive">
-    <h3>👔 Executive</h3>
-    <p id="sectionExecutiveView"></p>
-  </article>
+      <article class="section-card" id="executive">
+        <h3>👔 Executive</h3>
+        <p id="sectionExecutiveView"></p>
+      </article>
 
-  <article class="section-card" id="finance">
-    <h3>💰 Finance</h3>
-    <p id="sectionFinanceView"></p>
-    <p class="status">
-      Personal financial records are not displayed here.
-    </p>
-  </article>
+      <article class="section-card" id="finance">
+        <h3>💰 Finance</h3>
+        <p id="sectionFinanceView"></p>
+        <p class="status">
+          Personal financial records are available only through
+          the member's private portal.
+        </p>
+      </article>
 
-  <article class="section-card" id="meetings">
-    <h3>📝 Meetings</h3>
-    <p id="sectionMeetingsView"></p>
-  </article>
+      <article class="section-card" id="meetings">
+        <h3>📝 Meetings</h3>
+        <p id="sectionMeetingsView"></p>
+      </article>
 
-  <article class="section-card" id="events">
-    <h3>📅 Events</h3>
-    <p id="sectionEventsView"></p>
-  </article>
+      <article class="section-card" id="events">
+        <h3>📅 Events</h3>
+        <p id="sectionEventsView"></p>
+      </article>
 
-  <article class="section-card" id="documents">
-    <h3>📁 Documents</h3>
-    <p id="sectionDocumentsView"></p>
-  </article>
+      <article class="section-card" id="documents">
+        <h3>📁 Documents</h3>
+        <p id="sectionDocumentsView"></p>
+      </article>
 
-</div>
-```
-
+    </div>
   </section>
 
-  <section class="card">
-    <h2>Member Privacy</h2>
+  <!-- PUBLIC MEMBER LIST -->
+
+  <section class="card" id="member-list">
+    <h2>Our Members</h2>
+
     <p>
-      This is a public information page. Private membership details,
-      administrator controls, and personal financial records are
-      not displayed here.
+      This list displays approved membership information
+      for active members of YONA.
+    </p>
+
+    <p id="memberListStatus" class="status">
+      Loading active members...
+    </p>
+
+    <div id="publicMembersList" class="section-grid"></div>
+  </section>
+
+  <!-- MEMBER PRIVACY -->
+
+  <section class="card" id="member-privacy">
+    <h2>Member Privacy</h2>
+
+    <p>
+      This is YONA's public information page.
+      Private membership details and personal financial records
+      are not displayed here.
+    </p>
+
+    <p>
+      Members should use the official member portal to access
+      their own private membership and financial information.
     </p>
   </section>
 
@@ -229,6 +297,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+"use strict";
+
 const SUPABASE_URL =
   "https://atxeeymireukwbbsczbv.supabase.co";
 
@@ -249,17 +319,22 @@ const supabaseClient = window.supabase.createClient(
 const ORG_DEFAULTS = {
   who_we_are:
     "Youths of Ndasei Association (YONA) is an association committed to unity, cooperation and development among its members.",
+
   motto: "Unity and Development.",
+
   vision:
     "To build a united and supportive association that encourages the development and well-being of its members.",
+
   mission:
     "To promote unity, cooperation, participation and collective responsibility among members.",
+
   objectives: [
     "Promote unity and understanding among members.",
     "Encourage members to participate in association activities.",
     "Support members through welfare and cooperation.",
     "Promote accountability and responsible leadership."
   ],
+
   address: "12 Berry Street, Back of Albert Academy.",
   email: "yonabk3@gmail.com"
 };
@@ -267,21 +342,29 @@ const ORG_DEFAULTS = {
 const SECTION_DEFAULTS = {
   members:
     "Register members and manage their contact details, categories, membership numbers and card expiry dates.",
+
   executive:
     "Keep records of executive officers, their positions and leadership periods.",
+
   finance:
     "Record contributions and other financial transactions to support proper financial tracking and accountability.",
+
   meetings:
     "Keep meeting records, including dates, venues, minutes and relevant media.",
+
   events:
     "Record association events, their dates, locations and descriptions.",
+
   documents:
     "Create, upload and store important association documents for reference."
 };
 
 function setText(id, value) {
   const element = document.getElementById(id);
-  if (element) element.textContent = value ?? "";
+
+  if (element) {
+    element.textContent = value ?? "";
+  }
 }
 
 function renderOrganization(info) {
@@ -289,10 +372,19 @@ function renderOrganization(info) {
   setText("orgMottoView", info.motto);
   setText("orgVisionView", info.vision);
   setText("orgMissionView", info.mission);
-  setText("orgAddressView", "Address: " + (info.address || ""));
-  setText("orgEmailView", "Email: " + (info.email || ""));
+
+  setText(
+    "orgAddressView",
+    "Address: " + (info.address || "")
+  );
+
+  setText(
+    "orgEmailView",
+    "Email: " + (info.email || "")
+  );
 
   const list = document.getElementById("orgObjectivesView");
+
   list.replaceChildren();
 
   const objectives = Array.isArray(info.objectives)
@@ -324,7 +416,9 @@ async function loadPublicInformation() {
       .select("page_key, content")
       .in("page_key", ["organization", "sections"]);
 
-    if (error) throw error;
+    if (error) {
+      throw error;
+    }
 
     const rows = data || [];
 
@@ -347,18 +441,92 @@ async function loadPublicInformation() {
     });
 
     message.textContent = "YONA information loaded.";
+
   } catch (error) {
-    console.error("Could not load YONA information:", error);
+    console.error(
+      "Could not load YONA information:",
+      error
+    );
 
     renderOrganization(ORG_DEFAULTS);
     renderSections(SECTION_DEFAULTS);
 
     message.textContent =
-      "Showing default information. Saved information could not be loaded.";
+      "Saved information could not be loaded. Default information is shown.";
   }
 }
 
-loadPublicInformation();
+async function loadPublicMembers() {
+  const status = document.getElementById("memberListStatus");
+  const list = document.getElementById("publicMembersList");
+
+  status.textContent = "Loading active members...";
+  list.replaceChildren();
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("yona_public_members")
+      .select("member_number, name, position, member_type")
+      .order("name");
+
+    if (error) {
+      throw error;
+    }
+
+    list.replaceChildren();
+
+    if (!data || data.length === 0) {
+      status.textContent =
+        "No active members with membership numbers are currently listed.";
+      return;
+    }
+
+    data.forEach(member => {
+      const card = document.createElement("article");
+      card.className = "section-card";
+
+      const name = document.createElement("h3");
+      name.textContent = member.name || "Member";
+
+      const number = document.createElement("p");
+      number.className = "member-number";
+      number.textContent =
+        "Membership No.: " + member.member_number;
+
+      const position = document.createElement("p");
+      position.textContent =
+        "Position: " + (member.position || "Member");
+
+      const category = document.createElement("p");
+      category.textContent =
+        "Category: " + (member.member_type || "Active Member");
+
+      card.append(name, number, position, category);
+      list.appendChild(card);
+    });
+
+    status.textContent =
+      "Active members listed: " + data.length;
+
+  } catch (error) {
+    console.error(
+      "Could not load public members:",
+      error
+    );
+
+    status.textContent =
+      "The member list could not be loaded. Please try again later.";
+  }
+}
+
+async function loadPublicPage() {
+  await Promise.all([
+    loadPublicInformation(),
+    loadPublicMembers()
+  ]);
+}
+
+loadPublicPage();
 </script>
 
 </body>
