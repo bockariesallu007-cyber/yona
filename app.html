@@ -5584,10 +5584,7 @@ const description =
     let result;
 
 
-    if(editingMemberId){
-
-      result =
-      if (editingMemberId) {
+    if (editingMemberId) {
 
   result = await supabaseClient
     .from('members')
@@ -5605,10 +5602,6 @@ const description =
     .single();
 
 }
-
-
-    if(result.error){
-
       if(
         photoFile &&
         photo
