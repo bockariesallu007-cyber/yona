@@ -5587,22 +5587,24 @@ const description =
     if(editingMemberId){
 
       result =
-        await supabaseClient
-          .from('members')
-          .update(record)
-          .eq(
-            'id',
-            editingMemberId
-          );
+      if (editingMemberId) {
 
-    }else{
+  result = await supabaseClient
+    .from('members')
+    .update(record)
+    .eq('id', editingMemberId)
+    .select('id')
+    .single();
 
-      result =
-        await supabaseClient
-          .from('members')
-          .insert([record]);
+} else {
 
-    }
+  result = await supabaseClient
+    .from('members')
+    .insert([record])
+    .select('id')
+    .single();
+
+}
 
 
     if(result.error){
