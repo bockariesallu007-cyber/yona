@@ -5592,82 +5592,26 @@ function isExpiredDate(date){
 }
 
 
-async function updateMemberTotals(){
+javascript
+async function updateMemberTotals() {
+  try {
+    const { error } = await supabaseClient
+      .from('members')
+      .select('id, expiry_date');
 
-  try{
-
-    const {data,error} =
-      await supabaseClient
-        .from('members')
-        .select(
-          'id,expiry_date'
-        );
-
-    if(error){
+    if (error) {
+      console.error('Could not check member totals:', error.message);
       return;
     }
 
-    const total =
-      data?.length || 0;
+    // Dashboard statistic cards were removed.
+    // Do not update HTML elements that no longer exist.
 
-    const expired =
-      data?.filter(
-        m=>isExpiredDate(
-          m.expiry_date
-        )
-      ).length || 0;
-
-    const active =
-      total-expired;
-
-
-    document
-      .getElementById(
-        'totalMembers'
-      )
-      .textContent=
-        total;
-
-    document
-      .getElementById(
-        'activeMembers'
-      )
-      .textContent=
-        active;
-
-    document
-      .getElementById(
-        'expiredMembers'
-      )
-      .textContent=
-        expired;
-
-
-    const {count} =
-      await supabaseClient
-        .from('executive')
-        .select(
-          'id',
-          {
-            count:'exact',
-            head:true
-          }
-        );
-
-    document
-      .getElementById(
-        'executiveMembers'
-      )
-      .textContent=
-        count || 0;
-
-  }catch(e){
-
-    console.error(e);
-
+  } catch (e) {
+    console.error('Member totals error:', e);
   }
-
 }
+
 
 async function updateDashboardCardTotals() {
   try {
