@@ -306,7 +306,7 @@ footer {
   
   <!-- ORGANISATION INFORMATION -->
 
-  <section class="card" id="organization">
+  <section class="card content-section" id="organization" hidden>
     <h2>About the Organization</h2>
 
     <h3>Who We Are</h3>
@@ -331,7 +331,7 @@ footer {
 
   <!-- ABOUT THE ASSOCIATION'S SECTIONS -->
 
-  <section class="card" id="sections">
+  <section class="card content-section" id="sections" hidden>
     <h2>About Our Sections</h2>
 
     <p>
@@ -395,7 +395,7 @@ footer {
 
   <!-- MEMBER PRIVACY -->
 
-  <section class="card" id="member-privacy">
+  <section class="card content-section" id="member-privacy" hidden>
     <h2>Member Privacy</h2>
 
     <p>
@@ -651,5 +651,76 @@ async function loadPublicPage() {
 loadPublicPage();
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const dashboard = document.getElementById("dashboard");
+
+  if (!dashboard) return;
+
+  const contentSections = document.querySelectorAll(".content-section");
+
+  function showDashboard() {
+    contentSections.forEach(section => {
+      section.hidden = true;
+    });
+
+    dashboard.hidden = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function openSection(targetId) {
+    let target = document.getElementById(targetId);
+
+    if (!target) return;
+
+    let section = target.classList.contains("content-section")
+      ? target
+      : target.closest(".content-section");
+
+    if (!section) return;
+
+    dashboard.hidden = true;
+
+    contentSections.forEach(item => {
+      item.hidden = true;
+    });
+
+    section.hidden = false;
+
+    let backButton = section.querySelector(".back-dashboard");
+
+    if (!backButton) {
+      backButton = document.createElement("button");
+      backButton.className = "back-dashboard";
+      backButton.textContent = "← Back to Dashboard";
+      backButton.style.cssText =
+        "display:block;margin:0 0 20px;padding:12px 18px;background:#123d73;color:white;border:0;border-radius:8px;cursor:pointer;font-size:16px;";
+
+      backButton.addEventListener("click", showDashboard);
+      section.prepend(backButton);
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    if (target !== section) {
+      setTimeout(() => {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  }
+
+  dashboard.querySelectorAll(".dashboard-link").forEach(link => {
+    link.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      const targetId = this.getAttribute("href").substring(1);
+      openSection(targetId);
+    });
+  });
+
+  showDashboard();
+});
+</script>
+  
 </body>
 </html>
