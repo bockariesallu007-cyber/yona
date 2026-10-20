@@ -6,149 +6,208 @@
   <meta name="theme-color" content="#075aaa">
   <title>YONA | Public Information</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+ <style>
+* {
+  box-sizing: border-box;
+}
 
-    html {
-      scroll-behavior: smooth;
-    }
+html {
+  scroll-behavior: smooth;
+}
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f2f5f9;
-      color: #263238;
-      line-height: 1.6;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f1f5f9;
+  color: #263238;
+  line-height: 1.6;
+}
 
-    header {
-      background: #075aaa;
-      color: white;
-      padding: 25px 16px;
-      text-align: center;
-    }
+header {
+  background: linear-gradient(135deg, #063b78, #0875c9);
+  color: white;
+  padding: 30px 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px #00000018;
+}
 
-    header img {
-      width: 80px;
-      height: 80px;
-      object-fit: contain;
-      background: white;
-      border-radius: 10px;
-      padding: 4px;
-    }
+header img {
+  width: 78px;
+  height: 78px;
+  object-fit: contain;
+  background: white;
+  border-radius: 14px;
+  padding: 5px;
+}
 
-    header h1 {
-      margin: 8px 0 0;
-    }
+header h1 {
+  margin: 8px 0 0;
+  font-size: 30px;
+}
 
-    header p {
-      margin: 4px 0;
-    }
+header p {
+  margin: 4px 0;
+}
 
-    nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 12px;
-      background: white;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      box-shadow: 0 2px 5px #00000010;
-    }
+header strong {
+  display: inline-block;
+  margin-top: 5px;
+  color: #ffdf80;
+}
 
-    nav a {
-      text-decoration: none;
-      color: #075aaa;
-      font-weight: bold;
-      padding: 7px 10px;
-      border-radius: 6px;
-    }
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 8px #00000010;
+}
 
-    nav a:hover {
-      background: #e8f1fc;
-    }
+nav a {
+  text-decoration: none;
+  color: #075aaa;
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
 
-    main {
-      max-width: 1000px;
-      margin: auto;
-      padding: 16px;
-    }
+nav a:hover {
+  background: #e8f1fc;
+}
 
-    .card {
-      background: white;
-      padding: 20px;
-      margin: 0 0 16px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px #0000000c;
-      scroll-margin-top: 100px;
-    }
+main {
+  max-width: 1150px;
+  margin: auto;
+  padding: 24px 18px;
+}
 
-    h2, h3 {
-      color: #075aaa;
-    }
+.card {
+  background: white;
+  padding: 24px;
+  margin: 0 0 22px;
+  border-radius: 16px;
+  box-shadow: 0 3px 14px #16324f12;
+  border: 1px solid #e6edf5;
+  scroll-margin-top: 90px;
+}
 
-    h2 {
-      margin-top: 0;
-    }
+h2, h3 {
+  color: #075aaa;
+}
 
-    .section-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-    }
+h2 {
+  margin-top: 0;
+  font-size: 24px;
+}
 
-    .section-card {
-      border: 1px solid #e0e7ef;
-      padding: 15px;
-      border-radius: 9px;
-      background: #fbfdff;
-      scroll-margin-top: 100px;
-      overflow-wrap: anywhere;
-    }
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
 
-    .section-card h3 {
-      margin-top: 0;
-    }
+.section-card {
+  border: 1px solid #e0e8f2;
+  padding: 20px;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 3px 10px #16324f0b;
+  scroll-margin-top: 90px;
+  overflow-wrap: anywhere;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
 
-    .status {
-      color: #555;
-      font-size: 14px;
-    }
+.dashboard-link {
+  display: block;
+  text-decoration: none;
+  color: #263238;
+  cursor: pointer;
+  border-top: 4px solid #075aaa;
+}
 
-    .member-number {
-      font-weight: bold;
-    }
+.dashboard-link h3 {
+  color: #075aaa;
+}
 
-    footer {
-      text-align: center;
-      padding: 22px;
-      color: #626d78;
-      font-size: 13px;
-    }
+.dashboard-link strong {
+  display: inline-block;
+  margin-top: 8px;
+  color: #0875c9;
+}
 
-    @media (max-width: 480px) {
-      nav {
-        gap: 4px;
-      }
+.dashboard-link:hover {
+  background: #f0f7ff;
+}
+   
+.section-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 18px #16324f18;
+}
 
-      nav a {
-        padding: 6px 8px;
-        font-size: 14px;
-      }
+.section-card h3 {
+  margin-top: 0;
+  font-size: 19px;
+}
 
-      main {
-        padding: 10px;
-      }
+.status {
+  color: #596775;
+  font-size: 14px;
+}
 
-      .card {
-        padding: 15px;
-      }
-    }
-  </style>
+.member-number {
+  font-weight: bold;
+  color: #075aaa;
+}
+
+footer {
+  text-align: center;
+  padding: 24px;
+  color: #626d78;
+  font-size: 13px;
+  background: white;
+  border-top: 1px solid #e6edf5;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 24px 12px;
+  }
+
+  header h1 {
+    font-size: 26px;
+  }
+
+  nav {
+    position: static;
+    gap: 5px;
+  }
+
+  nav a {
+    padding: 7px 9px;
+    font-size: 13px;
+  }
+
+  main {
+    padding: 12px;
+  }
+
+  .card {
+    padding: 17px;
+  }
+
+  .section-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+</style>
+
+  
 </head>
 
 <body>
@@ -181,6 +240,70 @@
     Loading YONA information...
   </p>
 
+<!-- YONA PUBLIC DASHBOARD -->
+<section class="card" id="dashboard">
+  <h2>Welcome to YONA</h2>
+  <p>Explore the association's information, members, leadership and activities.</p>
+
+  <div class="section-grid">
+
+    <a class="section-card dashboard-link" href="#organization">
+      <h3>🏛️ About the Organization</h3>
+      <p>Learn about YONA's history, vision, mission, aims and objectives.</p>
+      <strong>About YONA →</strong>
+    </a>
+
+    <a class="section-card dashboard-link" href="#sections">
+      <h3>📚 About Our Sections</h3>
+      <p>Understand the purpose of YONA's sections.</p>
+      <strong>Explore Sections →</strong>
+    </a>
+
+    <a class="section-card dashboard-link" href="#member-list">
+      <h3>👥 Members</h3>
+      <p>View approved member information.</p>
+      <strong>View Members →</strong>
+    </a>
+
+    <a class="section-card dashboard-link" href="#executive-description">
+      <h3>👔 Executive</h3>
+      <p>View executive leadership and periods.</p>
+      <strong>View Executive →</strong>
+    </a>
+
+    <a class="section-card dashboard-link" href="#finance-description">
+      <h3>💰 Finance</h3>
+      <p>Learn about financial management and accountability.</p>
+      <strong>View Information →</strong>
+    </a>
+
+    <a class="section-card dashboard-link" href="#meetings-description">
+      <h3>📝 Meetings</h3>
+      <p>Explore published meeting information.</p>
+      <strong>View Meetings →</strong>
+    </a>
+
+    <a class="section-card dashboard-link" href="#events-description">
+      <h3>📅 Events</h3>
+      <p>Discover YONA's activities and events.</p>
+      <strong>View Events →</strong>
+    </a>
+
+    <a class="section-card dashboard-link" href="#documents-description">
+      <h3>📁 Documents</h3>
+      <p>Find approved public association documents.</p>
+      <strong>View Documents →</strong>
+    </a>
+
+    <a class="section-card dashboard-link" href="#member-privacy">
+      <h3>💳 Member Portal</h3>
+      <p>Learn how members access their private information.</p>
+      <strong>Member Information →</strong>
+    </a>
+
+  </div>
+</section>
+  
   <!-- ORGANISATION INFORMATION -->
 
   <section class="card" id="organization">
@@ -222,12 +345,12 @@
         <p id="sectionMembersView"></p>
       </article>
 
-      <article class="section-card" id="executive">
+      <article class="section-card" id="executive-description">
         <h3>👔 Executive</h3>
         <p id="sectionExecutiveView"></p>
       </article>
 
-      <article class="section-card" id="finance">
+      <article class="section-card" id="finance-description">
         <h3>💰 Finance</h3>
         <p id="sectionFinanceView"></p>
         <p class="status">
@@ -236,17 +359,16 @@
         </p>
       </article>
 
-      <article class="section-card" id="meetings">
+      <article class="section-card" id="meetings-description">
         <h3>📝 Meetings</h3>
         <p id="sectionMeetingsView"></p>
       </article>
 
-      <article class="section-card" id="events">
-        <h3>📅 Events</h3>
-        <p id="sectionEventsView"></p>
-      </article>
-
-      <article class="section-card" id="documents">
+      <article class="section-card" id="events-description">
+  <h3>📅 Events</h3>
+  <p id="sectionEventsView"></p>
+</article>
+      <article class="section-card" id="documents-description">
         <h3>📁 Documents</h3>
         <p id="sectionDocumentsView"></p>
       </article>
