@@ -6409,7 +6409,15 @@ if (typeof QRCode !== "undefined") {
   console.error("QRCode library is unavailable.");
 }
 
-
+  } catch (error) {
+    console.error("Could not show member ID card:", error);
+    alert(
+      "Could not open member ID card: " +
+      (error.message || String(error))
+    );
+  }
+}
+    
 function closeIdCard(){
 
   document
