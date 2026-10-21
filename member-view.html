@@ -661,9 +661,26 @@ groups.forEach(groupName => {
       "Status: " + (member.member_type || "Not specified");
 
     card.append(name, number, position, category);
-    list.appendChild(card);
-  });
+
+const idButton = document.createElement("button");
+idButton.textContent = "View ID Card";
+idButton.style.cssText =
+  "display:block;margin:12px auto 0;padding:10px 16px;background:#075aaa;color:white;border:0;border-radius:8px;cursor:pointer;font-size:15px;";
+
+idButton.addEventListener("click", () => {
+  if (!member.member_number) {
+    alert("This member has no Membership Number assigned yet.");
+    return;
+  }
+
+  window.open(
+    "member.html?id=" + encodeURIComponent(member.member_number),
+    "_blank"
+  );
 });
+
+card.appendChild(idButton);
+list.appendChild(card);
 
 status.textContent = "Total member records: " + data.length;
 
