@@ -593,66 +593,78 @@ async function loadPublicInformation() {
 }
 
 async function loadPublicMembers() {
-  const status = document.getElementById("memberListStatus");
-  const list = document.getElementById("publicMembersList");
+const status = document.getElementById("memberListStatus");
+const list = document.getElementById("publicMembersList");
 
-  status.textContent = "Loading active members...";
-  list.replaceChildren();
+status.textContent = "Loading members...";
+list.replaceChildren();
 
-  try {
-    const { data, error } = await supabaseClient
-      .from("yona_public_members")
-      .select("member_number, name, position, member_type")
-      .order("name");
+try {
+const { data, error } = await supabaseClient
+.from("yona_public_members")
+.select("member_number, name, position, member_type")
+.order("name");
 
-    if (error) {
-      throw error;
-    }
+```
+if (error) throw error;
 
-    list.replaceChildren();
+if (!data || data.length === 0) {
+  status.textContent = "No members are currently available.";
+  return;
+}
 
-    if (!data || data.length === 0) {
-      status.textContent =
-        "No active members with membership numbers are currently listed.";
-      return;
-    }
+const groups = [
+  "Active Member",
+  "Inactive Member",
+  "Probationary Member"
+];
 
-    data.forEach(member => {
-      const card = document.createElement("article");
-      card.className = "section-card";
+groups.forEach(groupName => {
+  const members = data.filter(
+    member => (member.member_type || "").trim().toLowerCase()
+      === groupName.toLowerCase()
+  );
 
-      const name = document.createElement("h3");
-      name.textContent = member.name || "Member";
+  if (members.length === 0) return;
 
-      const number = document.createElement("p");
-      number.className = "member-number";
-      number.textContent =
-        "Membership No.: " + member.member_number;
+  const heading = document.createElement("h3");
+  heading.textContent = groupName + "s (" + members.length + ")";
+  heading.style.gridColumn = "1 / -1";
+  list.appendChild(heading);
 
-      const position = document.createElement("p");
-      position.textContent =
-        "Position: " + (member.position || "Member");
+  members.forEach(member => {
+    const card = document.createElement("article");
+    card.className = "section-card";
 
-      const category = document.createElement("p");
-      category.textContent =
-        "Category: " + (member.member_type || "Active Member");
+    const name = document.createElement("h3");
+    name.textContent = member.name || "Member";
 
-      card.append(name, number, position, category);
-      list.appendChild(card);
-    });
+    const number = document.createElement("p");
+    number.textContent = member.member_number
+      ? "Membership No.: " + member.member_number
+      : "Membership No.: Not assigned";
 
-    status.textContent =
-      "Active members listed: " + data.length;
+    const position = document.createElement("p");
+    position.textContent =
+      "Position: " + (member.position || "Member");
 
-  } catch (error) {
-    console.error(
-      "Could not load public members:",
-      error
-    );
+    const category = document.createElement("p");
+    category.textContent =
+      "Status: " + (member.member_type || "Not specified");
 
-    status.textContent =
-      "The member list could not be loaded. Please try again later.";
-  }
+    card.append(name, number, position, category);
+    list.appendChild(card);
+  });
+});
+
+status.textContent = "Total member records: " + data.length;
+```
+
+} catch (error) {
+console.error("Could not load public members:", error);
+status.textContent =
+"The member list could not be loaded. Please try again later.";
+}
 }
 
 async function loadPublicExecutive() {
