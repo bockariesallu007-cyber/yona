@@ -673,11 +673,10 @@ idButton.addEventListener("click", () => {
     return;
   }
 
-  window.open(
-    "member.html?id=" + encodeURIComponent(member.member_number),
-    "_blank"
-  );
-});
+ window.open(
+  "member.html?id=" + encodeURIComponent(member.id),
+  "_blank"
+);
 
 card.appendChild(idButton);
 list.appendChild(card);
