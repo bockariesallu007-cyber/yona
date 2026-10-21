@@ -602,7 +602,7 @@ list.replaceChildren();
 try {
 const { data, error } = await supabaseClient
 .from("yona_public_members")
-.select("member_number, name, position, member_type")
+.select("member_number, name, position, member_type, photo_url")
 .order("name");
 
 if (error) throw error;
@@ -635,6 +635,15 @@ groups.forEach(groupName => {
     const card = document.createElement("article");
     card.className = "section-card";
 
+    if (member.photo_url) {
+      const photo = document.createElement("img");
+      photo.src = member.photo_url;
+      photo.alt = member.name || "Member photo";
+      photo.style.cssText =
+        "width:140px;height:140px;object-fit:cover;border-radius:10px;display:block;margin:0 auto 12px;";
+      card.appendChild(photo);
+    }
+    
     const name = document.createElement("h3");
     name.textContent = member.name || "Member";
 
