@@ -612,7 +612,7 @@ if (!data || data.length === 0) {
   return;
 }
 
-const groups 
+const groups = [
   "Active Member",
   "Inactive Member",
   "Probationary Member"
@@ -805,10 +805,8 @@ backButton.textContent = "← Back to Dashboard";
 backButton.style.cssText =
 "display:block;margin:0 0 20px;padding:12px 18px;background:#123d73;color:white;border:0;border-radius:8px;cursor:pointer;font-size:16px;";
 
-```
 backButton.addEventListener("click", showDashboard);
 section.prepend(backButton);
-```
 
 }
 
