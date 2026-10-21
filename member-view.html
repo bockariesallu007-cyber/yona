@@ -669,11 +669,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function openSection(targetId) {
-    let target = document.getElementById(targetId);
+    const target = document.getElementById(targetId);
 
     if (!target) return;
 
-    let section = target.classList.contains("content-section")
+    const section = target.classList.contains("content-section")
       ? target
       : target.closest(".content-section");
 
@@ -686,6 +686,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     section.hidden = false;
+
+    const descriptionCards = section.querySelectorAll(
+      ".section-grid > article.section-card"
+    );
+
+    descriptionCards.forEach(card => {
+      card.hidden = true;
+    });
+
+    if (target.matches("article.section-card")) {
+      target.hidden = false;
+    } else if (target.id === "sections") {
+      descriptionCards.forEach(card => {
+        card.hidden = false;
+      });
+    }
 
     let backButton = section.querySelector(".back-dashboard");
 
@@ -701,13 +717,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     window.scrollTo({ top: 0, behavior: "smooth" });
-
-    if (target !== section) {
-      setTimeout(() => {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
-    }
-  }
+}
 
   dashboard.querySelectorAll(".dashboard-link").forEach(link => {
     link.addEventListener("click", function (event) {
