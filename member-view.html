@@ -265,7 +265,7 @@ footer {
       <strong>View Members →</strong>
     </a>
 
-    <a class="section-card dashboard-link" href="#executive-description">
+    <a class="section-card dashboard-link" href="#executive-list">
       <h3>👔 Executive</h3>
       <p>View executive leadership and periods.</p>
       <strong>View Executive →</strong>
@@ -393,6 +393,20 @@ footer {
     <div id="publicMembersList" class="section-grid"></div>
   </section>
 
+<!-- PUBLIC EXECUTIVE LIST -->
+
+<section class="card content-section" id="executive-list" hidden>
+  <h2>👔 YONA Executive</h2>
+
+  <p>Meet the members serving in YONA's executive and leadership periods.</p>
+
+  <p id="publicExecutiveStatus" class="status">
+    Loading executive records...
+  </p>
+
+  <div id="publicExecutiveList" class="section-grid"></div>
+</section>
+  
   <!-- MEMBER PRIVACY -->
 
   <section class="card content-section" id="member-privacy" hidden>
@@ -641,10 +655,75 @@ async function loadPublicMembers() {
   }
 }
 
+async function loadPublicExecutive() {
+  const status = document.getElementById("publicExecutiveStatus");
+  const list = document.getElementById("publicExecutiveList");
+
+  status.textContent = "Loading executive records...";
+  list.replaceChildren();
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("executive")
+      .select("name, position, period, phone, photo_url, photo, description")
+      .order("period")
+      .order("name");
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      status.textContent = "No executive records are currently available.";
+      return;
+    }
+
+    data.forEach(person => {
+      const card = document.createElement("article");
+      card.className = "section-card";
+
+      if (person.photo_url || person.photo) {
+        const photo = document.createElement("img");
+        photo.src = person.photo_url || person.photo;
+        photo.alt = person.name || "Executive photo";
+        photo.style.cssText =
+          "width:100%;max-width:220px;height:auto;border-radius:10px;object-fit:cover;";
+        card.appendChild(photo);
+      }
+
+      const name = document.createElement("h3");
+      name.textContent = person.name || "Executive";
+      card.appendChild(name);
+
+      const position = document.createElement("p");
+      position.textContent = "Position: " + (person.position || "Not specified");
+      card.appendChild(position);
+
+      const period = document.createElement("p");
+      period.textContent = "Leadership Period: " + (person.period || "Not specified");
+      card.appendChild(period);
+
+      if (person.description) {
+        const description = document.createElement("p");
+        description.textContent = person.description;
+        card.appendChild(description);
+      }
+
+      list.appendChild(card);
+    });
+
+    status.textContent = "Executive records loaded: " + data.length;
+
+  } catch (error) {
+    console.error("Could not load public executive records:", error);
+    status.textContent =
+      "Executive records could not be loaded. Please try again later.";
+  }
+}
+  
 async function loadPublicPage() {
   await Promise.all([
     loadPublicInformation(),
-    loadPublicMembers()
+    loadPublicMembers(),
+    loadPublicExecutive()
   ]);
 }
 
