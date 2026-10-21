@@ -680,9 +680,9 @@ idButton.addEventListener("click", () => {
 
 card.appendChild(idButton);
 list.appendChild(card);
+});
 
 status.textContent = "Total member records: " + data.length;
-
 } catch (error) {
 console.error("Could not load public members:", error);
 status.textContent =
