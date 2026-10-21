@@ -6397,41 +6397,17 @@ async function showIdCard(
       );
 
 
-    if(
-      typeof QRCode!=='undefined'
-    ){
-
-      new QRCode(
-        qr,
-        {
-          text:verifyUrl,
-          width:105,
-          height:105,
-          correctLevel:
-            QRCode.CorrectLevel.M
-        }
-      );
-
-    }
-
-
-    document
-      .getElementById(
-        'idCardModal'
-      )
-      .classList
-      .remove('hidden');
-
-
-  }catch(e){
-
-    alert(
-      'Could not open ID card: '+
-      e.message
-    );
-
-  }
-
+  javascript
+if (typeof QRCode !== "undefined") {
+  new QRCode(qr, {
+    text: verifyUrl,
+    width: 105,
+    height: 105,
+    correctLevel: QRCode.CorrectLevel.M
+  });
+} else {
+  qr.textContent = "QR library unavailable. Reload the page.";
+  console.error("QRCode library is unavailable.");
 }
 
 
