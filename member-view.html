@@ -748,35 +748,61 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 function openSection(targetId) {
-  const section = document.getElementById(targetId);
+const target = document.getElementById(targetId);
 
-  if (!section || !section.classList.contains("content-section")) {
-    console.error("YONA page section not found:", targetId);
-    return;
-  }
+if (!target) {
+console.error("YONA section not found:", targetId);
+return;
+}
 
-  dashboard.hidden = true;
+const section = target.classList.contains("content-section")
+? target
+: target.closest(".content-section");
 
-  contentSections.forEach(item => {
-    item.hidden = true;
-  });
+if (!section) {
+console.error("YONA page section not found:", targetId);
+return;
+}
 
-  section.hidden = false;
+dashboard.hidden = true;
 
-  let backButton = section.querySelector(".back-dashboard");
+contentSections.forEach(item => {
+item.hidden = true;
+});
 
-  if (!backButton) {
-    backButton = document.createElement("button");
-    backButton.className = "back-dashboard";
-    backButton.textContent = "← Back to Dashboard";
-    backButton.style.cssText =
-      "display:block;margin:0 0 20px;padding:12px 18px;background:#123d73;color:white;border:0;border-radius:8px;cursor:pointer;font-size:16px;";
+section.hidden = false;
 
-    backButton.addEventListener("click", showDashboard);
-    section.prepend(backButton);
-  }
+if (target.matches("article.section-card")) {
+section.querySelectorAll(
+".section-grid > article.section-card"
+).forEach(card => {
+card.hidden = card !== target;
+});
+} else if (target.id === "sections") {
+section.querySelectorAll(
+".section-grid > article.section-card"
+).forEach(card => {
+card.hidden = false;
+});
+}
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+let backButton = section.querySelector(".back-dashboard");
+
+if (!backButton) {
+backButton = document.createElement("button");
+backButton.className = "back-dashboard";
+backButton.textContent = "← Back to Dashboard";
+backButton.style.cssText =
+"display:block;margin:0 0 20px;padding:12px 18px;background:#123d73;color:white;border:0;border-radius:8px;cursor:pointer;font-size:16px;";
+
+```
+backButton.addEventListener("click", showDashboard);
+section.prepend(backButton);
+```
+
+}
+
+window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
   dashboard.querySelectorAll(".dashboard-link").forEach(link => {
