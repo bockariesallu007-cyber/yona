@@ -605,7 +605,6 @@ const { data, error } = await supabaseClient
 .select("member_number, name, position, member_type")
 .order("name");
 
-```
 if (error) throw error;
 
 if (!data || data.length === 0) {
@@ -613,7 +612,7 @@ if (!data || data.length === 0) {
   return;
 }
 
-const groups = [
+const groups 
   "Active Member",
   "Inactive Member",
   "Probationary Member"
@@ -658,7 +657,6 @@ groups.forEach(groupName => {
 });
 
 status.textContent = "Total member records: " + data.length;
-```
 
 } catch (error) {
 console.error("Could not load public members:", error);
