@@ -747,55 +747,36 @@ document.addEventListener("DOMContentLoaded", function () {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  function openSection(targetId) {
-    const target = document.getElementById(targetId);
+function openSection(targetId) {
+  const section = document.getElementById(targetId);
 
-    if (!target) return;
+  if (!section || !section.classList.contains("content-section")) {
+    console.error("YONA page section not found:", targetId);
+    return;
+  }
 
-    const section = target.classList.contains("content-section")
-      ? target
-      : target.closest(".content-section");
+  dashboard.hidden = true;
 
-    if (!section) return;
+  contentSections.forEach(item => {
+    item.hidden = true;
+  });
 
-    dashboard.hidden = true;
+  section.hidden = false;
 
-    contentSections.forEach(item => {
-      item.hidden = true;
-    });
+  let backButton = section.querySelector(".back-dashboard");
 
-    section.hidden = false;
+  if (!backButton) {
+    backButton = document.createElement("button");
+    backButton.className = "back-dashboard";
+    backButton.textContent = "← Back to Dashboard";
+    backButton.style.cssText =
+      "display:block;margin:0 0 20px;padding:12px 18px;background:#123d73;color:white;border:0;border-radius:8px;cursor:pointer;font-size:16px;";
 
-    const descriptionCards = section.querySelectorAll(
-      ".section-grid > article.section-card"
-    );
+    backButton.addEventListener("click", showDashboard);
+    section.prepend(backButton);
+  }
 
-    descriptionCards.forEach(card => {
-      card.hidden = true;
-    });
-
-    if (target.matches("article.section-card")) {
-      target.hidden = false;
-    } else if (target.id === "sections") {
-      descriptionCards.forEach(card => {
-        card.hidden = false;
-      });
-    }
-
-    let backButton = section.querySelector(".back-dashboard");
-
-    if (!backButton) {
-      backButton = document.createElement("button");
-      backButton.className = "back-dashboard";
-      backButton.textContent = "← Back to Dashboard";
-      backButton.style.cssText =
-        "display:block;margin:0 0 20px;padding:12px 18px;background:#123d73;color:white;border:0;border-radius:8px;cursor:pointer;font-size:16px;";
-
-      backButton.addEventListener("click", showDashboard);
-      section.prepend(backButton);
-    }
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
   dashboard.querySelectorAll(".dashboard-link").forEach(link => {
