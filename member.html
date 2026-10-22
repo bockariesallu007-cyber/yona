@@ -239,6 +239,12 @@
 
     </div>
 
+<div class="qr-section">
+  <h3>YONA Member Verification</h3>
+  <div id="memberQRCode"></div>
+  <p>Scan this QR code to verify membership.</p>
+</div>
+    
     <div class="verified">
       ✓ YONA MEMBER VERIFIED
     </div>
@@ -509,6 +515,32 @@
           return;
         }
 
+    /* GENERATE MEMBER QR CODE */
+
+    const qrContainer =
+      document.getElementById('memberQRCode');
+
+    qrContainer.replaceChildren();
+
+    if (typeof QRCode !== 'undefined') {
+      const verificationUrl =
+        window.location.origin +
+        window.location.pathname +
+        '?id=' +
+        encodeURIComponent(data.id);
+
+      new QRCode(qrContainer, {
+        text: verificationUrl,
+        width: 150,
+        height: 150,
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    } else {
+      qrContainer.textContent =
+        'QR code could not load. Please refresh the page.';
+    }
+
+        
         /* SHOW VERIFIED MEMBER */
 
         document.getElementById('memberName')
@@ -571,6 +603,8 @@
 
     verifyMember();
   </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 </body>
 </html>
