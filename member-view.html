@@ -761,7 +761,7 @@ async function loadPublicMembers() {
       "Probationary Member"
     ];
 
-    groups.forEach(groupName => {
+    
       const members = data.filter(member =>
         (member.member_type || "")
           .trim()
@@ -837,11 +837,11 @@ async function loadPublicMembers() {
           });
         }
 
-        card.appendChild(idButton);
+            card.appendChild(idButton);
         list.appendChild(card);
       }
-    });
-
+    }
+  
     status.textContent =
       "Total member records: " + data.length;
 
