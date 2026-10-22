@@ -614,6 +614,25 @@ const SECTION_DEFAULTS = {
     "Create, upload and store important association documents for reference."
 };
 
+  async function getPublicPhotoUrl(photoPath) {
+  if (!photoPath) return "";
+
+  if (photoPath.startsWith("http")) {
+    return photoPath;
+  }
+
+  const { data, error } = await supabaseClient
+    .storage
+    .from("yona-documents")
+    .createSignedUrl(photoPath, 3600);
+
+  if (error) {
+    console.error("Could not load photo:", error);
+    return "";
+  }
+
+  return data.signedUrl;
+}
 function setText(id, value) {
   const element = document.getElementById(id);
 
@@ -760,14 +779,15 @@ async function loadPublicMembers() {
       heading.style.gridColumn = "1 / -1";
       list.appendChild(heading);
 
-      members.forEach(member => {
+      for (const member of members) {
         const card = document.createElement("article");
         card.className = "section-card";
 
         if (member.photo_url) {
           const photo = document.createElement("img");
 
-          photo.src = member.photo_url || "";
+          const photoUrl = await getPublicPhotoUrl(member.photo_url);
+          photo.src = photoUrl;
           photo.alt = member.name || "Member photo";
           photo.className = "member-photo";
           photo.loading = "lazy";
@@ -819,7 +839,7 @@ async function loadPublicMembers() {
 
         card.appendChild(idButton);
         list.appendChild(card);
-      });
+      }
     });
 
     status.textContent =
@@ -867,7 +887,7 @@ async function loadPublicExecutive() {
 
     let currentPeriod = null;
 
-    data.forEach(person => {
+    for (const person of data) {
       const personPeriod =
         person.period || "Period not specified";
 
@@ -889,7 +909,7 @@ async function loadPublicExecutive() {
       if (photoUrl) {
         const photo = document.createElement("img");
 
-        photo.src = photoUrl || "";
+        photo.src = await getPublicPhotoUrl(photoUrl);
         photo.alt = person.name || "Executive photo";
         photo.className = "executive-photo";
         photo.loading = "lazy";
@@ -917,7 +937,7 @@ async function loadPublicExecutive() {
       }
 
       list.appendChild(card);
-    });
+    }
 
     status.textContent =
       "Executive records loaded: " + data.length;
