@@ -767,7 +767,7 @@ async function loadPublicMembers() {
         if (member.photo_url) {
           const photo = document.createElement("img");
 
-          photo.src = member.photo_url;
+          photo.src = member.photo_url || "";
           photo.alt = member.name || "Member photo";
           photo.className = "member-photo";
           photo.loading = "lazy";
@@ -889,7 +889,7 @@ async function loadPublicExecutive() {
       if (photoUrl) {
         const photo = document.createElement("img");
 
-        photo.src = photoUrl;
+        photo.src = photoUrl || "";
         photo.alt = person.name || "Executive photo";
         photo.className = "executive-photo";
         photo.loading = "lazy";
