@@ -1,382 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#075aaa">
 
-  <title>YONA | Public Information</title>
-  <meta name="theme-color" content="#075aaa">
+<title>YONA | Public Information</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f2f5fa;
-      color: #243247;
-      line-height: 1.6;
-    }
+:root {
+  --blue: #075aaa;
+  --navy: #123d73;
+  --background: #f2f5fa;
+  --text: #243247;
+}
 
-    header {
-      background: linear-gradient(135deg, #075aaa, #123d73);
-      color: white;
-      padding: 24px 16px;
-      text-align: center;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--background);
+  color: var(--text);
+  line-height: 1.6;
+}
 
-    .header-logo {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      background: white;
-      border-radius: 50%;
-      padding: 5px;
-      margin-bottom: 8px;
-    }
+header {
+  background: linear-gradient(135deg, var(--blue), var(--navy));
+  color: white;
+  text-align: center;
+  padding: 24px 16px;
+}
 
-    header h1 {
-      margin: 4px 0;
-      font-size: 30px;
-    }
+.header-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  background: white;
+  border-radius: 50%;
+  padding: 5px;
+}
 
-    header p {
-      margin: 4px 0;
-    }
+header h1 {
+  margin: 8px 0 0;
+}
 
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px;
-      background: white;
-      box-shadow: 0 2px 8px #00000012;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: white;
+}
 
-    nav a {
-      color: #075aaa;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 8px 12px;
-      border-radius: 7px;
-    }
+nav a {
+  color: var(--blue);
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 7px;
+}
 
-    nav a:hover {
-      background: #e8f1fc;
-    }
+nav a:hover {
+  background: #e8f1fc;
+}
 
-    main {
-      max-width: 1200px;
-      margin: 22px auto;
-      padding: 0 14px;
-    }
+main {
+  max-width: 1200px;
+  margin: 22px auto;
+  padding: 0 14px;
+}
 
-    .card {
-      background: white;
-      border-radius: 14px;
-      padding: 22px;
-      margin-bottom: 20px;
-      box-shadow: 0 3px 12px #0000000c;
-    }
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 12px #0000000c;
+}
 
-    .card h2 {
-      color: #075aaa;
-      margin-top: 0;
-    }
+.card h2 {
+  color: var(--blue);
+}
 
-    .section-grid {
-      display: grid;
-      grid-template-columns: repeat(
-        auto-fit,
-        minmax(220px, 1fr)
-      );
-      gap: 16px;
-    }
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
 
-    .section-card {
-      background: white;
-      border: 1px solid #e0e7f0;
-      border-radius: 12px;
-      padding: 18px;
-      min-width: 0;
-      overflow-wrap: anywhere;
-    }
+.section-card {
+  background: white;
+  border: 1px solid #e0e7f0;
+  border-radius: 12px;
+  padding: 18px;
+  overflow-wrap: anywhere;
+}
 
-    .section-card h3 {
-      color: #075aaa;
-      margin-top: 0;
-    }
+.section-card h3 {
+  color: var(--blue);
+}
 
-    .dashboard-link {
-      display: block;
-      color: inherit;
-      text-decoration: none;
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
+.dashboard-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
 
-    .dashboard-link:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 18px #00000012;
-    }
+.dashboard-link strong {
+  color: var(--blue);
+}
 
-    .dashboard-link strong {
-      color: #075aaa;
-    }
+[hidden] {
+  display: none !important;
+}
 
-    .content-section[hidden],
-    #dashboard[hidden] {
-      display: none !important;
-    }
+.status {
+  color: #526174;
+  font-size: 14px;
+}
 
-    .status {
-      color: #526174;
-      font-size: 14px;
-    }
+.back-dashboard,
+.view-button {
+  display: inline-block;
+  margin: 10px 0;
+  padding: 10px 16px;
+  background: var(--navy);
+  color: white;
+  text-decoration: none;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
-    .back-dashboard {
-      display: block;
-      margin: 0 0 20px;
-      padding: 12px 18px;
-      background: #123d73;
-      color: white;
-      border: 0;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-    }
+.member-photo {
+  display: block;
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 0 auto 12px;
+}
 
-    .member-photo {
-      display: block;
-      width: 140px;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin: 0 auto 12px;
-      background: #e8edf4;
-    }
+.executive-photo {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 0 auto 12px;
+}
 
-    .executive-photo {
-      display: block;
-      width: 100%;
-      max-width: 220px;
-      height: 220px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin: 0 auto 12px;
-      background: #e8edf4;
-    }
+.qr-box {
+  margin-top: 12px;
+}
 
-    .view-button {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 10px 16px;
-      background: #075aaa;
-      color: white;
-      text-decoration: none;
-      border: 0;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 15px;
-      text-align: center;
-    }
+.notice {
+  background: #eef5ff;
+  border-left: 4px solid var(--blue);
+  border-radius: 8px;
+  padding: 14px;
+}
 
-    .view-button:hover {
-      background: #123d73;
-    }
+footer {
+  text-align: center;
+  padding: 24px 12px;
+  background: var(--navy);
+  color: white;
+}
 
-    .notice {
-      background: #eef5ff;
-      border-left: 4px solid #075aaa;
-      border-radius: 8px;
-      padding: 14px;
-    }
+@media (max-width: 600px) {
+  nav a {
+    padding: 7px 9px;
+    font-size: 14px;
+  }
 
-    footer {
-      text-align: center;
-      padding: 24px 12px;
-      background: #123d73;
-      color: white;
-      margin-top: 35px;
-    }
+  .card {
+    padding: 16px;
+  }
+}
+</style>
 
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 25px;
-      }
-
-      nav {
-        position: static;
-      }
-
-      nav a {
-        padding: 7px 9px;
-        font-size: 14px;
-      }
-
-      .card {
-        padding: 16px;
-      }
-    }
-  </style>
-</head>
-
+  </head>
 <body>
 
 <header>
   <img
+    class="header-logo"
     src="yona-logo.jpg"
     alt="YONA Logo"
-    class="header-logo"
+    onerror="this.style.display='none'"
   >
 
-  <h1>YONA</h1>
-  <p>Youths of Ndasei Association</p>
-  <p><strong>Unity and Development</strong></p>
+  <h1>YOUTHS OF NDASEI ASSOCIATION</h1>
+  <p>Unity and Development</p>
+  <p>Public Information Portal</p>
 </header>
 
 <nav aria-label="Main navigation">
   <a href="#dashboard">Home</a>
   <a href="#organization">About YONA</a>
-  <a href="#sections">Our Sections</a>
-  <a href="#member-list">Members</a>
-  <a href="#executive-list">Executive</a>
-  <a href="#finance-description">Finance</a>
-  <a href="#meetings-description">Meetings</a>
-  <a href="#events-description">Events</a>
-  <a href="#documents-description">Documents</a>
-  <a href="#member-privacy">Member Portal</a>
+  <a href="#sections">About Sections</a>
+  <a href="#members">Members</a>
+  <a href="#executive">Executive</a>
+  <a href="#finance">Finance</a>
+  <a href="#meetings">Meetings</a>
+  <a href="#events">Events</a>
+  <a href="#documents">Documents</a>
+  <a href="#member-portal">Member Portal</a>
 </nav>
 
 <main>
-
-  <p id="loadingMessage" class="status">
-    Loading YONA information...
-  </p>
-
-  <!-- PUBLIC DASHBOARD -->
-
-  <section id="dashboard">
-    <div class="card">
-      <h2>Welcome to YONA</h2>
-
-      <p>
-        Welcome to the public information page of Youths of
-        Ndasei Association. Learn about our organization,
-        members, executive leadership and activities.
-      </p>
-
-      <p>
-        Our motto is <strong>Unity and Development.</strong>
-      </p>
-    </div>
+  <section class="card" id="dashboard">
+    <h2>Welcome to YONA</h2>
+    <p>
+      Welcome to the public information portal of the
+      Youths of Ndasei Association.
+    </p>
+    <p class="status">
+      Explore our organization, members, leadership,
+      meetings, events, and public documents.
+    </p>
 
     <div class="section-grid">
-
-      <a
-        class="section-card dashboard-link"
-        href="#organization"
-      >
-        <h3>🏢 About the Organization</h3>
-        <p>Learn about YONA, our vision, mission and objectives.</p>
-        <strong>View Organization →</strong>
+      <a class="section-card dashboard-link" href="#organization">
+        <h3>🏢 About YONA</h3>
+        <p>Learn about our association.</p>
+        <strong>View Information →</strong>
       </a>
 
-      <a
-        class="section-card dashboard-link"
-        href="#sections"
-      >
-        <h3>📋 About Our Sections</h3>
-        <p>Learn about the different areas of association activities.</p>
+      <a class="section-card dashboard-link" href="#sections">
+        <h3>👥 About Sections</h3>
+        <p>Learn about our sections.</p>
         <strong>View Sections →</strong>
       </a>
 
-      <a
-        class="section-card dashboard-link"
-        href="#member-list"
-      >
-        <h3>👥 Members</h3>
-        <p>View publicly available membership information.</p>
+      <a class="section-card dashboard-link" href="#members">
+        <h3>👤 Members</h3>
+        <p>View public membership information.</p>
         <strong>View Members →</strong>
       </a>
 
-      <a
-        class="section-card dashboard-link"
-        href="#executive-list"
-      >
+      <a class="section-card dashboard-link" href="#executive">
         <h3>👔 Executive</h3>
-        <p>Meet our executive officers and leadership teams.</p>
+        <p>View executive leadership and periods.</p>
         <strong>View Executive →</strong>
       </a>
 
-      <a
-        class="section-card dashboard-link"
-        href="#finance-description"
-      >
+      <a class="section-card dashboard-link" href="#finance">
         <h3>💰 Finance</h3>
-        <p>Learn about financial administration and accountability.</p>
-        <strong>View Information →</strong>
+        <p>View approved public financial information.</p>
+        <strong>View Finance →</strong>
       </a>
 
-      <a
-        class="section-card dashboard-link"
-        href="#meetings-description"
-      >
-        <h3>📝 Meetings</h3>
-        <p>Learn about meetings and association record keeping.</p>
-        <strong>View Information →</strong>
+      <a class="section-card dashboard-link" href="#meetings">
+        <h3>📋 Meetings</h3>
+        <p>View association meetings and minutes.</p>
+        <strong>View Meetings →</strong>
       </a>
 
-      <a
-        class="section-card dashboard-link"
-        href="#events-description"
-      >
-        <h3>📅 Events</h3>
-        <p>Learn about association events and activities.</p>
-        <strong>View Information →</strong>
+      <a class="section-card dashboard-link" href="#events">
+        <h3>🎉 Events</h3>
+        <p>Discover association events.</p>
+        <strong>View Events →</strong>
       </a>
 
-      <a
-        class="section-card dashboard-link"
-        href="#documents-description"
-      >
-        <h3>📁 Documents</h3>
-        <p>Learn about official association documents.</p>
-        <strong>View Information →</strong>
+      <a class="section-card dashboard-link" href="#documents">
+        <h3>📄 Documents</h3>
+        <p>Access approved public documents.</p>
+        <strong>View Documents →</strong>
       </a>
 
-      <a
-        class="section-card dashboard-link"
-        href="#member-privacy"
-      >
+      <a class="section-card dashboard-link" href="#member-portal">
         <h3>🔐 Member Portal</h3>
-        <p>Information about accessing private member records.</p>
-        <strong>Member Information →</strong>
+        <p>Member access area.</p>
+        <strong>Open Portal →</strong>
       </a>
-
     </div>
   </section>
 
-  <!-- ABOUT THE ORGANIZATION -->
-
-  <section
-    class="card content-section"
-    id="organization"
-    hidden
-  >
+    <section class="card content-section" id="organization" hidden>
     <h2>About the Organization</h2>
 
     <h3>Who We Are</h3>
-    <p id="orgWhoView"></p>
+    <p id="orgWhoView">Loading organization information...</p>
 
     <h3>Our Motto</h3>
-    <p id="orgMottoView"></p>
+    <p id="orgMottoView">Unity and Development</p>
 
     <h3>Our Vision</h3>
     <p id="orgVisionView"></p>
@@ -385,724 +300,191 @@
     <p id="orgMissionView"></p>
 
     <h3>Our Objectives</h3>
-    <ul id="orgObjectivesView"></ul>
+    <p id="orgObjectivesView"></p>
 
-    <h3>Our Address</h3>
-    <p id="orgAddressView"></p>
-
-    <h3>Contact Email</h3>
-    <p id="orgEmailView"></p>
+    <button class="back-dashboard" type="button" onclick="showDashboard()">
+      ← Back to Dashboard
+    </button>
   </section>
 
-  <!-- ABOUT OUR SECTIONS -->
-
-  <section
-    class="card content-section"
-    id="sections"
-    hidden
-  >
-    <h2>About Our Sections</h2>
-
-    <p>
-      These sections describe the main areas of association
-      administration and activities.
+  <section class="card content-section" id="sections" hidden>
+    <h2>About Sections</h2>
+    <p class="status">
+      Learn about the different sections of YONA.
     </p>
 
-    <div class="section-grid">
-
-      <article
-        class="section-card"
-        id="members-description"
-      >
-        <h3>👥 Members</h3>
-        <p id="sectionMembersView"></p>
-      </article>
-
-      <article
-        class="section-card"
-        id="executive-description"
-      >
-        <h3>👔 Executive</h3>
-        <p id="sectionExecutiveView"></p>
-      </article>
-
-      <article
-        class="section-card"
-        id="finance-description"
-      >
-        <h3>💰 Finance</h3>
-        <p id="sectionFinanceView"></p>
-      </article>
-
-      <article
-        class="section-card"
-        id="meetings-description"
-      >
-        <h3>📝 Meetings</h3>
-        <p id="sectionMeetingsView"></p>
-      </article>
-
-      <article
-        class="section-card"
-        id="events-description"
-      >
-        <h3>📅 Events</h3>
-        <p id="sectionEventsView"></p>
-      </article>
-
-      <article
-        class="section-card"
-        id="documents-description"
-      >
-        <h3>📁 Documents</h3>
-        <p id="sectionDocumentsView"></p>
-      </article>
-
+    <div id="sectionsList" class="section-grid">
+      <p class="status">Loading section information...</p>
     </div>
+
+    <button class="back-dashboard" type="button" onclick="showDashboard()">
+      ← Back to Dashboard
+    </button>
   </section>
 
-  <!-- PUBLIC MEMBERS LIST -->
-
-  <section
-    class="card content-section"
-    id="member-list"
-    hidden
-  >
+    <section class="card content-section" id="members" hidden>
     <h2>Our Members</h2>
 
-    <p>
-      This list displays approved membership information
-      made available for public viewing.
+    <p class="status">
+      This list displays approved membership information for YONA.
     </p>
 
-    <p id="memberListStatus" class="status">
-      Loading active members...
-    </p>
+    <input
+      type="search"
+      id="memberSearch"
+      placeholder="Search members by name or membership ID..."
+      aria-label="Search members"
+      style="width:100%;max-width:500px;padding:12px;margin:10px 0;border:1px solid #ccc;border-radius:8px;"
+    >
 
-    <div
-      id="publicMembersList"
-      class="section-grid"
-    ></div>
+    <div id="memberStatus" class="status">
+      Loading members...
+    </div>
+
+    <div id="memberList" class="section-grid"></div>
+
+    <button
+      class="back-dashboard"
+      type="button"
+      onclick="showDashboard()"
+    >
+      ← Back to Dashboard
+    </button>
   </section>
 
-  <!-- PUBLIC EXECUTIVE LIST -->
+    <section class="card content-section" id="executive" hidden>
+    <h2>YONA Executive</h2>
 
-  <section
-    class="card content-section"
-    id="executive-list"
-    hidden
-  >
-    <h2>👔 YONA Executive</h2>
-
-    <p>
-      Meet the members serving in YONA's executive and
-      leadership periods.
+    <p class="status">
+      View executive leadership, positions, photos, and periods of service.
     </p>
 
-    <p id="publicExecutiveStatus" class="status">
-      Loading executive records...
-    </p>
+    <div id="executiveStatus" class="status">
+      Loading executive information...
+    </div>
 
-    <div
-      id="publicExecutiveList"
-      class="section-grid"
-    ></div>
+    <div id="executiveList" class="section-grid"></div>
+
+    <button
+      class="back-dashboard"
+      type="button"
+      onclick="showDashboard()"
+    >
+      ← Back to Dashboard
+    </button>
   </section>
 
-  <!-- MEMBER PORTAL INFORMATION -->
-
-  <section
-    class="card content-section"
-    id="member-privacy"
-    hidden
-  >
-    <h2>🔐 Member Portal</h2>
-
-    <p>
-      The Member Portal is intended for members who need to
-      access their own private membership and financial records.
-    </p>
+    <section class="card content-section" id="finance" hidden>
+    <h2>YONA Finance</h2>
 
     <div class="notice">
-      <strong>Member privacy</strong>
-
       <p>
-        Private financial records and other personal information
-        must not be displayed on the public information page.
+        Financial information is restricted to protect members'
+        privacy. Personal contributions, loans, and payment records
+        must not be displayed publicly.
       </p>
     </div>
 
-    <p>
-      Use the existing Member Portal in the YONA application
-      to access your account.
+    <p id="financeStatus" class="status">
+      Public financial information is not available here.
     </p>
 
-    <p>
-      The public page does not replace the existing Member
-      Portal login.
-    </p>
+    <button
+      class="back-dashboard"
+      type="button"
+      onclick="showDashboard()"
+    >
+      ← Back to Dashboard
+    </button>
   </section>
 
-</main>
-
-<footer>
-  YONA — Unity and Development
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-"use strict";
-
-const SUPABASE_URL =
-  "https://atxeeymireukwbbsczbv.supabase.co";
-
-const SUPABASE_KEY =
-  "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY,
-  {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false
-    }
-  }
-);
-
-const ORG_DEFAULTS = {
-  who_we_are:
-    "Youths of Ndasei Association (YONA) is an association committed to unity, cooperation and development among its members.",
-
-  motto: "Unity and Development.",
-
-  vision:
-    "To build a united and supportive association that encourages the development and well-being of its members.",
-
-  mission:
-    "To promote unity, cooperation, participation and collective responsibility among members.",
-
-  objectives: [
-    "Promote unity and understanding among members.",
-    "Encourage members to participate in association activities.",
-    "Support members through welfare and cooperation.",
-    "Promote accountability and responsible leadership."
-  ],
-
-  address: "12 Berry Street, Back of Albert Academy.",
-  email: "yonabk3@gmail.com"
-};
-
-const SECTION_DEFAULTS = {
-  members:
-    "Register members and manage their contact details, categories, membership numbers and card expiry dates.",
-
-  executive:
-    "Keep records of executive officers, their positions and leadership periods.",
-
-  finance:
-    "Record contributions and other financial transactions to support proper financial tracking and accountability.",
-
-  meetings:
-    "Keep meeting records, including dates, venues, minutes and relevant media.",
-
-  events:
-    "Record association events, their dates, locations and descriptions.",
-
-  documents:
-    "Create, upload and store important association documents for reference."
-};
-
-  async function getPublicPhotoUrl(photoPath) {
-  if (!photoPath) return "";
-
-  if (photoPath.startsWith("http")) {
-    return photoPath;
-  }
-
-  const { data, error } = await supabaseClient
-    .storage
-    .from("yona-documents")
-    .createSignedUrl(photoPath, 3600);
-
-  if (error) {
-    console.error("Could not load photo:", error);
-    return "";
-  }
-
-  return data.signedUrl;
-}
-function setText(id, value) {
-  const element = document.getElementById(id);
-
-  if (element) {
-    element.textContent = value ?? "";
-  }
-}
-
-function renderOrganization(info) {
-  setText("orgWhoView", info.who_we_are);
-  setText("orgMottoView", info.motto);
-  setText("orgVisionView", info.vision);
-  setText("orgMissionView", info.mission);
-
-  setText(
-    "orgAddressView",
-    "Address: " + (info.address || "")
-  );
-
-  setText(
-    "orgEmailView",
-    "Email: " + (info.email || "")
-  );
-
-  const list = document.getElementById("orgObjectivesView");
-
-  if (list) {
-    list.replaceChildren();
-
-    const objectives = Array.isArray(info.objectives)
-      ? info.objectives
-      : ORG_DEFAULTS.objectives;
-
-    objectives.forEach(objective => {
-      const item = document.createElement("li");
-      item.textContent = objective;
-      list.appendChild(item);
-    });
-  }
-}
-
-function renderSections(info) {
-  setText("sectionMembersView", info.members);
-  setText("sectionExecutiveView", info.executive);
-  setText("sectionFinanceView", info.finance);
-  setText("sectionMeetingsView", info.meetings);
-  setText("sectionEventsView", info.events);
-  setText("sectionDocumentsView", info.documents);
-}
-
-async function loadPublicInformation() {
-  const message = document.getElementById("loadingMessage");
-
-  try {
-    const { data, error } = await supabaseClient
-      .from("yona_info_pages")
-      .select("page_key, content")
-      .in("page_key", ["organization", "sections"]);
-
-    if (error) {
-      throw error;
-    }
-
-    const rows = data || [];
-
-    const orgRow = rows.find(
-      row => row.page_key === "organization"
-    );
-
-    const sectionsRow = rows.find(
-      row => row.page_key === "sections"
-    );
-
-    renderOrganization({
-      ...ORG_DEFAULTS,
-      ...(orgRow?.content || {})
-    });
-
-    renderSections({
-      ...SECTION_DEFAULTS,
-      ...(sectionsRow?.content || {})
-    });
-
-    message.textContent = "YONA information loaded.";
-
-  } catch (error) {
-    console.error(
-      "Could not load YONA information:",
-      error
-    );
-
-    renderOrganization(ORG_DEFAULTS);
-    renderSections(SECTION_DEFAULTS);
-
-    message.textContent =
-      "Saved information could not be loaded. Default information is shown.";
-  }
-}
-
-async function loadPublicMembers() {
-  const status = document.getElementById("memberListStatus");
-  const list = document.getElementById("publicMembersList");
-
-  status.textContent = "Loading members...";
-  list.replaceChildren();
-
-  try {
-    const { data, error } = await supabaseClient
-      .from("yona_public_members")
-      .select("id, member_number, name, position, member_type, photo_url")
-      .order("name");
-
-    if (error) {
-      throw error;
-    }
-
-    if (!data || data.length === 0) {
-      status.textContent =
-        "No members are currently available.";
-      return;
-    }
-
-    const groups = [
-      "Active Member",
-      "Inactive Member",
-      "Probationary Member"
-    ];
-
-    
-      const members = data.filter(member =>
-        (member.member_type || "")
-          .trim()
-          .toLowerCase() === groupName.toLowerCase()
-      );
-
-      if (members.length === 0) {
-        return;
-      }
-
-      const heading = document.createElement("h3");
-      heading.textContent =
-        groupName + "s (" + members.length + ")";
-
-      heading.style.gridColumn = "1 / -1";
-      list.appendChild(heading);
-
-      for (const member of members) {
-        const card = document.createElement("article");
-        card.className = "section-card";
-
-        if (member.photo_url) {
-          const photo = document.createElement("img");
-
-          const photoUrl = await getPublicPhotoUrl(member.photo_url);
-          photo.src = photoUrl;
-          photo.alt = member.name || "Member photo";
-          photo.className = "member-photo";
-          photo.loading = "lazy";
-
-          card.appendChild(photo);
-        }
-
-        const name = document.createElement("h3");
-        name.textContent = member.name || "Member";
-
-        const number = document.createElement("p");
-        number.textContent = member.member_number
-          ? "Membership No.: " + member.member_number
-          : "Membership No.: Not assigned";
-
-        const position = document.createElement("p");
-        position.textContent =
-          "Position: " + (member.position || "Member");
-
-        const category = document.createElement("p");
-        category.textContent =
-          "Status: " + (member.member_type || "Not specified");
-
-        card.append(name, number, position, category);
-
-        const idButton = document.createElement("a");
-        idButton.className = "view-button";
-        idButton.textContent = "View ID Card";
-
-        if (member.id != null) {
-          idButton.href =
-            "member.html?id=" +
-            encodeURIComponent(member.id);
-
-          idButton.target = "_blank";
-          idButton.rel = "noopener noreferrer";
-        } else {
-          idButton.href = "#";
-          idButton.setAttribute("aria-disabled", "true");
-          idButton.style.opacity = "0.6";
-
-          idButton.addEventListener("click", event => {
-            event.preventDefault();
-            alert(
-              "The member record ID is unavailable. Please check the public members database view."
-            );
-          });
-        }
-
-            card.appendChild(idButton);
-        list.appendChild(card);
-      }
-    }
-  
-    status.textContent =
-      "Total member records: " + data.length;
-
-  } catch (error) {
-    console.error(
-      "Could not load public members:",
-      error
-    );
-
-    status.textContent =
-      "The member list could not be loaded. Please check the public members database view and its permissions.";
-  }
-}
-
-async function loadPublicExecutive() {
-  const status =
-    document.getElementById("publicExecutiveStatus");
-
-  const list =
-    document.getElementById("publicExecutiveList");
-
-  status.textContent = "Loading executive records...";
-  list.replaceChildren();
-
-  try {
-    const { data, error } = await supabaseClient
-      .from("executive")
-      .select(
-        "name, position, period, photo_url, photo, description"
-      )
-      .order("period")
-      .order("name");
-
-    if (error) {
-      throw error;
-    }
-
-    if (!data || data.length === 0) {
-      status.textContent =
-        "No executive records are currently available.";
-      return;
-    }
-
-    let currentPeriod = null;
-
-    for (const person of data) {
-      const personPeriod =
-        person.period || "Period not specified";
-
-      if (personPeriod !== currentPeriod) {
-        currentPeriod = personPeriod;
-
-        const heading = document.createElement("h3");
-        heading.textContent = currentPeriod;
-        heading.style.gridColumn = "1 / -1";
-
-        list.appendChild(heading);
-      }
-
-      const card = document.createElement("article");
-      card.className = "section-card";
-
-      const photoUrl = person.photo_url || person.photo;
-
-      if (photoUrl) {
-        const photo = document.createElement("img");
-
-        photo.src = await getPublicPhotoUrl(photoUrl);
-        photo.alt = person.name || "Executive photo";
-        photo.className = "executive-photo";
-        photo.loading = "lazy";
-
-        card.appendChild(photo);
-      }
-
-      const name = document.createElement("h3");
-      name.textContent = person.name || "Executive";
-
-      const position = document.createElement("p");
-      position.textContent =
-        "Position: " + (person.position || "Not specified");
-
-      const period = document.createElement("p");
-      period.textContent =
-        "Leadership Period: " + personPeriod;
-
-      card.append(name, position, period);
-
-      if (person.description) {
-        const description = document.createElement("p");
-        description.textContent = person.description;
-        card.appendChild(description);
-      }
-
-      list.appendChild(card);
-    }
-
-    status.textContent =
-      "Executive records loaded: " + data.length;
-
-  } catch (error) {
-    console.error(
-      "Could not load public executive records:",
-      error
-    );
-
-    status.textContent =
-      "Executive records could not be loaded. Please check the executive table permissions.";
-  }
-}
-
-async function loadPublicPage() {
-  await Promise.all([
-    loadPublicInformation(),
-    loadPublicMembers(),
-    loadPublicExecutive()
-  ]);
-}
-
-/* PUBLIC PAGE NAVIGATION */
-
-document.addEventListener("DOMContentLoaded", function () {
-  const dashboard = document.getElementById("dashboard");
-
-  const contentSections =
-    document.querySelectorAll(".content-section");
-
-  function showDashboard() {
-    contentSections.forEach(section => {
-      section.hidden = true;
-      section.querySelectorAll(
-        ".section-grid > article.section-card"
-      ).forEach(card => {
-        card.hidden = false;
-      });
-    });
-
-    dashboard.hidden = false;
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
-
-  function openSection(targetId) {
-    const target = document.getElementById(targetId);
-
-    if (!target) {
-      console.error("YONA section not found:", targetId);
-      return;
-    }
-
-    const section = target.classList.contains("content-section")
-      ? target
-      : target.closest(".content-section");
-
-    if (!section) {
-      console.error(
-        "YONA page section not found:",
-        targetId
-      );
-      return;
-    }
-
-    dashboard.hidden = true;
-
-    contentSections.forEach(item => {
-      item.hidden = true;
-
-      item.querySelectorAll(
-        ".section-grid > article.section-card"
-      ).forEach(card => {
-        card.hidden = false;
-      });
-    });
-
-    section.hidden = false;
-
-    if (
-      target.matches("article.section-card") &&
-      target.closest(".section-grid")
-    ) {
-      section.querySelectorAll(
-        ".section-grid > article.section-card"
-      ).forEach(card => {
-        card.hidden = card !== target;
-      });
-    }
-
-    let backButton =
-      section.querySelector(".back-dashboard");
-
-    if (!backButton) {
-      backButton = document.createElement("button");
-
-      backButton.className = "back-dashboard";
-      backButton.textContent = "← Back to Dashboard";
-
-      backButton.addEventListener(
-        "click",
-        showDashboard
-      );
-
-      section.prepend(backButton);
-    }
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
-
-  document.querySelectorAll(
-    ".dashboard-link"
-  ).forEach(link => {
-    link.addEventListener("click", function (event) {
-      event.preventDefault();
-
-      const targetId =
-        this.getAttribute("href").substring(1);
-
-      openSection(targetId);
-    });
-  });
-
-  document.querySelectorAll(
-    'nav a[href^="#"]'
-  ).forEach(link => {
-    link.addEventListener("click", function (event) {
-      const targetId =
-        this.getAttribute("href").substring(1);
-
-      if (targetId === "dashboard") {
-        event.preventDefault();
-        showDashboard();
-        return;
-      }
-
-      const target = document.getElementById(targetId);
-
-      if (!target) {
-        return;
-      }
-
-      const section = target.classList.contains("content-section")
-        ? target
-        : target.closest(".content-section");
-
-      if (section) {
-        event.preventDefault();
-        openSection(targetId);
-      }
-    });
-  });
-
-  showDashboard();
-});
-
-loadPublicPage();
-</script>
-
-</body>
-</html>
+    <section class="card content-section" id="meetings" hidden>
+    <h2>YONA Meetings</h2>
+
+    <p class="status">
+      View association meetings, agendas, and approved minutes.
+    </p>
+
+    <div id="meetingsStatus" class="status">
+      Loading meetings...
+    </div>
+
+    <div id="meetingsList" class="section-grid"></div>
+
+    <button class="back-dashboard" type="button"
+      onclick="showDashboard()">
+      ← Back to Dashboard
+    </button>
+  </section>
+
+    <section class="card content-section" id="events" hidden>
+    <h2>YONA Events</h2>
+
+    <p class="status">
+      View association events, activities, dates, and locations.
+    </p>
+
+    <div id="eventsStatus" class="status">
+      Loading events...
+    </div>
+
+    <div id="eventsList" class="section-grid"></div>
+
+    <button
+      class="back-dashboard"
+      type="button"
+      onclick="showDashboard()"
+    >
+      ← Back to Dashboard
+    </button>
+  </section>
+
+    <section class="card content-section" id="documents" hidden>
+    <h2>YONA Public Documents</h2>
+
+    <div class="notice">
+      Only approved public documents should be displayed here.
+      Private or confidential association records must remain protected.
+    </div>
+
+    <div id="documentsStatus" class="status">
+      Loading public documents...
+    </div>
+
+    <div id="documentsList" class="section-grid"></div>
+
+    <button
+      class="back-dashboard"
+      type="button"
+      onclick="showDashboard()"
+    >
+      ← Back to Dashboard
+    </button>
+  </section>
+
+    <section class="card content-section" id="member-portal" hidden>
+    <h2>YONA Member Portal</h2>
+
+    <div class="notice">
+      <p>
+        This portal is intended for registered YONA members to
+        access their own membership and financial information securely.
+      </p>
+      <p>
+        Member access requires a secure login system. This public
+        page does not display private member records.
+      </p>
+    </div>
+
+    <p id="portalStatus" class="status">
+      Secure member access has not yet been connected.
+    </p>
+
+    <button
+      class="back-dashboard"
+      type="button"
+      onclick="showDashboard()"
+    >
+      ← Back to Dashboard
+    </button>
+  </section>
