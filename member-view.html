@@ -1,490 +1,686 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#075aaa">
-
-<title>YONA | Public Information</title>
-
-<style>
-* {
-  box-sizing: border-box;
-}
-
-:root {
-  --blue: #075aaa;
-  --navy: #123d73;
-  --background: #f2f5fa;
-  --text: #243247;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: var(--background);
-  color: var(--text);
-  line-height: 1.6;
-}
-
-header {
-  background: linear-gradient(135deg, var(--blue), var(--navy));
-  color: white;
-  text-align: center;
-  padding: 24px 16px;
-}
-
-.header-logo {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
-  background: white;
-  border-radius: 50%;
-  padding: 5px;
-}
-
-header h1 {
-  margin: 8px 0 0;
-}
-
-nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px;
-  background: white;
-}
-
-nav a {
-  color: var(--blue);
-  text-decoration: none;
-  font-weight: bold;
-  padding: 8px 12px;
-  border-radius: 7px;
-}
-
-nav a:hover {
-  background: #e8f1fc;
-}
-
-main {
-  max-width: 1200px;
-  margin: 22px auto;
-  padding: 0 14px;
-}
-
-.card {
-  background: white;
-  border-radius: 14px;
-  padding: 22px;
-  margin-bottom: 20px;
-  box-shadow: 0 3px 12px #0000000c;
-}
-
-.card h2 {
-  color: var(--blue);
-}
-
-.section-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-}
-
-.section-card {
-  background: white;
-  border: 1px solid #e0e7f0;
-  border-radius: 12px;
-  padding: 18px;
-  overflow-wrap: anywhere;
-}
-
-.section-card h3 {
-  color: var(--blue);
-}
-
-.dashboard-link {
-  display: block;
-  color: inherit;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.dashboard-link strong {
-  color: var(--blue);
-}
-
-[hidden] {
-  display: none !important;
-}
-
-.status {
-  color: #526174;
-  font-size: 14px;
-}
-
-.back-dashboard,
-.view-button {
-  display: inline-block;
-  margin: 10px 0;
-  padding: 10px 16px;
-  background: var(--navy);
-  color: white;
-  text-decoration: none;
-  border: 0;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.member-photo {
-  display: block;
-  width: 140px;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin: 0 auto 12px;
-}
-
-.executive-photo {
-  display: block;
-  width: 100%;
-  max-width: 220px;
-  height: 220px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin: 0 auto 12px;
-}
-
-.qr-box {
-  margin-top: 12px;
-}
-
-.notice {
-  background: #eef5ff;
-  border-left: 4px solid var(--blue);
-  border-radius: 8px;
-  padding: 14px;
-}
-
-footer {
-  text-align: center;
-  padding: 24px 12px;
-  background: var(--navy);
-  color: white;
-}
-
-@media (max-width: 600px) {
-  nav a {
-    padding: 7px 9px;
-    font-size: 14px;
-  }
-
-  .card {
-    padding: 16px;
-  }
-}
-</style>
-
-  </head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YONA | Public Information</title>
+  <meta name="theme-color" content="#075aaa">
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,sans-serif;background:#f2f5fa;color:#243247;line-height:1.6}
+    header{background:linear-gradient(135deg,#075aaa,#123d73);color:#fff;padding:24px 16px;text-align:center}
+    .header-logo{width:100px;height:100px;object-fit:contain;background:#fff;border-radius:50%;padding:5px;margin-bottom:8px}
+    header h1{margin:4px 0;font-size:30px}
+    header p{margin:4px 0}
+    nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:12px;background:#fff;box-shadow:0 2px 8px #00000012;position:sticky;top:0;z-index:10}
+    nav a{color:#075aaa;text-decoration:none;font-weight:bold;padding:8px 12px;border-radius:7px}
+    nav a:hover{background:#e8f1fc}
+    main{max-width:1200px;margin:22px auto;padding:0 14px}
+    .card{background:#fff;border-radius:14px;padding:22px;margin-bottom:20px;box-shadow:0 3px 12px #0000000c}
+    .card h2{color:#075aaa;margin-top:0}
+    .section-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .section-card{background:#fff;border:1px solid #e0e7f0;border-radius:12px;padding:18px;min-width:0;overflow-wrap:anywhere}
+    .section-card h3{color:#075aaa;margin-top:0}
+    .dashboard-link{display:block;color:inherit;text-decoration:none;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .dashboard-link:hover{transform:translateY(-3px);box-shadow:0 6px 18px #00000012}
+    .dashboard-link strong{color:#075aaa}
+    .content-section[hidden],#dashboard[hidden]{display:none!important}
+    .status{color:#526174;font-size:14px;white-space:pre-wrap}
+    .back-dashboard{display:block;margin:0 0 20px;padding:12px 18px;background:#123d73;color:white;border:0;border-radius:8px;cursor:pointer;font-size:16px}
+    .member-photo{display:block;width:140px;height:140px;object-fit:cover;border-radius:10px;margin:0 auto 12px;background:#e8edf4}
+    .executive-photo{display:block;width:100%;max-width:220px;height:220px;object-fit:cover;border-radius:10px;margin:0 auto 12px;background:#e8edf4}
+    .member-details{margin-top:12px;padding-top:10px;border-top:1px solid #e0e7f0}
+    .member-details summary{cursor:pointer;font-weight:bold;color:#075aaa}
+    .member-qr-wrap{margin-top:12px;text-align:center}
+    .member-qr{display:block;width:180px;height:180px;max-width:100%;margin:8px auto;border:1px solid #e0e7f0;border-radius:8px}
+    .view-button,button{display:inline-block;margin-top:10px;padding:10px 16px;background:#075aaa;color:white;text-decoration:none;border:0;border-radius:8px;cursor:pointer;font-size:15px;text-align:center}
+    .view-button:hover,button:hover{background:#123d73}
+    input{display:block;width:100%;padding:12px;margin:8px 0;border:1px solid #cbd5e1;border-radius:8px;font-size:16px}
+    .notice{background:#eef5ff;border-left:4px solid #075aaa;border-radius:8px;padding:14px}
+    .record-media{display:block;max-width:100%;max-height:360px;border-radius:10px;margin:12px 0}
+    .record-card{background:#f8fafc;border:1px solid #e0e7f0;border-radius:12px;padding:16px;overflow-wrap:anywhere}
+    .record-card h3{margin-top:0;color:#075aaa}
+    .record-card p{white-space:pre-wrap}
+    .field-label{font-weight:bold;color:#123d73}
+    .hidden{display:none!important}
+    footer{text-align:center;padding:24px 12px;background:#123d73;color:white;margin-top:35px}
+    @media(max-width:600px){header h1{font-size:25px}nav{position:static}nav a{padding:7px 9px;font-size:14px}.card{padding:16px}}
+  </style>
+</head>
 <body>
-
 <header>
-  <img
-    class="header-logo"
-    src="yona-logo.jpg"
-    alt="YONA Logo"
-    onerror="this.style.display='none'"
-  >
-
-  <h1>YOUTHS OF NDASEI ASSOCIATION</h1>
-  <p>Unity and Development</p>
-  <p>Public Information Portal</p>
+  <img src="yona-logo.jpg" alt="YONA Logo" class="header-logo">
+  <h1>YONA</h1>
+  <p>Youths of Ndasei Association</p>
+  <p><strong>Unity and Development</strong></p>
 </header>
 
 <nav aria-label="Main navigation">
   <a href="#dashboard">Home</a>
   <a href="#organization">About YONA</a>
-  <a href="#sections">About Sections</a>
-  <a href="#members">Members</a>
-  <a href="#executive">Executive</a>
-  <a href="#finance">Finance</a>
-  <a href="#meetings">Meetings</a>
-  <a href="#events">Events</a>
-  <a href="#documents">Documents</a>
+  <a href="#sections">Our Sections</a>
+  <a href="#member-list">Members</a>
+  <a href="#executive-list">Executive</a>
+  <a href="#finance-list">Finance</a>
+  <a href="#meeting-list">Meetings</a>
+  <a href="#event-list">Events</a>
+  <a href="#document-list">Documents</a>
   <a href="#member-portal">Member Portal</a>
 </nav>
 
 <main>
-  <section class="card" id="dashboard">
-    <h2>Welcome to YONA</h2>
-    <p>
-      Welcome to the public information portal of the
-      Youths of Ndasei Association.
-    </p>
-    <p class="status">
-      Explore our organization, members, leadership,
-      meetings, events, and public documents.
-    </p>
+  <p id="loadingMessage" class="status">Loading YONA information...</p>
 
+  <section id="dashboard">
+    <div class="card">
+      <h2>Welcome to YONA</h2>
+      <p>Welcome to the public information page of Youths of Ndasei Association. Learn about our organization, members, executive leadership, meetings, events and documents.</p>
+      <p>Our motto is <strong>Unity and Development.</strong></p>
+    </div>
     <div class="section-grid">
-      <a class="section-card dashboard-link" href="#organization">
-        <h3>🏢 About YONA</h3>
-        <p>Learn about our association.</p>
-        <strong>View Information →</strong>
-      </a>
-
-      <a class="section-card dashboard-link" href="#sections">
-        <h3>👥 About Sections</h3>
-        <p>Learn about our sections.</p>
-        <strong>View Sections →</strong>
-      </a>
-
-      <a class="section-card dashboard-link" href="#members">
-        <h3>👤 Members</h3>
-        <p>View public membership information.</p>
-        <strong>View Members →</strong>
-      </a>
-
-      <a class="section-card dashboard-link" href="#executive">
-        <h3>👔 Executive</h3>
-        <p>View executive leadership and periods.</p>
-        <strong>View Executive →</strong>
-      </a>
-
-      <a class="section-card dashboard-link" href="#finance">
-        <h3>💰 Finance</h3>
-        <p>View approved public financial information.</p>
-        <strong>View Finance →</strong>
-      </a>
-
-      <a class="section-card dashboard-link" href="#meetings">
-        <h3>📋 Meetings</h3>
-        <p>View association meetings and minutes.</p>
-        <strong>View Meetings →</strong>
-      </a>
-
-      <a class="section-card dashboard-link" href="#events">
-        <h3>🎉 Events</h3>
-        <p>Discover association events.</p>
-        <strong>View Events →</strong>
-      </a>
-
-      <a class="section-card dashboard-link" href="#documents">
-        <h3>📄 Documents</h3>
-        <p>Access approved public documents.</p>
-        <strong>View Documents →</strong>
-      </a>
-
-      <a class="section-card dashboard-link" href="#member-portal">
-        <h3>🔐 Member Portal</h3>
-        <p>Member access area.</p>
-        <strong>Open Portal →</strong>
-      </a>
+      <a class="section-card dashboard-link" href="#organization"><h3>🏢 About the Organization</h3><p>Learn about YONA, our vision, mission and objectives.</p><strong>View Organization →</strong></a>
+      <a class="section-card dashboard-link" href="#sections"><h3>📋 About Our Sections</h3><p>Learn about the different areas of association activities.</p><strong>View Sections →</strong></a>
+      <a class="section-card dashboard-link" href="#member-list"><h3>👥 Members</h3><p>View publicly available membership information.</p><strong>View Members →</strong></a>
+      <a class="section-card dashboard-link" href="#executive-list"><h3>👔 Executive</h3><p>Meet our executive officers and leadership teams.</p><strong>View Executive →</strong></a>
+      <a class="section-card dashboard-link" href="#finance-list"><h3>💰 Finance</h3><p>Authorized finance administrators can sign in to view financial records.</p><strong>Open Finance →</strong></a>
+      <a class="section-card dashboard-link" href="#meeting-list"><h3>📝 Meetings</h3><p>View saved meeting records, minutes and agendas.</p><strong>View Meetings →</strong></a>
+      <a class="section-card dashboard-link" href="#event-list"><h3>📅 Events</h3><p>View saved association events and media.</p><strong>View Events →</strong></a>
+      <a class="section-card dashboard-link" href="#document-list"><h3>📁 Documents</h3><p>View saved association documents.</p><strong>View Documents →</strong></a>
+      <a class="section-card dashboard-link" href="#member-portal"><h3>🔐 Member Portal</h3><p>Open the existing YONA application to access the member login.</p><strong>Open Member Portal →</strong></a>
     </div>
   </section>
 
-    <section class="card content-section" id="organization" hidden>
+  <section class="card content-section" id="organization" hidden>
     <h2>About the Organization</h2>
-
-    <h3>Who We Are</h3>
-    <p id="orgWhoView">Loading organization information...</p>
-
-    <h3>Our Motto</h3>
-    <p id="orgMottoView">Unity and Development</p>
-
-    <h3>Our Vision</h3>
-    <p id="orgVisionView"></p>
-
-    <h3>Our Mission</h3>
-    <p id="orgMissionView"></p>
-
-    <h3>Our Objectives</h3>
-    <p id="orgObjectivesView"></p>
-
-    <button class="back-dashboard" type="button" onclick="showDashboard()">
-      ← Back to Dashboard
-    </button>
+    <h3>Who We Are</h3><p id="orgWhoView"></p>
+    <h3>Our Motto</h3><p id="orgMottoView"></p>
+    <h3>Our Vision</h3><p id="orgVisionView"></p>
+    <h3>Our Mission</h3><p id="orgMissionView"></p>
+    <h3>Our Objectives</h3><ul id="orgObjectivesView"></ul>
+    <h3>Our Address</h3><p id="orgAddressView"></p>
+    <h3>Contact Email</h3><p id="orgEmailView"></p>
   </section>
 
   <section class="card content-section" id="sections" hidden>
-    <h2>About Sections</h2>
-    <p class="status">
-      Learn about the different sections of YONA.
-    </p>
-
-    <div id="sectionsList" class="section-grid">
-      <p class="status">Loading section information...</p>
+    <h2>About Our Sections</h2>
+    <p>These descriptions explain the main areas of association administration and activities.</p>
+    <div class="section-grid">
+      <article class="section-card"><h3>👥 Members</h3><p id="sectionMembersView"></p></article>
+      <article class="section-card"><h3>👔 Executive</h3><p id="sectionExecutiveView"></p></article>
+      <article class="section-card"><h3>💰 Finance</h3><p id="sectionFinanceView"></p></article>
+      <article class="section-card"><h3>📝 Meetings</h3><p id="sectionMeetingsView"></p></article>
+      <article class="section-card"><h3>📅 Events</h3><p id="sectionEventsView"></p></article>
+      <article class="section-card"><h3>📁 Documents</h3><p id="sectionDocumentsView"></p></article>
     </div>
-
-    <button class="back-dashboard" type="button" onclick="showDashboard()">
-      ← Back to Dashboard
-    </button>
   </section>
 
-    <section class="card content-section" id="members" hidden>
+  <section class="card content-section" id="member-list" hidden>
     <h2>Our Members</h2>
-
-    <p class="status">
-      This list displays approved membership information for YONA.
-    </p>
-
-    <input
-      type="search"
-      id="memberSearch"
-      placeholder="Search members by name or membership ID..."
-      aria-label="Search members"
-      style="width:100%;max-width:500px;padding:12px;margin:10px 0;border:1px solid #ccc;border-radius:8px;"
-    >
-
-    <div id="memberStatus" class="status">
-      Loading members...
-    </div>
-
-    <div id="memberList" class="section-grid"></div>
-
-    <button
-      class="back-dashboard"
-      type="button"
-      onclick="showDashboard()"
-    >
-      ← Back to Dashboard
-    </button>
+    <p>Publicly available membership information. This page has no member edit, save, delete or camera controls.</p>
+    <p id="memberListStatus" class="status">Loading members...</p>
+    <div id="publicMembersList" class="section-grid"></div>
   </section>
 
-    <section class="card content-section" id="executive" hidden>
-    <h2>YONA Executive</h2>
-
-    <p class="status">
-      View executive leadership, positions, photos, and periods of service.
-    </p>
-
-    <div id="executiveStatus" class="status">
-      Loading executive information...
-    </div>
-
-    <div id="executiveList" class="section-grid"></div>
-
-    <button
-      class="back-dashboard"
-      type="button"
-      onclick="showDashboard()"
-    >
-      ← Back to Dashboard
-    </button>
+  <section class="card content-section" id="executive-list" hidden>
+    <h2>👔 YONA Executive</h2>
+    <p>Executive officers are grouped by leadership period.</p>
+    <p id="publicExecutiveStatus" class="status">Loading executive records...</p>
+    <div id="publicExecutiveList" class="section-grid"></div>
   </section>
 
-    <section class="card content-section" id="finance" hidden>
-    <h2>YONA Finance</h2>
-
-    <div class="notice">
-      <p>
-        Financial information is restricted to protect members'
-        privacy. Personal contributions, loans, and payment records
-        must not be displayed publicly.
-      </p>
-    </div>
-
-    <p id="financeStatus" class="status">
-      Public financial information is not available here.
-    </p>
-
-    <button
-      class="back-dashboard"
-      type="button"
-      onclick="showDashboard()"
-    >
-      ← Back to Dashboard
-    </button>
+  <section class="card content-section" id="meeting-list" hidden>
+    <h2>📝 Meetings</h2>
+    <p id="meetingStatus" class="status">Loading saved meetings...</p>
+    <div id="publicMeetingsList" class="section-grid"></div>
   </section>
 
-    <section class="card content-section" id="meetings" hidden>
-    <h2>YONA Meetings</h2>
-
-    <p class="status">
-      View association meetings, agendas, and approved minutes.
-    </p>
-
-    <div id="meetingsStatus" class="status">
-      Loading meetings...
-    </div>
-
-    <div id="meetingsList" class="section-grid"></div>
-
-    <button class="back-dashboard" type="button"
-      onclick="showDashboard()">
-      ← Back to Dashboard
-    </button>
+  <section class="card content-section" id="event-list" hidden>
+    <h2>📅 Events</h2>
+    <p id="eventStatus" class="status">Loading saved events...</p>
+    <div id="publicEventsList" class="section-grid"></div>
   </section>
 
-    <section class="card content-section" id="events" hidden>
-    <h2>YONA Events</h2>
-
-    <p class="status">
-      View association events, activities, dates, and locations.
-    </p>
-
-    <div id="eventsStatus" class="status">
-      Loading events...
-    </div>
-
-    <div id="eventsList" class="section-grid"></div>
-
-    <button
-      class="back-dashboard"
-      type="button"
-      onclick="showDashboard()"
-    >
-      ← Back to Dashboard
-    </button>
+  <section class="card content-section" id="document-list" hidden>
+    <h2>📁 Documents</h2>
+    <p id="documentStatus" class="status">Loading saved documents...</p>
+    <div id="publicDocumentsList" class="section-grid"></div>
   </section>
 
-    <section class="card content-section" id="documents" hidden>
-    <h2>YONA Public Documents</h2>
-
-    <div class="notice">
-      Only approved public documents should be displayed here.
-      Private or confidential association records must remain protected.
+  <section class="card content-section" id="finance-list" hidden>
+    <h2>💰 Finance Records</h2>
+    <div id="financeLoginArea">
+      <p>Enter the authorized YONA Finance access password.</p>
+      <form id="financeLoginForm">
+        <label for="financePassword">Entry Password</label>
+        <input id="financePassword" type="password" autocomplete="current-password" required>
+        <button type="submit">Enter Finance</button>
+      </form>
     </div>
-
-    <div id="documentsStatus" class="status">
-      Loading public documents...
+    <div id="financeRecordsArea" class="hidden">
+      <p id="financeStatus" class="status"></p>
+      <button id="financeLogoutButton" type="button">Sign Out</button>
+      <div id="publicFinanceList" class="section-grid"></div>
     </div>
-
-    <div id="documentsList" class="section-grid"></div>
-
-    <button
-      class="back-dashboard"
-      type="button"
-      onclick="showDashboard()"
-    >
-      ← Back to Dashboard
-    </button>
+    <p id="financeMessage" class="status"></p>
+    <div class="notice"><strong>Privacy note</strong><p>Finance access must be verified securely on the server. Do not place the Finance password directly in this public HTML file.</p></div>
   </section>
 
-    <section class="card content-section" id="member-portal" hidden>
-    <h2>YONA Member Portal</h2>
-
-    <div class="notice">
-      <p>
-        This portal is intended for registered YONA members to
-        access their own membership and financial information securely.
-      </p>
-      <p>
-        Member access requires a secure login system. This public
-        page does not display private member records.
-      </p>
-    </div>
-
-    <p id="portalStatus" class="status">
-      Secure member access has not yet been connected.
-    </p>
-
-    <button
-      class="back-dashboard"
-      type="button"
-      onclick="showDashboard()"
-    >
-      ← Back to Dashboard
-    </button>
+  <section class="card content-section" id="member-portal" hidden>
+    <h2>🔐 Member Portal</h2>
+    <p>Use the existing Member Portal in the YONA application to sign in with your Membership ID and personal password.</p>
+    <div class="notice"><strong>Member privacy</strong><p>Your private financial records must only be available after your existing member login. This public page does not create a second member login.</p></div>
+    <p><a class="view-button" href="app.html">Open YONA App / Member Portal</a></p>
   </section>
+</main>
+
+<footer>YONA — Unity and Development</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+"use strict";
+
+const SUPABASE_URL = "https://atxeeymireukwbbsczbv.supabase.co";
+const SUPABASE_KEY = "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: { persistSession: false, autoRefreshToken: false }
+});
+
+const ORG_DEFAULTS = {
+  who_we_are: "Youths of Ndasei Association (YONA) is an association committed to unity, cooperation and development among its members.",
+  motto: "Unity and Development.",
+  vision: "To build a united and supportive association that encourages the development and well-being of its members.",
+  mission: "To promote unity, cooperation, participation and collective responsibility among members.",
+  objectives: [
+    "Promote unity and understanding among members.",
+    "Encourage members to participate in association activities.",
+    "Support members through welfare and cooperation.",
+    "Promote accountability and responsible leadership."
+  ],
+  address: "12 Berry Street, Back of Albert Academy.",
+  email: "yonabk3@gmail.com"
+};
+const SECTION_DEFAULTS = {
+  members: "Register members and manage their contact details, categories, membership numbers and card expiry dates.",
+  executive: "Keep records of executive officers, their positions and leadership periods.",
+  finance: "Record contributions and other financial transactions to support proper financial tracking and accountability.",
+  meetings: "Keep meeting records, including dates, venues, minutes and relevant media.",
+  events: "Record association events, their dates, locations and descriptions.",
+  documents: "Create, upload and store important association documents for reference."
+};
+
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value == null ? "" : String(value);
+}
+function addText(parent, tag, value, className) {
+  if (value === null || value === undefined || String(value).trim() === "") return;
+  const el = document.createElement(tag);
+  if (className) el.className = className;
+  el.textContent = String(value);
+  parent.appendChild(el);
+  return el;
+}
+function safeHttpUrl(value) {
+  if (!value || typeof value !== "string") return "";
+  try {
+    const url = new URL(value, window.location.href);
+    return (url.protocol === "http:" || url.protocol === "https:") ? url.href : "";
+  } catch (_) { return ""; }
+}
+
+// Supports ordinary URLs, Supabase storage paths, and expired signed URLs.
+async function resolveMediaUrl(value) {
+  if (!value || typeof value !== "string") return "";
+  const raw = value.trim();
+  if (!raw) return "";
+
+  let bucket = "yona-documents";
+  let objectPath = raw.replace(/^\/+/, "");
+
+  try {
+    if (/^https?:\/\//i.test(raw)) {
+      const url = new URL(raw);
+      const marker = "/storage/v1/object/sign/" + bucket + "/";
+      const publicMarker = "/storage/v1/object/public/" + bucket + "/";
+      if (url.pathname.includes(marker)) {
+        objectPath = decodeURIComponent(url.pathname.split(marker)[1] || "");
+      } else if (url.pathname.includes(publicMarker)) {
+        return url.href;
+      } else {
+        return url.href;
+      }
+    } else if (objectPath.startsWith(bucket + "/")) {
+      objectPath = objectPath.slice(bucket.length + 1);
+    }
+
+    if (!objectPath || objectPath.includes("..")) return "";
+    const { data, error } = await supabaseClient.storage.from(bucket).createSignedUrl(objectPath, 3600);
+    if (!error && data?.signedUrl) return data.signedUrl;
+
+    console.warn("Could not create a view link for storage object:", objectPath, error?.message || "No signed URL returned");
+    return "";
+  } catch (error) {
+    console.warn("Could not resolve media URL:", error);
+    return "";
+  }
+}
+
+function addLink(parent, label, value) {
+  const url = safeHttpUrl(value);
+  if (!url) return;
+  const link = document.createElement("a");
+  link.className = "view-button";
+  link.href = url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.textContent = label;
+  parent.appendChild(link);
+}
+
+async function addMedia(parent, value, type, altText) {
+  const url = await resolveMediaUrl(value);
+  if (!url) return;
+  if (type === "image") {
+    const img = document.createElement("img");
+    img.className = "record-media";
+    img.src = url;
+    img.alt = altText || "Association photo";
+    img.loading = "lazy";
+    img.onerror = () => img.remove();
+    parent.appendChild(img);
+  } else if (type === "video") {
+    const video = document.createElement("video");
+    video.className = "record-media";
+    video.controls = true;
+    video.preload = "metadata";
+    video.src = url;
+    parent.appendChild(video);
+  } else if (type === "audio") {
+    const audio = document.createElement("audio");
+    audio.className = "record-media";
+    audio.controls = true;
+    audio.preload = "metadata";
+    audio.src = url;
+    parent.appendChild(audio);
+  }
+}
+function makeRecordCard(title, list) {
+  const card = document.createElement("article");
+  card.className = "record-card";
+  addText(card, "h3", title || "Record");
+  list.appendChild(card);
+  return card;
+}
+function renderOrganization(info) {
+  setText("orgWhoView", info.who_we_are);
+  setText("orgMottoView", info.motto);
+  setText("orgVisionView", info.vision);
+  setText("orgMissionView", info.mission);
+  setText("orgAddressView", "Address: " + (info.address || ""));
+  setText("orgEmailView", "Email: " + (info.email || ""));
+  const list = document.getElementById("orgObjectivesView");
+  list.replaceChildren();
+  (Array.isArray(info.objectives) ? info.objectives : ORG_DEFAULTS.objectives).forEach(item => addText(list, "li", item));
+}
+function renderSections(info) {
+  setText("sectionMembersView", info.members);
+  setText("sectionExecutiveView", info.executive);
+  setText("sectionFinanceView", info.finance);
+  setText("sectionMeetingsView", info.meetings);
+  setText("sectionEventsView", info.events);
+  setText("sectionDocumentsView", info.documents);
+}
+async function loadPublicInformation() {
+  try {
+    const { data, error } = await supabaseClient.from("yona_info_pages")
+      .select("*").in("page_key", ["organization", "sections"]);
+    if (error) throw error;
+    const rows = data || [];
+    const orgRow = rows.find(row => row.page_key === "organization");
+    const sectionRow = rows.find(row => row.page_key === "sections");
+    renderOrganization({ ...ORG_DEFAULTS, ...(orgRow?.content || {}) });
+    renderSections({ ...SECTION_DEFAULTS, ...(sectionRow?.content || {}) });
+    setText("loadingMessage", "YONA information loaded.");
+  } catch (error) {
+    console.error("Could not load YONA information:", error);
+    renderOrganization(ORG_DEFAULTS);
+    renderSections(SECTION_DEFAULTS);
+    setText("loadingMessage", "Some saved organization information could not be loaded. Public records are loading separately.");
+  }
+}
+async function loadPublicMembers() {
+  const status = document.getElementById("memberListStatus");
+  const list = document.getElementById("publicMembersList");
+  list.replaceChildren();
+  try {
+    // select("*") avoids breaking the entire list if the view has extra/different columns.
+    const { data, error } = await supabaseClient.from("yona_public_members").select("*");
+    if (error) throw error;
+    if (!data || !data.length) { status.textContent = "No members are currently available."; return; }
+
+    const getType = m => String(m.member_type || m.category || m.status || "Not specified").trim();
+    const groupOrder = ["Active Member", "Inactive Member", "Probationary Member"];
+    const grouped = new Set();
+    groupOrder.forEach(groupName => {
+      const members = data.filter(m => getType(m).toLowerCase() === groupName.toLowerCase());
+      if (!members.length) return;
+      grouped.add(groupName.toLowerCase());
+      const heading = document.createElement("h3");
+      heading.style.gridColumn = "1 / -1";
+      heading.textContent = groupName + "s (" + members.length + ")";
+      list.appendChild(heading);
+      members.forEach(member => renderMemberCard(member, list));
+    });
+    const otherMembers = data.filter(m => !grouped.has(getType(m).toLowerCase()));
+    if (otherMembers.length) {
+      const heading = document.createElement("h3");
+      heading.style.gridColumn = "1 / -1";
+      heading.textContent = "Other Members (" + otherMembers.length + ")";
+      list.appendChild(heading);
+      otherMembers.forEach(member => renderMemberCard(member, list));
+    }
+    status.textContent = "Total member records: " + data.length;
+  } catch (error) {
+    console.error("Could not load public members:", error);
+    status.textContent = "The member list could not be loaded. Check read access to yona_public_members. Details: " + (error.message || "unknown error");
+  }
+}
+
+async function renderMemberCard(member, list) {
+  const card = document.createElement("article");
+  card.className = "section-card";
+  const photoValue = member.photo_url || member.photo || member.image_url || member.photo_path || member.avatar_url;
+  const photoUrl = await resolveMediaUrl(photoValue);
+  if (photoUrl) {
+    const img = document.createElement("img");
+    img.className = "member-photo";
+    img.src = photoUrl;
+    img.alt = member.name || "Member photo";
+    img.loading = "lazy";
+    img.onerror = () => img.remove();
+    card.appendChild(img);
+  }
+  addText(card, "h3", member.name || "Member");
+  const memberNumber = member.member_number || member.membership_id || member.id || "Not assigned";
+  addText(card, "p", "Membership No.: " + memberNumber);
+  addText(card, "p", "Position: " + (member.position || "Member"));
+  addText(card, "p", "Status: " + (member.member_type || member.category || member.status || "Not specified"));
+
+  const details = document.createElement("details");
+  details.className = "member-details";
+  const summary = document.createElement("summary");
+  summary.textContent = "Member Details";
+  details.appendChild(summary);
+
+  addText(details, "p", "Full Name: " + (member.name || "Not specified"));
+  addText(details, "p", "Membership No.: " + memberNumber);
+  addText(details, "p", "Position: " + (member.position || "Member"));
+  addText(details, "p", "Status: " + (member.member_type || member.category || member.status || "Not specified"));
+
+  if (member.id != null) {
+    const verifyUrl = new URL("member.html?id=" + encodeURIComponent(member.id), window.location.href).href;
+    addLink(details, "View ID Card", verifyUrl);
+    const qrWrap = document.createElement("div");
+    qrWrap.className = "member-qr-wrap";
+    addText(qrWrap, "p", "Member Verification QR Code");
+    const qr = document.createElement("img");
+    qr.className = "member-qr";
+    qr.alt = "QR code to verify " + (member.name || "YONA member");
+    qr.loading = "lazy";
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" + encodeURIComponent(verifyUrl);
+    qr.onerror = () => { qr.remove(); addText(qrWrap, "p", "QR code could not be loaded."); };
+    qrWrap.appendChild(qr);
+    details.appendChild(qrWrap);
+  }
+
+  card.appendChild(details);
+  list.appendChild(card);
+}
+async function loadPublicExecutive() {
+  const status = document.getElementById("publicExecutiveStatus");
+  const list = document.getElementById("publicExecutiveList");
+  list.replaceChildren();
+  try {
+    const { data, error } = await supabaseClient.from("executive").select("*");
+    if (error) throw error;
+    if (!data || !data.length) { status.textContent = "No executive records are currently available."; return; }
+    data.sort((a, b) => String(a.period || a.period_id || "").localeCompare(String(b.period || b.period_id || "")) || String(a.name || "").localeCompare(String(b.name || "")));
+    let currentPeriod = null;
+    for (const person of data) {
+      const period = person.period || (person.period_id != null ? "Period " + person.period_id : "Period not specified");
+      if (period !== currentPeriod) {
+        currentPeriod = period;
+        const heading = document.createElement("h3");
+        heading.style.gridColumn = "1 / -1";
+        heading.textContent = period;
+        list.appendChild(heading);
+      }
+      const card = document.createElement("article");
+      card.className = "section-card";
+      const photoUrl = await resolveMediaUrl(person.photo_url || person.photo || person.image_url || person.photo_path);
+      if (photoUrl) {
+        const img = document.createElement("img");
+        img.className = "executive-photo";
+        img.src = photoUrl;
+        img.alt = person.name || "Executive photo";
+        img.loading = "lazy";
+        img.onerror = () => img.remove();
+        card.appendChild(img);
+      }
+      addText(card, "h3", person.name || "Executive");
+      addText(card, "p", "Position: " + (person.position || "Not specified"));
+      addText(card, "p", "Leadership Period: " + period);
+      addText(card, "p", person.description || "");
+      list.appendChild(card);
+    }
+    status.textContent = "Executive records loaded: " + data.length;
+  } catch (error) {
+    console.error("Could not load executive records:", error);
+    status.textContent = "Executive records could not be loaded. Check read access to the executive table. Details: " + (error.message || "unknown error");
+  }
+}
+async function loadPublicMeetings() {
+  const status = document.getElementById("meetingStatus");
+  const list = document.getElementById("publicMeetingsList");
+  list.replaceChildren();
+  try {
+    const { data, error } = await supabaseClient.from("meetings").select("*");
+    if (error) throw error;
+    if (!data || !data.length) { status.textContent = "No saved meetings are available."; return; }
+    data.sort((a, b) => String(b.meeting_date || b.date || b.created_at || "").localeCompare(String(a.meeting_date || a.date || a.created_at || "")));
+    for (const meeting of data) {
+      const title = meeting.meeting_title || meeting.title || meeting.name || "Meeting";
+      const card = makeRecordCard(title, list);
+      addText(card, "p", "Date: " + (meeting.meeting_date || meeting.date || "Not specified"));
+      addText(card, "p", "Location: " + (meeting.location || meeting.venue || "Not specified"));
+      addText(card, "p", "Description: " + (meeting.description || ""));
+      addText(card, "p", "Agenda: " + (meeting.agenda || ""));
+      addText(card, "p", "Minutes: " + (meeting.minutes || meeting.meeting_minutes || ""));
+      addText(card, "p", "Attending members: " + (meeting.attending_member || meeting.attending_members || "Not specified"));
+      await addMedia(card, meeting.photo_url || meeting.photo || meeting.image_url || meeting.photo_path, "image", "Meeting photo");
+      await addMedia(card, meeting.video_url || meeting.video || meeting.video_path, "video");
+      await addMedia(card, meeting.audio_url || meeting.audio || meeting.audio_path, "audio");
+      addLink(card, "Open meeting attachment", meeting.file_url || meeting.document_url || "");
+    }
+    status.textContent = "Saved meeting records: " + data.length;
+  } catch (error) {
+    console.error("Could not load meetings:", error);
+    status.textContent = "Meeting records could not be loaded. Details: " + (error.message || "Check table permissions.");
+  }
+}
+async function loadPublicEvents() {
+  const status = document.getElementById("eventStatus");
+  const list = document.getElementById("publicEventsList");
+  list.replaceChildren();
+  try {
+    const { data, error } = await supabaseClient.from("events").select("*");
+    if (error) throw error;
+    if (!data || !data.length) { status.textContent = "No saved events are available."; return; }
+    data.sort((a, b) => String(b.date || b.event_date || b.created_at || "").localeCompare(String(a.date || a.event_date || a.created_at || "")));
+    for (const eventRecord of data) {
+      const card = makeRecordCard(eventRecord.title || eventRecord.event_title || eventRecord.name || "Event", list);
+      addText(card, "p", "Date: " + (eventRecord.date || eventRecord.event_date || "Not specified"));
+      addText(card, "p", "Location: " + (eventRecord.location || eventRecord.venue || "Not specified"));
+      addText(card, "p", eventRecord.description || "");
+      await addMedia(card, eventRecord.photo_url || eventRecord.photo || eventRecord.image_url || eventRecord.photo_path, "image", "Event photo");
+      await addMedia(card, eventRecord.video_url || eventRecord.video || eventRecord.video_path, "video");
+      await addMedia(card, eventRecord.audio_url || eventRecord.audio || eventRecord.audio_path, "audio");
+      addLink(card, "Open event attachment", eventRecord.file_url || eventRecord.document_url || "");
+    }
+    status.textContent = "Saved event records: " + data.length;
+  } catch (error) {
+    console.error("Could not load events:", error);
+    status.textContent = "Event records could not be loaded. Details: " + (error.message || "Check table permissions.");
+  }
+}
+async function loadPublicDocuments() {
+  const status = document.getElementById("documentStatus");
+  const list = document.getElementById("publicDocumentsList");
+  list.replaceChildren();
+  try {
+    const { data, error } = await supabaseClient.from("documents").select("*");
+    if (error) throw error;
+    if (!data || !data.length) { status.textContent = "No saved documents are available."; return; }
+    data.sort((a, b) => String(b.created_at || "").localeCompare(String(a.created_at || "")));
+    for (const doc of data) {
+      const card = makeRecordCard(doc.title || doc.document_title || doc.name || "Document", list);
+      addText(card, "p", "Type: " + (doc.type || doc.category || "Not specified"));
+      const content = String(doc.content || doc.description || "").trim();
+      if (content && !safeHttpUrl(content)) addText(card, "p", content);
+      const fileValue = doc.file_url || doc.document_url || doc.url || doc.file_path || doc.storage_path || (safeHttpUrl(content) ? content : "");
+      const fileUrl = await resolveMediaUrl(fileValue);
+      if (fileUrl) {
+        const link = document.createElement("a");
+        link.className = "view-button";
+        link.href = fileUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Open Document";
+        card.appendChild(link);
+      } else if (!content) {
+        addText(card, "p", "No public document link or description is available.");
+      }
+    }
+    status.textContent = "Saved document records: " + data.length;
+  } catch (error) {
+    console.error("Could not load documents:", error);
+    status.textContent = "Document records could not be loaded. Details: " + (error.message || "Check table permissions.");
+  }
+}
+
+function renderFinanceRows(rows) {
+  const list = document.getElementById("publicFinanceList");
+  list.replaceChildren();
+  if (!rows || !rows.length) {
+    addText(list, "p", "No finance records are available.");
+    return;
+  }
+  rows.forEach(record => {
+    const card = makeRecordCard(record.name || record.type || "Finance record", list);
+    addText(card, "p", "Type: " + (record.type || record.category || "Not specified"));
+    addText(card, "p", "Amount: " + (record.amount == null ? "Not specified" : record.amount));
+    addText(card, "p", "Description: " + (record.description || ""));
+    addText(card, "p", "Direction: " + (record.direction || "Not specified"));
+  });
+}
+async function handleFinanceLogin(event) {
+  event.preventDefault();
+  const message = document.getElementById("financeMessage");
+  const password = document.getElementById("financePassword").value;
+  message.textContent = "Checking Finance password...";
+  try {
+    // Requires a server-side Supabase RPC named get_finance_records_with_password.
+    // The RPC must validate the password securely and return only authorized finance rows.
+    const { data: financeRows, error } = await supabaseClient.rpc(
+      "get_finance_records_with_password",
+      { p_password: password }
+    );
+    if (error) throw error;
+    if (!Array.isArray(financeRows)) {
+      throw new Error("Finance password service is not configured correctly.");
+    }
+    document.getElementById("financeLoginArea").classList.add("hidden");
+    document.getElementById("financeRecordsArea").classList.remove("hidden");
+    setText("financeStatus", "Finance records loaded: " + financeRows.length);
+    renderFinanceRows(financeRows);
+    message.textContent = "";
+    document.getElementById("financePassword").value = "";
+  } catch (error) {
+    console.error("Finance password check error:", error);
+    message.textContent = "Finance access could not be verified. The secure password service must be configured in Supabase.";
+  }
+}
+async function handleFinanceLogout() {
+  document.getElementById("financeLoginArea").classList.remove("hidden");
+  document.getElementById("financeRecordsArea").classList.add("hidden");
+  document.getElementById("financeLoginForm").reset();
+  document.getElementById("publicFinanceList").replaceChildren();
+  setText("financeMessage", "Signed out.");
+}
+async function loadPublicPage() {
+  await Promise.all([
+    loadPublicInformation(),
+    loadPublicMembers(),
+    loadPublicExecutive(),
+    loadPublicMeetings(),
+    loadPublicEvents(),
+    loadPublicDocuments()
+  ]);
+}
+
+document.getElementById("financeLoginForm").addEventListener("submit", handleFinanceLogin);
+document.getElementById("financeLogoutButton").addEventListener("click", handleFinanceLogout);
+
+document.addEventListener("DOMContentLoaded", function() {
+  const dashboard = document.getElementById("dashboard");
+  const sections = document.querySelectorAll(".content-section");
+
+  function showDashboard() {
+    sections.forEach(section => { section.hidden = true; });
+    dashboard.hidden = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  function openSection(targetId) {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    const section = target.classList.contains("content-section") ? target : target.closest(".content-section");
+    if (!section) return;
+    dashboard.hidden = true;
+    sections.forEach(item => { item.hidden = true; });
+    section.hidden = false;
+    let backButton = section.querySelector(".back-dashboard");
+    if (!backButton) {
+      backButton = document.createElement("button");
+      backButton.className = "back-dashboard";
+      backButton.type = "button";
+      backButton.textContent = "← Back to Dashboard";
+      backButton.addEventListener("click", showDashboard);
+      section.prepend(backButton);
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  document.querySelectorAll(".dashboard-link").forEach(link => {
+    link.addEventListener("click", event => {
+      event.preventDefault();
+      openSection(link.getAttribute("href").substring(1));
+    });
+  });
+  document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+    link.addEventListener("click", event => {
+      const targetId = link.getAttribute("href").substring(1);
+      if (targetId === "dashboard") {
+        event.preventDefault();
+        showDashboard();
+        return;
+      }
+      if (document.getElementById(targetId)) {
+        event.preventDefault();
+        openSection(targetId);
+      }
+    });
+  });
+  showDashboard();
+});
+loadPublicPage();
+</script>
+</body>
+</html>
