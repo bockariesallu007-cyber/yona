@@ -653,9 +653,15 @@ async function loadPublicPage() {
   ]);
 }
 
-document.getElementById("financeLoginForm").addEventListener("submit", handleFinanceLogin);
-document.getElementById("financeLogoutButton").addEventListener("click", handleFinanceLogout);
+const financeLoginForm = document.getElementById("financeLoginForm");
+if (financeLoginForm) {
+  financeLoginForm.addEventListener("submit", handleFinanceLogin);
+}
 
+const financeLogoutButton = document.getElementById("financeLogoutButton");
+if (financeLogoutButton) {
+  financeLogoutButton.addEventListener("click", handleFinanceLogout);
+}
 document.addEventListener("DOMContentLoaded", function() {
   const dashboard = document.getElementById("dashboard");
   const sections = document.querySelectorAll(".content-section");
