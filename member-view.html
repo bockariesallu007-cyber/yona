@@ -510,26 +510,52 @@ async function loadPublicMeetings() {
 async function loadPublicEvents() {
   const status = document.getElementById("eventStatus");
   const list = document.getElementById("publicEventsList");
+
   list.replaceChildren();
+
   try {
-    const { data, error } = await supabaseClient.from("events").select("*");
+    const { data, error } = await supabaseClient
+      .from("events")
+      .select("*")
+      .order("date", { ascending: false });
+
     if (error) throw error;
-    if (!data || !data.length) { status.textContent = "No saved events are available."; return; }
-    data.sort((a, b) => String(b.date || b.event_date || b.created_at || "").localeCompare(String(a.date || a.event_date || a.created_at || "")));
-    for (const eventRecord of data) {
-      const card = makeRecordCard(eventRecord.title || eventRecord.event_title || eventRecord.name || "Event", list);
-      addText(card, "p", "Date: " + (eventRecord.date || eventRecord.event_date || "Not specified"));
-      addText(card, "p", "Location: " + (eventRecord.location || eventRecord.venue || "Not specified"));
-      addText(card, "p", eventRecord.description || "");
-      await addMedia(card, eventRecord.photo_url || eventRecord.photo || eventRecord.image_url || eventRecord.photo_path, "image", "Event photo");
-      await addMedia(card, eventRecord.video_url || eventRecord.video || eventRecord.video_path, "video");
-      await addMedia(card, eventRecord.audio_url || eventRecord.audio || eventRecord.audio_path, "audio");
-      addLink(card, "Open event attachment", eventRecord.file_url || eventRecord.document_url || "");
+
+    if (!data || data.length === 0) {
+      status.textContent = "No saved events are available.";
+      return;
     }
+
+    for (const eventRecord of data) {
+      const card = makeRecordCard(
+        eventRecord.title || "Event",
+        list
+      );
+
+      addText(card, "p", "Date: " + (eventRecord.date || "Not specified"));
+      addText(card, "p", "Location: " + (eventRecord.location || "Not specified"));
+      addText(card, "p", "Description: " + (eventRecord.description || "No description available."));
+
+      if (eventRecord.photo_url) {
+        await addMedia(card, eventRecord.photo_url, "image", "Event photo");
+      }
+
+      if (eventRecord.video_url) {
+        await addMedia(card, eventRecord.video_url, "video", "Event video");
+      }
+
+      if (eventRecord.audio_url) {
+        await addMedia(card, eventRecord.audio_url, "audio", "Event audio");
+      }
+    }
+
     status.textContent = "Saved event records: " + data.length;
+
   } catch (error) {
     console.error("Could not load events:", error);
-    status.textContent = "Event records could not be loaded. Details: " + (error.message || "Check table permissions.");
+    status.textContent =
+      "Event records could not be loaded: " +
+      (error.message || "Check table permissions.");
   }
 }
 async function loadPublicDocuments() {
