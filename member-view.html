@@ -485,6 +485,8 @@ async function loadPublicMeetings() {
   list.replaceChildren();
   try {
     const { data, error } = await supabaseClient.from("meetings").select("*");
+    console.log("YONA meetings data:", data);
+console.log("YONA meetings error:", error);
     if (error) throw error;
     if (!data || !data.length) { status.textContent = "No saved meetings are available."; return; }
     data.sort((a, b) => String(b.meeting_date || b.date || b.created_at || "").localeCompare(String(a.meeting_date || a.date || a.created_at || "")));
