@@ -9879,31 +9879,33 @@ async function saveTypedDocument(){
 
 async function openDocument(name){
 
-  const {data,error} =
+  if(!name){
+    alert('Document file path is missing.');
+    return;
+  }
+
+  const { data, error } =
     await supabaseClient
       .storage
       .from(DOCUMENT_BUCKET)
       .createSignedUrl(
         name,
-        3600
+        3600,
+        { download: true }
       );
 
-
-  if(error){
-
+  if(error || !data?.signedUrl){
     alert(
-      'Could not open document: '+
-      error.message
+      'Could not open document: ' +
+      (error?.message || 'No download link was created.')
     );
-
     return;
-
   }
-
 
   window.open(
     data.signedUrl,
-    '_blank'
+    '_blank',
+    'noopener,noreferrer'
   );
 
 }
