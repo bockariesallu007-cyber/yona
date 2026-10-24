@@ -257,6 +257,7 @@ async function resolveMediaUrl(value) {
     if (!error && data?.signedUrl) return data.signedUrl;
 
     console.warn("Could not create a view link for storage object:", objectPath, error?.message || "No signed URL returned");
+alert("Meeting photo link error: " + (error?.message || "No signed URL returned"));
     return "";
   } catch (error) {
     console.warn("Could not resolve media URL:", error);
