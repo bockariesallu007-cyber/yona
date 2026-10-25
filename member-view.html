@@ -493,6 +493,8 @@ console.log("YONA meetings error:", error);
     for (const meeting of data) {
       const title = meeting.meeting_title || meeting.title || meeting.name || "Meeting";
       const card = makeRecordCard(title, list);
+      console.log("Meeting card created:", card);
+console.log("Meeting list:", list, "Visible:", list.getBoundingClientRect());
       addText(card, "p", "Date: " + (meeting.meeting_date || meeting.date || "Not specified"));
       addText(card, "p", "Location: " + (meeting.location || meeting.venue || "Not specified"));
       addText(card, "p", "Description: " + (meeting.description || ""));
