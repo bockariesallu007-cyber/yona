@@ -7082,14 +7082,38 @@ const overlay = document.createElement('div');
   const heading = document.createElement('h3');
   heading.textContent = title;
 
-  const input = document.createElement('input');
-  input.type = 'password';
-  input.placeholder = 'Enter password';
-  input.autocomplete = 'new-password';
-  input.style.cssText =
-    'width:100%;box-sizing:border-box;padding:12px;' +
-    'margin:12px 0;border:1px solid #aaa;border-radius:6px;';
+ const passwordRow = document.createElement('div');
+passwordRow.style.cssText =
+  'display:flex;gap:6px;align-items:center;margin:12px 0;';
 
+const input = document.createElement('input');
+input.type = 'password';
+input.placeholder = 'Enter password';
+input.autocomplete = 'new-password';
+input.style.cssText =
+  'flex:1;min-width:0;box-sizing:border-box;padding:12px;' +
+  'margin:0;border:1px solid #aaa;border-radius:6px;';
+
+const eyeButton = document.createElement('button');
+eyeButton.type = 'button';
+eyeButton.textContent = '👁️';
+eyeButton.title = 'Show password';
+eyeButton.setAttribute('aria-label', 'Show password');
+eyeButton.style.cssText =
+  'padding:10px;cursor:pointer;background:#075aaa;color:white;';
+
+eyeButton.onclick = function () {
+  const show = input.type === 'password';
+  input.type = show ? 'text' : 'password';
+  eyeButton.textContent = show ? '🙈' : '👁️';
+  eyeButton.title = show ? 'Hide password' : 'Show password';
+  eyeButton.setAttribute(
+    'aria-label',
+    show ? 'Hide password' : 'Show password'
+  );
+};
+
+passwordRow.append(input, eyeButton);
   const buttons = document.createElement('div');
   buttons.style.cssText =
     'display:flex;gap:10px;margin-top:10px;';
@@ -7123,7 +7147,7 @@ const overlay = document.createElement('div');
   });
 
   buttons.append(cancel, submit);
-  box.append(heading, input, buttons);
+  box.append(heading, passwordRow, buttons);
   overlay.appendChild(box);
   document.body.appendChild(overlay);
 
