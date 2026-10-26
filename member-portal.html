@@ -180,11 +180,16 @@ th { background: #eff6ff; }
         autocomplete="username" required
         placeholder="Enter your Membership Number">
 
-      <label for="loginPassword">Password</label>
-      <input id="loginPassword" type="password"
-        autocomplete="current-password" required
-        placeholder="Enter your password">
-
+     <label for="loginPassword">Password</label>
+<div style="display:flex; gap:6px; align-items:center;">
+  <input id="loginPassword" type="password"
+    autocomplete="current-password" required
+    placeholder="Enter your password"
+    style="flex:1; min-width:0;">
+  <button id="toggleLoginPassword" type="button"
+    aria-label="Show password"
+    style="width:auto; margin-top:7px;">👁️</button>
+</div>
       <button id="loginButton" type="submit">Log In</button>
     </form>
 
@@ -305,7 +310,20 @@ let memberDetails = null;
 let busy = false;
 
 const $ = id => document.getElementById(id);
+  
+$("toggleLoginPassword").addEventListener("click", () => {
+  const password = $("loginPassword");
+  const button = $("toggleLoginPassword");
+  const show = password.type === "password";
 
+  password.type = show ? "text" : "password";
+  button.textContent = show ? "🙈" : "👁️";
+  button.setAttribute(
+    "aria-label",
+    show ? "Hide password" : "Show password"
+  );
+});
+  
 function showMessage(id, message, type = "info") {
   const box = $(id);
   box.textContent = message;
