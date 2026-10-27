@@ -223,21 +223,43 @@ th { background: #eff6ff; }
         Use at least 10 characters.
       </p>
 
-      <form id="passwordForm">
-        <label for="newPassword">New Password</label>
-        <input id="newPassword" type="password"
-          minlength="10" maxlength="128"
-          autocomplete="new-password" required>
+     <form id="passwordForm">
+  <label for="newPassword">New Password</label>
+  <div class="password-input-wrap">
+    <input
+      id="newPassword"
+      type="password"
+      minlength="10"
+      maxlength="128"
+      autocomplete="new-password"
+      required
+    >
+    <button type="button" class="password-toggle"
+      onclick="togglePasswordVisibility('newPassword', this)"
+      aria-label="Show new password">👁️</button>
+  </div>
 
-        <label for="confirmPassword">Confirm New Password</label>
-        <input id="confirmPassword" type="password"
-          minlength="10" maxlength="128"
-          autocomplete="new-password" required>
+<label for="confirmPassword">Confirm New Password</label>
 
-        <button id="changePasswordButton" type="submit">
-          Change Password
-        </button>
-      </form>
+  <div class="password-input-wrap">
+    <input
+      id="confirmPassword"
+      type="password"
+      minlength="10"
+      maxlength="128"
+      autocomplete="new-password"
+      required
+    >
+    <button type="button" class="password-toggle"
+      onclick="togglePasswordVisibility('confirmPassword', this)"
+      aria-label="Show confirm password">👁️</button>
+  </div>
+
+  <button id="changePasswordButton" type="submit">
+    Change Password
+  </button>
+</form>
+
 
       <div id="passwordMessage" class="message" role="status"></div>
     </div>
@@ -585,6 +607,22 @@ function getDirection(record) {
   return "Unspecified";
 }
 
+function togglePasswordVisibility(inputId, button) {
+  const input = document.getElementById(inputId);
+
+  if (!input) return;
+
+  if (input.type === "password") {
+    input.type = "text";
+    button.textContent = "🙈";
+    button.setAttribute("aria-label", "Hide password");
+  } else {
+    input.type = "password";
+    button.textContent = "👁️";
+    button.setAttribute("aria-label", "Show password");
+  }
+}
+  
 function renderRecords(records) {
   const tbody = $("financeRows");
   tbody.replaceChildren();
