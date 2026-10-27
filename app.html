@@ -1261,6 +1261,52 @@ Members
   <div id="adminMemberPasswordMessage"></div>
 </div>
 
+<!-- YONA MEMBER PASSWORD MANAGEMENT -->
+<div class="card">
+  <h3 class="section-title">🔐 Set / Reset Member Password</h3>
+
+  <p class="small-text">
+    Create a first password or reset a registered member's password.
+  </p>
+
+  <label for="passwordMemberSelect">Select Member</label>
+  <select id="passwordMemberSelect" required>
+    <option value="">Select a member</option>
+  </select>
+
+  <label for="adminNewMemberPassword">New Password</label>
+  <input
+    id="adminNewMemberPassword"
+    type="password"
+    minlength="10"
+    maxlength="128"
+    placeholder="Enter at least 10 characters"
+    autocomplete="new-password"
+    required
+  >
+
+  <label for="adminConfirmMemberPassword">Confirm New Password</label>
+  <input
+    id="adminConfirmMemberPassword"
+    type="password"
+    minlength="10"
+    maxlength="128"
+    placeholder="Enter the same password again"
+    autocomplete="new-password"
+    required
+  >
+
+  <button
+    type="button"
+    id="adminSetMemberPasswordButton"
+    onclick="adminSetMemberPassword()"
+  >
+    Set / Reset Password
+  </button>
+
+  <div id="adminMemberPasswordMessage"></div>
+</div>
+  
 <form onsubmit="saveMember(event)">
 
 
