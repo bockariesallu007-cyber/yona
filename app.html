@@ -6136,12 +6136,13 @@ async function loadMembers(){
     return;
   }
 
-  currentMembers = data || [];
+currentMembers = data || [];
 
-  renderMembers();
+renderMembers();
 
-  await updateMemberTotals();
+populatePasswordMemberSelect();
 
+await updateMemberTotals();
 }
 async function editMember(id){
 
