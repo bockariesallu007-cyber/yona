@@ -61,6 +61,84 @@
     .hidden{display:none!important}
     footer{text-align:center;padding:24px 12px;background:#123d73;color:white;margin-top:35px}
     @media(max-width:600px){header h1{font-size:25px}nav{position:static}nav a{padding:7px 9px;font-size:14px}.card{padding:16px}}
+
+/* YONA Professional Design */
+:root {
+  --yona-navy: #123d73;
+  --yona-blue: #075aaa;
+  --yona-green: #218c54;
+  --yona-white: #ffffff;
+  --yona-background: #f3f6fa;
+}
+
+body {
+  background: var(--yona-background);
+  color: #243247;
+}
+
+header {
+  background: linear-gradient(
+    135deg,
+    var(--yona-navy),
+    #0b2948
+  );
+  padding: 32px 16px;
+}
+
+.header-logo {
+  border: 3px solid var(--yona-white);
+  box-shadow: 0 4px 14px #00000025;
+}
+
+header h1 {
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+nav {
+  border-bottom: 3px solid var(--yona-green);
+}
+
+nav a {
+  transition: background 0.2s, color 0.2s;
+}
+
+nav a:hover {
+  background: var(--yona-navy);
+  color: var(--yona-white);
+}
+
+.card {
+  border: 1px solid #e0e7f0;
+  box-shadow: 0 5px 18px #123d7310;
+}
+
+.section-card,
+.record-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.section-card:hover,
+.record-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px #123d7318;
+}
+
+.view-button,
+button {
+  background: var(--yona-navy);
+  transition: background 0.2s;
+}
+
+.view-button:hover,
+button:hover {
+  background: var(--yona-green);
+}
+
+footer {
+  border-top: 4px solid var(--yona-green);
+}
+    
   </style>
 </head>
 <body>
