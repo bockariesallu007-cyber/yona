@@ -6650,7 +6650,8 @@ if (typeof QRCode !== "undefined") {
   qr.textContent = "QR library unavailable. Reload the page.";
   console.error("QRCode library is unavailable.");
 }
-
+document.getElementById("idCardModal").classList.remove("hidden");
+    
   } catch (error) {
     console.error("Could not show member ID card:", error);
     alert(
