@@ -691,19 +691,6 @@ if (toggleFinancePasswordButton) {
     this.textContent = showPassword ? "Hide" : "Show";
   });
 }
-
-const toggleFinancePasswordButton =
-  document.getElementById("toggleFinancePassword");
-
-if (toggleFinancePasswordButton) {
-  toggleFinancePasswordButton.addEventListener("click", function () {
-    const passwordField = document.getElementById("financePassword");
-    const showPassword = passwordField.type === "password";
-
-    passwordField.type = showPassword ? "text" : "password";
-    this.textContent = showPassword ? "Hide" : "Show";
-  });
-}
   
 const financeLoginForm = document.getElementById("financeLoginForm");
 if (financeLoginForm) {
