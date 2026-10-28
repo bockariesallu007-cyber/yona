@@ -909,6 +909,67 @@ background:transparent;
   display:none!important;
 }
 
+/* YONA Professional Admin Design */
+:root {
+  --yona-navy: #123d73;
+  --yona-dark: #0b2948;
+  --yona-green: #218c54;
+  --yona-background: #f3f6fa;
+  --yona-white: #ffffff;
+}
+
+body {
+  background: var(--yona-background);
+  color: #243247;
+}
+
+header {
+  background: linear-gradient(
+    135deg,
+    var(--yona-navy),
+    var(--yona-dark)
+  );
+  color: var(--yona-white);
+}
+
+.yona-app-logo {
+  border: 3px solid var(--yona-white);
+  box-shadow: 0 4px 14px #00000025;
+}
+
+.card,
+.dashboard-card,
+.stat-card {
+  background: var(--yona-white);
+  border: 1px solid #e0e7f0;
+  border-radius: 14px;
+  box-shadow: 0 5px 18px #123d7310;
+}
+
+button,
+.btn {
+  transition: background 0.2s, transform 0.2s;
+}
+
+button:hover,
+.btn:hover {
+  background-color: var(--yona-green);
+}
+
+input,
+select,
+textarea {
+  border-radius: 8px;
+  border-color: #d5deea;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #218c54;
+  border-color: #218c54;
+}
+  
 </style>
 </head>
 
