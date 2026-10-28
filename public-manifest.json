@@ -1,0 +1,26 @@
+{
+  "id": "/yona/member-view.html",
+  "name": "YONA Public App",
+  "short_name": "YONA Public",
+  "description": "Public information app of the Youths of Ndasei Association — Unity and Development.",
+  "start_url": "/yona/member-view.html",
+  "scope": "/yona/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#075aaa",
+  "icons": [
+    {
+      "src": "/yona/WhatsApp-Image-2026-09-24-at-17.04.46_1.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/yona/WhatsApp-Image-2026-09-24-at-17.04.46_1%20(2).png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
