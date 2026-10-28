@@ -7537,7 +7537,6 @@ if (error || data !== true) {
 }
 
 alert('Finance password changed successfully.');
-```
 
 } catch (error) {
 alert('Finance password error: ' + (error.message || String(error)));
@@ -7555,7 +7554,6 @@ try {
 const newPassword = await promptFinancePassword('Create New Finance Password');
 if (newPassword === null) return;
 
-```
 if (newPassword.length < 8) {
   alert('Your new password must contain at least 8 characters.');
   return;
