@@ -584,22 +584,55 @@ async function loadPublicEvents() {
       (error.message || "Check table permissions.");
   }
 }
+ 
 async function loadPublicDocuments() {
   const status = document.getElementById("documentStatus");
   const list = document.getElementById("publicDocumentsList");
+
   list.replaceChildren();
+  status.textContent = "Loading saved documents...";
+
   try {
-    const { data, error } = await supabaseClient.from("documents").select("*");
+    const { data, error } = await supabaseClient
+      .storage
+      .from("yona-documents")
+      .list("", {
+        limit: 100,
+        sortBy: {
+          column: "created_at",
+          order: "desc"
+        }
+      });
+
     if (error) throw error;
-    if (!data || !data.length) { status.textContent = "No saved documents are available."; return; }
-    data.sort((a, b) => String(b.created_at || "").localeCompare(String(a.created_at || "")));
-    for (const doc of data) {
-      const card = makeRecordCard(doc.title || doc.document_title || doc.name || "Document", list);
-      addText(card, "p", "Type: " + (doc.type || doc.category || "Not specified"));
-      const content = String(doc.content || doc.description || "").trim();
-      if (content && !safeHttpUrl(content)) addText(card, "p", content);
-      const fileValue = doc.file_url || doc.document_url || doc.url || doc.file_path || doc.storage_path || (safeHttpUrl(content) ? content : "");
-      const fileUrl = await resolveMediaUrl(fileValue);
+
+    const files = (data || []).filter(file =>
+      file.name &&
+      file.name !== ".emptyFolderPlaceholder" &&
+      file.id
+    );
+
+    if (!files.length) {
+      status.textContent = "No saved documents are available.";
+      return;
+    }
+
+    for (const file of files) {
+      const card = makeRecordCard(file.name, list);
+
+      addText(
+        card,
+        "p",
+        "File type: " +
+          (file.metadata?.mimetype || "Document")
+      );
+
+      const { data: urlData, error: urlError } = await supabaseClient
+  .storage
+  .from("yona-documents")
+  .createSignedUrl(file.name, 3600);
+
+const fileUrl = urlError ? null : urlData?.signedUrl;
       if (fileUrl) {
         const link = document.createElement("a");
         link.className = "view-button";
@@ -608,17 +641,25 @@ async function loadPublicDocuments() {
         link.rel = "noopener noreferrer";
         link.textContent = "Open Document";
         card.appendChild(link);
-      } else if (!content) {
-        addText(card, "p", "No public document link or description is available.");
+      } else {
+        addText(
+          card,
+          "p",
+          "The document link could not be created. Check Storage permissions."
+        );
       }
     }
-    status.textContent = "Saved document records: " + data.length;
+
+    status.textContent = "Saved documents: " + files.length;
+
   } catch (error) {
     console.error("Could not load documents:", error);
-    status.textContent = "Document records could not be loaded. Details: " + (error.message || "Check table permissions.");
+
+    status.textContent =
+      "Documents could not be loaded: " +
+      (error.message || "Check Storage permissions.");
   }
 }
-
 function renderFinanceRows(rows) {
   const list = document.getElementById("publicFinanceList");
   list.replaceChildren();
