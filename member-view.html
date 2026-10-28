@@ -36,6 +36,22 @@
     .view-button,button{display:inline-block;margin-top:10px;padding:10px 16px;background:#075aaa;color:white;text-decoration:none;border:0;border-radius:8px;cursor:pointer;font-size:15px;text-align:center}
     .view-button:hover,button:hover{background:#123d73}
     input{display:block;width:100%;padding:12px;margin:8px 0;border:1px solid #cbd5e1;border-radius:8px;font-size:16px}
+    .password-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.password-input-wrap input {
+  flex: 1;
+  min-width: 0;
+  margin: 8px 0;
+}
+
+.password-toggle {
+  margin-top: 0;
+  white-space: nowrap;
+}
     .notice{background:#eef5ff;border-left:4px solid #075aaa;border-radius:8px;padding:14px}
     .record-media{display:block;max-width:100%;max-height:360px;border-radius:10px;margin:12px 0}
     .record-card{background:#f8fafc;border:1px solid #e0e7f0;border-radius:12px;padding:16px;overflow-wrap:anywhere}
@@ -152,10 +168,15 @@
       <p>Enter the authorized YONA Finance access password.</p>
       <form id="financeLoginForm">
         <label for="financePassword">Entry Password</label>
-        <input id="financePassword" type="password" autocomplete="current-password" required>
-        <button type="submit">Enter Finance</button>
-      </form>
-    </div>
+
+<div class="password-input-wrap">
+  <input id="financePassword" type="password" autocomplete="current-password" required>
+  <button id="toggleFinancePassword" type="button" class="password-toggle">Show</button>
+</div>
+<button type="submit">Enter Finance</button>
+</form>
+</div>
+
     <div id="financeRecordsArea" class="hidden">
       <p id="financeStatus" class="status"></p>
       <button id="financeLogoutButton" type="button">Sign Out</button>
@@ -658,6 +679,19 @@ async function loadPublicPage() {
   ]);
 }
 
+const toggleFinancePasswordButton =
+  document.getElementById("toggleFinancePassword");
+
+if (toggleFinancePasswordButton) {
+  toggleFinancePasswordButton.addEventListener("click", function () {
+    const passwordField = document.getElementById("financePassword");
+    const showPassword = passwordField.type === "password";
+
+    passwordField.type = showPassword ? "text" : "password";
+    this.textContent = showPassword ? "Hide" : "Show";
+  });
+}
+  
 const financeLoginForm = document.getElementById("financeLoginForm");
 if (financeLoginForm) {
   financeLoginForm.addEventListener("submit", handleFinanceLogin);
