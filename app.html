@@ -7384,12 +7384,20 @@ if (isSet !== true) {
     return;
   }
 
-  alert('Finance password created successfully.');
+alert('Finance password created successfully.');
 } else {
+  const forgot = confirm(
+    'Have you forgotten your Finance password? Press OK to reset it, or Cancel to enter your password.'
+  );
+
+  if (forgot) {
+    await resetFinancePassword();
+    return;
+  }
+
   const password = await askFinancePassword(
     'Enter Finance Password'
   );
-
   if (password === null) return;
 
   const { data, error } = await supabaseClient.rpc(
