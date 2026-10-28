@@ -1744,6 +1744,22 @@ Back to Dashboard
   class="hidden card"
 >
 
+<div class="card">
+  <h3>Finance Password Security</h3>
+  <p>Change your Finance password regularly to help protect your records.</p>
+
+  <button type="button" onclick="changeFinancePassword()">
+    Change Finance Password
+  </button>
+
+  <button type="button" onclick="resetFinancePassword()">
+    Forgot Finance Password?
+  </button>
+
+  <p id="financePasswordMessage" role="status"></p>
+</div>
+
+  
 <h2 class="section-title">
 Finance
 </h2>
@@ -7404,7 +7420,178 @@ alert(
 }
 }
 
+function promptFinancePassword(title) {
+return new Promise(function (resolve) {
+const overlay = document.createElement('div');
+overlay.style.cssText =
+'position:fixed;inset:0;background:rgba(0,0,0,.75);' +
+'z-index:999999;display:flex;align-items:center;' +
+'justify-content:center;padding:20px;';
 
+```
+const box = document.createElement('div');
+box.style.cssText =
+  'background:white;color:#222;padding:24px;border-radius:12px;' +
+  'width:100%;max-width:360px;box-sizing:border-box;font-family:Arial,sans-serif;';
+
+const heading = document.createElement('h3');
+heading.textContent = title;
+
+const input = document.createElement('input');
+input.type = 'password';
+input.placeholder = 'Enter password';
+input.autocomplete = 'new-password';
+input.style.cssText =
+  'width:100%;box-sizing:border-box;padding:12px;margin:12px 0;' +
+  'border:1px solid #aaa;border-radius:6px;';
+
+const eye = document.createElement('button');
+eye.type = 'button';
+eye.textContent = '👁️';
+eye.title = 'Show password';
+
+eye.onclick = function () {
+  const show = input.type === 'password';
+  input.type = show ? 'text' : 'password';
+  eye.textContent = show ? '🙈' : '👁️';
+  eye.title = show ? 'Hide password' : 'Show password';
+};
+
+const row = document.createElement('div');
+row.style.cssText = 'display:flex;gap:8px;align-items:center;';
+row.append(input, eye);
+
+const buttons = document.createElement('div');
+buttons.style.cssText = 'display:flex;gap:10px;margin-top:12px;';
+
+const cancel = document.createElement('button');
+cancel.type = 'button';
+cancel.textContent = 'Cancel';
+
+const submit = document.createElement('button');
+submit.type = 'button';
+submit.textContent = 'Continue';
+
+cancel.style.cssText = 'padding:10px;flex:1;';
+submit.style.cssText = 'padding:10px;flex:1;';
+
+function finish(value) {
+  overlay.remove();
+  resolve(value);
+}
+
+cancel.onclick = function () {
+  finish(null);
+};
+
+submit.onclick = function () {
+  finish(input.value);
+};
+
+input.addEventListener('keydown', function (event) {
+  if (event.key === 'Enter') finish(input.value);
+  if (event.key === 'Escape') finish(null);
+});
+
+buttons.append(cancel, submit);
+box.append(heading, row, buttons);
+overlay.appendChild(box);
+document.body.appendChild(overlay);
+input.focus();
+```
+
+});
+}
+
+async function changeFinancePassword() {
+try {
+const current = await promptFinancePassword('Enter Current Finance Password');
+if (current === null) return;
+
+```
+const newPassword = await promptFinancePassword('Enter New Finance Password');
+if (newPassword === null) return;
+
+if (newPassword.length < 8) {
+  alert('Your new password must contain at least 8 characters.');
+  return;
+}
+
+const confirmation = await promptFinancePassword('Confirm New Finance Password');
+if (confirmation === null) return;
+
+if (newPassword !== confirmation) {
+  alert('The new passwords do not match.');
+  return;
+}
+
+const { data, error } = await supabaseClient.rpc(
+  'change_finance_password',
+  {
+    p_current_password: current,
+    p_new_password: newPassword
+  }
+);
+
+if (error || data !== true) {
+  alert('Could not change Finance password: ' +
+    (error ? error.message : 'Please try again.'));
+  return;
+}
+
+alert('Finance password changed successfully.');
+```
+
+} catch (error) {
+alert('Finance password error: ' + (error.message || String(error)));
+}
+}
+
+async function resetFinancePassword() {
+const confirmed = confirm(
+'Reset the Finance password? Only continue if you are the authorized Finance administrator.'
+);
+
+if (!confirmed) return;
+
+try {
+const newPassword = await promptFinancePassword('Create New Finance Password');
+if (newPassword === null) return;
+
+```
+if (newPassword.length < 8) {
+  alert('Your new password must contain at least 8 characters.');
+  return;
+}
+
+const confirmation = await promptFinancePassword('Confirm New Finance Password');
+if (confirmation === null) return;
+
+if (newPassword !== confirmation) {
+  alert('The new passwords do not match.');
+  return;
+}
+
+const { data, error } = await supabaseClient.rpc(
+  'set_finance_password',
+  { p_password: newPassword }
+);
+
+if (error || data !== true) {
+  alert('Could not reset Finance password: ' +
+    (error ? error.message : 'Please try again.'));
+  return;
+}
+
+alert('Finance password reset successfully.');
+
+
+} catch (error) {
+alert('Finance password error: ' + (error.message || String(error)));
+}
+}
+
+  
 async function loadFinance() {
   const list = document.getElementById('financeList');
 
