@@ -6608,26 +6608,25 @@ async function showIdCard(
       );
 
 
-    if(url){
+  if (url) {
+  img.onload = function () {
+    img.style.display = 'block';
+    fallback.style.display = 'none';
+  };
 
-      img.src=url;
+  img.onerror = function () {
+    img.style.display = 'none';
+    fallback.style.display = 'inline-flex';
+    fallback.textContent = 'PHOTO UNAVAILABLE';
+  };
 
-      img.style.display=
-        'inline-block';
-
-      fallback.style.display=
-        'none';
-
-    }else{
-
-      img.style.display=
-        'none';
-
-      fallback.style.display=
-        'inline-flex';
-
-    }
-
+  img.style.display = 'none';
+  img.src = url;
+} else {
+  img.style.display = 'none';
+  fallback.style.display = 'inline-flex';
+  fallback.textContent = 'NO PHOTO';
+}
 
     const qr =
       document.getElementById(
