@@ -1,3 +1,4 @@
+
 {
   "id": "/yona/yona-public-app",
   "name": "YONA Public App",
@@ -9,16 +10,10 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#075aaa",
- "icons": [
-  {
-    "src": "/yona/yona-public-icon.png",
-    "sizes": "1024x1024",
-    "type": "image/png",
-    "purpose": "any"
-  }
-]
-      "src": "/yona/WhatsApp-Image-2026-09-24-at-17.04.46_1%20(2).png",
-      "sizes": "192x192",
+  "icons": [
+    {
+      "src": "/yona/yona-public-icon.png",
+      "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "any"
     }
