@@ -7506,6 +7506,7 @@ alert('Finance password created successfully.');
 }
 
 showSection('financeSection');
+await loadFinanceMembers();
 await loadFinance();
 
 
@@ -7683,6 +7684,41 @@ alert('Finance password error: ' + (error.message || String(error)));
 }
 }
 
+  async function loadFinanceMembers() {
+  const select = document.getElementById('financeMember');
+
+  if (!select) return;
+
+  select.innerHTML = '<option value="">Loading members...</option>';
+
+  try {
+    const { data, error } = await supabaseClient
+      .from('members')
+      .select('id, name, member_number, phone')
+      .order('name', { ascending: true });
+
+    if (error) throw error;
+
+    select.innerHTML = '<option value="">Select a member</option>';
+
+    (data || []).forEach(member => {
+      const option = document.createElement('option');
+      option.value = member.id;
+      option.textContent =
+        (member.name || 'Unnamed member') +
+        ' — ID: ' + (member.member_number || 'N/A');
+
+      option.dataset.name = member.name || '';
+      option.dataset.phone = member.phone || '';
+
+      select.appendChild(option);
+    });
+
+  } catch (error) {
+    select.innerHTML = '<option value="">Could not load members</option>';
+    console.error('Finance members error:', error);
+  }
+}
   
 async function loadFinance() {
   const list = document.getElementById('financeList');
