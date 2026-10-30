@@ -5,7 +5,7 @@
   "short_name": "YONA Public",
   "description": "Public information app of the Youths of Ndasei Association — Unity and Development.",
   "start_url": "/yona/member-view.html",
-  "scope": "/yona/member-view.html",
+  "scope": "/yona/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#ffffff",
