@@ -99,6 +99,129 @@
     .member-details summary{cursor:pointer;font-weight:bold;color:#075aaa}
     .member-qr-wrap{margin-top:12px;text-align:center}
     .member-qr{display:block;width:180px;height:180px;max-width:100%;margin:8px auto;border:1px solid #e0e7f0;border-radius:8px}
+    /* Public membership ID card */
+.public-id-card {
+  width: 100%;
+  max-width: 520px;
+  margin: 12px auto;
+  overflow: hidden;
+  background: #fff;
+  border: 2px solid #123d73;
+  border-radius: 12px;
+  box-shadow: 0 5px 18px #123d7318;
+}
+
+.public-id-header {
+  padding: 14px 10px;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(135deg, #123d73, #075aaa);
+  border-bottom: 3px solid #d4af37;
+}
+
+.public-id-organization {
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.public-id-motto {
+  margin-top: 5px;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.public-id-body {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr) 64px;
+  gap: 10px;
+  align-items: center;
+  padding: 14px 10px;
+}
+
+.public-id-photo-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90px;
+  font-size: 10px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.public-id-photo {
+  width: 78px;
+  height: 90px;
+  object-fit: cover;
+  border: 1px solid #d4af37;
+  border-radius: 5px;
+}
+
+.public-id-information {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.public-id-information h3 {
+  margin: 0 0 8px;
+  color: #123d73;
+  font-size: 14px;
+}
+
+.public-id-information p {
+  margin: 5px 0;
+  font-size: 11px;
+}
+
+.public-id-qr-area {
+  min-width: 0;
+  text-align: center;
+  font-size: 9px;
+  overflow-wrap: anywhere;
+}
+
+.public-id-qr {
+  display: block;
+  width: 58px;
+  height: 58px;
+  max-width: 100%;
+  margin: 0 auto 5px;
+}
+
+.public-id-footer {
+  padding: 8px;
+  text-align: center;
+  color: #fff;
+  background: #123d73;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 420px) {
+  .public-id-body {
+    grid-template-columns: 64px minmax(0, 1fr) 54px;
+    gap: 7px;
+    padding: 10px 6px;
+  }
+
+  .public-id-photo {
+    width: 64px;
+    height: 78px;
+  }
+
+  .public-id-qr {
+    width: 50px;
+    height: 50px;
+  }
+
+  .public-id-information h3 {
+    font-size: 12px;
+  }
+
+  .public-id-information p {
+    font-size: 10px;
+  }
+}
     .view-button,button{display:inline-block;margin-top:10px;padding:10px 16px;background:#075aaa;color:white;text-decoration:none;border:0;border-radius:8px;cursor:pointer;font-size:15px;text-align:center}
     .view-button:hover,button:hover{background:#123d73}
     input{display:block;width:100%;padding:12px;margin:8px 0;border:1px solid #cbd5e1;border-radius:8px;font-size:16px}
@@ -609,48 +732,157 @@ async function loadPublicMembers() {
 async function renderMemberCard(member, list) {
   const card = document.createElement("article");
   card.className = "section-card";
-  const photoValue = member.photo_url || member.photo || member.image_url || member.photo_path || member.avatar_url;
-  const photoUrl = await resolveMediaUrl(photoValue);
-  if (photoUrl) {
-    const img = document.createElement("img");
-    img.className = "member-photo";
-    img.src = photoUrl;
-    img.alt = member.name || "Member photo";
-    img.loading = "lazy";
-    img.onerror = () => img.remove();
-    card.appendChild(img);
-  }
-  addText(card, "h3", member.name || "Member");
-  const memberNumber = member.member_number || member.membership_id || member.id || "Not assigned";
-  addText(card, "p", "Membership No.: " + memberNumber);
-  addText(card, "p", "Position: " + (member.position || "Member"));
-  addText(card, "p", "Status: " + (member.member_type || member.category || member.status || "Not specified"));
 
+  const memberNumber =
+    member.member_number ||
+    member.membership_id ||
+    member.id ||
+    "Not assigned";
+
+  const memberName = member.name || "Member";
+  const memberPosition = member.position || "Member";
+  const memberStatus =
+    member.member_type ||
+    member.category ||
+    member.status ||
+    "Not specified";
+
+  /* ID card layout */
+  const idCard = document.createElement("div");
+  idCard.className = "public-id-card";
+
+  const header = document.createElement("div");
+  header.className = "public-id-header";
+
+  const organization = document.createElement("div");
+  organization.className = "public-id-organization";
+  organization.textContent = "YOUTHS OF NDASEI ASSOCIATION";
+
+  const motto = document.createElement("div");
+  motto.className = "public-id-motto";
+  motto.textContent = "UNITY AND DEVELOPMENT";
+
+  header.appendChild(organization);
+  header.appendChild(motto);
+  idCard.appendChild(header);
+
+  const body = document.createElement("div");
+  body.className = "public-id-body";
+
+  const photoArea = document.createElement("div");
+  photoArea.className = "public-id-photo-area";
+
+  const photoValue =
+    member.photo_url ||
+    member.photo ||
+    member.image_url ||
+    member.photo_path ||
+    member.avatar_url;
+
+  const photoUrl = await resolveMediaUrl(photoValue);
+
+  const photo = document.createElement("img");
+  photo.className = "public-id-photo";
+  photo.alt = memberName + " membership photo";
+
+  if (photoUrl) {
+    photo.src = photoUrl;
+    photo.onerror = () => {
+      photo.remove();
+      photoArea.textContent = "Photo unavailable";
+    };
+  } else {
+    photoArea.textContent = "Photo unavailable";
+  }
+
+  if (photoUrl) {
+    photoArea.appendChild(photo);
+  }
+
+  const information = document.createElement("div");
+  information.className = "public-id-information";
+
+  const nameHeading = document.createElement("h3");
+  nameHeading.textContent = memberName;
+  information.appendChild(nameHeading);
+
+  const numberText = document.createElement("p");
+  numberText.textContent = "Membership No.: " + memberNumber;
+  information.appendChild(numberText);
+
+  const positionText = document.createElement("p");
+  positionText.textContent = "Position: " + memberPosition;
+  information.appendChild(positionText);
+
+  const statusText = document.createElement("p");
+  statusText.textContent = "Status: " + memberStatus;
+  information.appendChild(statusText);
+
+  body.appendChild(photoArea);
+  body.appendChild(information);
+
+  /* QR code area */
+  const qrArea = document.createElement("div");
+  qrArea.className = "public-id-qr-area";
+
+  if (member.id != null) {
+    const verifyUrl = new URL(
+      "member.html?id=" + encodeURIComponent(member.id),
+      window.location.href
+    ).href;
+
+    const qr = document.createElement("img");
+    qr.className = "public-id-qr";
+    qr.alt = "Verification QR code for " + memberName;
+    qr.loading = "lazy";
+    qr.src =
+      "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" +
+      encodeURIComponent(verifyUrl);
+
+    qr.onerror = () => {
+      qr.remove();
+      qrArea.textContent = "QR unavailable";
+    };
+
+    qrArea.appendChild(qr);
+
+    const qrLabel = document.createElement("small");
+    qrLabel.textContent = "SCAN TO VERIFY";
+    qrArea.appendChild(qrLabel);
+  } else {
+    qrArea.textContent = "Verification unavailable";
+  }
+
+  body.appendChild(qrArea);
+  idCard.appendChild(body);
+
+  const footer = document.createElement("div");
+  footer.className = "public-id-footer";
+  footer.textContent = "PRIVATE ASSOCIATION ID";
+  idCard.appendChild(footer);
+
+  card.appendChild(idCard);
+
+  /* Expandable member details */
   const details = document.createElement("details");
   details.className = "member-details";
+
   const summary = document.createElement("summary");
   summary.textContent = "Member Details";
   details.appendChild(summary);
 
-  addText(details, "p", "Full Name: " + (member.name || "Not specified"));
+  addText(details, "p", "Full Name: " + memberName);
   addText(details, "p", "Membership No.: " + memberNumber);
-  addText(details, "p", "Position: " + (member.position || "Member"));
-  addText(details, "p", "Status: " + (member.member_type || member.category || member.status || "Not specified"));
+  addText(details, "p", "Position: " + memberPosition);
+  addText(details, "p", "Status: " + memberStatus);
 
   if (member.id != null) {
-    const verifyUrl = new URL("member.html?id=" + encodeURIComponent(member.id), window.location.href).href;
-    addLink(details, "View ID Card", verifyUrl);
-    const qrWrap = document.createElement("div");
-    qrWrap.className = "member-qr-wrap";
-    addText(qrWrap, "p", "Member Verification QR Code");
-    const qr = document.createElement("img");
-    qr.className = "member-qr";
-    qr.alt = "QR code to verify " + (member.name || "YONA member");
-    qr.loading = "lazy";
-    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" + encodeURIComponent(verifyUrl);
-    qr.onerror = () => { qr.remove(); addText(qrWrap, "p", "QR code could not be loaded."); };
-    qrWrap.appendChild(qr);
-    details.appendChild(qrWrap);
+    const verifyUrl = new URL(
+      "member.html?id=" + encodeURIComponent(member.id),
+      window.location.href
+    ).href;
+
+    addLink(details, "View ID Card Verification Page", verifyUrl);
   }
 
   card.appendChild(details);
