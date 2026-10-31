@@ -879,8 +879,9 @@ aboutBox.appendChild(aboutText);
 card.appendChild(aboutBox);
 
   /* Expandable member details */
-  const details = document.createElement("details");
-  details.className = "member-details";
+ const details = document.createElement("details");
+details.className = "member-details";
+details.open = true;
 
   const summary = document.createElement("summary");
   summary.textContent = "Member Details";
