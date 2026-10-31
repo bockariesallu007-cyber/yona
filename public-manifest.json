@@ -10,12 +10,11 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#075aaa",
-  "icons": [
-    {
-      "src": "/yona/yona-public-icon.png",
-      "sizes": "1254x1254",
-      "type": "image/png",
-      "purpose": "any"
-    }
-  ]
-}
+ "icons": [
+  {
+    "src": "/yona/yona-logo.jpg",
+    "sizes": "1254x1254",
+    "type": "image/jpeg",
+    "purpose": "any"
+  }
+]
