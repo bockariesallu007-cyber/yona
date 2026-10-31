@@ -7281,31 +7281,52 @@ const direction = document.getElementById('financeDirection').value;
 const amount = document.getElementById('financeAmount').value;
 const description = document.getElementById('financeDescription').value.trim();
 
+const paymentDate =
+  document.getElementById('financePaymentDate').value;
+
+const paymentPlace =
+  document.getElementById('financePaymentPlace').value.trim();
+
 if (
-!name ||
-!memberPhone ||
-!type ||
-!direction ||
-amount === '' ||
-!Number.isFinite(Number(amount)) ||
-Number(amount) <= 0
+  !name ||
+  !memberPhone ||
+  !type ||
+  !direction ||
+  amount === '' ||
+  !paymentDate ||
+  !paymentPlace ||
+  !Number.isFinite(Number(amount)) ||
+  Number(amount) <= 0
 ) {
-showMessage(
-'financeMessage',
-'Enter the member name, phone number, transaction type, direction, and a valid amount.',
-'error'
-);
-return;
+  showMessage(
+    'financeMessage',
+    'Enter the member name, phone number, transaction type, direction, valid amount, payment date, and place of payment.',
+    'error'
+  );
+  return;
 }
 
-const record = {
-name: name,
-type: type,
-direction: direction,
-amount: Number(amount),
-description: description
-};
+const paymentDate =
+  document.getElementById('financePaymentDate').value;
 
+const paymentPlace =
+  document.getElementById('financePaymentPlace').value.trim();
+
+const memberSelect = document.getElementById('financeMember');
+const selectedMember =
+  memberSelect.options[memberSelect.selectedIndex];
+
+const record = {
+  name: selectedMember.dataset.name,
+  member_id: Number(memberSelect.value),
+  member_phone: selectedMember.dataset.phone,
+  type: type,
+  direction: direction,
+  amount: Number(amount),
+  payment_date: paymentDate,
+  payment_place: paymentPlace,
+  description: description
+};
 
 try {
 const result = editingFinanceId
@@ -7929,20 +7950,23 @@ direction.value = read(data.direction);
 
 function resetFinanceForm(){
 
-editingFinanceId = null;
+  editingFinanceId = null;
 
-[
-'financeName',
-'financeType',
-'financeAmount',
-'financeDescription',
-'financeDirection'
-].forEach(id => {
-const field = document.getElementById(id);
-if (field) {
-field.value = '';
-}
-});
+  [
+    'financeMember',
+    'financeName',
+    'financeType',
+    'financeAmount',
+    'financePaymentDate',
+    'financePaymentPlace',
+    'financeDescription',
+    'financeDirection'
+  ].forEach(id => {
+    const field = document.getElementById(id);
+    if (field) {
+      field.value = '';
+    }
+  });
 
 }
 
