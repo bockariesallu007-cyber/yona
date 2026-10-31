@@ -6300,6 +6300,13 @@ async function editMember(id){
     .value=
       read(data.member_number);
 
+document
+  .getElementById(
+    'registrationDate'
+  )
+  .value =
+    read(data.registration_date);
+  
   document
     .getElementById(
       'expiryDate'
