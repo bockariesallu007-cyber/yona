@@ -860,7 +860,23 @@ async function renderMemberCard(member, list) {
   footer.textContent = "PRIVATE ASSOCIATION ID";
   idCard.appendChild(footer);
 
-  card.appendChild(idCard);
+  card.appendChild(idCard); 
+
+  /* About This Member box */
+const aboutBox = document.createElement("div");
+aboutBox.className = "member-about-box";
+
+const aboutHeading = document.createElement("h3");
+aboutHeading.textContent = "ABOUT THIS MEMBER";
+
+const aboutText = document.createElement("p");
+aboutText.textContent =
+  member.description || "No member description available.";
+
+aboutBox.appendChild(aboutHeading);
+aboutBox.appendChild(aboutText);
+
+card.appendChild(aboutBox);
 
   /* Expandable member details */
   const details = document.createElement("details");
