@@ -1422,6 +1422,15 @@ id="memberPosition"
 </div>
 
 <div>
+  <label>Date of Registration</label>
+  <input
+    id="registrationDate"
+    type="date"
+    required
+  >
+</div>
+  
+<div>
   <label>Card Expiry Date</label>
   <input
     id="expiryDate"
@@ -5645,6 +5654,7 @@ async function saveMember(event) {
   const position = document.getElementById('memberPosition').value.trim();
   const description = document.getElementById('memberDescription').value.trim();
   const memberNumber = document.getElementById('memberNumber').value;
+  const registrationDate = document.getElementById('registrationDate').value;
   const expiryDate = document.getElementById('expiryDate').value;
 
   const galleryFile = document.getElementById('memberPhoto').files?.[0];
@@ -5673,6 +5683,7 @@ async function saveMember(event) {
       description,
       member_type: memberType,
       member_number: memberNumber ? Number(memberNumber) : null,
+      registration_date: registrationDate || null,
       expiry_date: expiryDate || null,
       photo_url: photo
     };
