@@ -20,6 +20,71 @@
     .card{background:#fff;border-radius:14px;padding:22px;margin-bottom:20px;box-shadow:0 3px 12px #0000000c}
     .card h2{color:#075aaa;margin-top:0}
     .section-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    /* Match the Admin App dashboard */
+.public-dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 25px;
+}
+
+.dashboard-card {
+  background: #fff;
+  border: 1px solid #e0e7f0;
+  border-radius: 16px;
+  padding: 24px 18px;
+  min-height: 180px;
+  box-shadow: 0 5px 18px #123d7310;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px #123d7318;
+}
+
+.dashboard-icon {
+  font-size: 38px;
+  margin-bottom: 8px;
+}
+
+.dashboard-card h3 {
+  margin: 4px 0 8px;
+  color: #075aaa;
+}
+
+.dashboard-card p {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 14px;
+}
+
+.dashboard-card strong {
+  display: block;
+  width: 100%;
+  background: #123d73;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+@media (max-width: 800px) {
+  .public-dashboard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 500px) {
+  .public-dashboard {
+    grid-template-columns: 1fr;
+  }
+}
     .section-card{background:#fff;border:1px solid #e0e7f0;border-radius:12px;padding:18px;min-width:0;overflow-wrap:anywhere}
     .section-card h3{color:#075aaa;margin-top:0}
     .dashboard-link{display:block;color:inherit;text-decoration:none;cursor:pointer;transition:transform .15s,box-shadow .15s}
@@ -172,17 +237,72 @@ footer {
       <p>Welcome to the public information page of Youths of Ndasei Association. Learn about our organization, members, executive leadership, meetings, events and documents.</p>
       <p>Our motto is <strong>Unity and Development.</strong></p>
     </div>
-    <div class="section-grid">
-      <a class="section-card dashboard-link" href="#organization"><h3>🏢 About the Organization</h3><p>Learn about YONA, our vision, mission and objectives.</p><strong>View Organization →</strong></a>
-      <a class="section-card dashboard-link" href="#sections"><h3>📋 About Our Sections</h3><p>Learn about the different areas of association activities.</p><strong>View Sections →</strong></a>
-      <a class="section-card dashboard-link" href="#member-list"><h3>👥 Members</h3><p>View publicly available membership information.</p><strong>View Members →</strong></a>
-      <a class="section-card dashboard-link" href="#executive-list"><h3>👔 Executive</h3><p>Meet our executive officers and leadership teams.</p><strong>View Executive →</strong></a>
-      <a class="section-card dashboard-link" href="#finance-list"><h3>💰 Finance</h3><p>Authorized finance administrators can sign in to view financial records.</p><strong>Open Finance →</strong></a>
-      <a class="section-card dashboard-link" href="#meeting-list"><h3>📝 Meetings</h3><p>View saved meeting records, minutes and agendas.</p><strong>View Meetings →</strong></a>
-      <a class="section-card dashboard-link" href="#event-list"><h3>📅 Events</h3><p>View saved association events and media.</p><strong>View Events →</strong></a>
-      <a class="section-card dashboard-link" href="#document-list"><h3>📁 Documents</h3><p>View saved association documents.</p><strong>View Documents →</strong></a>
-      <a class="section-card dashboard-link" href="#member-portal"><h3>🔐 Member Portal</h3><p>Open the existing YONA application to access the member login.</p><strong>Open Member Portal →</strong></a>
-    </div>
+   <div class="public-dashboard">
+
+  <a class="dashboard-card dashboard-link" href="#organization">
+    <div class="dashboard-icon">🏛️</div>
+    <h3>About the Organization</h3>
+    <p>Learn about YONA, our vision, mission and objectives.</p>
+    <strong>View Organization →</strong>
+  </a>
+
+  <a class="dashboard-card dashboard-link" href="#sections">
+    <div class="dashboard-icon">📚</div>
+    <h3>About Our Sections</h3>
+    <p>Learn about the different areas of association activities.</p>
+    <strong>View Sections →</strong>
+  </a>
+
+  <a class="dashboard-card dashboard-link" href="#member-list">
+    <div class="dashboard-icon">👥</div>
+    <h3>Members</h3>
+    <p>View publicly available membership information.</p>
+    <strong>View Members →</strong>
+  </a>
+
+  <a class="dashboard-card dashboard-link" href="#executive-list">
+    <div class="dashboard-icon">👔</div>
+    <h3>Executive</h3>
+    <p>Meet our executive officers and leadership teams.</p>
+    <strong>View Executive →</strong>
+  </a>
+
+  <a class="dashboard-card dashboard-link" href="#finance-list">
+    <div class="dashboard-icon">💰</div>
+    <h3>Finance</h3>
+    <p>View the public Finance section.</p>
+    <strong>Open Finance →</strong>
+  </a>
+
+  <a class="dashboard-card dashboard-link" href="#meeting-list">
+    <div class="dashboard-icon">📝</div>
+    <h3>Meetings</h3>
+    <p>View saved meeting records, minutes and agendas.</p>
+    <strong>View Meetings →</strong>
+  </a>
+
+  <a class="dashboard-card dashboard-link" href="#event-list">
+    <div class="dashboard-icon">📅</div>
+    <h3>Events</h3>
+    <p>View saved association events and media.</p>
+    <strong>View Events →</strong>
+  </a>
+
+  <a class="dashboard-card dashboard-link" href="#document-list">
+    <div class="dashboard-icon">📁</div>
+    <h3>Documents</h3>
+    <p>View saved association documents.</p>
+    <strong>View Documents →</strong>
+  </a>
+
+  <a class="dashboard-card dashboard-link" href="#member-portal">
+    <div class="dashboard-icon">💳</div>
+    <h3>Member Portal</h3>
+    <p>Access the member login and personal records.</p>
+    <strong>Open Member Portal →</strong>
+  </a>
+
+</div>
   </section>
 
   <section class="card content-section" id="organization" hidden>
