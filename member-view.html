@@ -817,6 +817,14 @@ async function renderMemberCard(member, list) {
   statusText.textContent = "Status: " + memberStatus;
   information.appendChild(statusText);
 
+const registrationDate = member.created_at
+  ? new Date(member.created_at).toLocaleDateString("en-GB")
+  : "Not available";
+
+const registeredText = document.createElement("p");
+registeredText.textContent = "Date Registered: " + registrationDate;
+information.appendChild(registeredText);
+  
   body.appendChild(photoArea);
   body.appendChild(information);
 
@@ -905,7 +913,8 @@ details.open = true;
   addText(details, "p", "Membership No.: " + memberNumber);
   addText(details, "p", "Position: " + memberPosition);
   addText(details, "p", "Status: " + memberStatus);
-
+addText(details, "p", "Date Registered: " + registrationDate);
+  
   if (member.id != null) {
     const verifyUrl = new URL(
       "member.html?id=" + encodeURIComponent(member.id),
