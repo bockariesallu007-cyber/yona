@@ -746,6 +746,10 @@ async function renderMemberCard(member, list) {
     member.status ||
     "Not specified";
 
+const registrationDate = member.registration_date
+  ? new Date(member.registration_date + "T00:00:00").toLocaleDateString("en-GB")
+  : "Not provided";
+  
   /* ID card layout */
   const idCard = document.createElement("div");
   idCard.className = "public-id-card";
@@ -817,6 +821,14 @@ async function renderMemberCard(member, list) {
   statusText.textContent = "Status: " + memberStatus;
   information.appendChild(statusText);
 
+const registrationDate = member.registration_date
+  ? new Date(member.registration_date + "T00:00:00").toLocaleDateString("en-GB")
+  : "Not provided";
+
+const registeredText = document.createElement("p");
+registeredText.textContent = "Date of Registration: " + registrationDate;
+information.appendChild(registeredText);
+  
 const registrationDate = member.created_at
   ? new Date(member.created_at).toLocaleDateString("en-GB")
   : "Not available";
