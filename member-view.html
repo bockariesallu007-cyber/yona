@@ -860,7 +860,21 @@ async function renderMemberCard(member, list) {
   footer.textContent = "PRIVATE ASSOCIATION ID";
   idCard.appendChild(footer);
 
-  card.appendChild(idCard); 
+  /* Hide ID card until requested */
+idCard.style.display = "none";
+
+const viewIdButton = document.createElement("button");
+viewIdButton.type = "button";
+viewIdButton.textContent = "View ID Card";
+
+viewIdButton.addEventListener("click", () => {
+  const isHidden = idCard.style.display === "none";
+  idCard.style.display = isHidden ? "block" : "none";
+  viewIdButton.textContent = isHidden ? "Hide ID Card" : "View ID Card";
+});
+
+card.appendChild(viewIdButton);
+card.appendChild(idCard); 
 
   /* About This Member box */
 const aboutBox = document.createElement("div");
