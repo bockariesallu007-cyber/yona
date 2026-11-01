@@ -824,6 +824,15 @@ const registrationDate = member.registration_date
 const registeredText = document.createElement("p");
 registeredText.textContent = "Date Registered: " + registrationDate;
 information.appendChild(registeredText);
+
+const expiryDate = member.expiry_date
+  ? new Date(member.expiry_date + "T00:00:00").toLocaleDateString("en-GB")
+  : "Not provided";
+
+const expiryText = document.createElement("p");
+expiryText.textContent = "Card Expiry Date: " + expiryDate;
+information.appendChild(expiryText);
+  
   body.appendChild(photoArea);
   body.appendChild(information);
 
@@ -913,6 +922,7 @@ details.open = true;
   addText(details, "p", "Position: " + memberPosition);
   addText(details, "p", "Status: " + memberStatus);
 addText(details, "p", "Date Registered: " + registrationDate);
+addText(details, "p", "Card Expiry Date: " + expiryDate);
   
   if (member.id != null) {
     const verifyUrl = new URL(
