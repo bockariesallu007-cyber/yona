@@ -418,6 +418,55 @@ footer {
   padding-bottom: 12px;
   border-bottom: 3px solid #d4af37;
 }
+
+/* Professional YONA footer */
+.yona-footer {
+  background: #123d73;
+  color: #ffffff;
+  padding: 35px 20px 20px;
+  margin-top: 40px;
+  border-top: 5px solid #d4af37;
+  text-align: center;
+  border-radius: 16px 16px 0 0;
+}
+
+.footer-content h3 {
+  color: #ffffff;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.footer-motto {
+  color: #ffd700;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.footer-divider {
+  width: 65px;
+  height: 3px;
+  background: #d4af37;
+  margin: 18px auto;
+  border-radius: 5px;
+}
+
+.footer-content p {
+  color: #eaf1fa;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.footer-content a {
+  color: #ffd700;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.footer-copy {
+  margin-top: 22px;
+  padding-top: 15px;
+  border-top: 1px solid #ffffff40;
+}
     
   </style>
 </head>
@@ -608,7 +657,16 @@ footer {
   </section>
 </main>
 
-<footer>YONA — Unity and Development</footer>
+<footer class="yona-footer">
+  <div class="footer-content">
+    <h3>Youths of Ndasei Association (YONA)</h3>
+    <p class="footer-motto">Unity and Development</p>
+    <div class="footer-divider"></div>
+    <p>12 Berry Street, Back of Albert Academy, Freetown.</p>
+    <p>Email: <a href="mailto:yonabk3@gmail.com">yonabk3@gmail.com</a></p>
+    <p class="footer-copy">© YONA. All rights reserved.</p>
+  </div>
+</footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 "use strict";
