@@ -19,7 +19,41 @@
     main{max-width:1200px;margin:22px auto;padding:0 14px}
     .card{background:#fff;border-radius:14px;padding:22px;margin-bottom:20px;box-shadow:0 3px 12px #0000000c}
     .card h2{color:#075aaa;margin-top:0}
-    .section-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    /* YONA section layout */
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Professional section cards */
+.section-card {
+  background: #ffffff;
+  border: 1px solid #dbe5f0;
+  border-top: 4px solid #075aaa;
+  border-radius: 14px;
+  padding: 24px 20px;
+  box-shadow: 0 5px 16px rgba(18, 61, 115, 0.07);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.section-card h3 {
+  color: #075aaa;
+  font-size: 18px;
+  margin: 0 0 12px;
+}
+
+.section-card p {
+  color: #526174;
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.section-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 9px 22px rgba(18, 61, 115, 0.13);
+}
     /* Match the Admin App dashboard */
 .public-dashboard {
   display: grid;
