@@ -171,15 +171,23 @@
     .member-qr-wrap{margin-top:12px;text-align:center}
     .member-qr{display:block;width:180px;height:180px;max-width:100%;margin:8px auto;border:1px solid #e0e7f0;border-radius:8px}
     /* Public membership ID card */
+/* Professional YONA membership ID card */
+    
 .public-id-card {
   width: 100%;
-  max-width: 520px;
-  margin: 12px auto;
+  max-width: 540px;
+  margin: 20px auto;
   overflow: hidden;
-  background: #fff;
+  background: #ffffff;
   border: 2px solid #123d73;
-  border-radius: 12px;
-  box-shadow: 0 5px 18px #123d7318;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(18, 61, 115, 0.15);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.public-id-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(18, 61, 115, 0.20);
 }
 
 .public-id-header {
@@ -223,8 +231,10 @@
   width: 78px;
   height: 90px;
   object-fit: cover;
-  border: 1px solid #d4af37;
-  border-radius: 5px;
+  background: #eef5fc;
+  border: 2px solid #d4af37;
+  border-radius: 9px;
+  box-shadow: 0 3px 9px rgba(18, 61, 115, 0.15);
 }
 
 .public-id-information {
@@ -233,14 +243,18 @@
 }
 
 .public-id-information h3 {
-  margin: 0 0 8px;
+  margin: 0 0 10px;
   color: #123d73;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.4;
 }
 
 .public-id-information p {
-  margin: 5px 0;
-  font-size: 11px;
+  margin: 7px 0;
+  color: #405168;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .public-id-qr-area {
@@ -251,11 +265,17 @@
 }
 
 .public-id-qr {
+  box-sizing: border-box;
   display: block;
   width: 58px;
   height: 58px;
   max-width: 100%;
-  margin: 0 auto 5px;
+  margin: 0 auto 7px;
+  padding: 4px;
+  background: #ffffff;
+  border: 1px solid #d4af37;
+  border-radius: 8px;
+  box-shadow: 0 2px 7px rgba(18, 61, 115, 0.12);
 }
 
 .public-id-footer {
