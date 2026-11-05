@@ -877,6 +877,17 @@
 
   </script>
 
+  <!-- YONA Website Database Connection -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const yonaSiteClient = window.supabase.createClient(
+  "https://atxeeymireukwbbsczbv.supabase.co",
+  "sb_publishable_Qc3DSCrNuXWmeVOqK_CKoQ_Z_CitoTc"
+);
+
+console.log("YONA Website Database Connected");
+</script>
 
 </body>
 </html>
