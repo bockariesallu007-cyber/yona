@@ -252,6 +252,37 @@
       margin-top: 5px;
     }
 
+    .website-event-card {
+      text-align: left;
+      min-width: 0;
+    }
+
+    .website-event-card h3 {
+      color: #0b3d91;
+      margin-top: 0;
+    }
+
+    .website-event-photo {
+      display: block;
+      width: 100%;
+      max-height: 230px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin: 0 auto 15px;
+      background: #e8eef7;
+    }
+
+    .website-event-media {
+      width: 100%;
+      display: block;
+      margin-top: 12px;
+      border-radius: 8px;
+    }
+
+    .website-event-empty {
+      grid-column: 1 / -1;
+    }
+
     /* CONTACT */
     .contact {
       background: #eef4fb;
@@ -587,47 +618,8 @@
           Upcoming Events
         </h2>
 
-        <div class="cards">
-
-          <div class="card">
-
-            <h3>
-              YONA Meetings
-            </h3>
-
-            <p>
-              Members will be informed about
-              upcoming meetings and activities.
-            </p>
-
-          </div>
-
-          <div class="card">
-
-            <h3>
-              Unity &amp; Development
-            </h3>
-
-            <p>
-              YONA continues to promote unity,
-              cooperation and community development.
-            </p>
-
-          </div>
-
-          <div class="card">
-
-            <h3>
-              Community Activities
-            </h3>
-
-            <p>
-              Information about future YONA
-              activities will be published here.
-            </p>
-
-          </div>
-
+        <div class="cards" id="websiteEventsList">
+          <p>Loading YONA events...</p>
         </div>
 
       </div>
@@ -941,6 +933,134 @@ document.addEventListener(
   "DOMContentLoaded",
   loadWebsiteExecutives
 );
+
+async function getWebsiteMediaUrl(path) {
+  if (!path) return null;
+
+  const { data, error } = await yonaSiteClient.storage
+    .from("yona-documents")
+    .createSignedUrl(path, 3600);
+
+  if (error) {
+    console.error("YONA event media URL error:", error);
+    return null;
+  }
+
+  return data?.signedUrl || null;
+}
+
+async function loadWebsiteEvents() {
+  const list = document.getElementById("websiteEventsList");
+  if (!list) return;
+
+  list.textContent = "Loading YONA events...";
+
+  try {
+    const { data, error } = await yonaSiteClient
+      .from("events")
+      .select("id, title, date, location, description, photo_url, video_url, audio_url")
+      .order("date", { ascending: true });
+
+    if (error) throw error;
+
+    list.replaceChildren();
+
+    if (!data || data.length === 0) {
+      const empty = document.createElement("p");
+      empty.className = "website-event-empty";
+      empty.textContent = "No events have been published yet.";
+      list.appendChild(empty);
+      return;
+    }
+
+    for (const event of data) {
+      const card = document.createElement("article");
+      card.className = "card website-event-card";
+
+      if (event.photo_url) {
+        const photoUrl = await getWebsiteMediaUrl(event.photo_url);
+        if (photoUrl) {
+          const image = document.createElement("img");
+          image.className = "website-event-photo";
+          image.src = photoUrl;
+          image.alt = "YONA event photograph";
+          image.loading = "lazy";
+          card.appendChild(image);
+        }
+      }
+
+      const title = document.createElement("h3");
+      title.textContent = event.title || "YONA Event";
+      card.appendChild(title);
+
+      const date = document.createElement("p");
+      const dateLabel = document.createElement("strong");
+      dateLabel.textContent = "Date: ";
+      date.appendChild(dateLabel);
+      date.appendChild(document.createTextNode(event.date || "Not specified"));
+      card.appendChild(date);
+
+      if (event.location) {
+        const location = document.createElement("p");
+        const locationLabel = document.createElement("strong");
+        locationLabel.textContent = "Location: ";
+        location.appendChild(locationLabel);
+        location.appendChild(document.createTextNode(event.location));
+        card.appendChild(location);
+      }
+
+      if (event.description) {
+        const description = document.createElement("p");
+        description.textContent = event.description;
+        card.appendChild(description);
+      }
+
+      if (event.video_url) {
+        const videoUrl = await getWebsiteMediaUrl(event.video_url);
+        if (videoUrl) {
+          const videoLabel = document.createElement("p");
+          videoLabel.textContent = "Event Video";
+          card.appendChild(videoLabel);
+
+          const video = document.createElement("video");
+          video.className = "website-event-media";
+          video.controls = true;
+          video.preload = "metadata";
+          video.src = videoUrl;
+          card.appendChild(video);
+        }
+      }
+
+      if (event.audio_url) {
+        const audioUrl = await getWebsiteMediaUrl(event.audio_url);
+        if (audioUrl) {
+          const audioLabel = document.createElement("p");
+          audioLabel.textContent = "Event Audio";
+          card.appendChild(audioLabel);
+
+          const audio = document.createElement("audio");
+          audio.className = "website-event-media";
+          audio.controls = true;
+          audio.preload = "none";
+          audio.src = audioUrl;
+          card.appendChild(audio);
+        }
+      }
+
+      list.appendChild(card);
+    }
+  } catch (error) {
+    console.error("YONA events loading error:", error);
+    list.replaceChildren();
+
+    const message = document.createElement("p");
+    message.className = "website-event-empty";
+    message.textContent = "Event information is temporarily unavailable.";
+    list.appendChild(message);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadWebsiteEvents);
 </script>
 
 </body>
