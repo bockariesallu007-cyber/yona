@@ -982,41 +982,92 @@ async function loadPublicInformation() {
 async function loadPublicMembers() {
   const status = document.getElementById("memberListStatus");
   const list = document.getElementById("publicMembersList");
-  list.replaceChildren();
-  try {
-    // select("*") avoids breaking the entire list if the view has extra/different columns.
-    const { data, error } = await supabaseClient.from("yona_public_members").select("*");
-    if (error) throw error;
-    if (!data || !data.length) { status.textContent = "No members are currently available."; return; }
 
-    const getType = m => String(m.member_type || m.category || m.status || "Not specified").trim();
-    const groupOrder = ["Active Member", "Inactive Member", "Probationary Member"];
-    const grouped = new Set();
-    groupOrder.forEach(groupName => {
-      const members = data.filter(m => getType(m).toLowerCase() === groupName.toLowerCase());
-      if (!members.length) return;
-      grouped.add(groupName.toLowerCase());
-      const heading = document.createElement("h3");
-      heading.style.gridColumn = "1 / -1";
-      heading.textContent = groupName + "s (" + members.length + ")";
-      list.appendChild(heading);
-      members.forEach(member => renderMemberCard(member, list));
-    });
-    const otherMembers = data.filter(m => !grouped.has(getType(m).toLowerCase()));
-    if (otherMembers.length) {
-      const heading = document.createElement("h3");
-      heading.style.gridColumn = "1 / -1";
-      heading.textContent = "Other Members (" + otherMembers.length + ")";
-      list.appendChild(heading);
-      otherMembers.forEach(member => renderMemberCard(member, list));
+  list.replaceChildren();
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("yona_public_members")
+      .select("*");
+
+    if (error) throw error;
+
+    if (!data || !data.length) {
+      status.textContent = "No members are currently available.";
+      return;
     }
+
+    function normalizeMemberGroup(member) {
+      const value = String(
+        member.member_type ||
+        member.category ||
+        member.status ||
+        ""
+      ).trim().toLowerCase();
+
+      if (value.includes("probation")) return "probationary";
+      if (value.includes("inactive")) return "inactive";
+      if (value.includes("active")) return "active";
+
+      return "other";
+    }
+
+    const groups = [
+      { key: "active", title: "ACTIVE MEMBERS" },
+      { key: "inactive", title: "INACTIVE MEMBERS" },
+      { key: "probationary", title: "PROBATIONARY MEMBERS" }
+    ];
+
+    const assignedMembers = new Set();
+
+    groups.forEach(group => {
+      const members = data.filter(member =>
+        normalizeMemberGroup(member) === group.key
+      );
+
+      const heading = document.createElement("h3");
+      heading.style.gridColumn = "1 / -1";
+      heading.style.color = "#075aaa";
+      heading.style.padding = "12px";
+      heading.style.borderBottom = "2px solid #d4af37";
+      heading.textContent =
+        group.title + " (" + members.length + ")";
+
+      list.appendChild(heading);
+
+      members.forEach(member => {
+        assignedMembers.add(member);
+        renderMemberCard(member, list);
+      });
+    });
+
+    const otherMembers = data.filter(member =>
+      !assignedMembers.has(member)
+    );
+
+    if (otherMembers.length > 0) {
+      const heading = document.createElement("h3");
+      heading.style.gridColumn = "1 / -1";
+      heading.textContent =
+        "OTHER MEMBERS (" + otherMembers.length + ")";
+
+      list.appendChild(heading);
+
+      otherMembers.forEach(member => {
+        renderMemberCard(member, list);
+      });
+    }
+
     status.textContent = "Total member records: " + data.length;
+
   } catch (error) {
     console.error("Could not load public members:", error);
-    status.textContent = "The member list could not be loaded. Check read access to yona_public_members. Details: " + (error.message || "unknown error");
+
+    status.textContent =
+      "The member list could not be loaded. " +
+      (error.message || "Please check database access.");
   }
 }
-
 async function renderMemberCard(member, list) {
   const card = document.createElement("article");
   card.className = "section-card public-member-profile";
