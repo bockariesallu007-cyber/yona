@@ -552,101 +552,28 @@
     </section>
 
 
-    <!-- LEADERSHIP -->
-    <section id="leadership">
+  <!-- LEADERSHIP -->
+<section id="leadership">
 
-      <div class="wrap">
+  <div class="wrap">
 
-        <p class="tag">
-          LEADERSHIP
-        </p>
+    <p class="tag">
+      LEADERSHIP
+    </p>
 
-        <h2>
-          Executive Leadership
-        </h2>
+    <h2>
+      Executive Leadership
+    </h2>
 
-        <div class="cards">
+    <div class="cards" id="websiteExecutiveList">
 
+      <p>Loading executive leadership...</p>
 
-          <div class="card executive-card">
+    </div>
 
-            <img
-              src="THOMAS"
-              alt="Thomas Konyima Sam"
-            >
+  </div>
 
-            <h3>
-              Founder
-            </h3>
-
-            <p>
-              Thomas Konyima Sam
-            </p>
-
-          </div>
-
-
-          <div class="card executive-card">
-
-            <img
-              src="PRESIDENT%5B1%5D"
-              alt="Mohammed Morray"
-            >
-
-            <h3>
-              President
-            </h3>
-
-            <p>
-              Mohammed Morray
-            </p>
-
-          </div>
-
-
-          <div class="card executive-card">
-
-            <img
-              src="SECREATRYGENERAL%5B1%5D"
-              alt="Abdulai Sallu"
-            >
-
-            <h3>
-              Secretary General
-            </h3>
-
-            <p>
-              Abdulai Sallu
-            </p>
-
-          </div>
-
-
-          <div class="card executive-card">
-
-            <img
-              src="SAMAI_STEVEN%5B1%5D"
-              alt="Samai Steven"
-            >
-
-            <h3>
-              Financial Secretary
-            </h3>
-
-            <p>
-              Samai Steven
-            </p>
-
-          </div>
-
-
-        </div>
-
-      </div>
-
-    </section>
-
-
+</section>
     <!-- EVENTS -->
     <section id="events" class="light">
 
@@ -945,6 +872,75 @@ console.log("YONA Website Database Connected");
 }
 
 document.addEventListener("DOMContentLoaded", loadYonaOrganization);
+  async function loadWebsiteExecutives() {
+  const list = document.getElementById("websiteExecutiveList");
+
+  if (!list) return;
+
+  list.textContent = "Loading executive leadership...";
+
+  try {
+    const { data, error } = await yonaSiteClient
+      .from("executive")
+      .select("id, period, name, position, description, photo")
+      .order("id", { ascending: false });
+
+    if (error) throw error;
+
+    list.replaceChildren();
+
+    if (!data || data.length === 0) {
+      list.textContent = "No executive records available.";
+      return;
+    }
+
+    for (const executive of data) {
+      const card = document.createElement("div");
+      card.className = "card executive-card";
+
+      if (executive.photo) {
+        const { data: photoData, error: photoError } =
+          await yonaSiteClient.storage
+            .from("yona-documents")
+            .createSignedUrl(executive.photo, 3600);
+
+        if (!photoError && photoData?.signedUrl) {
+          const img = document.createElement("img");
+          img.src = photoData.signedUrl;
+          img.alt = "Executive photograph";
+          card.appendChild(img);
+        }
+      }
+
+      const name = document.createElement("h3");
+      name.textContent = executive.name || "Name unavailable";
+      card.appendChild(name);
+
+      const position = document.createElement("p");
+      position.textContent = executive.position || "";
+      card.appendChild(position);
+
+      const period = document.createElement("p");
+      period.textContent = "Period: " + (executive.period || "Not specified");
+      card.appendChild(period);
+
+      const description = document.createElement("p");
+      description.textContent = executive.description || "";
+      card.appendChild(description);
+
+      list.appendChild(card);
+    }
+
+  } catch (error) {
+    console.error("Executive loading error:", error);
+    list.textContent = "Executive information is temporarily unavailable.";
+  }
+}
+
+document.addEventListener(
+  "DOMContentLoaded",
+  loadWebsiteExecutives
+);
 </script>
 
 </body>
