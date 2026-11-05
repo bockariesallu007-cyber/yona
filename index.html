@@ -451,39 +451,43 @@
 
 
     <!-- ABOUT -->
-    <section id="about">
+   <!-- ABOUT -->
+<section id="about">
 
-      <div class="wrap">
+  <div class="wrap">
 
-        <p class="tag">
-          WHO WE ARE
-        </p>
+    <p class="tag">WHO WE ARE</p>
 
-        <h2>
-          About YONA
-        </h2>
+    <h2>About YONA</h2>
 
-        <div class="card">
+    <div class="card">
 
-          <p>
-            YOUTHS OF NDASEI ASSOCIATION (YONA) is
-            a youth-focused community organization
-            committed to unity, responsible
-            participation and development.
-          </p>
+      <h3>Who We Are</h3>
+      <p id="websiteOrgWho">Loading...</p>
 
-          <p>
-            This website provides official information
-            about YONA, its leadership, activities,
-            events and announcements.
-          </p>
+      <h3>Our Motto</h3>
+      <p id="websiteOrgMotto"></p>
 
-        </div>
+      <h3>Our Vision</h3>
+      <p id="websiteOrgVision"></p>
 
-      </div>
+      <h3>Our Mission</h3>
+      <p id="websiteOrgMission"></p>
 
-    </section>
+      <h3>Our Objectives</h3>
+      <ul id="websiteOrgObjectives"></ul>
 
+      <h3>Our Address</h3>
+      <p id="websiteOrgAddress"></p>
+
+      <h3>Email</h3>
+      <p id="websiteOrgEmail"></p>
+
+    </div>
+
+  </div>
+
+</section>
 
     <!-- OBJECTIVES -->
     <section id="objectives" class="light">
@@ -887,6 +891,60 @@ const yonaSiteClient = window.supabase.createClient(
 );
 
 console.log("YONA Website Database Connected");
+  async function loadYonaOrganization() {
+  const { data, error } = await yonaSiteClient
+    .from("yona_info_pages")
+    .select("content")
+    .eq("page_key", "organization")
+    .maybeSingle();
+
+  if (error) {
+    console.error("YONA Organization Error:", error);
+    document.getElementById("websiteOrgWho").textContent =
+      "Organization information is temporarily unavailable.";
+    return;
+  }
+
+  if (!data || !data.content) {
+    document.getElementById("websiteOrgWho").textContent =
+      "Organization information has not been published yet.";
+    return;
+  }
+
+  const org = data.content;
+
+  document.getElementById("websiteOrgWho").textContent =
+    org.who_we_are || "";
+
+  document.getElementById("websiteOrgMotto").textContent =
+    org.motto || "";
+
+  document.getElementById("websiteOrgVision").textContent =
+    org.vision || "";
+
+  document.getElementById("websiteOrgMission").textContent =
+    org.mission || "";
+
+  document.getElementById("websiteOrgAddress").textContent =
+    org.address || "";
+
+  document.getElementById("websiteOrgEmail").textContent =
+    org.email || "";
+
+  const objectivesList =
+    document.getElementById("websiteOrgObjectives");
+
+  objectivesList.replaceChildren();
+
+  (Array.isArray(org.objectives) ? org.objectives : [])
+    .forEach(objective => {
+      const item = document.createElement("li");
+      item.textContent = objective;
+      objectivesList.appendChild(item);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", loadYonaOrganization);
 </script>
 
 </body>
