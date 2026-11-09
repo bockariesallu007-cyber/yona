@@ -1035,11 +1035,10 @@ async function loadPublicMembers() {
 
       list.appendChild(heading);
 
-      members.forEach(member => {
-        assignedMembers.add(member);
-        renderMemberCard(member, list);
-      });
-    });
+     for (const member of members) {
+  assignedMembers.add(member);
+  await renderMemberCard(member, list);
+}
 
     const otherMembers = data.filter(member =>
       !assignedMembers.has(member)
@@ -1053,10 +1052,9 @@ async function loadPublicMembers() {
 
       list.appendChild(heading);
 
-      otherMembers.forEach(member => {
-        renderMemberCard(member, list);
-      });
-    }
+     for (const member of otherMembers) {
+  await renderMemberCard(member, list);
+}
 
     status.textContent = "Total member records: " + data.length;
 
