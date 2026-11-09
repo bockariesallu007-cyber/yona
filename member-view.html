@@ -1602,55 +1602,112 @@ const financeLogoutButton = document.getElementById("financeLogoutButton");
 if (financeLogoutButton) {
   financeLogoutButton.addEventListener("click", handleFinanceLogout);
 }
-document.addEventListener("DOMContentLoaded", function() {
+// ==========================================
+// YONA PUBLIC WEBSITE - SECTION NAVIGATION
+// ==========================================
+
+(function () {
+
   const dashboard = document.getElementById("dashboard");
   const sections = document.querySelectorAll(".content-section");
 
   function showDashboard() {
-    sections.forEach(section => { section.hidden = true; });
+
+    sections.forEach(section => {
+      section.hidden = true;
+    });
+
     dashboard.hidden = false;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    history.replaceState(null, "", "#dashboard");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   }
+
   function openSection(targetId) {
+
     const target = document.getElementById(targetId);
-    if (!target) return;
-    const section = target.classList.contains("content-section") ? target : target.closest(".content-section");
-    if (!section) return;
+
+    if (!target) {
+      console.error("YONA section not found:", targetId);
+      return false;
+    }
+
+    const section = target.classList.contains("content-section")
+      ? target
+      : target.closest(".content-section");
+
+    if (!section) {
+      console.error("No content section found:", targetId);
+      return false;
+    }
+
     dashboard.hidden = true;
-    sections.forEach(item => { item.hidden = true; });
+
+    sections.forEach(item => {
+      item.hidden = true;
+    });
+
     section.hidden = false;
+
     let backButton = section.querySelector(".back-dashboard");
+
     if (!backButton) {
+
       backButton = document.createElement("button");
-      backButton.className = "back-dashboard";
+
       backButton.type = "button";
+      backButton.className = "back-dashboard";
       backButton.textContent = "← Back to Dashboard";
+
       backButton.addEventListener("click", showDashboard);
+
       section.prepend(backButton);
     }
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    history.replaceState(null, "", "#" + section.id);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+    return true;
   }
-  document.querySelectorAll(".dashboard-link").forEach(link => {
-    link.addEventListener("click", event => {
+
+  // Handle all navigation clicks
+  document.addEventListener("click", function (event) {
+
+    const link = event.target.closest(
+      'nav a[href^="#"], a.dashboard-link[href^="#"]'
+    );
+
+    if (!link) return;
+
+    const targetId = link.getAttribute("href").substring(1);
+
+    if (targetId === "dashboard") {
+
       event.preventDefault();
-      openSection(link.getAttribute("href").substring(1));
-    });
+      showDashboard();
+      return;
+
+    }
+
+    if (openSection(targetId)) {
+      event.preventDefault();
+    }
+
   });
-  document.querySelectorAll('nav a[href^="#"]').forEach(link => {
-    link.addEventListener("click", event => {
-      const targetId = link.getAttribute("href").substring(1);
-      if (targetId === "dashboard") {
-        event.preventDefault();
-        showDashboard();
-        return;
-      }
-      if (document.getElementById(targetId)) {
-        event.preventDefault();
-        openSection(targetId);
-      }
-    });
-  });
+
+  // Show dashboard when website opens
   showDashboard();
+
+})();
+
 });
 loadPublicPage();
 </script>
