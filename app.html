@@ -6063,6 +6063,41 @@ async function adminSetMemberPassword() {
   }
 }
 
+/* =========================
+   LOAD MEMBERS
+========================= */
+
+async function loadMembers() {
+
+  const list = document.getElementById('membersList');
+
+  if (!list) return;
+
+  list.innerHTML = 'Loading members...';
+
+  const { data, error } = await supabaseClient
+    .from('members')
+    .select('*')
+    .order('id', { ascending: false });
+
+  if (error) {
+    list.innerHTML =
+      '<div class="message error">' +
+      escapeHtml(error.message) +
+      '</div>';
+    return;
+  }
+
+  currentMembers = data || [];
+
+  renderMembers();
+
+  populatePasswordMemberSelect();
+
+  await updateMemberTotals();
+
+}
+  
 function renderMembers(){
 
 const list = document.getElementById('membersList');
@@ -6300,13 +6335,8 @@ try {
 
 }
 
-
 });
 
-}
-
-
-await updateMemberTotals();
 }
 
 /* =========================
