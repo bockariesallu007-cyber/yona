@@ -3234,23 +3234,101 @@ Back to Dashboard
 
   <h2 class="section-title">⚙️ Settings</h2>
 
-  <p>
-    Manage the settings and navigation preferences
-    of the YONA Admin App.
-  </p>
+  <!-- SETTINGS VIEW -->
 
-  <div class="card">
+  <div id="settingsView">
+
+    <h3>Application Description</h3>
+    <p id="settingsDescriptionView">
+      Manage the settings and navigation preferences
+      of the YONA Admin App.
+    </p>
 
     <h3>Menu Settings</h3>
 
     <p>
-      Administrators will be able to manage the
-      YONA menu items and their display settings here.
+      <strong>Menu Title</strong>
     </p>
 
-    <p class="small-text">
-      Settings management will be configured next.
+    <p id="settingsMenuTitleView">
+      Menu Settings
     </p>
+
+    <p>
+      <strong>Menu Description</strong>
+    </p>
+
+    <p id="settingsMenuDescriptionView">
+      Administrators can manage the YONA menu items
+      and their display settings here.
+    </p>
+
+  </div>
+
+  <!-- SETTINGS EDITOR -->
+
+  <div id="settingsEditor" class="hidden">
+
+    <h3>Edit Application Settings</h3>
+
+    <label>Application Description</label>
+
+    <textarea
+      id="settingsDescriptionInput"
+      rows="4"
+    ></textarea>
+
+    <label>Menu Settings Title</label>
+
+    <input
+      type="text"
+      id="settingsMenuTitleInput"
+    >
+
+    <label>Menu Settings Description</label>
+
+    <textarea
+      id="settingsMenuDescriptionInput"
+      rows="4"
+    ></textarea>
+
+    <button
+      type="button"
+      id="saveSettingsButton"
+      onclick="saveSettingsInfo()"
+    >
+      Save Changes
+    </button>
+
+    <button
+      type="button"
+      class="cancel-button"
+      onclick="cancelSettingsEdit()"
+    >
+      Cancel
+    </button>
+
+    <p
+      id="settingsSaveMessage"
+      role="status"
+    ></p>
+
+  </div>
+
+  <!-- ADMIN EDIT BUTTON -->
+
+  <div
+    id="settingsAdminControls"
+    class="hidden"
+  >
+
+    <button
+      type="button"
+      class="edit-button"
+      onclick="editSettingsInfo()"
+    >
+      Edit Settings
+    </button>
 
   </div>
 
@@ -3263,7 +3341,6 @@ Back to Dashboard
   </button>
 
 </section>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
@@ -11158,6 +11235,21 @@ const YONA_SECTION_DEFAULTS = {
   documents: "Create, upload and store important association documents for reference."
 };
 
+const YONA_SETTINGS_DEFAULTS = {
+  description:
+    "Manage the settings and navigation preferences of the YONA Admin App.",
+
+  menu_title:
+    "Menu Settings",
+
+  menu_description:
+    "Administrators can manage the YONA menu items and their display settings here."
+};
+
+let yonaSettingsContent = {
+  ...YONA_SETTINGS_DEFAULTS
+};
+  
 let yonaOrgContent = { ...YONA_ORG_DEFAULTS };
 let yonaSectionsContent = { ...YONA_SECTION_DEFAULTS };
 let yonaInfoLoading = false;
@@ -11203,6 +11295,7 @@ async function loadYonaInfoPages() {
 
     yonaSetHidden("organizationAdminControls", !isAdmin);
     yonaSetHidden("sectionsAdminControls", !isAdmin);
+    yonaSetHidden("settingsAdminControls", !isAdmin);
 
     const { data, error } = await supabaseClient
       .from("yona_info_pages")
@@ -11220,6 +11313,10 @@ async function loadYonaInfoPages() {
       row => row.page_key === "sections"
     );
 
+    const settingsRow = rows.find(
+      row => row.page_key === "settings"
+    );
+
     yonaOrgContent = {
       ...YONA_ORG_DEFAULTS,
       ...(orgRow?.content || {})
@@ -11230,6 +11327,11 @@ async function loadYonaInfoPages() {
       ...(sectionsRow?.content || {})
     };
 
+    yonaSettingsContent = {
+      ...YONA_SETTINGS_DEFAULTS,
+      ...(settingsRow?.content || {})
+    };
+
     if (!Array.isArray(yonaOrgContent.objectives)) {
       yonaOrgContent.objectives =
         YONA_ORG_DEFAULTS.objectives;
@@ -11237,6 +11339,7 @@ async function loadYonaInfoPages() {
 
     yonaRenderOrganization();
     yonaRenderSections();
+    yonaRenderSettings();
 
   } catch (error) {
     console.error("YONA information pages:", error);
@@ -11250,7 +11353,6 @@ async function loadYonaInfoPages() {
     yonaInfoLoading = false;
   }
 }
-
 
 // ========================================
 // DISPLAY ORGANIZATION INFORMATION
@@ -11299,7 +11401,54 @@ function yonaRenderSections() {
   yonaSetText("sectionDocumentsView", yonaSectionsContent.documents);
 }
 
+// ========================================
+// DISPLAY SETTINGS INFORMATION
+// ========================================
 
+function yonaRenderSettings() {
+  yonaSetText(
+    "settingsDescriptionView",
+    yonaSettingsContent.description
+  );
+
+  yonaSetText(
+    "settingsMenuTitleView",
+    yonaSettingsContent.menu_title
+  );
+
+  yonaSetText(
+    "settingsMenuDescriptionView",
+    yonaSettingsContent.menu_description
+  );
+}
+
+// ========================================
+// EDIT SETTINGS INFORMATION
+// ========================================
+
+function editSettingsInfo() {
+  yonaSetInput(
+    "settingsDescriptionInput",
+    yonaSettingsContent.description
+  );
+
+  yonaSetInput(
+    "settingsMenuTitleInput",
+    yonaSettingsContent.menu_title
+  );
+
+  yonaSetInput(
+    "settingsMenuDescriptionInput",
+    yonaSettingsContent.menu_description
+  );
+
+  yonaSetHidden("settingsView", true);
+  yonaSetHidden("settingsEditor", false);
+  yonaSetHidden("settingsAdminControls", true);
+
+  yonaSetText("settingsSaveMessage", "");
+}
+  
 // ========================================
 // EDIT ORGANIZATION INFORMATION
 // ========================================
@@ -11360,7 +11509,59 @@ function cancelSectionsEdit() {
   yonaSetHidden("sectionsAdminControls", false);
 }
 
+  function cancelSettingsEdit() {
+  yonaSetHidden("settingsEditor", true);
+  yonaSetHidden("settingsView", false);
+  yonaSetHidden("settingsAdminControls", false);
+}
 
+// ========================================
+// SAVE SETTINGS INFORMATION
+// ========================================
+
+async function saveSettingsInfo() {
+  const content = {
+    description:
+      document.getElementById("settingsDescriptionInput").value.trim(),
+
+    menu_title:
+      document.getElementById("settingsMenuTitleInput").value.trim(),
+
+    menu_description:
+      document.getElementById("settingsMenuDescriptionInput").value.trim()
+  };
+
+  if (
+    !content.description ||
+    !content.menu_title ||
+    !content.menu_description
+  ) {
+    yonaSetText(
+      "settingsSaveMessage",
+      "Please complete all Settings fields."
+    );
+    return;
+  }
+
+  const saved = await yonaSaveInfoPage(
+    "settings",
+    "Settings",
+    content,
+    "saveSettingsButton",
+    "settingsSaveMessage"
+  );
+
+  if (!saved) return;
+
+  yonaSettingsContent = content;
+
+  yonaRenderSettings();
+
+  yonaSetHidden("settingsEditor", true);
+  yonaSetHidden("settingsView", false);
+  yonaSetHidden("settingsAdminControls", false);
+}
+  
 // ========================================
 // SAVE INFORMATION TO SUPABASE
 // ========================================
