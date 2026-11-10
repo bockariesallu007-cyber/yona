@@ -1020,10 +1020,10 @@ async function loadPublicMembers() {
 
     const assignedMembers = new Set();
 
-    groups.forEach(group => {
-      const members = data.filter(member =>
-        normalizeMemberGroup(member) === group.key
-      );
+for (const group of groups) {
+  const members = data.filter(member =>
+    normalizeMemberGroup(member) === group.key
+  );
 
       const heading = document.createElement("h3");
       heading.style.gridColumn = "1 / -1";
@@ -1055,7 +1055,9 @@ async function loadPublicMembers() {
      for (const member of otherMembers) {
   await renderMemberCard(member, list);
 }
-
+      
+}
+      
     status.textContent = "Total member records: " + data.length;
 
   } catch (error) {
@@ -1708,7 +1710,6 @@ if (financeLogoutButton) {
 
 })();
 
-});
 loadPublicPage();
 </script>
 </body>
