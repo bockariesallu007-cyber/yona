@@ -1003,7 +1003,7 @@ header {
 .yona-menu-panel {
   position: fixed;
   top: 0;
-  right: -340px;
+  right: -100%;
   width: 320px;
   max-width: 85%;
   height: 100%;
@@ -1013,10 +1013,15 @@ header {
   padding: 20px;
   overflow-y: auto;
   transition: right .3s ease;
+  box-sizing: border-box;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .yona-menu-panel.open {
   right: 0;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .yona-menu-heading {
