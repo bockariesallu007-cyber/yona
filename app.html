@@ -1075,8 +1075,20 @@ class="yona-app-logo"
   <strong>Unity and Development</strong>
 </p>
 
-</header>
+<!-- HAMBURGER MENU BUTTON -->
 
+<button
+  type="button"
+  id="yonaMenuButton"
+  class="yona-menu-button"
+  onclick="openYonaMenu()"
+  aria-label="Open YONA menu"
+>
+  ☰
+</button>
+
+</header>
+  
 <!-- YONA MENU OVERLAY -->
 
 <div
@@ -1099,8 +1111,6 @@ class="yona-app-logo"
 
   <div id="yonaMenuItems">
 
-    <h3 class="yona-menu-group">ABOUT</h3>
-
     <button type="button" onclick="closeYonaMenu();showSection('aboutOrganizationSection')">
       🏛️ About the Organization
     </button>
@@ -1109,34 +1119,20 @@ class="yona-app-logo"
       📚 About Our Sections
     </button>
 
-    <h3 class="yona-menu-group">EXPLORE</h3>
-
-    <button type="button" onclick="closeYonaMenu();showSection('membersSection')">
-      👥 Members
+    <button type="button" onclick="closeYonaMenu();showSection('settingsSection')">
+      ⚙️ Settings
     </button>
 
-    <button type="button" onclick="closeYonaMenu();showSection('executiveSection')">
-      👔 Executive
+    <button type="button" onclick="closeYonaMenu();showSection('helpSection')">
+      ❓ Help & Support
     </button>
 
-    <button type="button" onclick="closeYonaMenu();openFinanceGate()">
-      💰 Finance
+    <button type="button" onclick="closeYonaMenu();showSection('contactSection')">
+      📞 Contact Us
     </button>
 
-    <button type="button" onclick="closeYonaMenu();showSection('meetingsSection')">
-      📝 Meetings
-    </button>
-
-    <button type="button" onclick="closeYonaMenu();showSection('eventsSection')">
-      📅 Events
-    </button>
-
-    <button type="button" onclick="closeYonaMenu();showSection('documentsSection')">
-      📁 Documents
-    </button>
-
-    <button type="button" onclick="closeYonaMenu();showSection('menuManagementSection')">
-      ⚙️ Menu Management
+    <button type="button" onclick="closeYonaMenu();showSection('aboutAppSection')">
+      ℹ️ About YONA App
     </button>
 
   </div>
@@ -3009,7 +3005,6 @@ Back to Dashboard
     <h3>Who We Are</h3>
     <p id="orgWhoView"></p>
 
-```
 <h3>Our Motto</h3>
 <p id="orgMottoView"></p>
 
@@ -3141,14 +3136,168 @@ Back to Dashboard
     Back to Dashboard
   </button>
 
+<!-- HELP & SUPPORT -->
+
+<section
+  id="helpSection"
+  class="hidden card"
+>
+
+  <h2 class="section-title">❓ Help & Support</h2>
+
+  <h3>Welcome to YONA Admin Help</h3>
+
+  <p>
+    This section provides guidance for administrators
+    using the YONA Admin App.
+  </p>
+
+  <h3>Using the Dashboard</h3>
+  <p>
+    Use the dashboard cards to access Members,
+    Executive, Finance, Meetings, Events and Documents.
+  </p>
+
+  <h3>Managing Members</h3>
+  <p>
+    Use the Members section to manage membership
+    information and records.
+  </p>
+
+  <h3>Managing Organization Information</h3>
+  <p>
+    Use About the Organization and About Our Sections
+    to view or update the relevant information.
+  </p>
+
+  <button
+    type="button"
+    class="back-button"
+    onclick="backToDashboard()"
+  >
+    Back to Dashboard
+  </button>
+
 </section>
 
+
+<!-- CONTACT US -->
+
+<section
+  id="contactSection"
+  class="hidden card"
+>
+
+  <h2 class="section-title">📞 Contact Us</h2>
+
+  <h3>Youths of Ndasei Association (YONA)</h3>
+
+  <p>
+    We welcome enquiries and communication from
+    our members and the public.
+  </p>
+
+  <h3>Office Address</h3>
+  <p>12 Berry Street, Back of Albert Academy, Freetown.</p>
+
+  <h3>Email Address</h3>
+  <p>
+    <a href="mailto:yonabk3@gmail.com">
+      yonabk3@gmail.com
+    </a>
+  </p>
+
+  <button
+    type="button"
+    class="back-button"
+    onclick="backToDashboard()"
+  >
+    Back to Dashboard
+  </button>
+
+</section>
+  <!-- SETTINGS -->
+
+<section
+  id="settingsSection"
+  class="hidden card"
+>
+
+  <h2 class="section-title">⚙️ Settings</h2>
+
+  <p>
+    Manage the settings and navigation preferences
+    of the YONA Admin App.
+  </p>
+
+  <div class="card">
+
+    <h3>Menu Settings</h3>
+
+    <p>
+      Administrators will be able to manage the
+      YONA menu items and their display settings here.
+    </p>
+
+    <p class="small-text">
+      Settings management will be configured next.
+    </p>
+
+  </div>
+
+  <button
+    type="button"
+    class="back-button"
+    onclick="backToDashboard()"
+  >
+    Back to Dashboard
+  </button>
+
+</section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
+<!-- ABOUT YONA APP -->
 
+<section
+  id="aboutAppSection"
+  class="hidden card"
+>
+
+  <h2 class="section-title">ℹ️ About YONA App</h2>
+
+  <h3>Youths of Ndasei Association (YONA)</h3>
+
+  <p>
+    The YONA Admin App supports the administration
+    and management of the association.
+  </p>
+
+  <h3>Our Motto</h3>
+  <p>Unity and Development</p>
+
+  <h3>Purpose of the App</h3>
+
+  <p>
+    The application provides tools for managing
+    membership, executive information, finance,
+    meetings, events and organizational documents.
+  </p>
+
+  <button
+    type="button"
+    class="back-button"
+    onclick="backToDashboard()"
+  >
+    Back to Dashboard
+  </button>
+
+</section>
+  
+</section>
+  
 <script>
 
 const SUPABASE_URL =
