@@ -983,6 +983,8 @@ async function loadPublicMembers() {
   const status = document.getElementById("memberListStatus");
   const list = document.getElementById("publicMembersList");
 
+  if (!status || !list) return;
+
   list.replaceChildren();
 
   try {
@@ -992,7 +994,7 @@ async function loadPublicMembers() {
 
     if (error) throw error;
 
-    if (!data || !data.length) {
+    if (!data || data.length === 0) {
       status.textContent = "No members are currently available.";
       return;
     }
@@ -1020,47 +1022,54 @@ async function loadPublicMembers() {
 
     const assignedMembers = new Set();
 
-for (const group of groups) {
-  const members = data.filter(member =>
-    normalizeMemberGroup(member) === group.key
-  );
+    for (const group of groups) {
+
+      const members = data.filter(member =>
+        normalizeMemberGroup(member) === group.key
+      );
 
       const heading = document.createElement("h3");
+
       heading.style.gridColumn = "1 / -1";
       heading.style.color = "#075aaa";
       heading.style.padding = "12px";
       heading.style.borderBottom = "2px solid #d4af37";
+
       heading.textContent =
         group.title + " (" + members.length + ")";
 
       list.appendChild(heading);
 
-     for (const member of members) {
-  assignedMembers.add(member);
-  await renderMemberCard(member, list);
-}
+      for (const member of members) {
+        assignedMembers.add(member);
+        await renderMemberCard(member, list);
+      }
+    }
 
     const otherMembers = data.filter(member =>
       !assignedMembers.has(member)
     );
 
     if (otherMembers.length > 0) {
+
       const heading = document.createElement("h3");
+
       heading.style.gridColumn = "1 / -1";
       heading.textContent =
         "OTHER MEMBERS (" + otherMembers.length + ")";
 
       list.appendChild(heading);
 
-     for (const member of otherMembers) {
-  await renderMemberCard(member, list);
-}
-      
-}
-      
-    status.textContent = "Total member records: " + data.length;
+      for (const member of otherMembers) {
+        await renderMemberCard(member, list);
+      }
+    }
+
+    status.textContent =
+      "Total member records: " + data.length;
 
   } catch (error) {
+
     console.error("Could not load public members:", error);
 
     status.textContent =
