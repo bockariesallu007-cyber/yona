@@ -3466,23 +3466,73 @@ Back to Dashboard
 
   <h2 class="section-title">ℹ️ About YONA App</h2>
 
-  <h3>Youths of Ndasei Association (YONA)</h3>
+  <div id="aboutAppView">
 
-  <p>
-    The YONA Admin App supports the administration
-    and management of the association.
-  </p>
+    <h3 id="aboutAppOrganizationView">
+      Youths of Ndasei Association (YONA)
+    </h3>
 
-  <h3>Our Motto</h3>
-  <p>Unity and Development</p>
+    <p id="aboutAppDescriptionView">
+      The YONA Admin App supports the administration and management of the association.
+    </p>
 
-  <h3>Purpose of the App</h3>
+    <h3>Our Motto</h3>
+    <p id="aboutAppMottoView">Unity and Development</p>
 
-  <p>
-    The application provides tools for managing
-    membership, executive information, finance,
-    meetings, events and organizational documents.
-  </p>
+    <h3>Purpose of the App</h3>
+    <p id="aboutAppPurposeView">
+      The application provides tools for managing membership, executive information, finance, meetings, events and organizational documents.
+    </p>
+
+  </div>
+
+  <div id="aboutAppEditor" class="hidden">
+
+    <h3>Edit About YONA App</h3>
+
+    <label>Organization Name</label>
+    <input type="text" id="aboutAppOrganizationInput">
+
+    <label>App Description</label>
+    <textarea id="aboutAppDescriptionInput" rows="4"></textarea>
+
+    <label>Our Motto</label>
+    <input type="text" id="aboutAppMottoInput">
+
+    <label>Purpose of the App</label>
+    <textarea id="aboutAppPurposeInput" rows="5"></textarea>
+
+    <button
+      type="button"
+      id="saveAboutAppButton"
+      onclick="saveAboutAppInfo()"
+    >
+      Save Changes
+    </button>
+
+    <button
+      type="button"
+      class="cancel-button"
+      onclick="cancelAboutAppEdit()"
+    >
+      Cancel
+    </button>
+
+    <p id="aboutAppSaveMessage" role="status"></p>
+
+  </div>
+
+  <div id="aboutAppAdminControls" class="hidden">
+
+    <button
+      type="button"
+      class="edit-button"
+      onclick="editAboutAppInfo()"
+    >
+      Edit About YONA App
+    </button>
+
+  </div>
 
   <button
     type="button"
@@ -11397,6 +11447,17 @@ const YONA_CONTACT_DEFAULTS = {
 let yonaContactContent = {
   ...YONA_CONTACT_DEFAULTS
 };
+
+const YONA_ABOUT_APP_DEFAULTS = {
+  organization: "Youths of Ndasei Association (YONA)",
+  description: "The YONA Admin App supports the administration and management of the association.",
+  motto: "Unity and Development",
+  purpose: "The application provides tools for managing membership, executive information, finance, meetings, events and organizational documents."
+};
+
+let yonaAboutAppContent = {
+  ...YONA_ABOUT_APP_DEFAULTS
+};
   
 let yonaOrgContent = { ...YONA_ORG_DEFAULTS };
 let yonaSectionsContent = { ...YONA_SECTION_DEFAULTS };
@@ -11446,6 +11507,7 @@ async function loadYonaInfoPages() {
     yonaSetHidden("settingsAdminControls", !isAdmin);
     yonaSetHidden("helpAdminControls", !isAdmin);
     yonaSetHidden("contactAdminControls", !isAdmin);
+    yonaSetHidden("aboutAppAdminControls", !isAdmin);
     
     const { data, error } = await supabaseClient
       .from("yona_info_pages")
@@ -11474,6 +11536,10 @@ const helpRow = rows.find(
 const contactRow = rows.find(
   row => row.page_key === "contact"
 );
+
+const aboutAppRow = rows.find(
+  row => row.page_key === "about-app"
+);
     
     yonaOrgContent = {
       ...YONA_ORG_DEFAULTS,
@@ -11499,6 +11565,11 @@ yonaContactContent = {
   ...YONA_CONTACT_DEFAULTS,
   ...(contactRow?.content || {})
 };
+
+yonaAboutAppContent = {
+  ...YONA_ABOUT_APP_DEFAULTS,
+  ...(aboutAppRow?.content || {})
+};
     
     if (!Array.isArray(yonaOrgContent.objectives)) {
       yonaOrgContent.objectives =
@@ -11509,6 +11580,7 @@ yonaContactContent = {
     yonaRenderSections();
     yonaRenderSettings();
     yonaRenderContact();
+    yonaRenderAboutApp();
 
   } catch (error) {
     console.error("YONA information pages:", error);
@@ -11674,12 +11746,118 @@ function editContactInfo() {
   yonaSetText("contactSaveMessage", "");
 }
 
+function yonaRenderAboutApp() {
+
+  yonaSetText(
+    "aboutAppOrganizationView",
+    yonaAboutAppContent.organization
+  );
+
+  yonaSetText(
+    "aboutAppDescriptionView",
+    yonaAboutAppContent.description
+  );
+
+  yonaSetText(
+    "aboutAppMottoView",
+    yonaAboutAppContent.motto
+  );
+
+  yonaSetText(
+    "aboutAppPurposeView",
+    yonaAboutAppContent.purpose
+  );
+
+}
+  
 function cancelContactEdit() {
   yonaSetHidden("contactEditor", true);
   yonaSetHidden("contactView", false);
   yonaSetHidden("contactAdminControls", false);
 }
 
+function editAboutAppInfo() {
+
+  yonaSetInput(
+    "aboutAppOrganizationInput",
+    yonaAboutAppContent.organization
+  );
+
+  yonaSetInput(
+    "aboutAppDescriptionInput",
+    yonaAboutAppContent.description
+  );
+
+  yonaSetInput(
+    "aboutAppMottoInput",
+    yonaAboutAppContent.motto
+  );
+
+  yonaSetInput(
+    "aboutAppPurposeInput",
+    yonaAboutAppContent.purpose
+  );
+
+  yonaSetHidden("aboutAppView", true);
+  yonaSetHidden("aboutAppEditor", false);
+  yonaSetHidden("aboutAppAdminControls", true);
+
+  yonaSetText("aboutAppSaveMessage", "");
+}
+
+function cancelAboutAppEdit() {
+
+  yonaRenderAboutApp();
+
+  yonaSetHidden("aboutAppEditor", true);
+  yonaSetHidden("aboutAppView", false);
+  yonaSetHidden("aboutAppAdminControls", false);
+
+}
+
+async function saveAboutAppInfo() {
+
+  const content = {
+    organization:
+      document.getElementById("aboutAppOrganizationInput").value.trim(),
+
+    description:
+      document.getElementById("aboutAppDescriptionInput").value.trim(),
+
+    motto:
+      document.getElementById("aboutAppMottoInput").value.trim(),
+
+    purpose:
+      document.getElementById("aboutAppPurposeInput").value.trim()
+  };
+
+  if (Object.values(content).some(value => !value)) {
+    yonaSetText(
+      "aboutAppSaveMessage",
+      "Please complete all About YONA App fields."
+    );
+    return;
+  }
+
+  const saved = await yonaSaveInfoPage(
+    "about-app",
+    "About YONA App",
+    content,
+    "saveAboutAppButton",
+    "aboutAppSaveMessage"
+  );
+
+  if (!saved) return;
+
+  yonaAboutAppContent = content;
+  yonaRenderAboutApp();
+
+  yonaSetHidden("aboutAppEditor", true);
+  yonaSetHidden("aboutAppView", false);
+  yonaSetHidden("aboutAppAdminControls", false);
+
+}
+  
 async function saveContactInfo() {
   const content = {
     organization:
