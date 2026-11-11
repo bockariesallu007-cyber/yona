@@ -11709,6 +11709,7 @@ async function loadYonaInfoPages() {
     yonaSetHidden("helpAdminControls", !isAdmin);
     yonaSetHidden("contactAdminControls", !isAdmin);
     yonaSetHidden("aboutAppAdminControls", !isAdmin);
+    yonaSetHidden("privacyPolicyAdminControls", !isAdmin);
     
     const { data, error } = await supabaseClient
       .from("yona_info_pages")
@@ -11741,6 +11742,10 @@ const contactRow = rows.find(
 const aboutAppRow = rows.find(
   row => row.page_key === "about-app"
 );
+
+    const privacyPolicyRow = rows.find(
+  row => row.page_key === "privacy-policy"
+);
     
     yonaOrgContent = {
       ...YONA_ORG_DEFAULTS,
@@ -11770,6 +11775,12 @@ yonaContactContent = {
 yonaAboutAppContent = {
   ...YONA_ABOUT_APP_DEFAULTS,
   ...(aboutAppRow?.content || {})
+};
+
+    yonaPrivacyPolicyContent = {
+  content:
+    privacyPolicyRow?.content?.content ||
+    yonaPrivacyPolicyContent.content
 };
     
     if (!Array.isArray(yonaOrgContent.objectives)) {
