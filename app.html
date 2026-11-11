@@ -3252,22 +3252,81 @@ Back to Dashboard
 
   <h2 class="section-title">📞 Contact Us</h2>
 
-  <h3>Youths of Ndasei Association (YONA)</h3>
+  <!-- CONTACT VIEW -->
+  <div id="contactView">
 
-  <p>
-    We welcome enquiries and communication from
-    our members and the public.
-  </p>
+    <h3 id="contactOrganizationView">
+      Youths of Ndasei Association (YONA)
+    </h3>
 
-  <h3>Office Address</h3>
-  <p>12 Berry Street, Back of Albert Academy, Freetown.</p>
+    <p id="contactWelcomeView">
+      We welcome enquiries and communication from
+      our members and the public.
+    </p>
 
-  <h3>Email Address</h3>
-  <p>
-    <a href="mailto:yonabk3@gmail.com">
-      yonabk3@gmail.com
-    </a>
-  </p>
+    <h3>Office Address</h3>
+    <p id="contactAddressView">
+      12 Berry Street, Back of Albert Academy, Freetown.
+    </p>
+
+    <h3>Email Address</h3>
+    <p>
+      <a id="contactEmailView" href="mailto:yonabk3@gmail.com">
+        yonabk3@gmail.com
+      </a>
+    </p>
+
+  </div>
+
+  <!-- CONTACT EDITOR -->
+  <div id="contactEditor" class="hidden">
+
+    <h3>Edit Contact Information</h3>
+
+    <label>Organization Name</label>
+    <input type="text" id="contactOrganizationInput">
+
+    <label>Welcome Message</label>
+    <textarea id="contactWelcomeInput" rows="4"></textarea>
+
+    <label>Office Address</label>
+    <textarea id="contactAddressInput" rows="3"></textarea>
+
+    <label>Email Address</label>
+    <input type="email" id="contactEmailInput">
+
+    <button
+      type="button"
+      id="saveContactButton"
+      onclick="saveContactInfo()"
+    >
+      Save Changes
+    </button>
+
+    <button
+      type="button"
+      class="cancel-button"
+      onclick="cancelContactEdit()"
+    >
+      Cancel
+    </button>
+
+    <p id="contactSaveMessage" role="status"></p>
+
+  </div>
+
+  <!-- ADMIN CONTROLS -->
+  <div id="contactAdminControls" class="hidden">
+
+    <button
+      type="button"
+      class="edit-button"
+      onclick="editContactInfo()"
+    >
+      Edit Contact Us
+    </button>
+
+  </div>
 
   <button
     type="button"
@@ -11320,6 +11379,24 @@ const YONA_HELP_DEFAULTS = {
 let yonaHelpContent = {
   ...YONA_HELP_DEFAULTS
 };
+
+const YONA_CONTACT_DEFAULTS = {
+  organization:
+    "Youths of Ndasei Association (YONA)",
+
+  welcome:
+    "We welcome enquiries and communication from our members and the public.",
+
+  address:
+    "12 Berry Street, Back of Albert Academy, Freetown.",
+
+  email:
+    "yonabk3@gmail.com"
+};
+
+let yonaContactContent = {
+  ...YONA_CONTACT_DEFAULTS
+};
   
 let yonaOrgContent = { ...YONA_ORG_DEFAULTS };
 let yonaSectionsContent = { ...YONA_SECTION_DEFAULTS };
@@ -11368,6 +11445,7 @@ async function loadYonaInfoPages() {
     yonaSetHidden("sectionsAdminControls", !isAdmin);
     yonaSetHidden("settingsAdminControls", !isAdmin);
     yonaSetHidden("helpAdminControls", !isAdmin);
+    yonaSetHidden("contactAdminControls", !isAdmin);
     
     const { data, error } = await supabaseClient
       .from("yona_info_pages")
@@ -11392,6 +11470,10 @@ async function loadYonaInfoPages() {
 const helpRow = rows.find(
   row => row.page_key === "help"
 );
+
+const contactRow = rows.find(
+  row => row.page_key === "contact"
+);
     
     yonaOrgContent = {
       ...YONA_ORG_DEFAULTS,
@@ -11412,6 +11494,11 @@ yonaHelpContent = {
   ...YONA_HELP_DEFAULTS,
   ...(helpRow?.content || {})
 };
+
+yonaContactContent = {
+  ...YONA_CONTACT_DEFAULTS,
+  ...(contactRow?.content || {})
+};
     
     if (!Array.isArray(yonaOrgContent.objectives)) {
       yonaOrgContent.objectives =
@@ -11421,6 +11508,7 @@ yonaHelpContent = {
     yonaRenderOrganization();
     yonaRenderSections();
     yonaRenderSettings();
+    yonaRenderContact();
 
   } catch (error) {
     console.error("YONA information pages:", error);
@@ -11529,6 +11617,110 @@ function yonaRenderHelp() {
   );
 }
 
+// ========================================
+// DISPLAY CONTACT US INFORMATION
+// ========================================
+
+function yonaRenderContact() {
+  yonaSetText(
+    "contactOrganizationView",
+    yonaContactContent.organization
+  );
+
+  yonaSetText(
+    "contactWelcomeView",
+    yonaContactContent.welcome
+  );
+
+  yonaSetText(
+    "contactAddressView",
+    yonaContactContent.address
+  );
+
+  const emailElement =
+    document.getElementById("contactEmailView");
+
+  if (emailElement) {
+    emailElement.textContent = yonaContactContent.email;
+    emailElement.href = "mailto:" + yonaContactContent.email;
+  }
+}
+
+function editContactInfo() {
+  yonaSetInput(
+    "contactOrganizationInput",
+    yonaContactContent.organization
+  );
+
+  yonaSetInput(
+    "contactWelcomeInput",
+    yonaContactContent.welcome
+  );
+
+  yonaSetInput(
+    "contactAddressInput",
+    yonaContactContent.address
+  );
+
+  yonaSetInput(
+    "contactEmailInput",
+    yonaContactContent.email
+  );
+
+  yonaSetHidden("contactView", true);
+  yonaSetHidden("contactEditor", false);
+  yonaSetHidden("contactAdminControls", true);
+
+  yonaSetText("contactSaveMessage", "");
+}
+
+function cancelContactEdit() {
+  yonaSetHidden("contactEditor", true);
+  yonaSetHidden("contactView", false);
+  yonaSetHidden("contactAdminControls", false);
+}
+
+async function saveContactInfo() {
+  const content = {
+    organization:
+      document.getElementById("contactOrganizationInput").value.trim(),
+
+    welcome:
+      document.getElementById("contactWelcomeInput").value.trim(),
+
+    address:
+      document.getElementById("contactAddressInput").value.trim(),
+
+    email:
+      document.getElementById("contactEmailInput").value.trim()
+  };
+
+  if (Object.values(content).some(value => !value)) {
+    yonaSetText(
+      "contactSaveMessage",
+      "Please complete all Contact fields."
+    );
+    return;
+  }
+
+  const saved = await yonaSaveInfoPage(
+    "contact",
+    "Contact Us",
+    content,
+    "saveContactButton",
+    "contactSaveMessage"
+  );
+
+  if (!saved) return;
+
+  yonaContactContent = content;
+  yonaRenderContact();
+
+  yonaSetHidden("contactEditor", true);
+  yonaSetHidden("contactView", false);
+  yonaSetHidden("contactAdminControls", false);
+}
+  
 function editHelpInfo() {
   yonaSetInput(
     "helpWelcomeInput",
@@ -11601,6 +11793,9 @@ async function saveHelpInfo() {
 
   yonaSetHidden("helpEditor", true);
   yonaSetHidden("helpView", false);
+  yonaSetHidden("helpAdminControls", false);
+}
+
   yonaSetHidden("helpAdminControls", false);
 }
   
