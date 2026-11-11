@@ -3547,6 +3547,97 @@ Back to Dashboard
   </button>
 
 </section>
+
+<!-- PRIVACY POLICY -->
+
+<section
+  id="privacyPolicySection"
+  class="hidden card"
+>
+
+  <h2 class="section-title">🔐 Privacy Policy</h2>
+
+  <div id="privacyPolicyView">
+
+    <h3>YONA Privacy Policy</h3>
+
+    <p id="privacyPolicyContentView">
+      Youths of Ndasei Association (YONA) respects the privacy
+      of its members and users.
+
+      Information collected through the YONA application is used
+      for membership administration, communication, organizational
+      management and other legitimate association activities.
+
+      Members' personal information must be accessed only by
+      authorized persons and handled responsibly.
+
+      YONA does not authorize the misuse, unauthorized disclosure
+      or sharing of members' personal information.
+
+      The association takes reasonable steps to protect information
+      stored in its application and database.
+
+      Members may contact the association regarding their personal
+      information or privacy concerns.
+
+      By using the YONA application, users agree to this Privacy Policy.
+    </p>
+
+  </div>
+
+  <div id="privacyPolicyEditor" class="hidden">
+
+    <h3>Edit Privacy Policy</h3>
+
+    <label>Privacy Policy Content</label>
+
+    <textarea
+      id="privacyPolicyContentInput"
+      rows="15"
+    ></textarea>
+
+    <button
+      type="button"
+      id="savePrivacyPolicyButton"
+      onclick="savePrivacyPolicy()"
+    >
+      Save Changes
+    </button>
+
+    <button
+      type="button"
+      class="cancel-button"
+      onclick="cancelPrivacyPolicyEdit()"
+    >
+      Cancel
+    </button>
+
+    <p id="privacyPolicySaveMessage" role="status"></p>
+
+  </div>
+
+  <div id="privacyPolicyAdminControls" class="hidden">
+
+    <button
+      type="button"
+      class="edit-button"
+      onclick="editPrivacyPolicy()"
+    >
+      Edit Privacy Policy
+    </button>
+
+  </div>
+
+  <button
+    type="button"
+    class="back-button"
+    onclick="backToDashboard()"
+  >
+    Back to Dashboard
+  </button>
+
+</section>
   
 </section>
   
@@ -11461,6 +11552,112 @@ const YONA_ABOUT_APP_DEFAULTS = {
 
 let yonaAboutAppContent = {
   ...YONA_ABOUT_APP_DEFAULTS
+};
+
+let yonaPrivacyPolicyContent = {
+  content: `YOUTHS OF NDASEI ASSOCIATION (YONA)
+
+PRIVACY POLICY
+
+Motto: Unity and Development
+
+Effective Date: 11 November 2026
+
+
+1. INTRODUCTION
+
+The Youths of Ndasei Association (YONA) respects the privacy of its members, executives and visitors. This Privacy Policy explains how the YONA App collects, uses, stores and protects personal information.
+
+
+2. INFORMATION WE COLLECT
+
+The YONA App may collect and store the following information:
+
+• Members' full names and membership numbers.
+• Phone numbers and contact information.
+• Membership categories and positions.
+• Profile photographs.
+• Membership registration and expiry dates.
+• Financial contributions, payments and welfare records.
+• Meeting, event and association records.
+• Login credentials and account information.
+
+
+3. HOW WE USE INFORMATION
+
+Information collected through the app is used for:
+
+• Managing YONA membership records.
+• Verifying membership.
+• Managing association finances and contributions.
+• Communicating important association information.
+• Organising meetings and events.
+• Maintaining accurate administrative records.
+• Supporting transparency and accountability.
+
+
+4. INFORMATION PROTECTION
+
+YONA will take reasonable measures to protect members' information against unauthorised access, misuse, alteration, disclosure or loss.
+
+Administrative functions will be restricted to authorised administrators.
+
+
+5. MEMBER PRIVACY AND FINANCIAL RECORDS
+
+Members' personal financial records are confidential.
+
+Members may access their own financial records through the authorised Member Portal. Members must not access another member's private financial information.
+
+
+6. INFORMATION SHARING
+
+YONA will not sell members' personal information.
+
+Personal information will not be shared with unauthorised individuals or organisations. Information may be disclosed where legally required or where necessary for legitimate association administration.
+
+
+7. PHOTOGRAPHS AND MEMBERSHIP VERIFICATION
+
+Members' photographs and basic membership information may be displayed for legitimate membership identification and verification purposes.
+
+Members should contact the association if they have concerns about the publication of their information or photographs.
+
+
+8. DATA RETENTION
+
+YONA may retain membership, financial and administrative records for legitimate organisational, accountability and historical purposes, subject to applicable legal requirements.
+
+
+9. MEMBERS' RIGHTS
+
+Members may request to:
+
+• Review their personal information.
+• Correct inaccurate information.
+• Report suspected misuse of their information.
+• Raise privacy concerns with the association.
+
+Requests should be directed to the YONA administration.
+
+
+10. CHANGES TO THIS POLICY
+
+YONA reserves the right to update this Privacy Policy when necessary. Members will be informed of significant changes through appropriate association communication channels.
+
+
+11. CONTACT INFORMATION
+
+Youths of Ndasei Association (YONA)
+
+Address: 12 Berry Street, Back of Albert Academy, Freetown, Sierra Leone.
+
+Email: yonabk3@gmail.com
+
+
+OUR COMMITMENT
+
+Unity, Development, Transparency and Privacy.`
 };
   
 let yonaOrgContent = { ...YONA_ORG_DEFAULTS };
