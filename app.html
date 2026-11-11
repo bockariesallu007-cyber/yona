@@ -3154,30 +3154,84 @@ Back to Dashboard
 
   <h2 class="section-title">❓ Help & Support</h2>
 
-  <h3>Welcome to YONA Admin Help</h3>
+  <!-- HELP VIEW -->
+  <div id="helpView">
 
-  <p>
-    This section provides guidance for administrators
-    using the YONA Admin App.
-  </p>
+    <h3>Welcome to YONA Admin Help</h3>
+    <p id="helpWelcomeView">
+      This section provides guidance for administrators
+      using the YONA Admin App.
+    </p>
 
-  <h3>Using the Dashboard</h3>
-  <p>
-    Use the dashboard cards to access Members,
-    Executive, Finance, Meetings, Events and Documents.
-  </p>
+    <h3>Using the Dashboard</h3>
+    <p id="helpDashboardView">
+      Use the dashboard cards to access Members,
+      Executive, Finance, Meetings, Events and Documents.
+    </p>
 
-  <h3>Managing Members</h3>
-  <p>
-    Use the Members section to manage membership
-    information and records.
-  </p>
+    <h3>Managing Members</h3>
+    <p id="helpMembersView">
+      Use the Members section to manage membership
+      information and records.
+    </p>
 
-  <h3>Managing Organization Information</h3>
-  <p>
-    Use About the Organization and About Our Sections
-    to view or update the relevant information.
-  </p>
+    <h3>Managing Organization Information</h3>
+    <p id="helpOrganizationView">
+      Use About the Organization and About Our Sections
+      to view or update the relevant information.
+    </p>
+
+  </div>
+
+  <!-- HELP EDITOR -->
+  <div id="helpEditor" class="hidden">
+
+    <h3>Edit Help & Support</h3>
+
+    <label>Welcome Description</label>
+    <textarea id="helpWelcomeInput" rows="4"></textarea>
+
+    <label>Using the Dashboard</label>
+    <textarea id="helpDashboardInput" rows="4"></textarea>
+
+    <label>Managing Members</label>
+    <textarea id="helpMembersInput" rows="4"></textarea>
+
+    <label>Managing Organization Information</label>
+    <textarea id="helpOrganizationInput" rows="4"></textarea>
+
+    <button
+      type="button"
+      id="saveHelpButton"
+      onclick="saveHelpInfo()"
+    >
+      Save Changes
+    </button>
+
+    <button
+      type="button"
+      class="cancel-button"
+      onclick="cancelHelpEdit()"
+    >
+      Cancel
+    </button>
+
+    <p id="helpSaveMessage" role="status"></p>
+
+  </div>
+
+  <!-- ADMIN CONTROLS -->
+  <div id="helpAdminControls" class="hidden">
+
+    <button
+      type="button"
+      class="edit-button"
+      onclick="editHelpInfo()"
+    >
+      Edit Help & Support
+    </button>
+
+  </div>
 
   <button
     type="button"
@@ -3188,7 +3242,6 @@ Back to Dashboard
   </button>
 
 </section>
-
 
 <!-- CONTACT US -->
 
@@ -11249,6 +11302,24 @@ const YONA_SETTINGS_DEFAULTS = {
 let yonaSettingsContent = {
   ...YONA_SETTINGS_DEFAULTS
 };
+
+const YONA_HELP_DEFAULTS = {
+  welcome:
+    "This section provides guidance for administrators using the YONA Admin App.",
+
+  dashboard:
+    "Use the dashboard cards to access Members, Executive, Finance, Meetings, Events and Documents.",
+
+  members:
+    "Use the Members section to manage membership information and records.",
+
+  organization:
+    "Use About the Organization and About Our Sections to view or update the relevant information."
+};
+
+let yonaHelpContent = {
+  ...YONA_HELP_DEFAULTS
+};
   
 let yonaOrgContent = { ...YONA_ORG_DEFAULTS };
 let yonaSectionsContent = { ...YONA_SECTION_DEFAULTS };
@@ -11296,7 +11367,8 @@ async function loadYonaInfoPages() {
     yonaSetHidden("organizationAdminControls", !isAdmin);
     yonaSetHidden("sectionsAdminControls", !isAdmin);
     yonaSetHidden("settingsAdminControls", !isAdmin);
-
+    yonaSetHidden("helpAdminControls", !isAdmin);
+    
     const { data, error } = await supabaseClient
       .from("yona_info_pages")
       .select("page_key, content");
@@ -11317,6 +11389,10 @@ async function loadYonaInfoPages() {
       row => row.page_key === "settings"
     );
 
+const helpRow = rows.find(
+  row => row.page_key === "help"
+);
+    
     yonaOrgContent = {
       ...YONA_ORG_DEFAULTS,
       ...(orgRow?.content || {})
@@ -11332,6 +11408,11 @@ async function loadYonaInfoPages() {
       ...(settingsRow?.content || {})
     };
 
+yonaHelpContent = {
+  ...YONA_HELP_DEFAULTS,
+  ...(helpRow?.content || {})
+};
+    
     if (!Array.isArray(yonaOrgContent.objectives)) {
       yonaOrgContent.objectives =
         YONA_ORG_DEFAULTS.objectives;
@@ -11422,6 +11503,107 @@ function yonaRenderSettings() {
   );
 }
 
+// ========================================
+// DISPLAY HELP & SUPPORT INFORMATION
+// ========================================
+
+function yonaRenderHelp() {
+  yonaSetText(
+    "helpWelcomeView",
+    yonaHelpContent.welcome
+  );
+
+  yonaSetText(
+    "helpDashboardView",
+    yonaHelpContent.dashboard
+  );
+
+  yonaSetText(
+    "helpMembersView",
+    yonaHelpContent.members
+  );
+
+  yonaSetText(
+    "helpOrganizationView",
+    yonaHelpContent.organization
+  );
+}
+
+function editHelpInfo() {
+  yonaSetInput(
+    "helpWelcomeInput",
+    yonaHelpContent.welcome
+  );
+
+  yonaSetInput(
+    "helpDashboardInput",
+    yonaHelpContent.dashboard
+  );
+
+  yonaSetInput(
+    "helpMembersInput",
+    yonaHelpContent.members
+  );
+
+  yonaSetInput(
+    "helpOrganizationInput",
+    yonaHelpContent.organization
+  );
+
+  yonaSetHidden("helpView", true);
+  yonaSetHidden("helpEditor", false);
+  yonaSetHidden("helpAdminControls", true);
+
+  yonaSetText("helpSaveMessage", "");
+}
+
+function cancelHelpEdit() {
+  yonaSetHidden("helpEditor", true);
+  yonaSetHidden("helpView", false);
+  yonaSetHidden("helpAdminControls", false);
+}
+
+async function saveHelpInfo() {
+  const content = {
+    welcome:
+      document.getElementById("helpWelcomeInput").value.trim(),
+
+    dashboard:
+      document.getElementById("helpDashboardInput").value.trim(),
+
+    members:
+      document.getElementById("helpMembersInput").value.trim(),
+
+    organization:
+      document.getElementById("helpOrganizationInput").value.trim()
+  };
+
+  if (Object.values(content).some(value => !value)) {
+    yonaSetText(
+      "helpSaveMessage",
+      "Please complete all Help fields."
+    );
+    return;
+  }
+
+  const saved = await yonaSaveInfoPage(
+    "help",
+    "Help & Support",
+    content,
+    "saveHelpButton",
+    "helpSaveMessage"
+  );
+
+  if (!saved) return;
+
+  yonaHelpContent = content;
+  yonaRenderHelp();
+
+  yonaSetHidden("helpEditor", true);
+  yonaSetHidden("helpView", false);
+  yonaSetHidden("helpAdminControls", false);
+}
+  
 // ========================================
 // EDIT SETTINGS INFORMATION
 // ========================================
@@ -11556,7 +11738,8 @@ async function saveSettingsInfo() {
   yonaSettingsContent = content;
 
   yonaRenderSettings();
-
+yonaRenderHelp();
+  
   yonaSetHidden("settingsEditor", true);
   yonaSetHidden("settingsView", false);
   yonaSetHidden("settingsAdminControls", false);
