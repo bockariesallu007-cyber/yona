@@ -11793,6 +11793,7 @@ yonaAboutAppContent = {
     yonaRenderSettings();
     yonaRenderContact();
     yonaRenderAboutApp();
+    yonaRenderPrivacyPolicy();
 
   } catch (error) {
     console.error("YONA information pages:", error);
@@ -11979,6 +11980,76 @@ function yonaRenderAboutApp() {
     "aboutAppPurposeView",
     yonaAboutAppContent.purpose
   );
+
+}
+
+function yonaRenderPrivacyPolicy() {
+
+  yonaSetText(
+    "privacyPolicyContentView",
+    yonaPrivacyPolicyContent.content
+  );
+
+}
+
+function editPrivacyPolicy() {
+
+  yonaSetInput(
+    "privacyPolicyContentInput",
+    yonaPrivacyPolicyContent.content
+  );
+
+  yonaSetHidden("privacyPolicyView", true);
+  yonaSetHidden("privacyPolicyEditor", false);
+  yonaSetHidden("privacyPolicyAdminControls", true);
+
+  yonaSetText("privacyPolicySaveMessage", "");
+}
+
+
+function cancelPrivacyPolicyEdit() {
+
+  yonaRenderPrivacyPolicy();
+
+  yonaSetHidden("privacyPolicyEditor", true);
+  yonaSetHidden("privacyPolicyView", false);
+  yonaSetHidden("privacyPolicyAdminControls", false);
+
+}
+
+
+async function savePrivacyPolicy() {
+
+  const content = {
+    content:
+      document.getElementById("privacyPolicyContentInput").value.trim()
+  };
+
+  if (!content.content) {
+    yonaSetText(
+      "privacyPolicySaveMessage",
+      "Please enter the Privacy Policy content."
+    );
+    return;
+  }
+
+  const saved = await yonaSaveInfoPage(
+    "privacy-policy",
+    "Privacy Policy",
+    content,
+    "savePrivacyPolicyButton",
+    "privacyPolicySaveMessage"
+  );
+
+  if (!saved) return;
+
+  yonaPrivacyPolicyContent = content;
+
+  yonaRenderPrivacyPolicy();
+
+  yonaSetHidden("privacyPolicyEditor", true);
+  yonaSetHidden("privacyPolicyView", false);
+  yonaSetHidden("privacyPolicyAdminControls", false);
 
 }
   
