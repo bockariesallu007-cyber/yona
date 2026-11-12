@@ -605,10 +605,157 @@ footer {
   padding-top: 15px;
   border-top: 1px solid #ffffff40;
 }
+
+/* YONA HAMBURGER MENU */
+
+.yona-menu-button {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background: #d6ad45;
+  color: #123d73;
+  font-size: 27px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 10003;
+}
+
+.yona-menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 10000;
+}
+
+.yona-menu-overlay.open {
+  display: block;
+}
+
+.yona-menu-panel {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 320px;
+  max-width: 85%;
+  height: 100%;
+  background: #123d73;
+  color: white;
+  z-index: 10002;
+  padding: 20px;
+  overflow-y: auto;
+  transition: right .3s ease;
+  box-sizing: border-box;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.yona-menu-panel.open {
+  right: 0;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.yona-menu-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #d6ad45;
+  padding-bottom: 12px;
+}
+
+.yona-menu-heading h2,
+.yona-menu-group {
+  color: #d6ad45;
+}
+
+#yonaMenuItems button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  color: white;
+  border-bottom: 1px solid #ffffff30;
+  border-radius: 0;
+  padding: 15px 8px;
+  cursor: pointer;
+}
+
+#yonaMenuItems button:hover {
+  background: #218c54;
+}
     
   </style>
 </head>
 <body>
+  <!-- YONA PUBLIC APP MENU BUTTON -->
+<button
+  type="button"
+  class="yona-menu-button"
+  onclick="openYonaPublicMenu()"
+>
+  ☰
+</button>
+
+<!-- MENU OVERLAY -->
+<div
+  id="yonaPublicMenuOverlay"
+  class="yona-menu-overlay"
+  onclick="closeYonaPublicMenu()"
+></div>
+
+<!-- MENU PANEL -->
+<div
+  id="yonaPublicMenuPanel"
+  class="yona-menu-panel"
+>
+
+  <div class="yona-menu-heading">
+    <h2>YONA MENU</h2>
+
+    <button
+      type="button"
+      onclick="closeYonaPublicMenu()"
+    >
+      ✖
+    </button>
+  </div>
+
+  <div id="yonaMenuItems">
+
+    <button onclick="openYonaPublicSection('organization')">
+      🏛️ About the Organization
+    </button>
+
+    <button onclick="openYonaPublicSection('sections')">
+      📚 About Our Sections
+    </button>
+
+    <button onclick="openYonaPublicSection('settings')">
+      ⚙️ Settings
+    </button>
+
+    <button onclick="openYonaPublicSection('help')">
+      ❓ Help & Support
+    </button>
+
+    <button onclick="openYonaPublicSection('contact')">
+      📞 Contact Us
+    </button>
+
+    <button onclick="openYonaPublicSection('about-app')">
+      ℹ️ About YONA App
+    </button>
+
+    <button onclick="openYonaPublicSection('privacy-policy')">
+      🔐 Privacy Policy
+    </button>
+
+  </div>
+
+</div>
 <header>
   <img src="yona-logo.jpg" alt="YONA Logo" class="header-logo">
   <h1>YONA</h1>
@@ -730,6 +877,66 @@ footer {
       <article class="section-card"><h3>📁 Documents</h3><p id="sectionDocumentsView"></p></article>
     </div>
   </section>
+
+  <!-- SETTINGS -->
+<section class="card content-section" id="settings" hidden>
+  <h2>⚙️ Settings</h2>
+  <h3 id="publicSettingsDescription"></h3>
+  <h3 id="publicSettingsMenuTitle"></h3>
+  <p id="publicSettingsMenuDescription"></p>
+</section>
+
+<!-- HELP & SUPPORT -->
+<section class="card content-section" id="help" hidden>
+  <h2>❓ Help & Support</h2>
+
+  <h3>Welcome</h3>
+  <p id="publicHelpWelcome"></p>
+
+  <h3>Using the Dashboard</h3>
+  <p id="publicHelpDashboard"></p>
+
+  <h3>Managing Members</h3>
+  <p id="publicHelpMembers"></p>
+
+  <h3>Managing Organization Information</h3>
+  <p id="publicHelpOrganization"></p>
+</section>
+
+<!-- CONTACT US -->
+<section class="card content-section" id="contact" hidden>
+  <h2>📞 Contact Us</h2>
+
+  <h3 id="publicContactOrganization"></h3>
+  <p id="publicContactWelcome"></p>
+
+  <h3>Office Address</h3>
+  <p id="publicContactAddress"></p>
+
+  <h3>Email Address</h3>
+  <p id="publicContactEmail"></p>
+</section>
+
+<!-- ABOUT YONA APP -->
+<section class="card content-section" id="about-app" hidden>
+  <h2>ℹ️ About YONA App</h2>
+
+  <h3 id="publicAboutAppOrganization"></h3>
+  <p id="publicAboutAppDescription"></p>
+
+  <h3>Our Motto</h3>
+  <p id="publicAboutAppMotto"></p>
+
+  <h3>Purpose of the Application</h3>
+  <p id="publicAboutAppPurpose"></p>
+</section>
+
+<!-- PRIVACY POLICY -->
+<section class="card content-section" id="privacy-policy" hidden>
+  <h2>🔐 YONA Privacy Policy</h2>
+  <p id="publicPrivacyPolicyStatus">Loading Privacy Policy...</p>
+  <div id="publicPrivacyPolicyContent"></div>
+</section>
 
   <section class="card content-section" id="member-list" hidden>
     <h2>Our Members</h2>
@@ -1580,6 +1787,348 @@ async function handleFinanceLogout() {
   document.getElementById("publicFinanceList").replaceChildren();
   setText("financeMessage", "Signed out.");
 }
+
+// YONA PUBLIC MENU CONTROLS
+
+function openYonaPublicMenu() {
+  document.getElementById("yonaPublicMenuPanel")
+    .classList.add("open");
+
+  document.getElementById("yonaPublicMenuOverlay")
+    .classList.add("open");
+}
+
+function closeYonaPublicMenu() {
+  document.getElementById("yonaPublicMenuPanel")
+    .classList.remove("open");
+
+  document.getElementById("yonaPublicMenuOverlay")
+    .classList.remove("open");
+}
+
+// OPEN PUBLIC MENU SECTIONS
+
+function openYonaPublicSection(sectionKey) {
+
+  const sectionIds = {
+    organization: "organization",
+    sections: "sections",
+    settings: "settings",
+    help: "help",
+    contact: "contact",
+    "about-app": "about-app",
+    "privacy-policy": "privacy-policy"
+  };
+
+  const targetId = sectionIds[sectionKey];
+  const target = document.getElementById(targetId);
+
+  if (!target) {
+    closeYonaPublicMenu();
+    alert("This public section has not been added yet.");
+    return;
+  }
+
+  const dashboard = document.getElementById("dashboard");
+
+  document.querySelectorAll(".content-section").forEach(section => {
+    section.hidden = true;
+  });
+
+  dashboard.hidden = true;
+  target.hidden = false;
+
+  closeYonaPublicMenu();
+
+  let backButton = target.querySelector(".back-dashboard");
+
+  if (!backButton) {
+    backButton = document.createElement("button");
+    backButton.type = "button";
+    backButton.className = "back-dashboard";
+    backButton.textContent = "← Back to Dashboard";
+
+    backButton.onclick = function () {
+      target.hidden = true;
+      dashboard.hidden = false;
+      history.replaceState(null, "", "#dashboard");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    target.prepend(backButton);
+  }
+
+  history.replaceState(null, "", "#" + targetId);
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ========================================
+// LOAD PUBLIC MENU INFORMATION FROM SUPABASE
+// ========================================
+
+async function loadPublicMenuInformation() {
+
+  const status = document.getElementById(
+    "publicPrivacyPolicyStatus"
+  );
+
+  try {
+
+    const { data, error } = await supabaseClient
+      .from("yona_info_pages")
+      .select("page_key, content")
+      .in("page_key", [
+        "settings",
+        "help",
+        "contact",
+        "about-app",
+        "privacy-policy"
+      ]);
+
+    if (error) throw error;
+
+    const rows = data || [];
+
+    function getContent(key) {
+      return rows.find(row => row.page_key === key)?.content || {};
+    }
+
+    // SETTINGS
+
+    const settings = getContent("settings");
+
+    document.getElementById("publicSettingsDescription").textContent =
+      settings.description || "";
+
+    document.getElementById("publicSettingsMenuTitle").textContent =
+      settings.menu_title || "";
+
+    document.getElementById("publicSettingsMenuDescription").textContent =
+      settings.menu_description || "";
+
+    // HELP & SUPPORT
+
+    const help = getContent("help");
+
+    document.getElementById("publicHelpWelcome").textContent =
+      help.welcome || "";
+
+    document.getElementById("publicHelpDashboard").textContent =
+      help.dashboard || "";
+
+    document.getElementById("publicHelpMembers").textContent =
+      help.members || "";
+
+    document.getElementById("publicHelpOrganization").textContent =
+      help.organization || "";
+
+    // CONTACT US
+
+    const contact = getContent("contact");
+
+    document.getElementById("publicContactOrganization").textContent =
+      contact.organization || "";
+
+    document.getElementById("publicContactWelcome").textContent =
+      contact.welcome || "";
+
+    document.getElementById("publicContactAddress").textContent =
+      contact.address || "";
+
+    document.getElementById("publicContactEmail").textContent =
+      contact.email || "";
+
+    // ABOUT YONA APP
+
+    const aboutApp = getContent("about-app");
+
+    document.getElementById("publicAboutAppOrganization").textContent =
+      aboutApp.organization || "";
+
+    document.getElementById("publicAboutAppDescription").textContent =
+      aboutApp.description || "";
+
+    document.getElementById("publicAboutAppMotto").textContent =
+      aboutApp.motto || "";
+
+    document.getElementById("publicAboutAppPurpose").textContent =
+      aboutApp.purpose || "";
+
+    // PRIVACY POLICY
+
+    const privacy = getContent("privacy-policy");
+    const policyContent = privacy.content;
+
+    const policyContainer = document.getElementById(
+      "publicPrivacyPolicyContent"
+    );
+
+    if (policyContent && policyContainer) {
+
+      renderPublicPrivacyPolicy(
+        policyContent,
+        policyContainer
+      );
+
+      if (status) status.textContent = "";
+
+    } else if (status) {
+
+      status.textContent =
+        "The Privacy Policy is not available yet.";
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Public menu information could not load:",
+      error
+    );
+
+    if (status) {
+      status.textContent =
+        "Public information could not be loaded. Please try again later.";
+    }
+
+  }
+
+}
+
+
+// ========================================
+// DISPLAY PUBLIC PRIVACY POLICY
+// ========================================
+
+function renderPublicPrivacyPolicy(content, container) {
+
+  container.replaceChildren();
+
+  const lines = String(content).split(/\r?\n/);
+
+  let currentSection = null;
+  let sections = [];
+  let commitment = "";
+  let inCommitment = false;
+
+  lines.forEach(line => {
+
+    const trimmed = line.trim();
+
+    if (/^OUR COMMITMENT$/i.test(trimmed)) {
+      inCommitment = true;
+      return;
+    }
+
+    if (inCommitment) {
+      if (trimmed) commitment += trimmed + " ";
+      return;
+    }
+
+    const heading = trimmed.match(/^(\d+)\.\s+(.+)$/);
+
+    if (heading) {
+
+      currentSection = {
+        number: heading[1],
+        title: heading[2],
+        content: []
+      };
+
+      sections.push(currentSection);
+      return;
+
+    }
+
+    if (currentSection && trimmed) {
+      currentSection.content.push(trimmed);
+    }
+
+  });
+
+  sections.forEach(section => {
+
+    const box = document.createElement("div");
+    box.className = "privacy-policy-box";
+
+    const heading = document.createElement("h3");
+
+    heading.textContent =
+      section.number + ". " + section.title;
+
+    box.appendChild(heading);
+
+    let paragraph = [];
+    let list = null;
+
+    function addParagraph() {
+
+      if (!paragraph.length) return;
+
+      const p = document.createElement("p");
+      p.textContent = paragraph.join(" ");
+
+      box.appendChild(p);
+      paragraph = [];
+
+    }
+
+    section.content.forEach(line => {
+
+      if (/^[•-]\s*/.test(line)) {
+
+        addParagraph();
+
+        if (!list) {
+          list = document.createElement("ul");
+          box.appendChild(list);
+        }
+
+        const item = document.createElement("li");
+
+        item.textContent =
+          line.replace(/^[•-]\s*/, "");
+
+        list.appendChild(item);
+
+      } else {
+
+        list = null;
+        paragraph.push(line);
+
+      }
+
+    });
+
+    addParagraph();
+
+    container.appendChild(box);
+
+  });
+
+  if (commitment) {
+
+    const box = document.createElement("div");
+
+    box.className =
+      "privacy-policy-box privacy-policy-commitment";
+
+    const heading = document.createElement("h3");
+    heading.textContent = "OUR COMMITMENT";
+
+    const p = document.createElement("p");
+    p.textContent = commitment.trim();
+
+    box.appendChild(heading);
+    box.appendChild(p);
+
+    container.appendChild(box);
+
+  }
+
+}
+  
 async function loadPublicPage() {
   await Promise.all([
     loadPublicInformation(),
@@ -1587,10 +2136,10 @@ async function loadPublicPage() {
     loadPublicExecutive(),
     loadPublicMeetings(),
     loadPublicEvents(),
-    loadPublicDocuments()
+    loadPublicDocuments(),
+    loadPublicMenuInformation()
   ]);
 }
-
 const toggleFinancePasswordButton =
   document.getElementById("toggleFinancePassword");
 
