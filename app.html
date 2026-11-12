@@ -1059,6 +1059,58 @@ header {
 #yonaMenuItems button:hover {
   background: #218c54;
 }
+
+/* PRIVACY POLICY DESIGN */
+
+.privacy-policy-header {
+  background: #f0f4f8;
+  border: 1px solid #d5dee8;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.privacy-policy-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.privacy-policy-box {
+  background: #ffffff;
+  border: 1px solid #dce3eb;
+  border-left: 5px solid #176b45;
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.privacy-policy-box h3 {
+  color: #176b45;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.privacy-policy-box p {
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+
+.privacy-policy-box ul {
+  padding-left: 22px;
+  line-height: 1.8;
+}
+
+.privacy-policy-box li {
+  margin-bottom: 6px;
+}
+
+.privacy-policy-commitment {
+  background: #eaf5ee;
+  border-left-color: #d49b25;
+  text-align: center;
+}
   
 </style>
 </head>
@@ -3559,30 +3611,17 @@ Back to Dashboard
 
   <div id="privacyPolicyView">
 
-    <h3>YONA Privacy Policy</h3>
+    <div class="privacy-policy-header">
+      <h3>YOUTHS OF NDASEI ASSOCIATION (YONA)</h3>
+      <h2>PRIVACY POLICY</h2>
+      <p><strong>Motto:</strong> Unity and Development</p>
+      <p><strong>Effective Date:</strong> 11 November 2026</p>
+    </div>
 
-    <p id="privacyPolicyContentView">
-      Youths of Ndasei Association (YONA) respects the privacy
-      of its members and users.
-
-      Information collected through the YONA application is used
-      for membership administration, communication, organizational
-      management and other legitimate association activities.
-
-      Members' personal information must be accessed only by
-      authorized persons and handled responsibly.
-
-      YONA does not authorize the misuse, unauthorized disclosure
-      or sharing of members' personal information.
-
-      The association takes reasonable steps to protect information
-      stored in its application and database.
-
-      Members may contact the association regarding their personal
-      information or privacy concerns.
-
-      By using the YONA application, users agree to this Privacy Policy.
-    </p>
+    <div
+      id="privacyPolicyContentView"
+      class="privacy-policy-cards"
+    ></div>
 
   </div>
 
@@ -11985,10 +12024,128 @@ function yonaRenderAboutApp() {
 
 function yonaRenderPrivacyPolicy() {
 
-  yonaSetText(
-    "privacyPolicyContentView",
-    yonaPrivacyPolicyContent.content
+  const container = document.getElementById(
+    "privacyPolicyContentView"
   );
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const lines =
+    yonaPrivacyPolicyContent.content.split(/\r?\n/);
+
+  let sections = [];
+  let currentSection = null;
+  let commitment = "";
+  let inCommitment = false;
+
+  lines.forEach(line => {
+
+    const trimmed = line.trim();
+
+    if (/^OUR COMMITMENT$/i.test(trimmed)) {
+      inCommitment = true;
+      return;
+    }
+
+    if (inCommitment) {
+      if (trimmed) commitment += trimmed + " ";
+      return;
+    }
+
+    const heading = trimmed.match(/^(\d+)\.\s+(.+)$/);
+
+    if (heading) {
+
+      currentSection = {
+        number: heading[1],
+        title: heading[2],
+        content: []
+      };
+
+      sections.push(currentSection);
+      return;
+    }
+
+    if (currentSection && trimmed) {
+      currentSection.content.push(trimmed);
+    }
+
+  });
+
+  sections.forEach(section => {
+
+    const box = document.createElement("div");
+    box.className = "privacy-policy-box";
+
+    const heading = document.createElement("h3");
+    heading.textContent =
+      section.number + ". " + section.title;
+
+    box.appendChild(heading);
+
+    let paragraph = [];
+    let list = null;
+
+    function addParagraph() {
+      if (paragraph.length) {
+        const p = document.createElement("p");
+        p.textContent = paragraph.join(" ");
+        box.appendChild(p);
+        paragraph = [];
+      }
+    }
+
+    section.content.forEach(line => {
+
+      if (/^[•-]\s*/.test(line)) {
+
+        addParagraph();
+
+        if (!list) {
+          list = document.createElement("ul");
+          box.appendChild(list);
+        }
+
+        const item = document.createElement("li");
+        item.textContent = line.replace(/^[•-]\s*/, "");
+        list.appendChild(item);
+
+      } else {
+
+        if (list) list = null;
+
+        paragraph.push(line);
+
+      }
+
+    });
+
+    addParagraph();
+
+    container.appendChild(box);
+
+  });
+
+  if (commitment) {
+
+    const box = document.createElement("div");
+    box.className =
+      "privacy-policy-box privacy-policy-commitment";
+
+    const heading = document.createElement("h3");
+    heading.textContent = "OUR COMMITMENT";
+
+    const paragraph = document.createElement("p");
+    paragraph.textContent = commitment.trim();
+
+    box.appendChild(heading);
+    box.appendChild(paragraph);
+
+    container.appendChild(box);
+
+  }
 
 }
 
