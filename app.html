@@ -4119,61 +4119,63 @@ async function uploadPersonPhoto(
 }
 
 
-async function uploadActivityMedia(
-  file,
-  folder,
-  prefix
-){
+```javascript
+async function uploadActivityMedia(file, folder, prefix) {
 
-  if(!file){
+  if (!file) {
     return null;
   }
 
-  if(file.size>100*1024*1024){
-
-    throw new Error(
-      'Media file is larger than 100 MB.'
-    );
-
+  if (file.size > 100 * 1024 * 1024) {
+    throw new Error('Media file is larger than 100 MB.');
   }
 
-  const safe =
-    file.name.replace(
-      /[^a-zA-Z0-9._-]/g,
-      '_'
-    );
+  const safe = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
 
   const path =
-    folder+'/' +
-    prefix+'_' +
-    Date.now()+'_' +
-    Math.random()
-      .toString(36)
-      .slice(2,8)+'_' +
+    folder + '/' +
+    prefix + '_' +
+    Date.now() + '_' +
+    Math.random().toString(36).slice(2, 8) + '_' +
     safe;
 
+  try {
 
-  const {error} =
-    await supabaseClient
+    const { data, error } = await supabaseClient
       .storage
       .from(DOCUMENT_BUCKET)
-      .upload(
-        path,
-        file,
-        {
-          upsert:false,
-          cacheControl:'3600',
-          contentType:file.type
-        }
-      );
+      .upload(path, file, {
+        upsert: false,
+        cacheControl: '3600',
+        contentType: file.type || 'application/octet-stream'
+      });
 
-  if(error){
-    throw error;
+    if (error) {
+      console.error('YONA media upload error:', error);
+      throw error;
+    }
+
+    return path;
+
+  } catch (e) {
+
+    console.error('YONA media upload details:', {
+      filename: file.name,
+      fileType: file.type,
+      fileSize: file.size,
+      error: e
+    });
+
+    throw new Error(
+      'Upload failed. File: ' + file.name +
+      '. Type: ' + (file.type || 'Unknown') +
+      '. Size: ' + (file.size / 1024 / 1024).toFixed(2) +
+      ' MB. Error: ' + e.message
+    );
+
   }
-
-  return path;
-
 }
+```
 
 
 async function deleteStoredPhoto(path){
