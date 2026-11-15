@@ -1065,44 +1065,55 @@ function safeHttpUrl(value) {
   } catch (_) { return ""; }
 }
 
-// Supports ordinary URLs, Supabase storage paths, and expired signed URLs.
-async function resolveMediaUrl(value) {
+// Supports viewing and downloading Supabase storage files.
+async function resolveMediaUrl(value, download = false) {
   if (!value || typeof value !== "string") return "";
+
   const raw = value.trim();
   if (!raw) return "";
 
-  let bucket = "yona-documents";
+  const bucket = "yona-documents";
   let objectPath = raw.replace(/^\/+/, "");
 
   try {
     if (/^https?:\/\//i.test(raw)) {
       const url = new URL(raw);
+
       const marker = "/storage/v1/object/sign/" + bucket + "/";
       const publicMarker = "/storage/v1/object/public/" + bucket + "/";
+
       if (url.pathname.includes(marker)) {
-        objectPath = decodeURIComponent(url.pathname.split(marker)[1] || "");
+        objectPath = decodeURIComponent(
+          url.pathname.split(marker)[1] || ""
+        );
       } else if (url.pathname.includes(publicMarker)) {
         return url.href;
       } else {
         return url.href;
       }
+
     } else if (objectPath.startsWith(bucket + "/")) {
       objectPath = objectPath.slice(bucket.length + 1);
     }
 
     if (!objectPath || objectPath.includes("..")) return "";
-    const { data, error } = await supabaseClient.storage.from(bucket).createSignedUrl(objectPath, 3600);
-    if (!error && data?.signedUrl) return data.signedUrl;
 
-    console.warn("Could not create a view link for storage object:", objectPath, error?.message || "No signed URL returned");
-alert("Meeting photo link error: " + (error?.message || "No signed URL returned"));
-    return "";
+    const options = download ? { download: true } : {};
+
+    const { data, error } = await supabaseClient
+      .storage
+      .from(bucket)
+      .createSignedUrl(objectPath, 3600, options);
+
+    if (error) throw error;
+
+    return data?.signedUrl || "";
+
   } catch (error) {
     console.warn("Could not resolve media URL:", error);
     return "";
   }
 }
-
 function addLink(parent, label, value) {
   const url = safeHttpUrl(value);
   if (!url) return;
@@ -1118,6 +1129,7 @@ function addLink(parent, label, value) {
 async function addMedia(parent, value, type, altText) {
   const url = await resolveMediaUrl(value);
   if (!url) return;
+
   if (type === "image") {
     const img = document.createElement("img");
     img.className = "record-media";
@@ -1126,6 +1138,7 @@ async function addMedia(parent, value, type, altText) {
     img.loading = "lazy";
     img.onerror = () => img.remove();
     parent.appendChild(img);
+
   } else if (type === "video") {
     const video = document.createElement("video");
     video.className = "record-media";
@@ -1133,6 +1146,7 @@ async function addMedia(parent, value, type, altText) {
     video.preload = "metadata";
     video.src = url;
     parent.appendChild(video);
+
   } else if (type === "audio") {
     const audio = document.createElement("audio");
     audio.className = "record-media";
@@ -1141,6 +1155,17 @@ async function addMedia(parent, value, type, altText) {
     audio.src = url;
     parent.appendChild(audio);
   }
+
+ const downloadUrl = await resolveMediaUrl(value, true);
+
+if (downloadUrl) {
+  const downloadLink = document.createElement("a");
+  downloadLink.className = "view-button";
+  downloadLink.href = downloadUrl;
+  downloadLink.target = "_blank";
+  downloadLink.rel = "noopener noreferrer";
+  downloadLink.textContent = "Download " + type;
+  parent.appendChild(downloadLink);
 }
 function makeRecordCard(title, list) {
   const card = document.createElement("article");
