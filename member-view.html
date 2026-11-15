@@ -1708,16 +1708,18 @@ async function loadPublicDocuments() {
       const { data: urlData, error: urlError } = await supabaseClient
   .storage
   .from("yona-documents")
-  .createSignedUrl(file.name, 3600);
+  .createSignedUrl(file.name, 3600, {
+  download: file.name
+});
 
 const fileUrl = urlError ? null : urlData?.signedUrl;
       if (fileUrl) {
         const link = document.createElement("a");
         link.className = "view-button";
         link.href = fileUrl;
-        link.target = "_blank";
+        link.target = "_self";
         link.rel = "noopener noreferrer";
-        link.textContent = "Open Document";
+        link.textContent = "Download Document";
         card.appendChild(link);
       } else {
         addText(
