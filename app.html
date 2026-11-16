@@ -10398,9 +10398,33 @@ async function loadEvents(){
     );
 
 
-  list.innerHTML=
-    cards.join('');
+   const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
+  const upcomingEvents = [];
+  const pastEvents = [];
+
+  data.forEach((event, index) => {
+    const eventDate = new Date(event.date);
+    eventDate.setHours(0, 0, 0, 0);
+
+    if (eventDate >= today) {
+      upcomingEvents.push(cards[index]);
+    } else {
+      pastEvents.push(cards[index]);
+    }
+  });
+
+  list.innerHTML =
+    '<h2>📅 Upcoming Events</h2>' +
+    (upcomingEvents.length
+      ? upcomingEvents.join('')
+      : '<p>No upcoming events.</p>') +
+
+    '<h2>📚 Past Events</h2>' +
+    (pastEvents.length
+      ? pastEvents.join('')
+      : '<p>No past events.</p>');
 }
 
 
