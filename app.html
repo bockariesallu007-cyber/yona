@@ -9010,13 +9010,22 @@ async function saveMeeting(event){
         .value
         .trim(),
 
-    description:
+        description:
       document
         .getElementById(
           'meetingDescription'
         )
         .value
-        .trim()
+        .trim(),
+
+    agenda:
+      document.getElementById('meetingAgenda').value.trim(),
+
+    minutes:
+      document.getElementById('meetingMinutes').value.trim(),
+
+    attending_members:
+      document.getElementById('meetingAttendingMembers').value.trim()
 
   };
 
@@ -9358,13 +9367,20 @@ async function loadMeetings(){
             '</p>'+
 
 
+                       '<p><strong>Description:</strong> '+
+            escapeHtml(read(x.description))+
+            '</p>'+
+
+            '<p><strong>Agenda:</strong> '+
+            escapeHtml(read(x.agenda))+
+            '</p>'+
+
             '<p><strong>Minutes:</strong> '+
-            escapeHtml(
-              read(
-                x.description ||
-                x.minutes
-              )
-            )+
+            escapeHtml(read(x.minutes))+
+            '</p>'+
+
+            '<p><strong>Attending Members:</strong> '+
+            escapeHtml(read(x.attending_members))+
             '</p>'+
 
 
@@ -9513,15 +9529,24 @@ async function editMeeting(id){
       );
 
 
-  document
+    document
     .getElementById(
       'meetingDescription'
     )
     .value=
       read(
-        data.description ||
-        data.minutes
+        data.description
       );
+
+
+  document.getElementById('meetingAgenda').value =
+    read(data.agenda);
+
+  document.getElementById('meetingMinutes').value =
+    read(data.minutes);
+
+  document.getElementById('meetingAttendingMembers').value =
+    read(data.attending_members);
 
 
   document
@@ -9704,11 +9729,14 @@ function resetMeetingForm(){
   editingMeetingOldVideoRemoved=false;
 
 
-  [
+    [
     'meetingDate',
     'meetingTitle',
     'meetingLocation',
-    'meetingDescription'
+    'meetingDescription',
+    'meetingAgenda',
+    'meetingMinutes',
+    'meetingAttendingMembers'
   ]
   .forEach(
     id=>
