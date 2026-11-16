@@ -1730,28 +1730,60 @@ async function loadPublicEvents() {
       return;
     }
 
-    for (const eventRecord of data) {
-      const card = makeRecordCard(
-        eventRecord.title || "Event",
-        list
-      );
+      const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-      addText(card, "p", "Date: " + (eventRecord.date || "Not specified"));
-      addText(card, "p", "Location: " + (eventRecord.location || "Not specified"));
-      addText(card, "p", "Description: " + (eventRecord.description || "No description available."));
+    const upcomingEvents = [];
+    const pastEvents = [];
 
-      if (eventRecord.photo_url) {
-        await addMedia(card, eventRecord.photo_url, "image", "Event photo");
+    data.forEach(eventRecord => {
+      const eventDate = new Date(eventRecord.date);
+      eventDate.setHours(0, 0, 0, 0);
+
+      if (eventDate >= today) {
+        upcomingEvents.push(eventRecord);
+      } else {
+        pastEvents.push(eventRecord);
+      }
+    });
+
+    async function displayEvents(events, heading) {
+      const section = document.createElement("div");
+      const title = document.createElement("h2");
+      title.textContent = heading;
+      section.appendChild(title);
+      list.appendChild(section);
+
+      for (const eventRecord of events) {
+        const card = makeRecordCard(
+          eventRecord.title || "Event",
+          section
+        );
+
+        addText(card, "p", "Date: " + (eventRecord.date || "Not specified"));
+        addText(card, "p", "Location: " + (eventRecord.location || "Not specified"));
+        addText(card, "p", "Description: " + (eventRecord.description || "No description available."));
+
+        if (eventRecord.photo_url) {
+          await addMedia(card, eventRecord.photo_url, "image", "Event photo");
+        }
+
+        if (eventRecord.video_url) {
+          await addMedia(card, eventRecord.video_url, "video", "Event video");
+        }
+
+        if (eventRecord.audio_url) {
+          await addMedia(card, eventRecord.audio_url, "audio", "Event audio");
+        }
       }
 
-      if (eventRecord.video_url) {
-        await addMedia(card, eventRecord.video_url, "video", "Event video");
-      }
-
-      if (eventRecord.audio_url) {
-        await addMedia(card, eventRecord.audio_url, "audio", "Event audio");
+      if (!events.length) {
+        addText(section, "p", "No events available.");
       }
     }
+
+    await displayEvents(upcomingEvents, "📅 Upcoming Events");
+    await displayEvents(pastEvents, "📚 Past Events");
 
     status.textContent = "Saved event records: " + data.length;
 
