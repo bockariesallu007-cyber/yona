@@ -1606,36 +1606,109 @@ async function loadPublicExecutive() {
   }
 }
 async function loadPublicMeetings() {
+
   const status = document.getElementById("meetingStatus");
   const list = document.getElementById("publicMeetingsList");
+
   list.replaceChildren();
+
   try {
-    const { data, error } = await supabaseClient.from("meetings").select("*");
-    console.log("YONA meetings data:", data);
-console.log("YONA meetings error:", error);
+
+    const { data, error } =
+      await supabaseClient
+        .from("meetings")
+        .select("*");
+
     if (error) throw error;
-    if (!data || !data.length) { status.textContent = "No saved meetings are available."; return; }
-    data.sort((a, b) => String(b.meeting_date || b.date || b.created_at || "").localeCompare(String(a.meeting_date || a.date || a.created_at || "")));
-    for (const meeting of data) {
-      const title = meeting.meeting_title || meeting.title || meeting.name || "Meeting";
-      const card = makeRecordCard(title, list);
-      console.log("Meeting card created:", card);
-console.log("Meeting list:", list, "Visible:", list.getBoundingClientRect());
-      addText(card, "p", "Date: " + (meeting.meeting_date || meeting.date || "Not specified"));
-      addText(card, "p", "Location: " + (meeting.location || meeting.venue || "Not specified"));
-      addText(card, "p", "Description: " + (meeting.description || ""));
-      addText(card, "p", "Agenda: " + (meeting.agenda || ""));
-      addText(card, "p", "Minutes: " + (meeting.minutes || meeting.meeting_minutes || ""));
-      addText(card, "p", "Attending members: " + (meeting.attending_member || meeting.attending_members || "Not specified"));
-      await addMedia(card, meeting.photo_url || meeting.photo || meeting.image_url || meeting.photo_path, "image", "Meeting photo");
-      await addMedia(card, meeting.video_url || meeting.video || meeting.video_path, "video");
-      await addMedia(card, meeting.audio_url || meeting.audio || meeting.audio_path, "audio");
-      addLink(card, "Open meeting attachment", meeting.file_url || meeting.document_url || "");
+
+    if (!data || !data.length) {
+      status.textContent = "No saved meetings are available.";
+      return;
     }
-    status.textContent = "Saved meeting records: " + data.length;
+
+    const now = new Date();
+
+    const today =
+      now.getFullYear() + "-" +
+      String(now.getMonth() + 1).padStart(2, "0") + "-" +
+      String(now.getDate()).padStart(2, "0");
+
+    const upcoming = data
+      .filter(m => m.meeting_date && m.meeting_date >= today)
+      .sort((a, b) =>
+        a.meeting_date.localeCompare(b.meeting_date)
+      );
+
+    const past = data
+      .filter(m => m.meeting_date && m.meeting_date < today)
+      .sort((a, b) =>
+        b.meeting_date.localeCompare(a.meeting_date)
+      );
+
+    const undated = data.filter(m => !m.meeting_date);
+
+    async function displayMeetings(meetings, heading) {
+
+      const section = document.createElement("section");
+
+      const title = document.createElement("h2");
+      title.textContent = heading;
+
+      section.appendChild(title);
+
+      const cardsContainer = document.createElement("div");
+
+      section.appendChild(cardsContainer);
+      list.appendChild(section);
+
+      if (!meetings.length) {
+        addText(cardsContainer, "p", "No meetings available.");
+        return;
+      }
+
+      for (const meeting of meetings) {
+
+        const card = makeRecordCard(
+          meeting.meeting_title || "Meeting",
+          cardsContainer
+        );
+
+        addText(card, "p", "Date: " + meeting.meeting_date);
+        addText(card, "p", "Location: " + (meeting.location || "Not specified"));
+        addText(card, "p", "Description: " + (meeting.description || ""));
+        addText(card, "p", "Agenda: " + (meeting.agenda || "Not provided"));
+        addText(card, "p", "Minutes: " + (meeting.minutes || "Not provided"));
+        addText(card, "p", "Attending members: " + (meeting.attending_members || "Not specified"));
+
+        await addMedia(card, meeting.photo_url || meeting.photo || meeting.image_url || meeting.photo_path, "image", "Meeting photo");
+        await addMedia(card, meeting.video_url || meeting.video || meeting.video_path, "video");
+        await addMedia(card, meeting.audio_url || meeting.audio || meeting.audio_path, "audio");
+
+        addLink(card, "Open meeting attachment", meeting.file_url || meeting.document_url || "");
+
+      }
+    }
+
+    await displayMeetings(upcoming, "📅 Upcoming Meetings");
+
+    await displayMeetings(past, "📚 Past Meetings");
+
+    if (undated.length) {
+      await displayMeetings(undated, "Meetings Without Dates");
+    }
+
+    status.textContent =
+      "Upcoming: " + upcoming.length +
+      " | Past: " + past.length;
+
   } catch (error) {
+
     console.error("Could not load meetings:", error);
-    status.textContent = "Meeting records could not be loaded. Details: " + (error.message || "Check table permissions.");
+
+    status.textContent =
+      "Meeting records could not be loaded. Details: " +
+      (error.message || "Check table permissions.");
+
   }
 }
 async function loadPublicEvents() {
