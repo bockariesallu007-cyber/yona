@@ -10,6 +10,10 @@
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () {
     navigator.serviceWorker.register("/yona/service-worker.js")
+  .then(function (registration) {
+    console.log("YONA Admin App offline support activated.");
+    registration.update();
+  })
       .catch(function (error) {
         console.error("YONA service worker registration failed:", error);
       });
