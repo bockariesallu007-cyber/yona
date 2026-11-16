@@ -2897,7 +2897,78 @@ Back to Dashboard
 
 </section>
 
+<!-- =========================
+     NEWS AND ANNOUNCEMENTS
+========================= -->
 
+<section
+  id="newsSection"
+  class="hidden card"
+>
+
+  <h2>📰 News & Announcements</h2>
+
+  <form onsubmit="saveNews(event)">
+
+    <label>News Title</label>
+    <input
+      type="text"
+      id="newsTitle"
+      required
+      placeholder="Enter news title"
+    >
+
+    <label>Publication Date</label>
+    <input
+      type="date"
+      id="newsDate"
+      required
+    >
+
+    <label>News Content</label>
+    <textarea
+      id="newsContent"
+      required
+      placeholder="Write the news or announcement"
+    ></textarea>
+
+    <label>News Photo (Optional)</label>
+    <input
+      type="file"
+      id="newsPhoto"
+      accept="image/*"
+    >
+
+    <button type="submit">
+      Save News
+    </button>
+
+    <button
+      type="button"
+      onclick="resetNewsForm()"
+    >
+      Clear Form
+    </button>
+
+    <div id="newsMessage"></div>
+
+  </form>
+
+  <hr>
+
+  <h3>Published News</h3>
+
+  <div id="newsList"></div>
+
+  <button
+    class="back-button"
+    onclick="backToDashboard()"
+  >
+    Back to Dashboard
+  </button>
+
+</section>
+  
 <!-- =========================
      DOCUMENTS
 ========================= -->
@@ -3745,6 +3816,8 @@ let editingMeetingOldVideo=null;
 let editingMeetingOldAudio=null;
 
 let editingEventId=null;
+  let editingNewsId = null;
+let editingNewsOldPhoto = null;
 let editingEventOldPhoto=null;
 let editingEventOldVideo=null;
 let editingEventOldAudio=null;
@@ -4139,6 +4212,48 @@ async function uploadPersonPhoto(
 
 }
 
+  async function uploadNewsPhoto(file){
+
+  if(!file){
+    return null;
+  }
+
+  if(!file.type.startsWith('image/')){
+    throw new Error('Please select a valid image.');
+  }
+
+  const safe =
+    file.name.replace(
+      /[^a-zA-Z0-9._-]/g,
+      '_'
+    );
+
+  const path =
+    'news-photos/' +
+    Date.now() + '_' +
+    Math.random().toString(36).slice(2,8) +
+    '_' + safe;
+
+  const {error} =
+    await supabaseClient
+      .storage
+      .from('yona-news')
+      .upload(
+        path,
+        file,
+        {
+          upsert:false,
+          cacheControl:'3600',
+          contentType:file.type
+        }
+      );
+
+  if(error){
+    throw error;
+  }
+
+  return path;
+}
 
 async function uploadActivityMedia(file, folder, prefix) {
 
@@ -10868,6 +10983,202 @@ async function deleteEvent(id){
 
 }
 
+/* =========================
+   NEWS AND ANNOUNCEMENTS
+========================= */
+
+async function saveNews(event){
+
+  if(event){
+    event.preventDefault();
+  }
+
+  const photoFile =
+    document.getElementById('newsPhoto').files?.[0];
+
+  const record = {
+    title: document.getElementById('newsTitle').value.trim(),
+    publication_date: document.getElementById('newsDate').value,
+    content: document.getElementById('newsContent').value.trim(),
+    photo_url: editingNewsOldPhoto || null
+  };
+
+  if(!record.title || !record.publication_date || !record.content){
+    showMessage('newsMessage','Please complete all required fields.','error');
+    return;
+  }
+
+  try{
+
+    let newPhoto = null;
+
+    if(photoFile){
+      newPhoto = await uploadNewsPhoto(photoFile);
+      record.photo_url = newPhoto;
+    }
+
+    let result;
+
+    if(editingNewsId){
+      result = await supabaseClient
+        .from('news')
+        .update(record)
+        .eq('id',editingNewsId);
+    }else{
+      result = await supabaseClient
+        .from('news')
+        .insert([record]);
+    }
+
+    if(result.error){
+
+      if(newPhoto){
+        await supabaseClient.storage
+          .from('yona-news')
+          .remove([newPhoto]);
+      }
+
+      throw result.error;
+    }
+
+    if(newPhoto && editingNewsOldPhoto){
+      await supabaseClient.storage
+        .from('yona-news')
+        .remove([editingNewsOldPhoto]);
+    }
+
+    showMessage('newsMessage','News saved successfully.','success');
+
+    resetNewsForm();
+
+    await loadNews();
+
+  }catch(error){
+
+    showMessage(
+      'newsMessage',
+      'Could not save news: '+error.message,
+      'error'
+    );
+
+  }
+}
+
+
+async function loadNews(){
+
+  const list = document.getElementById('newsList');
+
+  list.innerHTML = 'Loading news...';
+
+  const {data,error} = await supabaseClient
+    .from('news')
+    .select('*')
+    .order('publication_date',{ascending:false});
+
+  if(error){
+    list.innerHTML =
+      '<div class="message error">'+
+      escapeHtml(error.message)+
+      '</div>';
+    return;
+  }
+
+  if(!data?.length){
+    list.innerHTML = '<p>No news published yet.</p>';
+    return;
+  }
+
+  const cards = data.map(item => {
+
+    let photoUrl = '';
+
+    if(item.photo_url){
+      photoUrl = supabaseClient.storage
+        .from('yona-news')
+        .getPublicUrl(item.photo_url).data.publicUrl;
+    }
+
+    return `
+      <div class="event-card">
+
+        ${photoUrl
+          ? `<img class="activity-photo-preview"
+              src="${escapeHtml(photoUrl)}"
+              alt="News photo">`
+          : ''
+        }
+
+        <h3>${escapeHtml(read(item.title))}</h3>
+
+        <p><strong>Publication Date:</strong>
+          ${escapeHtml(read(item.publication_date))}
+        </p>
+
+        <p>${escapeHtml(read(item.content))}</p>
+
+        <button class="edit-button"
+          onclick="editNews(${JSON.stringify(item.id)})">
+          Edit
+        </button>
+
+        <button class="delete-button"
+          onclick="deleteNews(${JSON.stringify(item.id)})">
+          Delete
+        </button>
+
+      </div>
+    `;
+
+  });
+
+  list.innerHTML = cards.join('');
+
+}
+
+async function editNews(id){
+
+  const {data,error} = await supabaseClient
+    .from('news')
+    .select('*')
+    .eq('id',id)
+    .single();
+
+  if(error){
+    showMessage('newsMessage',error.message,'error');
+    return;
+  }
+
+  editingNewsId = id;
+  editingNewsOldPhoto = data.photo_url || null;
+
+  document.getElementById('newsTitle').value = read(data.title);
+  document.getElementById('newsDate').value = read(data.publication_date);
+  document.getElementById('newsContent').value = read(data.content);
+  document.getElementById('newsPhoto').value = '';
+
+  showMessage('newsMessage','Editing selected news.','success');
+
+  document.getElementById('newsSection').scrollIntoView({
+    behavior:'smooth'
+  });
+
+}
+
+function resetNewsForm(){
+
+  editingNewsId = null;
+  editingNewsOldPhoto = null;
+
+  document.getElementById('newsTitle').value = '';
+  document.getElementById('newsDate').value = '';
+  document.getElementById('newsContent').value = '';
+  document.getElementById('newsPhoto').value = '';
+
+  showMessage('newsMessage','News form cleared.','success');
+
+}
+  
 /* =========================
    DOCUMENT SCANNER
 ========================= */
