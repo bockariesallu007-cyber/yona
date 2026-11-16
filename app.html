@@ -9453,8 +9453,33 @@ async function loadMeetings(){
     );
 
 
-  list.innerHTML=
-    cards.join('');
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const upcomingCards = [];
+  const pastCards = [];
+
+  data.forEach((meeting, index) => {
+    const meetingDate = new Date(meeting.meeting_date);
+    meetingDate.setHours(0, 0, 0, 0);
+
+    if (meetingDate >= today) {
+      upcomingCards.push(cards[index]);
+    } else {
+      pastCards.push(cards[index]);
+    }
+  });
+
+  list.innerHTML =
+    '<h2>📅 Upcoming Meetings</h2>' +
+    (upcomingCards.length
+      ? upcomingCards.join('')
+      : '<p>No upcoming meetings.</p>') +
+
+    '<h2>📚 Past Meetings</h2>' +
+    (pastCards.length
+      ? pastCards.join('')
+      : '<p>No past meetings.</p>');
 
 }
 
