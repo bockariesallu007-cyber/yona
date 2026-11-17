@@ -2389,6 +2389,41 @@ function renderPublicPrivacyPolicy(content, container) {
   }
 
 }
+
+// SUBMIT PUBLIC CONTACT AND FEEDBACK MESSAGE
+async function submitPublicFeedback(event) {
+  event.preventDefault();
+
+  const form = document.getElementById("publicFeedbackForm");
+  const status = document.getElementById("feedbackStatus");
+  const submitButton = form.querySelector('button[type="submit"]');
+
+  status.textContent = "Sending your message...";
+  submitButton.disabled = true;
+
+  try {
+    const { error } = await supabaseClient
+      .from("yona_feedback")
+      .insert([{
+        name: document.getElementById("feedbackName").value.trim(),
+        email: document.getElementById("feedbackEmail").value.trim(),
+        phone: document.getElementById("feedbackPhone").value.trim(),
+        subject: document.getElementById("feedbackSubject").value.trim(),
+        message: document.getElementById("feedbackMessage").value.trim()
+      }]);
+
+    if (error) throw error;
+
+    form.reset();
+    status.textContent = "Your message has been sent successfully. Thank you for contacting YONA!";
+
+  } catch (error) {
+    console.error("Feedback submission failed:", error);
+    status.textContent = "Message could not be sent. Please try again.";
+  } finally {
+    submitButton.disabled = false;
+  }
+}
   
 async function loadPublicPage() {
   await Promise.all([
