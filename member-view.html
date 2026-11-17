@@ -772,6 +772,7 @@ footer {
   <a href="#finance-list">Finance</a>
   <a href="#meeting-list">Meetings</a>
   <a href="#event-list">Events</a>
+  <a href="#news-list">News & Announcements</a>
   <a href="#document-list">Documents</a>
   <a href="#member-portal">Member Portal</a>
 </nav>
@@ -964,6 +965,20 @@ footer {
     <div id="publicEventsList" class="section-grid"></div>
   </section>
 
+<!-- NEWS AND ANNOUNCEMENTS -->
+
+<section class="card content-section" id="news-list" hidden>
+
+  <h2>📰 News & Announcements</h2>
+
+  <p id="newsStatus" class="status">
+    Loading published news...
+  </p>
+
+  <div id="publicNewsList" class="section-grid"></div>
+
+</section>
+  
   <section class="card content-section" id="document-list" hidden>
     <h2>📁 Documents</h2>
     <p id="documentStatus" class="status">Loading saved documents...</p>
@@ -1794,7 +1809,69 @@ async function loadPublicEvents() {
       (error.message || "Check table permissions.");
   }
 }
- 
+
+// LOAD PUBLIC NEWS AND ANNOUNCEMENTS
+async function loadPublicNews() {
+  const status = document.getElementById("newsStatus");
+  const list = document.getElementById("publicNewsList");
+
+  list.replaceChildren();
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("news")
+      .select("*")
+      .order("publication_date", { ascending: false });
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      status.textContent = "No published news is available.";
+      return;
+    }
+
+    for (const item of data) {
+      const card = makeRecordCard(
+        item.title || "News Announcement",
+        list
+      );
+
+      addText(
+        card,
+        "p",
+        "Publication Date: " + (item.publication_date || "Not specified")
+      );
+
+      addText(
+        card,
+        "p",
+        item.content || "No news content available."
+      );
+
+      if (item.photo_url) {
+        const photoUrl = supabaseClient.storage
+          .from("yona-news")
+          .getPublicUrl(item.photo_url).data.publicUrl;
+
+        const img = document.createElement("img");
+        img.className = "record-media";
+        img.src = photoUrl;
+        img.alt = "News photo";
+        img.loading = "lazy";
+        card.appendChild(img);
+      }
+    }
+
+    status.textContent = "Published news records: " + data.length;
+
+  } catch (error) {
+    console.error("Could not load public news:", error);
+    status.textContent =
+      "News could not be loaded: " +
+      (error.message || "Check table permissions.");
+  }
+}
+  
 async function loadPublicDocuments() {
   const status = document.getElementById("documentStatus");
   const list = document.getElementById("publicDocumentsList");
