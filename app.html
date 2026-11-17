@@ -1427,6 +1427,25 @@ Events
   </button>
 
 </div>
+
+<!-- CONTACT AND FEEDBACK MANAGEMENT -->
+<div class="dashboard-card">
+
+  <div class="dashboard-icon">📩</div>
+
+  <h3>Contact & Feedback</h3>
+
+  <p>
+    View and manage messages, feedback and suggestions from members and visitors.
+  </p>
+
+  <button
+    onclick="showSection('feedbackSection');loadFeedback()"
+  >
+    Manage Feedback
+  </button>
+
+</div>
   
 <h3>Documents</h3>
 
@@ -2979,6 +2998,36 @@ Back to Dashboard
   <h3>Published News</h3>
 
   <div id="newsList"></div>
+
+  <button
+    class="back-button"
+    onclick="backToDashboard()"
+  >
+    Back to Dashboard
+  </button>
+
+</section>
+
+<!-- CONTACT AND FEEDBACK MANAGEMENT SECTION -->
+
+<section
+  id="feedbackSection"
+  class="hidden card"
+>
+
+  <h2>📩 Contact & Feedback Messages</h2>
+
+  <p>
+    View messages, feedback and suggestions sent by YONA members and visitors.
+  </p>
+
+  <hr>
+
+  <div id="feedbackStatusMessage"></div>
+
+  <div id="feedbackList">
+    Loading messages...
+  </div>
 
   <button
     class="back-button"
@@ -11196,6 +11245,130 @@ function resetNewsForm(){
   document.getElementById('newsPhoto').value = '';
 
   showMessage('newsMessage','News form cleared.','success');
+
+}
+
+// LOAD CONTACT AND FEEDBACK MESSAGES
+async function loadFeedback(){
+
+  const list = document.getElementById('feedbackList');
+
+  list.innerHTML = 'Loading messages...';
+
+  const {data,error} = await supabaseClient
+    .from('yona_feedback')
+    .select('*')
+    .order('created_at',{ascending:false});
+
+  if(error){
+    list.innerHTML =
+      '<div class="message error">'+
+      escapeHtml(error.message)+
+      '</div>';
+    return;
+  }
+
+  if(!data?.length){
+    list.innerHTML = '<p>No messages received yet.</p>';
+    return;
+  }
+
+  const cards = data.map(item => {
+
+    const status = item.status || 'New';
+
+    return `
+      <div class="event-card">
+
+        <h3>${escapeHtml(read(item.subject))}</h3>
+
+        <p><strong>Name:</strong>
+          ${escapeHtml(read(item.name))}
+        </p>
+
+        <p><strong>Email:</strong>
+          ${escapeHtml(read(item.email))}
+        </p>
+
+        <p><strong>Phone:</strong>
+          ${escapeHtml(read(item.phone))}
+        </p>
+
+        <p><strong>Message:</strong><br>
+          ${escapeHtml(read(item.message))}
+        </p>
+
+        <p><strong>Date:</strong>
+          ${escapeHtml(read(item.created_at))}
+        </p>
+
+        <label>Message Status</label>
+
+        <select
+          onchange="updateFeedbackStatus(${JSON.stringify(item.id)},this.value)"
+        >
+          <option value="New" ${status === 'New' ? 'selected' : ''}>New</option>
+          <option value="Read" ${status === 'Read' ? 'selected' : ''}>Read</option>
+          <option value="Resolved" ${status === 'Resolved' ? 'selected' : ''}>Resolved</option>
+        </select>
+
+        <button
+          class="delete-button"
+          onclick="deleteFeedback(${JSON.stringify(item.id)})"
+        >
+          Delete Message
+        </button>
+
+      </div>
+    `;
+
+  });
+
+  list.innerHTML = cards.join('');
+
+}
+
+// UPDATE FEEDBACK MESSAGE STATUS
+async function updateFeedbackStatus(id,status){
+
+  const {error} = await supabaseClient
+    .from('yona_feedback')
+    .update({status:status})
+    .eq('id',id);
+
+  if(error){
+    alert('Could not update message status: '+error.message);
+    return;
+  }
+
+  alert('Message status updated successfully.');
+
+  loadFeedback();
+
+}
+
+// DELETE FEEDBACK MESSAGE
+async function deleteFeedback(id){
+
+  const confirmed = confirm(
+    'Are you sure you want to permanently delete this message?'
+  );
+
+  if(!confirmed) return;
+
+  const {error} = await supabaseClient
+    .from('yona_feedback')
+    .delete()
+    .eq('id',id);
+
+  if(error){
+    alert('Could not delete message: '+error.message);
+    return;
+  }
+
+  alert('Message deleted successfully.');
+
+  loadFeedback();
 
 }
   
