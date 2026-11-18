@@ -10,7 +10,16 @@
     *{box-sizing:border-box}
     body{margin:0;font-family:Arial,sans-serif;background:#f2f5fa;color:#243247;line-height:1.6}
     header{background:linear-gradient(135deg,#075aaa,#123d73);color:#fff;padding:24px 16px;text-align:center}
-    .header-logo{width:100px;height:100px;object-fit:contain;background:#fff;border-radius:50%;padding:5px;margin-bottom:8px}
+    .header-logo {
+  width: 100px;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 8px;
+  padding: 5px;
+  margin-bottom: 8px;
+}
     header h1{margin:4px 0;font-size:30px}
     header p{margin:4px 0}
     nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:12px;background:#fff;box-shadow:0 2px 8px #00000012;position:sticky;top:0;z-index:10}
@@ -687,127 +696,7 @@ footer {
   background: #218c54;
 }
 
-/* =====================================
-   YONA PUBLIC APP - MOBILE RESPONSIVE
-===================================== */
 
-@media screen and (max-width: 768px) {
-
-  * {
-    box-sizing: border-box;
-  }
-
-  html, body {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-
-  body {
-    font-size: 15px;
-  }
-
-  header {
-    width: 100%;
-    padding: 25px 12px;
-  }
-
-  header h1 {
-    font-size: 25px;
-  }
-
-  header p {
-    font-size: 14px;
-  }
-
-  .header-logo {
-    max-width: 100px;
-    height: auto;
-  }
-
-  nav {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 5px;
-    padding: 10px;
-  }
-
-  nav a {
-    display: block;
-    width: 100%;
-    text-align: center;
-    padding: 12px;
-  }
-
-  .container {
-    width: 100%;
-    max-width: 100%;
-    padding: 10px;
-    margin: 0 auto;
-  }
-
-  .card,
-  .section-card,
-  .record-card,
-  .welcome-card {
-    width: 100%;
-    max-width: 100%;
-    padding: 15px;
-    margin-bottom: 15px;
-  }
-
-  .dashboard-heading {
-    font-size: 21px;
-  }
-
-  input,
-  select,
-  textarea {
-    width: 100%;
-    max-width: 100%;
-    font-size: 16px;
-    padding: 12px;
-  }
-
-  button,
-  .view-button {
-    max-width: 100%;
-    min-height: 42px;
-    font-size: 15px;
-  }
-
-  .record-media {
-    width: 100%;
-    max-height: 280px;
-    object-fit: contain;
-  }
-
-  .yona-menu-button {
-    top: 10px;
-    right: 10px;
-    font-size: 23px;
-    padding: 7px 12px;
-  }
-
-  .yona-menu-panel {
-    width: 85%;
-    max-width: 320px;
-  }
-
-  .yona-footer {
-    width: 100%;
-    padding: 25px 12px;
-  }
-
-  table {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    overflow-x: auto;
-  }
-
-}
     
   </style>
 </head>
